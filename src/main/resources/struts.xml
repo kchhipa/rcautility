@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- devMode is helpful when you want some extra logs for debugging -->
+	<constant name="struts.devMode" value="false" />
+	<!-- Global message resource; Otherwise you will have seperate message resource 
+		for each Action -->
+	<constant name="struts.custom.i18n.resources" value="messages" />
+	<!-- This is important if you are planning to have slashes in Action URLs 
+		e.g. In this demo, employee is deleted using URL /delete/10 This this is 
+		set to false; then struts will try to find mapping for URL "/10" instaed 
+		of "/delete/10" -->
+	<constant name="struts.enable.SlashesInActionNames" value="true" />
+
+	<!-- Normal Action mappings are defined here -->
+	<package name="default" namespace="" extends="struts-default">
+
+       <!-- Two things to Notice: 1) class is set to 'editEmployeeAction' which 
+			is bean defined by Spring context 2) We have given the method to be called 
+			here as well; -->
+       
+		<action name="home" class="rcaLogin">
+			<result name="success">RCA.jsp</result>
+			<result name="noUser">RcaLogin.jsp</result>
+		</action>
+		<action name="getRcaDetail" class="com.rca.RcaUtility">
+			<result name="success">RCA.jsp</result>
+		</action>
+
+		<action name="saveRcaDetail" class="com.rca.RcaUtility" method="saveRcaDetail">
+			<result name="success">RCA.jsp</result>
+		</action>
+
+		<action name="templateDownload" class="com.rca.RcaUtility"
+			method="templateDownload">
+			<result name="success" type="stream">
+				<param name="contentType">application/octet-stream</param>
+				<param name="inputName">fileInputStream</param>
+				<param name="contentDisposition">attachment;filename="RCA.xls"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
+		<action name="logout" class="com.rca.RcaLogin" method="logoutRca">
+			<result name="success">RcaLogin.jsp</result>
+		</action>
+
+		<action name="templateUpload" class="com.rca.RcaUtility"
+			method="templateUpload">
+			<result name="success">RCA.jsp</result>
+		</action>
+
+		<action name="exportData" class="com.rca.RcaUtility" method="exportData">
+
+			<result name="success" type="stream">
+
+				<param name="contentType">application/octet-stream</param>
+				<param name="inputName">fileInputStream</param>
+				<param name="contentDisposition">attachment;filename="RCA.xls"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
+				
+	</package>
+
+</struts>
