@@ -13,6 +13,8 @@ import org.apache.struts2.interceptor.SessionAware;
 import com.opensymphony.xwork2.ActionSupport;
 import com.rca.dao.LoginDAO;
 import com.rca.dao.ProjectDAO;
+import com.rca.entity.RcaCount;
+import com.rca.service.RcaManager;
 
 public class RcaLoginAction extends ActionSupport implements SessionAware {
 
@@ -22,10 +24,21 @@ public class RcaLoginAction extends ActionSupport implements SessionAware {
 	private Map projectNameWithId;
 	public SessionMap session;
 	
+	//Employee manager injected by spring context
+		private RcaManager rcaManager;
+	
 	public String execute()
 	{
 		String result = LoginDAO.validateUser(userName,passWord);
-	
+		RcaCount rca = rcaManager.findById(304);
+		
+		List<RcaCount> rcas = rcaManager.getRCACounts();
+		
+		List<RcaCount> rcaWeeks = rcaManager.findRCAfromWeekPeriod("9/29/2014-10/5/2014");
+		
+		RcaCount projectReport = rcaManager.findWeeklyRCAReportByProjectId("9/29/2014-10/5/2014", 1);
+		
+		
 	   if(result.equals("success"))
 	   {			
 			  getProjectDetails();			
@@ -101,7 +114,14 @@ public class RcaLoginAction extends ActionSupport implements SessionAware {
 	public void setSession(Map session) {
 		this.session = (SessionMap)session;
 	}
-	
+
+	public RcaManager getRcaManager() {
+		return rcaManager;
+	}
+
+	public void setRcaManager(RcaManager rcaManager) {
+		this.rcaManager = rcaManager;
+	}
 	
 	
 }

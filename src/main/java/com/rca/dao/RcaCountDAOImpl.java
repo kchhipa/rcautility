@@ -23,6 +23,7 @@ import com.rca.entity.RcaCount;
 
 /**
  * Home object for domain model class RcaCount.
+ * 
  * @see .RcaCount
  * @author Hibernate Tools
  */
@@ -31,13 +32,14 @@ import com.rca.entity.RcaCount;
 public class RcaCountDAOImpl implements RcaCountDAO {
 
 	private static final Log log = LogFactory.getLog(RcaCountDAOImpl.class);
-	
-	//Session factory injected by spring context
-    private SessionFactory sessionFactory;
-    protected HibernateTemplate template = null;
 
-	
-	/* (non-Javadoc)
+	// Session factory injected by spring context
+	private SessionFactory sessionFactory;
+	protected HibernateTemplate template = null;
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.rca.dao.RcaCountDAO#persist(com.rca.entity.RcaCount)
 	 */
 	@Override
@@ -53,7 +55,9 @@ public class RcaCountDAOImpl implements RcaCountDAO {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.rca.dao.RcaCountDAO#attachDirty(com.rca.entity.RcaCount)
 	 */
 	@Override
@@ -69,7 +73,9 @@ public class RcaCountDAOImpl implements RcaCountDAO {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.rca.dao.RcaCountDAO#attachClean(com.rca.entity.RcaCount)
 	 */
 	@Override
@@ -84,7 +90,9 @@ public class RcaCountDAOImpl implements RcaCountDAO {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.rca.dao.RcaCountDAO#delete(com.rca.entity.RcaCount)
 	 */
 	@Override
@@ -100,7 +108,9 @@ public class RcaCountDAOImpl implements RcaCountDAO {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.rca.dao.RcaCountDAO#merge(com.rca.entity.RcaCount)
 	 */
 	@Override
@@ -118,31 +128,22 @@ public class RcaCountDAOImpl implements RcaCountDAO {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.rca.dao.RcaCountDAO#findById(java.lang.Integer)
 	 */
 	@Override
-	public RcaCount findById(java.lang.Integer id) throws DataAccessException {
+	public RcaCount findById(java.lang.Integer id) {
 		log.debug("getting RcaCount instance with id: " + id);
 		RcaCount instance = template.get(RcaCount.class, id);
-		/*try {
-			RcaCount instance = (RcaCount) sessionFactory.getCurrentSession()
-					.get(RcaCount.class, id);
-			if (instance == null) {
-				log.debug("get successful, no instance found");
-			} else {
-				log.debug("get successful, instance found");
-			}
-			return instance;
-		} catch (RuntimeException re) {
-			log.error("get failed", re);
-			throw re;
-		}*/
-		
+
 		return instance;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.rca.dao.RcaCountDAO#findByExample(com.rca.entity.RcaCount)
 	 */
 	@SuppressWarnings("unchecked")
@@ -161,30 +162,50 @@ public class RcaCountDAOImpl implements RcaCountDAO {
 			throw re;
 		}
 	}
-	
-	//This method return al RCA records from DB
-		@SuppressWarnings("unchecked")
-		@Override
-		public List<RcaCount> getRCACounts() throws DataAccessException {
-			
-			return (List<RcaCount>) template.find("from RcaCount");
-			//return this.sessionFactory.getCurrentSession().createQuery("from RcaCount").list();
-		}
 
-	
-		@Override
-		public List<RcaCount> findRCAfromWeekPeriod(String week)throws DataAccessException  {
-			@SuppressWarnings("unchecked")
-			List<RcaCount> results = (List<RcaCount>) template.findByCriteria(DetachedCriteria.forClass(RcaCount.class).add(Restrictions.eq("week",week)));
-			/*Session session = sessionFactory.getCurrentSession();
-			Criteria crit = session.createCriteria(RcaCount.class);
-			crit.add(Restrictions.eq("week",week));*/
-			//List<RcaCount> results = crit.list();
-			return results;
-		}
-		
-		//This setter will be used by Spring context to inject the sessionFactory instance
-				public void setSessionFactory(SessionFactory sessionFactory) {
-					template = new HibernateTemplate(sessionFactory);
-				}
+	// This method return al RCA records from DB
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<RcaCount> getRCACounts() throws DataAccessException {
+
+		return (List<RcaCount>) template.find("from RcaCount");
+		// return
+		// this.sessionFactory.getCurrentSession().createQuery("from RcaCount").list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<RcaCount> findRCAfromWeekPeriod(String week)
+			throws DataAccessException {
+
+		List<RcaCount> results = (List<RcaCount>) template
+				.findByCriteria(DetachedCriteria.forClass(RcaCount.class).add(
+						Restrictions.eq("week", week)));
+
+		return results;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public RcaCount findWeeklyRCAReportByProjectId(String week, int projectId) {
+
+		/*DetachedCriteria criteria = DetachedCriteria.forClass(RcaCount.class);
+		criteria.add(Restrictions.eq("week", week));
+		criteria.add(Restrictions.eq("projectId", new Integer(projectId)));
+
+		List<RcaCount> results = (List<RcaCount>) template
+				.findByCriteria(criteria);
+		return results.get(0);*/
+		String query = "from RcaCount where week=? and project_id =?";
+		Object[] queryParam = {week, projectId};
+		List<RcaCount> results = (List<RcaCount>) template.find(query, queryParam);
+		return results.get(0);
+	}
+
+	// This setter will be used by Spring context to inject the sessionFactory
+	// instance
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		template = new HibernateTemplate(sessionFactory);
+	}
+
 }

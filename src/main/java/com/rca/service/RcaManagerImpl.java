@@ -73,14 +73,23 @@ public class RcaManagerImpl implements RcaManager {
 	}
 
 	@Override
+	@Transactional
 	public List<RcaCount> getRCACounts() {
 		return rcaCountDAO.getRCACounts();
 		
 	}
 
 	@Override
+	@Transactional
 	public List<RcaCount> findRCAfromWeekPeriod(String week) {
 		
 		return rcaCountDAO.findRCAfromWeekPeriod(week);
+	}
+
+	@Override
+	@Transactional
+	public RcaCount findWeeklyRCAReportByProjectId(String week, int projectId) {
+		
+		return rcaCountDAO.findWeeklyRCAReportByProjectId(week, projectId);
 	}
 }
