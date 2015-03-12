@@ -1,10 +1,13 @@
-package com.rca.service;
+package com.rca.dao;
 
 import java.util.List;
 
+import org.springframework.dao.DataAccessException;
+
 import com.rca.entity.RcaCount;
 
-public interface RcaManager {
+public interface RcaCountDAO {
+
 	public abstract void persist(RcaCount transientInstance);
 
 	public abstract void attachDirty(RcaCount instance);
@@ -22,4 +25,5 @@ public interface RcaManager {
 	public abstract List<RcaCount> getRCACounts();
 	
 	public abstract List<RcaCount> findRCAfromWeekPeriod(String week);
+
 }

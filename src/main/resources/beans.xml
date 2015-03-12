@@ -20,18 +20,18 @@
     <!-- Make scope prototype; This is really important. -->
     
     <bean name="rcaLogin" class="com.rca.controller.RcaLoginAction" scope="prototype">
-	     
+	   <property name="rcaManager" ref="rcaManager" />  
     </bean>
     
     
     <!-- These beans are injected automatically by spring context -->
-    <bean id="rcaDAO" class="com.rca.dao.RcaDaoImpl">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
-    
     
     <bean id="rcaManager" class="com.rca.service.RcaManagerImpl">
-        <property name="rcaDAO" ref="rcaDAO"/>
+        <property name="rcaCountDAO" ref="rcaCountDAO"/>
+    </bean>
+    
+    <bean id="rcaCountDAO" class="com.rca.dao.RcaCountDAOImpl">
+      <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
     
     <!-- Configure jdbc.properties -->
