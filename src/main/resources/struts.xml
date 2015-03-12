@@ -62,6 +62,20 @@
 				<param name="bufferSize">1024</param>
 			</result>
 		</action>
+		
+		<!-- PPT Report generation action mappings are defined here -->
+		<action name="generateReport" class="com.rca.report.GeneratePptGraphAction" method="generateReport">
+			<result name="success">generateRCAReport.jsp</result>
+		</action>
+		
+		<action name="generateGraphPpt" class="com.rca.report.GeneratePptGraphAction">
+			<result name="success" type="stream">
+				<param name="contentType">application/octet-stream</param>
+				<param name="inputName">fileInputStream</param>
+				<param name="contentDisposition">attachment;filename="project.ppt"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
 				
 	</package>
 
