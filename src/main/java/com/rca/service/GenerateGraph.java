@@ -5,6 +5,7 @@ import java.awt.GradientPaint;
 import java.awt.Paint;
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.jfree.chart.ChartUtilities;
@@ -19,6 +20,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.GradientPaintTransformType;
 import org.jfree.ui.StandardGradientPaintTransformer;
 
+import com.rca.common.RCAConstants;
 import com.rca.service.graph.creation.DifferentTypeGraphAbstractCreation;
 import com.rca.service.graph.creation.DifferentTypeGraphCreationFactory;
 
@@ -26,7 +28,8 @@ import com.rca.service.graph.creation.DifferentTypeGraphCreationFactory;
 public class GenerateGraph
 {
 
-  public void createGraph(Map<String, Map<String,Integer>> data, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, boolean rotatedLabel, int graphWidth, int graphHeight, String graphType)
+ 
+  public File createGraph(Map<String, Map<String,Integer>> data, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, boolean rotatedLabel, int graphWidth, int graphHeight, String graphType)
   {
     DefaultCategoryDataset chartDataSet = dataSetObjectCreation(data);
     DifferentTypeGraphAbstractCreation graphCreationObject = DifferentTypeGraphCreationFactory.createGraphCreationObject(graphType, graphHeader, xAxis, yAxis, plotOrientation, chartDataSet);
@@ -35,7 +38,7 @@ public class GenerateGraph
     jFreeChart.setBackgroundPaint(Color.white);
     CategoryPlot plot = createPlot(jFreeChart);
     plot.setRenderer(createRender());
-    createGraphImage(jFreeChart, graphWidth, graphHeight);
+    return createGraphImage(jFreeChart, graphWidth, graphHeight);
   }
   
   /**
@@ -101,7 +104,7 @@ public class GenerateGraph
   {
  // get a reference to the plot for further customization...
     CategoryPlot plot = jFreeChart.getCategoryPlot();
-    plot.setBackgroundPaint(Color.lightGray);
+    plot.setBackgroundPaint(Color.white);
     plot.setDomainGridlinePaint(Color.white);
     plot.setDomainGridlinesVisible(true);
     plot.setRangeGridlinePaint(Color.white);
@@ -109,20 +112,20 @@ public class GenerateGraph
     // set the range axis to display integers only...
     final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
     rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-    CategoryAxis domainAxis = plot.getDomainAxis();
+    /*CategoryAxis domainAxis = plot.getDomainAxis();
     domainAxis.setCategoryLabelPositions(
         CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 6.0)
-    );
+    );*/
     return plot;
   }
   
-  public void createGraphImage(JFreeChart jFreeChart, int graphWidth, int graphHeight)
+  public File createGraphImage(JFreeChart jFreeChart, int graphWidth, int graphHeight)
   {
     // Step -3 : Write line chart to a file */
-    File barChart = new File("D:\\bar_Chart_example.png");
+    File chart = new File("D:\\bar_Chart_example1.png");
     try
     {
-      ChartUtilities.saveChartAsPNG(barChart, jFreeChart, graphWidth,
+      ChartUtilities.saveChartAsPNG(chart, jFreeChart, graphWidth,
         graphHeight);
     }
     catch (IOException e)
@@ -130,5 +133,6 @@ public class GenerateGraph
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
+    return chart;
   }
 }

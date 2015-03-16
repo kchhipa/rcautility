@@ -2,6 +2,7 @@ package com.rca.common;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,40 +14,31 @@ public class ReportUtility {
 	
 	
 
-	public Map<String, Map<String, Map<String, Integer>>> rcaCountForLastWeekForAllProjects(List<RcaCount> rcaWeeks){
-		Map<String, Map<String, Map<String, Integer>>> projCount = new HashMap<String, Map<String, Map<String, Integer>>>(); 
-		Map<String, Map<String, Integer>> diffCategory = null;
-		
-		for(int x=0; x < rcaWeeks.size(); x++){
-			
-			String projName = rcaWeeks.get(x).getProjectDetails().getProjectName();
-			
-			//projCount = new HashMap<String, Map<String, List>>();
-			
-			diffCategory = new HashMap<String, Map<String, Integer>>();
-			
-			Map<String, Integer> differentRootCause = new HashMap<String, Integer>();
-			differentRootCause.put("Duplicate/ Not a Defect/ Unable to reproduce/ Browse/ As designed", 
-					               mixCategoryWeeklyCountForAllProjects(rcaWeeks));
-			differentRootCause.put("Data Issue", weeklyDataIssueForAllIssues(rcaWeeks));
-			differentRootCause.put("Integration Issue", weeklyIntegrationIssueForAllIssues(rcaWeeks));
-			differentRootCause.put("Configuration Issue", weeklyConfigurationIssueForAllIssues(rcaWeeks));
-			differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssues(rcaWeeks));
-			differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssues(rcaWeeks));
-			
-			diffCategory.put(projName, differentRootCause);
-			
-			/*totalQA = totalQA + rcaWeeks.get(x).getCcbQa();
-			totalUAT = totalUAT + rcaWeeks.get(x).getCcbUat();
-			totalPROD = totalPROD + rcaWeeks.get(x).getCcbProd();*/
-			
-			
-			projCount.put(projName, diffCategory);
-		}
-		
-		
-		return projCount;
-		
+	public Map<String, Map<String, Integer>> rcaCountForLastWeekForAllProjects(List<RcaCount> rcaWeeks){
+	  Map<String, Map<String, Integer>> diffCategory = new HashMap<String, Map<String, Integer>>();;
+    
+    for(int x=0; x < rcaWeeks.size(); x++){
+          
+          String projName = rcaWeeks.get(x).getProjectDetails().getProjectName();
+          
+          //diffCategory = new HashMap<String, Map<String, Integer>>();
+          
+          Map<String, Integer> differentRootCause = new HashMap<String, Integer>();
+          differentRootCause.put("Duplicate/ Not a Defect/ Unable to reproduce/ Browse/ As designed", 
+                                     mixCategoryWeeklyCountForAllProjects(rcaWeeks));
+          differentRootCause.put("Data Issue", weeklyDataIssueForAllIssues(rcaWeeks));
+          differentRootCause.put("Integration Issue", weeklyIntegrationIssueForAllIssues(rcaWeeks));
+          differentRootCause.put("Configuration Issue", weeklyConfigurationIssueForAllIssues(rcaWeeks));
+          differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssues(rcaWeeks));
+          differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssues(rcaWeeks));
+          
+          diffCategory.put(projName, differentRootCause);
+          
+          //projCount.put(projName, diffCategory);
+    }
+    
+    return diffCategory;
+
 	}
 	
 	public Map<String, Map<String, List>> rcaCountForMultipleWeeksForAllProjects(List<RcaCount> rcaWeeks){

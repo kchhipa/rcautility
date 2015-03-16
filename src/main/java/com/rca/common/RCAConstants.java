@@ -1,6 +1,6 @@
 package com.rca.common;
 
-public final class Constants
+public final class RCAConstants
 {
 
   public static final String BAR = "Bar";
