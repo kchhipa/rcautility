@@ -5,6 +5,8 @@ package com.rca.entity;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -57,7 +59,7 @@ public class ProjectDetails implements java.io.Serializable {
 		this.projectName = projectName;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "projectDetails")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "projectDetails", cascade= CascadeType.ALL)
 	public Set<RcaCount> getRcaCounts() {
 		return this.rcaCounts;
 	}

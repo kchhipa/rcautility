@@ -1,6 +1,10 @@
 package com.rca.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -27,16 +31,25 @@ public class RcaLoginAction extends ActionSupport implements SessionAware {
 	//Employee manager injected by spring context
 		private RcaManager rcaManager;
 	
-	public String execute()
+	public String execute() throws FileNotFoundException, IOException, URISyntaxException
 	{
 		String result = LoginDAO.validateUser(userName,passWord);
 		RcaCount rca = rcaManager.findById(304);
 		
 		List<RcaCount> rcas = rcaManager.getRCACounts();
 		
-		List<RcaCount> rcaWeeks = rcaManager.findRCAfromWeekPeriod("9/29/2014-10/5/2014");
+		List<RcaCount> rcaWeeks = rcaManager.findRCAByWeekPeriod("9/29/2014-10/5/2014");
 		
 		RcaCount projectReport = rcaManager.findWeeklyRCAReportByProjectId("9/29/2014-10/5/2014", 1);
+		
+       String path = System.getProperty("rcaUtility.config");
+        
+        
+        Properties prop = new Properties();
+        prop.load(new FileInputStream(new File(new java.net.URI(path))));
+        String weekInterval = prop.getProperty("rca.weekinterval");
+        //String baseURL = prop.getProperty("base.fileservices.testHarness.baseUrl");
+		
 		
 		
 	   if(result.equals("success"))
@@ -49,6 +62,8 @@ public class RcaLoginAction extends ActionSupport implements SessionAware {
 		
 		return result;
 	}
+	
+	
 	
 	public void getProjectDetails()
 	{

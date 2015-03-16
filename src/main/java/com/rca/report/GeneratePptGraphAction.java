@@ -44,6 +44,9 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	private InputStream fileInputStream;
 	
 	public String execute() throws Exception {
+		
+		
+		
 		createGraphPpt();
 	    fileInputStream = new FileInputStream(new File("D:\\project.ppt"));
 	    return SUCCESS;
@@ -128,11 +131,10 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 
 	        // get a reference to the plot for further customization...
 	        CategoryPlot plot = barChartObject.getCategoryPlot();
-	        plot.setBackgroundPaint(Color.lightGray);
+	        plot.setBackgroundPaint(Color.white);
 	        plot.setDomainGridlinePaint(Color.white);
 	        plot.setDomainGridlinesVisible(true);
 	        plot.setRangeGridlinePaint(Color.white);
-	        
 	        // set the range axis to display integers only...
 	        final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
 	        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());

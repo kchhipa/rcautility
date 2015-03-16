@@ -1,20 +1,23 @@
-package com.rca.report;
+package com.rca.controller;
 
 import java.awt.Color;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
-import javax.swing.JFrame;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.poi.hslf.model.Picture;
 import org.apache.poi.hslf.model.Slide;
 import org.apache.poi.hslf.model.TextBox;
 import org.apache.poi.hslf.usermodel.SlideShow;
 import org.apache.poi.xslf.usermodel.XSLFPictureData;
+import org.apache.struts2.dispatcher.SessionMap;
+import org.apache.struts2.interceptor.SessionAware;
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
@@ -23,12 +26,43 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
-import org.jfree.chart.renderer.category.BarRenderer3D;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import com.opensymphony.xwork2.ActionSupport;
+import com.rca.entity.RcaCount;
+import com.rca.service.RcaManager;
 
-public class GeneratePptGraph {
-	public static void main(String arg[]){
+/**
+ * Main action class to generate RCA graph charts and generating PPT Slides.
+ * @author prashant.singh
+ *
+ */
+public class GeneratePptGraphAction extends ActionSupport implements SessionAware{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1269358124476669565L;
+	public SessionMap session;
+	private InputStream fileInputStream;
+	
+	//Employee manager injected by spring context
+			private RcaManager rcaManager;
+	
+	public String execute() throws Exception {
+		
+		List<RcaCount> rcaWeeks = rcaManager.findRCAByWeekPeriod("9/29/2014-10/5/2014");
+		
+		createGraphPpt();
+	    fileInputStream = new FileInputStream(new File("D:\\project.ppt"));
+	    return SUCCESS;
+	}
+	
+	public String generateReport(){
+		return SUCCESS;
+	}
+	
+	public static void createGraphPpt(){
 		try {
 			SlideShow ppt = new SlideShow();
 			Slide slide = ppt.createSlide();
@@ -36,7 +70,7 @@ public class GeneratePptGraph {
 			int pageheight = ppt.getPageSize().height/2;
 			
 			// add a new picture to this slideshow and insert it in a  new slide
-            int idx = ppt.addPicture(createBarChart() , XSLFPictureData.PICTURE_TYPE_PNG);
+			int idx = ppt.addPicture(createBarChart() , XSLFPictureData.PICTURE_TYPE_PNG);
             int lCx = ppt.addPicture(createLineChart() , XSLFPictureData.PICTURE_TYPE_PNG);
             int bWCx = ppt.addPicture(createWeeklyBarChart() , XSLFPictureData.PICTURE_TYPE_PNG);
             Picture pict = new Picture(idx);
@@ -46,7 +80,7 @@ public class GeneratePptGraph {
 
 			
 			TextBox txt1 = new TextBox();
-			txt1.setText("This is text area");
+			txt1.setText("Reported Prod");
 			txt1.setAnchor(new java.awt.Rectangle(pageWidth+20, 20, pageWidth-50, pageheight-50));
 			slide.addShape(txt1);
 			
@@ -72,9 +106,8 @@ public class GeneratePptGraph {
 			e.printStackTrace();
 		}
 	}
-	
 	/**
-	 * Creates Bugs Count vS Project Bar Chart.
+	 * 
 	 */
 	private static File createBarChart() {
 		File barChart = null;
@@ -82,8 +115,8 @@ public class GeneratePptGraph {
 			// chart preparation
 			DefaultCategoryDataset bar_chart_dataset = new DefaultCategoryDataset();
 			bar_chart_dataset.addValue(2, "Bugs", "MI-SG");
-			bar_chart_dataset.addValue(4, "Client Code", "BCBSAL");
-			bar_chart_dataset.addValue(2, "Change Request", "BCBSNE");
+			bar_chart_dataset.addValue(4, "Bugs", "BCBSAL");
+			bar_chart_dataset.addValue(2, "Bugs", "BCBSNE");
 			bar_chart_dataset.addValue(3, "Bugs", "Centene");
 			bar_chart_dataset.addValue(8, "Bugs", "Topaz");
 
@@ -93,7 +126,7 @@ public class GeneratePptGraph {
 					line_chart_dataset, PlotOrientation.VERTICAL, true, true,
 					false);*/
 			
-			JFreeChart barChartObject = ChartFactory.createBarChart3D("Bug Count Vs Project", "Project", "Bug Counts",
+			JFreeChart barChartObject = ChartFactory.createBarChart("Bug Count Vs Project", "Project", "Bug Counts",
 					bar_chart_dataset, PlotOrientation.VERTICAL, true, true,
 					false);
 			
@@ -104,39 +137,24 @@ public class GeneratePptGraph {
 
 	        // get a reference to the plot for further customization...
 	        CategoryPlot plot = barChartObject.getCategoryPlot();
-	        /*plot.setBackgroundPaint(Color.white);
+	        plot.setBackgroundPaint(Color.white);
 	        plot.setDomainGridlinePaint(Color.white);
 	        plot.setDomainGridlinesVisible(true);
-	        plot.setRangeGridlinePaint(Color.white);*/
-	        
+	        plot.setRangeGridlinePaint(Color.white);
 	        // set the range axis to display integers only...
-	        //final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
-	        final CategoryAxis rangeAxis = plot.getDomainAxis();
-	        		
-	       // rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-	        
-	        rangeAxis.setCategoryLabelPositions(
-	                CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 8.0)
-	            );
+	        final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+	        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 
 	        // disable bar outlines...
-	        //BarRenderer renderer = (BarRenderer) plot.getRenderer();
-	        
-	        final BarRenderer3D renderer = (BarRenderer3D) plot.getRenderer();
+	        BarRenderer renderer = (BarRenderer) plot.getRenderer();
 	        renderer.setDrawBarOutline(false);
-	        
-	     // add the chart to a panel...
-	        final ChartPanel chartPanel = new ChartPanel(barChartObject);
-	        chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
-	        JFrame jf = new JFrame();
-	        jf.setContentPane(chartPanel);
 	        
 	        Color color = null;
 
-	        /*renderer.setSeriesPaint(0, color.ORANGE);
+	        renderer.setSeriesPaint(0, color.ORANGE);
 
 	        renderer.setIncludeBaseInRange(true);
-	        renderer.setAutoPopulateSeriesPaint(true);*/
+	        renderer.setAutoPopulateSeriesPaint(true);
 
 
 	        /*CategoryAxis domainAxis = plot.getDomainAxis();
@@ -165,8 +183,8 @@ public class GeneratePptGraph {
 		try {
 			// chart preparation
 			DefaultCategoryDataset bar_chart_dataset = new DefaultCategoryDataset();
-			bar_chart_dataset.addValue(27, "Client Code", "12/15/2014-12/21/2014");
-			bar_chart_dataset.addValue(44, "Cange Request", "12/22/2014-12/28/2014");
+			bar_chart_dataset.addValue(27, "Bugs", "12/15/2014-12/21/2014");
+			bar_chart_dataset.addValue(44, "Bugs", "12/22/2014-12/28/2014");
 			bar_chart_dataset.addValue(18, "Bugs", "12/29/2014-1/4/2015");
 			bar_chart_dataset.addValue(17, "Bugs", "1/5/2015-1/11/2015");
 			bar_chart_dataset.addValue(14, "Bugs", "1/12/2015-1/18/2015");
@@ -177,8 +195,6 @@ public class GeneratePptGraph {
 			bar_chart_dataset.addValue(12, "Bugs", "2/16/2015-2/22/2015");
 			bar_chart_dataset.addValue(6, "Bugs", "2/23/2015-3/1/2015");
 			bar_chart_dataset.addValue(8, "Bugs", "2/23/2015-3/1/2015");
-			
-			//bar_chart_dataset.
 
 			/* Step -2:Define the JFreeChart object to create line chart */
 			/*JFreeChart lineChartObject = ChartFactory.createLineChart(
@@ -186,7 +202,7 @@ public class GeneratePptGraph {
 					line_chart_dataset, PlotOrientation.VERTICAL, true, true,
 					false);*/
 			
-			JFreeChart barChartObject = ChartFactory.createBarChart3D("Weekly Trend", "Week", "Bug Counts",
+			JFreeChart barChartObject = ChartFactory.createBarChart("Weekly Trend", "Week", "Bug Counts",
 					bar_chart_dataset, PlotOrientation.VERTICAL, true, true,
 					false);
 			
@@ -298,5 +314,29 @@ public class GeneratePptGraph {
 		return lineChart;
 	}
 	
-}
+	public Map getSession() {
+		return session;
+	}
 
+	public void setSession(Map session) {
+		this.session = (SessionMap)session;
+	}
+
+	public InputStream getFileInputStream() {
+		return fileInputStream;
+	}
+
+	public void setFileInputStream(InputStream fileInputStream) {
+		this.fileInputStream = fileInputStream;
+	}
+
+	public RcaManager getRcaManager() {
+		return rcaManager;
+	}
+
+	public void setRcaManager(RcaManager rcaManager) {
+		this.rcaManager = rcaManager;
+	}
+	
+	
+}

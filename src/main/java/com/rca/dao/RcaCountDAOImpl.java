@@ -13,6 +13,8 @@ import org.hibernate.LockMode;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
@@ -28,7 +30,7 @@ import com.rca.entity.RcaCount;
  * @author Hibernate Tools
  */
 @Repository
-@Transactional(readOnly = true)
+@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 public class RcaCountDAOImpl implements RcaCountDAO {
 
 	private static final Log log = LogFactory.getLog(RcaCountDAOImpl.class);
@@ -175,7 +177,7 @@ public class RcaCountDAOImpl implements RcaCountDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<RcaCount> findRCAfromWeekPeriod(String week)
+	public List<RcaCount> findRCAByWeekPeriod(String week)
 			throws DataAccessException {
 
 		List<RcaCount> results = (List<RcaCount>) template
@@ -184,6 +186,7 @@ public class RcaCountDAOImpl implements RcaCountDAO {
 
 		return results;
 	}
+	
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -202,10 +205,23 @@ public class RcaCountDAOImpl implements RcaCountDAO {
 		return results.get(0);
 	}
 
-	// This setter will be used by Spring context to inject the sessionFactory
-	// instance
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		template = new HibernateTemplate(sessionFactory);
+	
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<RcaCount> findRCAReportForMultipleWeek(List<String> weeks) {
+
+				List<RcaCount> results = (List<RcaCount>) template
+				.findByCriteria(DetachedCriteria.forClass(RcaCount.class).add(
+						Restrictions.in("week", weeks)));
+		return results;
 	}
+	
+	// This setter will be used by Spring context to inject the sessionFactory
+		// instance
+		public void setSessionFactory(SessionFactory sessionFactory) {
+			template = new HibernateTemplate(sessionFactory);
+		}
+
 
 }

@@ -34,6 +34,16 @@
       <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
     
+    <bean id="projectDetailsManager" class="com.rca.service.ProjectDetailsManagerImpl">
+        <property name="projectDetailsDAO" ref="projectDetailsDAO"/>
+    </bean>
+    
+    <bean id="projectDetailsDAO" class="com.rca.dao.ProjectDetailsDAOImpl">
+      <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    
+    
     <!-- Configure jdbc.properties -->
     <bean id="propertyConfigurer"
         class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
@@ -45,6 +55,13 @@
         p:driverClassName="${jdbc.driverClassName}"
         p:url="${jdbc.databaseurl}" p:username="${jdbc.username}"
         p:password="${jdbc.password}" />
+        
+      <!-- Project specific property configuration --> 
+        <!-- <bean id="projectProperties"
+               class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+               <property name="location" value="file:///D:/Config/rcaReport.properties" />
+       </bean> -->
+        
  
 	<!-- Configure hibernate session factory -->    
     <bean id="sessionFactory"

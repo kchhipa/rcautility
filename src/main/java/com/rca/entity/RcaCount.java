@@ -3,6 +3,7 @@ package com.rca.entity;
 // default package
 // Generated Mar 10, 2015 7:18:09 AM by Hibernate Tools 3.4.0.CR1
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -283,7 +284,7 @@ public class RcaCount implements java.io.Serializable {
 		this.rcaCountId = rcaCountId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER, cascade= CascadeType.ALL)
 	@JoinColumn(name = "project_id")
 	public ProjectDetails getProjectDetails() {
 		return this.projectDetails;
