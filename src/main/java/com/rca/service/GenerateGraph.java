@@ -6,7 +6,10 @@ import java.awt.Paint;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
@@ -41,6 +44,18 @@ public class GenerateGraph
     return createGraphImage(jFreeChart, graphWidth, graphHeight);
   }
   
+  public File createGraph(List data, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, boolean rotatedLabel, int graphWidth, int graphHeight, String graphType)
+  {
+    DefaultCategoryDataset chartDataSet = dataSetObjectCreation(data);
+    DifferentTypeGraphAbstractCreation graphCreationObject = DifferentTypeGraphCreationFactory.createGraphCreationObject(graphType, graphHeader, xAxis, yAxis, plotOrientation, chartDataSet);
+    JFreeChart jFreeChart = graphCreationObject.createGraph();
+ // set the background color for the chart...
+    jFreeChart.setBackgroundPaint(Color.white);
+    CategoryPlot plot = createPlot(jFreeChart);
+    plot.setRenderer(createRender());
+    return createGraphImage(jFreeChart, graphWidth, graphHeight);
+  }
+  
   /**
    * Data key will contain week/ project name (Y-axis entry)
    * Data value <string, Integer> - String --BugType
@@ -60,6 +75,23 @@ public class GenerateGraph
       }
     }
     return chartDataSet;
+  }
+  
+  public DefaultCategoryDataset dataSetObjectCreation(List<Map<String, Integer>> data)
+  {
+	  DefaultCategoryDataset chartDataSet = new DefaultCategoryDataset();
+	
+	  for (Map<String, Integer> map : data) {
+	
+		  Set<Entry<String, Integer>> dataSet =  map.entrySet();
+		  for (Entry<String, Integer> entry : dataSet) {
+			  //entry.getKey();
+			 // entry.getValue();
+			  chartDataSet.addValue(entry.getValue(), entry.getValue(), entry.getKey())  ;
+		}
+	}
+	
+	return chartDataSet;
   }
   
   public GroupedStackedBarRenderer createRender()

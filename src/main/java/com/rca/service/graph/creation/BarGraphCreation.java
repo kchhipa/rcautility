@@ -23,7 +23,7 @@ public class BarGraphCreation extends DifferentTypeGraphAbstractCreation
   @Override
   public JFreeChart createGraph()
   {
-    return ChartFactory.createStackedBarChart(graphHeader, xAxis , yAxis, dataSet, plotOrientation, true, true, false);
+    return ChartFactory.createStackedBarChart3D(graphHeader, xAxis , yAxis, dataSet, plotOrientation, true, true, false);
   }
 
 }

@@ -48,7 +48,6 @@ public class RcaLoginAction extends ActionSupport implements SessionAware {
         Properties prop = new Properties();
         prop.load(new FileInputStream(new File(new java.net.URI(path))));
         String weekInterval = prop.getProperty("rca.weekinterval");
-        //String baseURL = prop.getProperty("base.fileservices.testHarness.baseUrl");
 		
 		
 		
