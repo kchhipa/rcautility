@@ -363,7 +363,7 @@ function calculateWeek()
 							
 				</select></td>
 				<td ><input type="submit" value="Search" id="searchId" onclick="serchRcaData()"/></td>
-				<td ><input type="submit" value="export" id="export" onclick="exportData()"/></td>
+				<!--<td ><input type="submit" value="export" id="export" onclick="exportData()"/></td> -->
 				
 			</tr> <tr>
 			    <td style="padding-top: 40px;"></td>			   
