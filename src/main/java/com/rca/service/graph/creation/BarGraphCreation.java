@@ -11,19 +11,21 @@ public class BarGraphCreation extends DifferentTypeGraphAbstractCreation
   /**
    * Parameterized Constructor.
    */
-  public BarGraphCreation(String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, DefaultCategoryDataset dataSet)
+  public BarGraphCreation(String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, DefaultCategoryDataset dataSet, boolean legend, boolean tooltips)
   {
     this.graphHeader = graphHeader;
     this.xAxis = graphHeader;
     this.yAxis = yAxis;
     this.plotOrientation = plotOrientation;
     this.dataSet = dataSet;
+    this.legend = legend;
+    this.tooltips = tooltips;
   }
   
   @Override
   public JFreeChart createGraph()
   {
-    return ChartFactory.createStackedBarChart3D(graphHeader, xAxis , yAxis, dataSet, plotOrientation, true, true, false);
+    return ChartFactory.createStackedBarChart(graphHeader, xAxis , yAxis, dataSet, plotOrientation, legend, tooltips, false);
   }
 
 }

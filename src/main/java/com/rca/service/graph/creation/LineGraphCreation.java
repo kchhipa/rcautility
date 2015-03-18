@@ -10,19 +10,21 @@ public class LineGraphCreation extends DifferentTypeGraphAbstractCreation
   /**
    * Parameterized Constructor.
    */
-  public LineGraphCreation(String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, DefaultCategoryDataset dataSet)
+  public LineGraphCreation(String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, DefaultCategoryDataset dataSet, boolean legend, boolean tooltips)
   {
     this.graphHeader = graphHeader;
     this.xAxis = graphHeader;
     this.yAxis = yAxis;
     this.plotOrientation = plotOrientation;
     this.dataSet = dataSet;
+    this.legend = legend;
+    this.tooltips = tooltips;
   }
 
   @Override
   public JFreeChart createGraph()
   {
-    return ChartFactory.createLineChart(graphHeader, xAxis , yAxis, dataSet, plotOrientation, true, true, false);
+    return ChartFactory.createLineChart(graphHeader, xAxis , yAxis, dataSet, plotOrientation, legend, tooltips, false);
   }
 
 }

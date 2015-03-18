@@ -11,6 +11,8 @@ public abstract class DifferentTypeGraphAbstractCreation
   String yAxis;
   PlotOrientation plotOrientation;
   DefaultCategoryDataset dataSet;
+  boolean legend; 
+  boolean tooltips;
   
   public abstract JFreeChart createGraph();
   
@@ -84,5 +86,21 @@ public abstract class DifferentTypeGraphAbstractCreation
   {
     this.dataSet = dataSet;
   }
+
+public boolean isLegend() {
+	return legend;
+}
+
+public void setLegend(boolean legend) {
+	this.legend = legend;
+}
+
+public boolean isTooltips() {
+	return tooltips;
+}
+
+public void setTooltips(boolean tooltips) {
+	this.tooltips = tooltips;
+}
   
 }

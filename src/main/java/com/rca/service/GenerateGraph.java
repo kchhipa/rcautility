@@ -35,7 +35,7 @@ public class GenerateGraph
   public File createGraph(Map<String, Map<String,Integer>> data, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, boolean rotatedLabel, int graphWidth, int graphHeight, String graphType)
   {
     DefaultCategoryDataset chartDataSet = dataSetObjectCreation(data);
-    DifferentTypeGraphAbstractCreation graphCreationObject = DifferentTypeGraphCreationFactory.createGraphCreationObject(graphType, graphHeader, xAxis, yAxis, plotOrientation, chartDataSet);
+    DifferentTypeGraphAbstractCreation graphCreationObject = DifferentTypeGraphCreationFactory.createGraphCreationObject(graphType, graphHeader, xAxis, yAxis, plotOrientation, chartDataSet, true, true);
     JFreeChart jFreeChart = graphCreationObject.createGraph();
  // set the background color for the chart...
     jFreeChart.setBackgroundPaint(Color.white);
@@ -47,12 +47,18 @@ public class GenerateGraph
   public File createGraph(List data, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, boolean rotatedLabel, int graphWidth, int graphHeight, String graphType)
   {
     DefaultCategoryDataset chartDataSet = dataSetObjectCreation(data);
-    DifferentTypeGraphAbstractCreation graphCreationObject = DifferentTypeGraphCreationFactory.createGraphCreationObject(graphType, graphHeader, xAxis, yAxis, plotOrientation, chartDataSet);
+    DifferentTypeGraphAbstractCreation graphCreationObject = DifferentTypeGraphCreationFactory.createGraphCreationObject(graphType, graphHeader, xAxis, yAxis, plotOrientation, chartDataSet, false, false);
     JFreeChart jFreeChart = graphCreationObject.createGraph();
  // set the background color for the chart...
     jFreeChart.setBackgroundPaint(Color.white);
     CategoryPlot plot = createPlot(jFreeChart);
-    plot.setRenderer(createRender());
+    CategoryAxis domainAxis = plot.getDomainAxis();
+    if(rotatedLabel)
+    {
+    	domainAxis.setCategoryLabelPositions(
+    			CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 6.0));
+    }
+    plot.setRenderer(createRender());   
     return createGraphImage(jFreeChart, graphWidth, graphHeight);
   }
   
@@ -139,7 +145,7 @@ public class GenerateGraph
     plot.setBackgroundPaint(Color.white);
     plot.setDomainGridlinePaint(Color.white);
     plot.setDomainGridlinesVisible(true);
-    plot.setRangeGridlinePaint(Color.white);
+    plot.setRangeGridlinePaint(Color.black);
     
     // set the range axis to display integers only...
     final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();

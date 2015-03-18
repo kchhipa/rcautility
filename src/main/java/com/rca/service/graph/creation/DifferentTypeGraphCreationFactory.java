@@ -14,15 +14,15 @@ import com.rca.common.RCAConstants;
 public class DifferentTypeGraphCreationFactory
 {
    
-  public static DifferentTypeGraphAbstractCreation createGraphCreationObject(String graphType, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, DefaultCategoryDataset dataSet)
+  public static DifferentTypeGraphAbstractCreation createGraphCreationObject(String graphType, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, DefaultCategoryDataset dataSet, boolean legend, boolean tooltips)
   {
     if(RCAConstants.BAR.equalsIgnoreCase(graphType))
     {
-      return new BarGraphCreation(graphHeader, xAxis, yAxis, plotOrientation, dataSet);
+      return new BarGraphCreation(graphHeader, xAxis, yAxis, plotOrientation, dataSet, legend, tooltips);
     }
     else
     {
-      return new LineGraphCreation(graphHeader, xAxis, yAxis, plotOrientation, dataSet);
+      return new LineGraphCreation(graphHeader, xAxis, yAxis, plotOrientation, dataSet, legend, tooltips);
     }
     
   }
