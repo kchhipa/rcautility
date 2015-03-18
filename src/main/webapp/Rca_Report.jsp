@@ -49,7 +49,11 @@
 	    	
 	    return true;
    }
-
+ function templateDownload()
+ {
+ 	document.RCA_Form.action="templateDownload";
+ 	document.RCA_Form.submit(); 
+ }
 
 </script>
 </head>
@@ -63,6 +67,14 @@
 		  <table style="font-weight:bold; padding-left:30%;  font-family:verdana;">
 		  <tr></tr>
 		  <tr></tr>
+		    
+		    <ul>
+		      <li><a href="RCA.jsp" style="color:black; padding-left:30px;">Enter Last Week Data</a></li>
+			  <li><a href="importData.jsp" style="color:black; padding-left:30px;">Import Last Week Data</a></li>
+			  <li><a href="javascript:templateDownload();" style="color:black; padding-left:30px;">Download Template</a></li>
+			  <li><a href="exportWeeklyData.jsp" style="color:black; padding-left:30px;">Export Weekly Data</a> </li>
+		   </ul>
+		  
 		  <tr>
 			  <td>Report </td>
 		  </tr>
