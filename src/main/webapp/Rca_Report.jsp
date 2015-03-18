@@ -20,21 +20,6 @@
  function validate()
    {
 	   var textarea = document.getElementById("project").value;
-	   
-	   var textarea = document.getElementById("textarea");
-	 
-	  var len = textarea.length;
-	   var start = textarea.selectionStart;
-	   var end = textarea.selectionEnd;
-	   var sel = textarea.substring(start, end);
-	 
-  	    alert(sel);	 
-  		var replace = '<b>' + sel + '<b>';
- 
-   textarea =  textarea.substring(0,start) + replace + textarea.substring(end,len);
-	   
-	   alert(textarea);
-	   
 	   var week = document.getElementById("week_id").value;
 	 	if(week=="Select Week" || week=="")
 	    	{
