@@ -5,7 +5,6 @@ import java.awt.GradientPaint;
 import java.awt.Paint;
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -16,14 +15,20 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.labels.CategoryItemLabelGenerator;
+import org.jfree.chart.labels.ItemLabelAnchor;
+import org.jfree.chart.labels.ItemLabelPosition;
+import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.GroupedStackedBarRenderer;
+import org.jfree.chart.renderer.category.StackedBarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.GradientPaintTransformType;
 import org.jfree.ui.StandardGradientPaintTransformer;
+import org.jfree.ui.TextAnchor;
 
-import com.rca.common.RCAConstants;
 import com.rca.service.graph.creation.DifferentTypeGraphAbstractCreation;
 import com.rca.service.graph.creation.DifferentTypeGraphCreationFactory;
 
@@ -44,22 +49,36 @@ public class GenerateGraph
     return createGraphImage(jFreeChart, graphWidth, graphHeight);
   }
   
-  public File createGraph(List data, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, boolean rotatedLabel, int graphWidth, int graphHeight, String graphType)
+  @SuppressWarnings("deprecation")
+  public File createWeeklyGraph(List data, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, boolean rotatedLabel, int graphWidth, int graphHeight, String graphType)
   {
-    DefaultCategoryDataset chartDataSet = dataSetObjectCreation(data);
-    DifferentTypeGraphAbstractCreation graphCreationObject = DifferentTypeGraphCreationFactory.createGraphCreationObject(graphType, graphHeader, xAxis, yAxis, plotOrientation, chartDataSet, false, false);
-    JFreeChart jFreeChart = graphCreationObject.createGraph();
- // set the background color for the chart...
-    jFreeChart.setBackgroundPaint(Color.white);
-    CategoryPlot plot = createPlot(jFreeChart);
-    CategoryAxis domainAxis = plot.getDomainAxis();
-    if(rotatedLabel)
-    {
-    	domainAxis.setCategoryLabelPositions(
-    			CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 6.0));
-    }
-    plot.setRenderer(createRender());   
-    return createGraphImage(jFreeChart, graphWidth, graphHeight);
+	  DefaultCategoryDataset chartDataSet = dataSetObjectCreation(data);
+	  DifferentTypeGraphAbstractCreation graphCreationObject = DifferentTypeGraphCreationFactory.createGraphCreationObject(graphType, graphHeader, xAxis, yAxis, plotOrientation, chartDataSet, false, false);
+	  JFreeChart jFreeChart = graphCreationObject.createGraph();
+
+	  // set the background color for the chart...
+	  jFreeChart.setBackgroundPaint(Color.white);
+	  CategoryPlot plot = createPlot(jFreeChart);
+	  CategoryAxis domainAxis = plot.getDomainAxis();
+
+	  /* If inclined label is required on domain axis */
+	  if(rotatedLabel)
+	  {
+		  domainAxis.setCategoryLabelPositions(
+				  CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 6.0));
+	  }
+
+	  CategoryItemRenderer renderer = new CustomRenderer();
+
+	  /* This Generator enables the labels to be placed on top of bars */
+	  CategoryItemLabelGenerator itemLabelGenerator = new StandardCategoryItemLabelGenerator();
+	  renderer.setBaseItemLabelGenerator(itemLabelGenerator);
+	  renderer.setPositiveItemLabelPosition(new ItemLabelPosition(ItemLabelAnchor.OUTSIDE12,TextAnchor.BASELINE_CENTER));
+	  renderer.setBaseItemLabelsVisible(true);
+
+	  plot.setRenderer(renderer);
+	  //plot.setRenderer(createWeeklyGraphRender(plot));   
+	  return createGraphImage(jFreeChart, graphWidth, graphHeight);
   }
   
   /**
@@ -155,6 +174,25 @@ public class GenerateGraph
         CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 6.0)
     );*/
     return plot;
+  }
+  
+  class CustomRenderer extends StackedBarRenderer
+  {
+	  /**
+	   * Custom BarRenderer for common color throughout Weekly bar chart.
+	   * @author prashant.singh
+	   */
+	  private static final long serialVersionUID = 4985191864600514284L;
+
+	  public CustomRenderer()
+	  {
+	  }
+
+	  public Paint getItemPaint(final int row, final int column)
+	  {
+		  // returns color depending on y coordinate.
+		  return (row > 0) ? Color.GRAY : Color.yellow ;
+	  }
   }
   
   public File createGraphImage(JFreeChart jFreeChart, int graphWidth, int graphHeight)

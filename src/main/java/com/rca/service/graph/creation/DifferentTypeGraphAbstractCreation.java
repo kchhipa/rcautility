@@ -87,20 +87,20 @@ public abstract class DifferentTypeGraphAbstractCreation
     this.dataSet = dataSet;
   }
 
-public boolean isLegend() {
-	return legend;
-}
+  public boolean isLegend() {
+	  return legend;
+  }
 
-public void setLegend(boolean legend) {
-	this.legend = legend;
-}
+  public void setLegend(boolean legend) {
+	  this.legend = legend;
+  }
 
-public boolean isTooltips() {
-	return tooltips;
-}
+  public boolean isTooltips() {
+	  return tooltips;
+  }
 
-public void setTooltips(boolean tooltips) {
-	this.tooltips = tooltips;
-}
-  
+  public void setTooltips(boolean tooltips) {
+	  this.tooltips = tooltips;
+  }
+
 }
