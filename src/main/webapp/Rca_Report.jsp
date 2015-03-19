@@ -20,21 +20,6 @@
  function validate()
    {
 	   var textarea = document.getElementById("project").value;
-	   
-	   var textarea = document.getElementById("textarea");
-	 
-	  var len = textarea.length;
-	   var start = textarea.selectionStart;
-	   var end = textarea.selectionEnd;
-	   var sel = textarea.substring(start, end);
-	 
-  	    alert(sel);	 
-  		var replace = '<b>' + sel + '<b>';
- 
-   textarea =  textarea.substring(0,start) + replace + textarea.substring(end,len);
-	   
-	   alert(textarea);
-	   
 	   var week = document.getElementById("week_id").value;
 	 	if(week=="Select Week" || week=="")
 	    	{
@@ -92,11 +77,11 @@
 		  <tr></tr>
 		   <tr>
 			  <td>
-			  <s:textarea name="rca.projects" label="Projects" cols="15" rows="7" id="project"/>
+			  <s:checkboxlist list="rca.projectList" name="rca.project" label="Projects" id="project"/>
 			 </td>
 		  </tr>
 		 	<tr>
-				<td>
+				<td colspan=3>
 				<input type="submit" value="Submit" id="export" onclick="exportData()"/> 
 				<input type="submit" value="Cancel"/> 
 				<input type="submit" value="Home"/> 
