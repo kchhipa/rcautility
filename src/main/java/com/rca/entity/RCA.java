@@ -1,5 +1,7 @@
 package com.rca.entity;
 
+import java.util.List;
+
 
 public class RCA {
 	
@@ -56,6 +58,13 @@ public class RCA {
 	public int ro_qa;
 	public int ro_uat;
 	public int ro_prod;
+	
+	private List<String> weeks;
+	public String startDate;
+	public String endDate;
+	public String weekType;
+	public String weekCount;
+	public String projects;
 	
 	public int getProject_id() {
 		return project_id;
@@ -374,6 +383,78 @@ public class RCA {
 	}
 	public void setRo_prod(int ro_prod) {
 		this.ro_prod = ro_prod;
+	}
+	/**
+	 * @return the startDate
+	 */
+	public String getStartDate() {
+		return startDate;
+	}
+	/**
+	 * @param startDate the startDate to set
+	 */
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+	/**
+	 * @return the endDate
+	 */
+	public String getEndDate() {
+		return endDate;
+	}
+	/**
+	 * @param endDate the endDate to set
+	 */
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+	/**
+	 * @return the weekType
+	 */
+	public String getWeekType() {
+		return weekType;
+	}
+	/**
+	 * @param weekType the weekType to set
+	 */
+	public void setWeekType(String weekType) {
+		this.weekType = weekType;
+	}
+	/**
+	 * @return the weekCount
+	 */
+	public String getWeekCount() {
+		return weekCount;
+	}
+	/**
+	 * @param weekCount the weekCount to set
+	 */
+	public void setWeekCount(String weekCount) {
+		this.weekCount = weekCount;
+	}
+	/**
+	 * @return the projects
+	 */
+	public String getProjects() {
+		return projects;
+	}
+	/**
+	 * @param projects the projects to set
+	 */
+	public void setProjects(String projects) {
+		this.projects = projects;
+	}
+	/**
+	 * @return the weeks
+	 */
+	public List<String> getWeeks() {
+		return weeks;
+	}
+	/**
+	 * @param weeks the weeks to set
+	 */
+	public void setWeeks(List<String> weeks) {
+		this.weeks = weeks;
 	}
 
 	

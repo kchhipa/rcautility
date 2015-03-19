@@ -42,13 +42,12 @@ public class RcaLoginAction extends ActionSupport implements SessionAware {
 		
 		RcaCount projectReport = rcaManager.findWeeklyRCAReportByProjectId("9/29/2014-10/5/2014", 1);
 		
-       String path = System.getProperty("rcaUtility.config");
-        
+     /*  String path = System.getProperty("rcaUtility.config");
         
         Properties prop = new Properties();
         prop.load(new FileInputStream(new File(new java.net.URI(path))));
         String weekInterval = prop.getProperty("rca.weekinterval");
-		
+		*/
 		
 		
 	   if(result.equals("success"))

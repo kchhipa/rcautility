@@ -20,21 +20,27 @@
 
        <!-- Two things to Notice: 1) class is set to 'editEmployeeAction' which 
 			is bean defined by Spring context 2) We have given the method to be called 
-			here as well; -->
-       
+				here as well; -->
+	
 		<action name="home" class="rcaLogin">
-			<result name="success">RCA.jsp</result>
+			<result name="success">RcaHome.jsp</result>
 			<result name="noUser">RcaLogin.jsp</result>
 		</action>
-		<action name="getRcaDetail" class="com.rca.RcaUtility">
+		<action name="getRcaDetail" class="com.rca.controller.RcaUtility">
 			<result name="success">RCA.jsp</result>
 		</action>
-
-		<action name="saveRcaDetail" class="com.rca.RcaUtility" method="saveRcaDetail">
+	
+		<action name="saveRcaDetail" class="com.rca.controller.RcaUtility"
+			method="saveRcaDetail">
 			<result name="success">RCA.jsp</result>
 		</action>
-
-		<action name="templateDownload" class="com.rca.RcaUtility"
+	
+		<action name="rcaReportView" class="com.rca.controller.RcaUtility"
+			method="reportRcaView">
+			<result name="success">Rca_Report.jsp</result>
+		</action>
+		
+		<action name="templateDownload" class="com.rca.controller.RcaUtility"
 			method="templateDownload">
 			<result name="success" type="stream">
 				<param name="contentType">application/octet-stream</param>
@@ -43,16 +49,16 @@
 				<param name="bufferSize">1024</param>
 			</result>
 		</action>
-		<action name="logout" class="com.rca.RcaLogin" method="logoutRca">
+		<action name="logout" class="com.rca.controller.RcaLoginAction" method="logoutRca">
 			<result name="success">RcaLogin.jsp</result>
 		</action>
 
-		<action name="templateUpload" class="com.rca.RcaUtility"
+		<action name="templateUpload" class="com.rca.controller.RcaUtility"
 			method="templateUpload">
 			<result name="success">RCA.jsp</result>
 		</action>
 
-		<action name="exportData" class="com.rca.RcaUtility" method="exportData">
+		<action name="exportData" class="com.rca.controller.RcaUtility" method="exportData">
 
 			<result name="success" type="stream">
 
