@@ -438,21 +438,20 @@ public class RcaUtilityDao {
 	    }
   }
   
-  public static StringBuffer getProjectDetails() throws SQLException{
+  public static ArrayList<String> getProjectDetails() throws SQLException{
 	  Connection conn  = null;
-	  String result = null;
+	  ArrayList<String> projectList = new ArrayList<String>();
 	  conn = ConnectionProvider.getConnection();	 
   	String sql1;
-  	String sql2;	    	 	
   	sql1 = "select * from project_details";
   	
   	PreparedStatement  stmt = conn.prepareStatement(sql1);	    	    		    	
   	ResultSet rs = stmt.executeQuery();
-  	StringBuffer stringBuffer = new StringBuffer();
+  	
   	while(rs.next()){
-  		stringBuffer.append(" "+rs.getString("project_name")+"\n");
+  		projectList.add(rs.getString("project_name"));
   		
   	}
-  	return stringBuffer;
+  	return projectList;
   }
 }

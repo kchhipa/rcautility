@@ -1,5 +1,6 @@
 package com.rca.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -60,12 +61,25 @@ public class RCA {
 	public int ro_prod;
 	
 	private List<String> weeks;
-	public String startDate;
-	public String endDate;
-	public String weekType;
-	public String weekCount;
-	public String projects;
+	private String startDate;
+	private String endDate;
+	private String weekType;
+	private String weekCount;
+	private ArrayList<String> projectList;
+	private String[] project;
 	
+	/**
+	 * @return the project
+	 */
+	public String[] getProject() {
+		return project;
+	}
+	/**
+	 * @param project the project to set
+	 */
+	public void setProject(String[] project) {
+		this.project = project;
+	}
 	public int getProject_id() {
 		return project_id;
 	}
@@ -433,22 +447,22 @@ public class RCA {
 		this.weekCount = weekCount;
 	}
 	/**
-	 * @return the projects
-	 */
-	public String getProjects() {
-		return projects;
-	}
-	/**
-	 * @param projects the projects to set
-	 */
-	public void setProjects(String projects) {
-		this.projects = projects;
-	}
-	/**
 	 * @return the weeks
 	 */
 	public List<String> getWeeks() {
 		return weeks;
+	}
+	/**
+	 * @return the projectList
+	 */
+	public ArrayList<String> getProjectList() {
+		return projectList;
+	}
+	/**
+	 * @param projectList the projectList to set
+	 */
+	public void setProjectList(ArrayList<String> projectList) {
+		this.projectList = projectList;
 	}
 	/**
 	 * @param weeks the weeks to set

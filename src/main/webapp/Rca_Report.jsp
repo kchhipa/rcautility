@@ -89,11 +89,11 @@
 		  <tr></tr>
 		   <tr>
 			  <td>
-			  <s:textarea name="rca.projects" label="Projects" cols="15" rows="7" id="project"/>
+			  <s:checkboxlist list="rca.projectList" name="rca.project" label="Projects" id="project"/>
 			 </td>
 		  </tr>
 		 	<tr>
-				<td>
+				<td colspan=3>
 				<input type="submit" value="Submit" id="export" onclick="exportData()"/> 
 				<input type="submit" value="Cancel"/> 
 				<input type="submit" value="Home"/> 
