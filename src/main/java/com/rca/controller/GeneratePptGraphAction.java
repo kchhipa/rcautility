@@ -67,7 +67,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
     
     ReportUtility rU = new ReportUtility();
     List<String> allWeeks = rU.findWeeks();
-    int idx = ppt.addPicture(generateGraph.createGraph( rU.reportedQARCAForAllProjects(rcaCounts), "Reported Prod", "", "", 
+    int idx = ppt.addPicture(generateGraph.createGraph( rU.reportedQARCAForAllProjects(rcaCounts), "", "", "", 
     		PlotOrientation.VERTICAL, false, 450, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
     //int lCx = ppt.addPicture(createLineChart() , XSLFPictureData.PICTURE_TYPE_PNG);
       int bWCx = ppt.addPicture(generateGraph.createWeeklyGraph(rU.reportedQAAllWeeksGraphForAllProject(allWeeksrcaCounts, allWeeks), "Weekly Trend", "", "", 
@@ -79,7 +79,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 
     
     TextBox txt1 = new TextBox();
-    txt1.setText("Hello");
+    txt1.setText("Reported Prod");
     txt1.setAnchor(new java.awt.Rectangle(pageWidth+20, 20, pageWidth-50, pageheight-50));
     slide.addShape(txt1);
     

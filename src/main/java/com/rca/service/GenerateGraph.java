@@ -15,20 +15,25 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.block.BlockBorder;
 import org.jfree.chart.labels.CategoryItemLabelGenerator;
 import org.jfree.chart.labels.ItemLabelAnchor;
 import org.jfree.chart.labels.ItemLabelPosition;
 import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.GroupedStackedBarRenderer;
 import org.jfree.chart.renderer.category.StackedBarRenderer;
+import org.jfree.chart.renderer.category.StandardBarPainter;
+import org.jfree.chart.title.LegendTitle;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.GradientPaintTransformType;
+import org.jfree.ui.RectangleAnchor;
+import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.StandardGradientPaintTransformer;
 import org.jfree.ui.TextAnchor;
-
 import com.rca.service.graph.creation.DifferentTypeGraphAbstractCreation;
 import com.rca.service.graph.creation.DifferentTypeGraphCreationFactory;
 
@@ -44,6 +49,12 @@ public class GenerateGraph
     JFreeChart jFreeChart = graphCreationObject.createGraph();
  // set the background color for the chart...
     jFreeChart.setBackgroundPaint(Color.white);
+    LegendTitle legend = (LegendTitle) jFreeChart.getSubtitle(0);
+    legend.setItemLabelPadding(new RectangleInsets(2, 2, 2, 30));
+    //legend.setPosition(RectangleEdge.RIGHT);
+    legend.setLegendItemGraphicLocation(RectangleAnchor.CENTER);
+    legend.setFrame(BlockBorder.NONE);
+    
     CategoryPlot plot = createPlot(jFreeChart);
     plot.setRenderer(createRender());
     return createGraphImage(jFreeChart, graphWidth, graphHeight);
@@ -75,8 +86,12 @@ public class GenerateGraph
 	  renderer.setBaseItemLabelGenerator(itemLabelGenerator);
 	  renderer.setPositiveItemLabelPosition(new ItemLabelPosition(ItemLabelAnchor.OUTSIDE12,TextAnchor.BASELINE_CENTER));
 	  renderer.setBaseItemLabelsVisible(true);
+	  
+	  ((BarRenderer) renderer).setBarPainter(new StandardBarPainter());
+	  ((BarRenderer) renderer).setShadowVisible(false);
 
 	  plot.setRenderer(renderer);
+	  	  
 	  //plot.setRenderer(createWeeklyGraphRender(plot));   
 	  return createGraphImage(jFreeChart, graphWidth, graphHeight);
   }
@@ -154,6 +169,10 @@ public class GenerateGraph
     renderer.setGradientPaintTransformer(
         new StandardGradientPaintTransformer(GradientPaintTransformType.HORIZONTAL)
     );
+    
+    /* Setting the Bar paint to be plain & not glossy. */
+    ((BarRenderer) renderer).setBarPainter(new StandardBarPainter());
+    
     return renderer;
   }
   
@@ -190,8 +209,9 @@ public class GenerateGraph
 
 	  public Paint getItemPaint(final int row, final int column)
 	  {
+		  Paint p1 = new GradientPaint(0.0f, 0.0f, new Color(57, 126, 186), 0.0f, 0.0f, new Color(57, 126, 186));
 		  // returns color depending on y coordinate.
-		  return (row > 0) ? Color.GRAY : Color.yellow ;
+		  return (row > 0) ? p1 : Color.yellow ;
 	  }
   }
   
