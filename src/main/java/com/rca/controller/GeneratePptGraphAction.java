@@ -69,8 +69,9 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
     List<String> allWeeks = rU.findWeeks();
     int idx = ppt.addPicture(generateGraph.createGraph( rU.reportedQARCAForAllProjects(rcaCounts), "", "", "", 
     		PlotOrientation.VERTICAL, false, 450, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
-    //int lCx = ppt.addPicture(createLineChart() , XSLFPictureData.PICTURE_TYPE_PNG);
-      int bWCx = ppt.addPicture(generateGraph.createWeeklyGraph(rU.reportedQAAllWeeksGraphForAllProject(allWeeksrcaCounts, allWeeks), "Weekly Trend", "", "", 
+    int lCx = ppt.addPicture(generateGraph.createLineGraph(rU.reportedQAAllWeeksCCBGraphForAllProject(allWeeksrcaCounts, allWeeks), "Client Code Trend", "", "", 
+    		PlotOrientation.VERTICAL, true, 650, 450,RCAConstants.LINE) , XSLFPictureData.PICTURE_TYPE_PNG);
+    int bWCx = ppt.addPicture(generateGraph.createWeeklyGraph(rU.reportedQAAllWeeksGraphForAllProject(allWeeksrcaCounts, allWeeks), "Weekly Trend", "", "", 
       		PlotOrientation.VERTICAL, true, 650, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
     Picture pict = new Picture(idx);
     //set image position in the slide
@@ -88,11 +89,11 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
           pict1.setAnchor(new java.awt.Rectangle(20, pageheight+20, pageWidth-50, pageheight-50));
           slide.addShape(pict1);
           
-          /*   Picture pict2 = new Picture(lCx);
+          Picture ccbLineGraph = new Picture(lCx);
           //set image position in the slide
-          pict2.setAnchor(new java.awt.Rectangle(pageWidth+20,  pageheight+20, pageWidth-50, pageheight-50));
-          slide.addShape(pict2);
-      */          
+          ccbLineGraph.setAnchor(new java.awt.Rectangle(pageWidth+20,  pageheight+20, pageWidth-50, pageheight-50));
+          slide.addShape(ccbLineGraph);
+
     FileOutputStream out = new FileOutputStream(
         "D:\\project.ppt");
     ppt.write(out);
