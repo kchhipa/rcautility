@@ -70,7 +70,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
     int idx = ppt.addPicture(generateGraph.createGraph( rU.reportedQARCAForAllProjects(rcaCounts), "Reported Prod", "", "", 
     		PlotOrientation.VERTICAL, false, 450, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
     //int lCx = ppt.addPicture(createLineChart() , XSLFPictureData.PICTURE_TYPE_PNG);
-      int bWCx = ppt.addPicture(generateGraph.createGraph(rU.reportedQAAllWeeksGraphForAllProject(allWeeksrcaCounts, allWeeks), "Weekly Trend", "", "", 
+      int bWCx = ppt.addPicture(generateGraph.createWeeklyGraph(rU.reportedQAAllWeeksGraphForAllProject(allWeeksrcaCounts, allWeeks), "Weekly Trend", "", "", 
       		PlotOrientation.VERTICAL, true, 650, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
     Picture pict = new Picture(idx);
     //set image position in the slide
