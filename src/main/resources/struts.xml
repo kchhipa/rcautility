@@ -23,9 +23,15 @@
 				here as well; -->
 	
 		<action name="home" class="rcaLogin">
-			<result name="success">RcaHome.jsp</result>
+			<result name="successmanager">RcaHome.jsp</result>
 			<result name="noUser">RcaLogin.jsp</result>
 		</action>
+		
+		<action name="homeRca" class="rcaLogin" method="homeRca">
+			<result name="success">RcaHome.jsp</result>
+		</action>
+		
+		
 		<action name="getRcaDetail" class="com.rca.controller.RcaUtility">
 			<result name="success">RCA.jsp</result>
 		</action>

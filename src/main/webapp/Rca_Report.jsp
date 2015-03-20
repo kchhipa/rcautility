@@ -12,26 +12,20 @@
    {
    
    	 if(validate()){
-	 document.RCA_Form.action="generateReport";
+	 document.RCA_Form.action="generateGraphPpt";
 	 document.RCA_Form.submit();
 	 }	   
    }
 
  function validate()
    {
-	   var textarea = document.getElementById("project").value;
 	   var week = document.getElementById("week_id").value;
 	 	if(week=="Select Week" || week=="")
 	    	{
 	    	alert("Please select week");
 	    	return false;
 	    	}
-	    	else if(textarea == "")
-	    	{
-	    	alert("Please select project");
-	    	return false;
-	    	}	    
-	    	
+	    	    	
 	    return true;
    }
  function templateDownload()
@@ -39,6 +33,13 @@
  	document.RCA_Form.action="templateDownload";
  	document.RCA_Form.submit(); 
  }
+ 
+  function homePage()
+ {
+ 	document.RCA_Form.action="homeRca";
+ 	document.RCA_Form.submit(); 
+ }
+ 
 
 </script>
 </head>
@@ -61,7 +62,7 @@
 		   </ul>
 		  
 		  <tr>
-			  <td>Report </td>
+			  <td colspan="2"><h1>Report</h1> </td>
 		  </tr>
 		  
 		  <tr>
@@ -85,18 +86,24 @@
 			<td> 
 			<s:textfield name="rca.weekCount" label="Week Count" id="week_id" />
 			</td>
-		  </tr> -->
+		  </tr>
 		  <tr></tr>
 		   <tr>
 			  <td>
-			  <s:checkboxlist list="rca.projectList" name="rca.project" label="Projects" id="project"/>
+			  <s:checkboxlist list="rca.projectList" name="rca.project" label="Projects"/>
 			 </td>
-		  </tr>
+		  </tr> -->
+		  <tr></tr><tr></tr><tr></tr><tr></tr>
+		  <tr></tr><tr></tr><tr></tr><tr></tr>
+		  <tr></tr><tr></tr><tr></tr><tr></tr>
+		  
+		  
+		  <tr></tr>
 		 	<tr>
 				<td colspan=3>
 				<input type="submit" value="Submit" id="export" onclick="exportData()"/> 
-				<input type="submit" value="Cancel"/> 
-				<input type="submit" value="Home"/> 
+				<input type="submit" value="Cancel" onclick="homePage()"/> 
+				<input type="submit" value="Home" id="home" onclick="homePage()"/> 
 				</td>
 				</tr>
 	  </table>
