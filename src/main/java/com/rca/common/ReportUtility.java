@@ -487,7 +487,7 @@ public class ReportUtility {
 	public List reportedQAAllWeeksCCBGraphForAllProject(
 			List<RcaCount> rcaCount, List<String> allWeeks) {
 		List lst = new ArrayList();
-		for (int i = 0; i < allWeeks.size(); i++) {
+		for (int i = allWeeks.size()-1; i >=0; i--) {
 			int total = 0;
 			Map<String, Integer> week_count = new LinkedHashMap<String, Integer>();
 			String week = allWeeks.get(i);
@@ -512,7 +512,7 @@ public class ReportUtility {
 	public List reportedProdAllWeeksCCBGraphForAllProject(
 			List<RcaCount> rcaCount, List<String> allWeeks) {
 		List lst = new ArrayList();
-		for (int i = 0; i < allWeeks.size(); i++) {
+		for (int i = allWeeks.size()-1; i >=0; i--) {
 			int total = 0;
 			Map<String, Integer> week_count = new LinkedHashMap<String, Integer>();
 			String week = allWeeks.get(i);
@@ -537,7 +537,7 @@ public class ReportUtility {
 	public List reportedUATAllWeeksCCBGraphForAllProject(
 			List<RcaCount> rcaCount, List<String> allWeeks) {
 		List lst = new ArrayList();
-		for (int i = 0; i < allWeeks.size(); i++) {
+		for (int i = allWeeks.size()-1; i >=0; i--) {
 			int total = 0;
 			Map<String, Integer> week_count = new LinkedHashMap<String, Integer>();
 			String week = allWeeks.get(i);
