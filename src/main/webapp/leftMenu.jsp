@@ -37,8 +37,10 @@ function generateReport()
 			  <li><a href="RCA.jsp" style="color:black; padding-left:30px;">Enter Last Week Data</a></li>
 			  <li><a href="importData.jsp" style="color:black; padding-left:30px;">Import Last Week Data</a></li>
 			  <li><a href="javascript:templateDownload();" style="color:black; padding-left:30px;">Download Template</a></li>
+			   <s:if test="#session.role != null && #session.role.equals('manager')">
 			  <li><a href="javascript:generateReport()" style="color:black; padding-left:30px;">Generate Reports</a> </li>
 			  <li><a href="exportWeeklyData.jsp" style="color:black; padding-left:30px;">Export Weekly Data</a> </li>
+			  </s:if>
 		  </ul>
 	</div>
 </body>

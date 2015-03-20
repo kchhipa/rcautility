@@ -28,6 +28,7 @@ public class RcaLoginAction extends ActionSupport implements SessionAware {
 	private Map projectNameWithId;
 	public SessionMap session;
 	public String role; 
+
 	
 	//Employee manager injected by spring context
 		private RcaManager rcaManager;
@@ -56,6 +57,7 @@ public class RcaLoginAction extends ActionSupport implements SessionAware {
 	   {		
 		   if(result.contains(Manger)){
 			   setRole(Manger);
+			   session.put("role", Manger);
 		   }
 			  getProjectDetails();			
 	   }
@@ -101,13 +103,7 @@ public class RcaLoginAction extends ActionSupport implements SessionAware {
 	}
 	
 	public String homeRca()
-	{		
-		if(session!=null)
-		{
-			session.invalidate();
-			addActionMessage("Logged out successfully");
-		}
-		return "success";
+	{	return "success";
 	}
 
 	

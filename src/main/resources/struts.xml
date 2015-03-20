@@ -24,6 +24,7 @@
 	
 		<action name="home" class="rcaLogin">
 			<result name="successmanager">RcaHome.jsp</result>
+			<result name="successlead">RcaHome.jsp</result>
 			<result name="noUser">RcaLogin.jsp</result>
 		</action>
 		
