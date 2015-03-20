@@ -20,6 +20,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import com.opensymphony.xwork2.ActionSupport;
 import com.rca.common.RCAConstants;
 import com.rca.common.ReportUtility;
+import com.rca.entity.RCA;
 import com.rca.entity.RcaCount;
 import com.rca.service.GenerateGraph;
 import com.rca.service.RcaManager;
@@ -37,13 +38,14 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	private static final long serialVersionUID = -1269358124476669565L;
 	public SessionMap session;
 	private InputStream fileInputStream;
+	private RCA rca;
 	
 	//Employee manager injected by spring context
 			private RcaManager rcaManager;
 	
 	public String execute() throws Exception {
 		
-		List<RcaCount> rcaCounts = rcaManager.findRCAByWeekPeriod("2/23/2015-3/1/2015");
+		List<RcaCount> rcaCounts = rcaManager.findRCAByWeekPeriod(rca.getWeek());
 		//rcaManager.findRCAReportForMultipleWeek();
 		createGraphPpt(rcaCounts);
 	    fileInputStream = new FileInputStream(new File("D:\\project.ppt"));
@@ -125,5 +127,12 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		this.rcaManager = rcaManager;
 	}
 	
-	
+	public RCA getRca() {
+		return rca;
+	}
+	public void setRca(RCA rca) {
+		this.rca = rca;
+	}
+
+
 }

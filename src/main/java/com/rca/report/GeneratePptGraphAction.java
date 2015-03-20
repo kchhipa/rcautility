@@ -43,7 +43,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	private static final long serialVersionUID = -1269358124476669565L;
 	public SessionMap session;
 	private InputStream fileInputStream;
-	private RCA rca;
+	
 	
 	public String execute() throws Exception {
 		
@@ -324,12 +324,5 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		this.fileInputStream = fileInputStream;
 	}
 
-	public RCA getRca() {
-		return rca;
-	}
-	public void setRca(RCA rca) {
-		this.rca = rca;
-	}
-
-	
+		
 }
