@@ -476,6 +476,81 @@ public class ReportUtility {
 		 
 		 return lst;
 	}
+
+	/**
+	 * This API creates the list of QA client code bug per week
+	 * 
+	 * @param rcaCount
+	 * @param allWeeks
+	 * @return
+	 */
+	public List reportedQAAllWeeksCCBGraphForAllProject(
+			List<RcaCount> rcaCount, List<String> allWeeks) {
+		List lst = new ArrayList();
+		for (int i = allWeeks.size()-1; i >=0; i--) {
+			int total = 0;
+			Map<String, Integer> week_count = new LinkedHashMap<String, Integer>();
+			String week = allWeeks.get(i);
+			for (int x = 0; x < rcaCount.size(); x++) {
+				if (rcaCount.get(x).getWeek().equalsIgnoreCase(allWeeks.get(i))) {
+					total = total + (rcaCount.get(x).getCcbQa());
+				}
+			}
+			week_count.put(week, total);
+			lst.add(week_count);
+		}
+		return lst;
+	}
+
+	/**
+	 * This API creates the list of Production client code bug per week
+	 * 
+	 * @param rcaCount
+	 * @param allWeeks
+	 * @return
+	 */
+	public List reportedProdAllWeeksCCBGraphForAllProject(
+			List<RcaCount> rcaCount, List<String> allWeeks) {
+		List lst = new ArrayList();
+		for (int i = allWeeks.size()-1; i >=0; i--) {
+			int total = 0;
+			Map<String, Integer> week_count = new LinkedHashMap<String, Integer>();
+			String week = allWeeks.get(i);
+			for (int x = 0; x < rcaCount.size(); x++) {
+				if (rcaCount.get(x).getWeek().equalsIgnoreCase(allWeeks.get(i))) {
+					total = total + (rcaCount.get(x).getCcbProd());
+				}
+			}
+			week_count.put(week, total);
+			lst.add(week_count);
+		}
+		return lst;
+	}
+
+	/**
+	 * This API creates the list of UAT client code bug per week
+	 * 
+	 * @param rcaCount
+	 * @param allWeeks
+	 * @return
+	 */
+	public List reportedUATAllWeeksCCBGraphForAllProject(
+			List<RcaCount> rcaCount, List<String> allWeeks) {
+		List lst = new ArrayList();
+		for (int i = allWeeks.size()-1; i >=0; i--) {
+			int total = 0;
+			Map<String, Integer> week_count = new LinkedHashMap<String, Integer>();
+			String week = allWeeks.get(i);
+			for (int x = 0; x < rcaCount.size(); x++) {
+				if (rcaCount.get(x).getWeek().equalsIgnoreCase(allWeeks.get(i))) {
+					total = total + (rcaCount.get(x).getCcbUat());
+				}
+			}
+			week_count.put(week, total);
+			lst.add(week_count);
+		}
+		return lst;
+	}
 	
 	public List<String> findWeeks(){
 		List<String> weeks = new ArrayList<String>();
