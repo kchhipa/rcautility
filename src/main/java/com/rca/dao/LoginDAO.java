@@ -23,7 +23,7 @@ public class LoginDAO {
 		    	stmt.setString(2, passWord);    		    	
 		    	ResultSet rs = stmt.executeQuery();
 		    	if(rs.next())
-		    		result =  "success";
+		    		result =  "success"+rs.getString("role");
 		    	else
 		    		result = "noUser";
 		    	

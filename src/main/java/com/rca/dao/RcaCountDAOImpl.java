@@ -202,7 +202,10 @@ public class RcaCountDAOImpl implements RcaCountDAO {
 		String query = "from RcaCount where week=? and project_id =?";
 		Object[] queryParam = {week, projectId};
 		List<RcaCount> results = (List<RcaCount>) template.find(query, queryParam);
-		return results.get(0);
+		if(results.size()>0){
+			return results.get(0);
+		}
+		return null;
 	}
 
 	

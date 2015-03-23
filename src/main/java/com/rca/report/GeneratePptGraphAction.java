@@ -28,6 +28,7 @@ import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.rca.entity.RCA;
 
 /**
  * Main action class to generate RCA graph charts and generating PPT Slides.
@@ -43,9 +44,8 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	public SessionMap session;
 	private InputStream fileInputStream;
 	
+	
 	public String execute() throws Exception {
-		
-		
 		
 		createGraphPpt();
 	    fileInputStream = new FileInputStream(new File("D:\\project.ppt"));
@@ -323,5 +323,6 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	public void setFileInputStream(InputStream fileInputStream) {
 		this.fileInputStream = fileInputStream;
 	}
-	
+
+		
 }

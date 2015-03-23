@@ -13,6 +13,9 @@ import com.rca.entity.RcaCount;
 
 public class ReportUtility {
 	
+	public static final String PRODUCTION = "PROD";
+	public static final String UAT = "UAT";
+	public static final String QA = "QA";
 	
 
 	public Map<String, Map<String, Integer>> rcaCountForLastWeekForAllProjects(List<RcaCount> rcaWeeks){
@@ -83,6 +86,35 @@ public class ReportUtility {
 		
 	}
 	
+	public Map<String, Map<String, Integer>> reportedQAAllWeeksGraphForIndividual(List<RcaCount> rcaCounts, List<String> allWeeks){
+		
+		Map<String, Map<String, Integer>> diffCategory = new LinkedHashMap<String, Map<String, Integer>>();
+		
+		for(int x=0; x < rcaCounts.size(); x++){
+			
+			RcaCount rcaCount = rcaCounts.get(x);
+			int totalCount = mixCategoryWeeklyCountForAllProjectsInQA(rcaCount) + weeklyDataIssueForAllIssuesInQA(rcaCount) +
+					weeklyIntegrationIssueForAllIssuesInQA(rcaCount) + weeklyConfigurationIssueForAllIssuesInQA(rcaCount) +
+					weeklyMissedAndCRCountForAllIssuesInQA(rcaCount) + weeklyClientCodeBugForAllIssuesInQA(rcaCount);
+			
+			if(totalCount > 0){
+				Map<String, Integer> differentRootCause = new LinkedHashMap<String, Integer>();
+				
+				differentRootCause.put("Duplicate/ Not a Defect/ Unable to reproduce/ Browse/ As designed", mixCategoryWeeklyCountForAllProjectsInQA(rcaCount));
+	            differentRootCause.put("Data Issue", weeklyDataIssueForAllIssuesInQA(rcaCount));
+	            differentRootCause.put("Integration Issue", weeklyIntegrationIssueForAllIssuesInQA(rcaCount));
+	            differentRootCause.put("Configuration Issue", weeklyConfigurationIssueForAllIssuesInQA(rcaCount));
+	            differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssuesInQA(rcaCount));
+	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInQA(rcaCount));
+	
+	            diffCategory.put(rcaCounts.get(x).getWeek(), differentRootCause);
+				
+			}
+		}
+		
+		return diffCategory;
+	}
+	
 	public Map<String, Map<String, Integer>> reportedUATRCAForAllProjects(List<RcaCount> rcaCounts){
 
 		Map<String, Map<String, Integer>> diffCategory = new LinkedHashMap<String, Map<String, Integer>>();;
@@ -151,6 +183,36 @@ public class ReportUtility {
 		
 	}
 
+	/**
+	 * Generate a map of project and it's corresponding reopen bug count by
+	 * environment type. This method will return map of Project Name as key and
+	 * Map of Environment type & reopen bug count as value
+	 * 
+	 * @param rcaCounts
+	 * @return
+	 */
+	public Map<String, Map<String, Integer>> reportedReopenRCAForAllProjects(
+			List<RcaCount> rcaCounts) {
+		Map<String, Map<String, Integer>> diffCategory = new LinkedHashMap<String, Map<String, Integer>>();
+		for (int x = 0; x < rcaCounts.size(); x++) {
+			String projName = rcaCounts.get(x).getProjectDetails()
+					.getProjectName();
+			RcaCount rcaCount = rcaCounts.get(x);
+			int totalCount = rcaCount.getRoQa() + rcaCount.getRoUat()
+					+ rcaCount.getRoProd();
+
+			if (totalCount > 0) {
+				Map<String, Integer> differentReopenEnvironment = new LinkedHashMap<String, Integer>();
+				differentReopenEnvironment.put(QA, rcaCount.getRoQa());
+				differentReopenEnvironment.put(UAT, rcaCount.getRoUat());
+				differentReopenEnvironment
+						.put(PRODUCTION, rcaCount.getRoProd());
+
+				diffCategory.put(projName, differentReopenEnvironment);
+			}
+		}
+		return diffCategory;
+	}
 	
 	public Map<String, Integer> rcaCountForMultipleWeeksForAllProjects(List<RcaCount> rcaCounts, String week){
 		Map<String, Integer> projCount = new HashMap<String, Integer>(); 
@@ -500,6 +562,37 @@ public class ReportUtility {
 		 
 		 
 		 return lst;
+	}
+
+
+	/**
+	 * This API creates the list of Production client code bug per week
+	 * 
+	 * @param rcaCount
+	 * @param allWeeks
+	 * @return
+	 */
+	public List reportedAllWeeksCCBGraphForAllProject(
+			List<RcaCount> rcaCount, List<String> allWeeks, String env) {
+		List lst = new ArrayList();
+		for (int i = 0; i < allWeeks.size(); i++) {
+			int total = 0;
+			Map<String, Integer> week_count = new LinkedHashMap<String, Integer>();
+			String week = allWeeks.get(i);
+			for (int x = 0; x < rcaCount.size(); x++) {
+				if (rcaCount.get(x).getWeek().equalsIgnoreCase(allWeeks.get(i))) {
+					if(PRODUCTION.equals(env))
+						total = total + (rcaCount.get(x).getCcbProd());
+					else if(QA.equals(env))
+						total = total + (rcaCount.get(x).getCcbQa());
+					else if(UAT.equals(env))
+						total = total + (rcaCount.get(x).getCcbUat());
+				}
+			}
+			week_count.put(week, total);
+			lst.add(week_count);
+		}
+		return lst;
 	}
 	
 	/**

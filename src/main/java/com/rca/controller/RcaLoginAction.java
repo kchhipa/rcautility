@@ -27,9 +27,12 @@ public class RcaLoginAction extends ActionSupport implements SessionAware {
 	private List projectList;
 	private Map projectNameWithId;
 	public SessionMap session;
+	public String role; 
+
 	
 	//Employee manager injected by spring context
 		private RcaManager rcaManager;
+		public static final String Manger = "manager";
 	
 	public String execute() throws FileNotFoundException, IOException, URISyntaxException
 	{
@@ -50,8 +53,12 @@ public class RcaLoginAction extends ActionSupport implements SessionAware {
 		*/
 		
 		
-	   if(result.equals("success"))
-	   {			
+	   if(result.contains("success"))
+	   {		
+		   if(result.contains(Manger)){
+			   setRole(Manger);
+			   session.put("role", Manger);
+		   }
 			  getProjectDetails();			
 	   }
 	   else{
@@ -95,6 +102,11 @@ public class RcaLoginAction extends ActionSupport implements SessionAware {
 		return "success";
 	}
 	
+	public String homeRca()
+	{	return "success";
+	}
+
+	
 	public String getUserName() {
 		return userName;
 	}
@@ -135,6 +147,17 @@ public class RcaLoginAction extends ActionSupport implements SessionAware {
 	public void setRcaManager(RcaManager rcaManager) {
 		this.rcaManager = rcaManager;
 	}
-	
-	
+	/**
+	 * @return the role
+	 */
+	public String getRole() {
+		return role;
+	}
+
+    /**
+	 * @param role the role to set
+	 */
+	public void setRole(String role) {
+		this.role = role;
+	}	
 }

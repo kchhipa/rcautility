@@ -305,11 +305,7 @@ function calculateWeek()
 	   
 	  	return elementIdsArray;   
    }
-   function generateReport()
-   {
-   	document.RCA_Form.action="rcaReportView";
-   	document.RCA_Form.submit(); 
-   }
+ 
 </script>
 </head>
 <body onload="calculateWeek()">
@@ -320,12 +316,7 @@ function calculateWeek()
 		<div id="content"  style="background-color: #369044; width:100%; height:100%;">
 		<form method="post" name="RCA_Form" id="RCA_Form" onsubmit="return false" enctype="multipart/form-data" >
 		  <table cellspacing="12" style="font-weight:bold; padding-left:30%;  font-family:verdana;">
-		     <ul>
-			  <li><a href="importData.jsp" style="color:black; padding-left:30px;">Import Last Week Data</a></li>
-			  <li><a href="javascript:templateDownload();" style="color:black; padding-left:30px;">Download Template</a></li>
-			  <li><a href="javascript:generateReport()" style="color:black; padding-left:30px;">Generate Reports</a> </li>
-			  <li><a href="exportWeeklyData.jsp" style="color:black; padding-left:30px;">Export Weekly Data</a> </li>
-		   </ul>
+		 <%@ include file="leftMenu.jsp"%>
 		     <tr>
 		        <td colspan="3"></td>
 				<td><input type="submit" value="Submit" id="submitRcaId" onclick="submitForm()" <s:if test="isdisabled==true"> disabled </s:if> /></td>

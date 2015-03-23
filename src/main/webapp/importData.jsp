@@ -7,16 +7,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>RCA</title>
 <script type="text/javascript">
-function templateDownload()
-{
-	document.RCA_Form.action="templateDownload";
-	document.RCA_Form.submit(); 
-}
-function generateReport()
-{
-	document.RCA_Form.action="rcaReportView";
-	document.RCA_Form.submit(); 
-}
 function upload()
 {	
 	   var rcaFile = document.getElementById("rcaFile").value;
@@ -69,14 +59,8 @@ function upload()
 		 <form method="post" name="RCA_Form" id="RCA_Form" onsubmit="return false" enctype="multipart/form-data" > 
 		  <table cellspacing="12" style="font-weight:bold; padding-left:30%;  font-family:verdana;">
 		 
-		   <ul>
-			  <li><a href="RCA.jsp" style="color:black; padding-left:30px;">Enter Last Week Data</a></li>
-			  <li><a href="javascript:templateDownload();" style="color:black; padding-left:30px;">Download Template</a></li>
-			  <li><a href="javascript:generateReport()" style="color:black; padding-left:30px;">Generate Reports</a> </li>
-			  <li><a href="exportWeeklyData.jsp" style="color:black; padding-left:30px;">Export Weekly Data</a> </li>
-			  
-		  </ul>
-		 
+			<%@ include file="leftMenu.jsp"%>		 
+			
 			   	<tr>   
 			   	   <td>		
 				  <label for="data_issue  ">Select File</label> 

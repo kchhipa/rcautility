@@ -23,9 +23,16 @@
 				here as well; -->
 	
 		<action name="home" class="rcaLogin">
-			<result name="success">RcaHome.jsp</result>
+			<result name="successmanager">RcaHome.jsp</result>
+			<result name="successlead">RcaHome.jsp</result>
 			<result name="noUser">RcaLogin.jsp</result>
 		</action>
+		
+		<action name="homeRca" class="rcaLogin" method="homeRca">
+			<result name="success">RcaHome.jsp</result>
+		</action>
+		
+		
 		<action name="getRcaDetail" class="com.rca.controller.RcaUtility">
 			<result name="success">RCA.jsp</result>
 		</action>
@@ -38,6 +45,16 @@
 		<action name="rcaReportView" class="com.rca.controller.RcaUtility"
 			method="reportRcaView">
 			<result name="success">Rca_Report.jsp</result>
+		</action>
+		
+		<action name="viewAddProject" class="com.rca.controller.RcaUtility"
+			method="viewAddProject">
+			<result name="success">add_Project.jsp</result>
+		</action>
+	
+		<action name="submitAddProject" class="com.rca.controller.RcaUtility"
+			method="submitAddProject">
+			<result name="success">add_Project.jsp</result>
 		</action>
 		
 		<action name="templateDownload" class="com.rca.controller.RcaUtility"
