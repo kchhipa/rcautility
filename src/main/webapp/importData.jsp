@@ -6,6 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>RCA</title>
+<link href="css/style.css" rel="stylesheet"/>
 <script type="text/javascript">
 function upload()
 {	
@@ -53,11 +54,11 @@ function upload()
 <body>
      <div id="main">
         <div id="header" style="width: 100%; height:60px; background-color: #34495e; text-align: center; color: #fff;">
-          <h1> RCA<br><span style="font-size: 16px; color:yellow;">Please submit the data for your project before 2 PM on every Monday.  <a href="logout" style="color:white; padding-left:30px;">Logout</a></span></h1>
+          <h1> RCA<br><span style="font-size: 16px; color:yellow;">Please submit the data for your project before 2 PM on every Monday.  <a href="logout" class="button logout">Logout</a></span></h1>
         </div>	
-		<div id="content"  style="background-color: #369044; width:100%; height:600px">
+		<div id="content">
 		 <form method="post" name="RCA_Form" id="RCA_Form" onsubmit="return false" enctype="multipart/form-data" > 
-		  <table cellspacing="12" style="font-weight:bold; padding-left:30%;  font-family:verdana;">
+		  <table cellspacing="12" class="content-table">
 		 
 			<%@ include file="leftMenu.jsp"%>		 
 			

@@ -45,7 +45,7 @@ function validateCredential()
 		<div id="content"  style="background-color: #3483c5; height:600px;">
 			<div id="loginDiv" style="margin-left:40%; font-family:verdana; margin-top:100px; padding-left:70px; width:370px; height:210px; position:absolute; background-color: #95b31d;">
 			<form method="post" name="RCA_login" id="RCA_login">
-			<table>
+			<table class="content-table">
 			<tr>
 			   <td style="padding-top: 30px;"><label for="userName">Username</label>
 			   <input type="text" id= "userNameId" name="userName" style="margin-left:10px;"/></td>

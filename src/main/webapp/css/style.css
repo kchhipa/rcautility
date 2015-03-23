@@ -1,0 +1,114 @@
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+body{
+	background: #3483c5;
+}
+#main{
+	width:900px;
+	margin: 0 auto;
+	padding: 0 10px;
+	background: #95b31d;
+}
+#content{
+	background: #95b31d;
+	 min-height: 290px;
+}
+input[type='submit'], input[type='button'], button, .button{
+	background: none repeat scroll 0 0 #3483c5;
+    border: 0 none;
+    color: #fff;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+.logout{
+	text-decoration: none;
+	position: absolute;
+    right: 9px;
+    top: 11px;	
+}
+#header h1{
+	position: relative;
+}
+h1{
+	font-size: 24px;
+	font-weight: bold;
+}
+.left-box{
+	margin-top: 80px;
+	margin-left: 5px;
+	float:left;				
+}
+.content-table{
+	font-weight:bold; 
+	padding-left:10%;  
+	font-family:verdana;
+}
+#menu,
+#menu ul { margin: 0; padding: 0; }
+#menu li { list-style-type: none; }
+
+/* first level */
+#menu { width: 200px; }
+#menu li, #menu a { float: left; width: 200px; }
+#menu a { display: block; background: #EEE; font-size: 15px;  padding: 5px 15px; }
+#menu a:hover,
+#menu a.menu_open { background: #DDD; }
+
+/* second level */
+#menu ul { visibility: hidden; position: absolute; width: 100px; }
+#menu ul a { background: #DDD; }
+#menu ul a:hover,
+#menu ul a.menu_open { background: #CCC; }
+
+/* third level (colors) */
+#menu ul ul a { background: #CCC; }
+#menu ul ul a:hover { background: #BBB; }
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    display: inline;
+}
