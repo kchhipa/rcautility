@@ -14,7 +14,7 @@ public class BarGraphCreation extends DifferentTypeGraphAbstractCreation
   public BarGraphCreation(String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, DefaultCategoryDataset dataSet, boolean legend, boolean tooltips)
   {
     this.graphHeader = graphHeader;
-    this.xAxis = graphHeader;
+    this.xAxis = xAxis;
     this.yAxis = yAxis;
     this.plotOrientation = plotOrientation;
     this.dataSet = dataSet;

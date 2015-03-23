@@ -270,6 +270,8 @@ public class GenerateGraph
     
     /* Setting the Bar paint to be plain & not glossy. */
     ((BarRenderer) renderer).setBarPainter(new StandardBarPainter());
+    // Set bars maximum width
+    ((BarRenderer) renderer).setMaximumBarWidth(0.15);
     
     return renderer;
   }

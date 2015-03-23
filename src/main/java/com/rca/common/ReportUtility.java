@@ -12,6 +12,9 @@ import com.rca.entity.RcaCount;
 
 public class ReportUtility {
 	
+	public static final String PRODUCTION = "PROD";
+	public static final String UAT = "UAT";
+	public static final String QA = "QA";
 	
 
 	public Map<String, Map<String, Integer>> rcaCountForLastWeekForAllProjects(List<RcaCount> rcaWeeks){
@@ -176,6 +179,36 @@ public class ReportUtility {
 		
 	}
 
+	/**
+	 * Generate a map of project and it's corresponding reopen bug count by
+	 * environment type. This method will return map of Project Name as key and
+	 * Map of Environment type & reopen bug count as value
+	 * 
+	 * @param rcaCounts
+	 * @return
+	 */
+	public Map<String, Map<String, Integer>> reportedReopenRCAForAllProjects(
+			List<RcaCount> rcaCounts) {
+		Map<String, Map<String, Integer>> diffCategory = new LinkedHashMap<String, Map<String, Integer>>();
+		for (int x = 0; x < rcaCounts.size(); x++) {
+			String projName = rcaCounts.get(x).getProjectDetails()
+					.getProjectName();
+			RcaCount rcaCount = rcaCounts.get(x);
+			int totalCount = rcaCount.getRoQa() + rcaCount.getRoUat()
+					+ rcaCount.getRoProd();
+
+			if (totalCount > 0) {
+				Map<String, Integer> differentReopenEnvironment = new LinkedHashMap<String, Integer>();
+				differentReopenEnvironment.put(QA, rcaCount.getRoQa());
+				differentReopenEnvironment.put(UAT, rcaCount.getRoUat());
+				differentReopenEnvironment
+						.put(PRODUCTION, rcaCount.getRoProd());
+
+				diffCategory.put(projName, differentReopenEnvironment);
+			}
+		}
+		return diffCategory;
+	}
 	
 	public Map<String, Integer> rcaCountForMultipleWeeksForAllProjects(List<RcaCount> rcaCounts, String week){
 		Map<String, Integer> projCount = new HashMap<String, Integer>(); 

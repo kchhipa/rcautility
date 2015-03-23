@@ -97,6 +97,9 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
           ccbLineGraph.setAnchor(new java.awt.Rectangle(pageWidth+20,  pageheight+20, pageWidth-50, pageheight-50));
           slide.addShape(ccbLineGraph);
           
+		// Adding Reopen Slide to PPT
+		createReopenSlide(ppt, rcaCounts);
+
           RcaCount rcaCount = null;
     		for (int x = 0; x < rcaCounts.size(); x++) {
     			String projName = rcaCounts.get(x).getProjectDetails().getProjectName();
@@ -113,6 +116,39 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
     out.close();*/
 	}
 	
+	/**
+	 * Generate Reopen Bug Count Slide
+	 * 
+	 * @param ppt
+	 * @param rcaCounts
+	 * @throws IOException
+	 */
+	public void createReopenSlide(SlideShow ppt, List<RcaCount> rcaCounts)
+			throws IOException {
+		ReportUtility rU = new ReportUtility();
+		// Create Slide
+		Slide reopenSlide = ppt.createSlide();
+		// Setting Title
+		TextBox title = reopenSlide.addTitle();
+		title.setText("Reopen");
+		title.setHorizontalAlignment(TextBox.AlignLeft);
+
+		int pageWidth = ppt.getPageSize().width / 2;
+		int pageheight = ppt.getPageSize().height / 2;
+
+		// Generating Graph and adding the graph in picture format to slide
+		GenerateGraph generateGraph = new GenerateGraph();
+		int idx = ppt.addPicture(generateGraph.createGraph(
+				rU.reportedReopenRCAForAllProjects(rcaCounts), "Reopen Count",
+				"Projects", "Bug Count", PlotOrientation.VERTICAL, false, 450,
+				450, RCAConstants.BAR), XSLFPictureData.PICTURE_TYPE_PNG);
+		Picture pict = new Picture(idx);
+		// set image position in the slide
+		pict.setAnchor(new java.awt.Rectangle((pageWidth / 2) - 50,
+				(pageheight / 2), pageWidth - 50, pageheight - 50));
+		reopenSlide.addShape(pict);
+	}
+
 	@SuppressWarnings("unchecked")
 	List<RcaCount> getAllWeekRCACountsListforIndividual(List<String> allWeeks){
 		List<RcaCount> allWeeksrcaCountsforIndividual = new ArrayList<RcaCount>();
