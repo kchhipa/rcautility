@@ -3,10 +3,12 @@ package com.rca.service;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.rca.common.ReportUtility;
 import com.rca.dao.RcaCountDAO;
 import com.rca.entity.RcaCount;
 
@@ -93,27 +95,10 @@ public class RcaManagerImpl implements RcaManager {
 	@Override
 	public List<RcaCount> findRCAReportForMultipleWeek() {
 
-	    List<String> weeks = new ArrayList<String>();
-		SimpleDateFormat formatter = new SimpleDateFormat("M/d/yyyy");
-	    
-	    Calendar c1 = Calendar.getInstance();
-	  
-	    c1.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-	    c1.add(Calendar.WEEK_OF_MONTH, -1);
-	    for(int i=0; i<13; i++)
-	    {
-	        String startDate = formatter.format(c1.getTime());
-	        c1.add(Calendar.DAY_OF_WEEK, +6);
-	        
-	        String endDate = formatter.format(c1.getTime());
-	        String finalRange = startDate +"-"+endDate;
-	       
-	        weeks.add(finalRange);
-	        c1.add(Calendar.DAY_OF_WEEK, -14);
-	        
-	        c1.add(Calendar.DAY_OF_WEEK, 1);
-	    }
-	   
+		ReportUtility rU = new ReportUtility();
+		
+		/* Calling the Utility method to find all weeks in reverse order */
+		List<String> weeks = rU.findWeeks();
 	
 		return rcaCountDAO.findRCAReportForMultipleWeek(weeks);
 	}
