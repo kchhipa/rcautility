@@ -96,6 +96,31 @@ public class GenerateGraph
 	  //plot.setRenderer(createWeeklyGraphRender(plot));   
 	  return createGraphImage(jFreeChart, graphWidth, graphHeight);
 	}
+  
+  
+  public File createIndividualWeeklyGraph(Map<String, Map<String,Integer>> data, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, boolean rotatedLabel, int graphWidth, int graphHeight, String graphType)
+  {
+	    DefaultCategoryDataset chartDataSet = dataSetObjectCreation(data);
+	    DifferentTypeGraphAbstractCreation graphCreationObject = DifferentTypeGraphCreationFactory.createGraphCreationObject(graphType, graphHeader, xAxis, yAxis, plotOrientation, chartDataSet, true, true);
+	    JFreeChart jFreeChart = graphCreationObject.createGraph();
+	 // set the background color for the chart...
+	    jFreeChart.setBackgroundPaint(Color.white);
+	    LegendTitle legend = (LegendTitle) jFreeChart.getSubtitle(0);
+	    legend.setItemLabelPadding(new RectangleInsets(2, 2, 2, 30));
+	    //legend.setPosition(RectangleEdge.RIGHT);
+	    legend.setLegendItemGraphicLocation(RectangleAnchor.CENTER);
+	    legend.setFrame(BlockBorder.NONE);
+	    legend.setVisible(false);
+	    CategoryPlot plot = createPlot(jFreeChart);
+	    CategoryAxis domainAxis = plot.getDomainAxis();
+	    if(rotatedLabel)
+		  {
+			  domainAxis.setCategoryLabelPositions(
+					  CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 2.0));
+		  }
+	    plot.setRenderer(createRender());
+	    return createGraphImage(jFreeChart, graphWidth, graphHeight);
+  }
 
 	/**
 	 * This API will create Line graph using the data parameter
@@ -245,6 +270,8 @@ public class GenerateGraph
     
     /* Setting the Bar paint to be plain & not glossy. */
     ((BarRenderer) renderer).setBarPainter(new StandardBarPainter());
+    // Set bars maximum width
+    ((BarRenderer) renderer).setMaximumBarWidth(0.15);
     
     return renderer;
   }
