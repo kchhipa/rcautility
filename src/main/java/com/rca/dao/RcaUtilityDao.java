@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.rca.entity.ConnectionProvider;
+import com.rca.entity.ProjectDetails;
 import com.rca.entity.RCA;
 
 public class RcaUtilityDao {
@@ -454,4 +455,34 @@ public class RcaUtilityDao {
   	}
   	return projectList;
   }
+  
+	public static String addProject(String pName, String pStatus)
+			throws SQLException {
+		Connection conn = null;
+		conn = ConnectionProvider.getConnection();
+		String sql1;
+		PreparedStatement stmt;
+		boolean isExist = false;
+		String updateStatus = "";
+		sql1 = "select * from project_details where project_name = ?";
+		stmt = conn.prepareStatement(sql1);
+		stmt.setString(1, pName);
+		ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+			isExist = true;
+			updateStatus = "exist";
+			break;
+		}
+		if (!isExist) {
+			String query = " insert into project_details (project_name, status)"
+					+ " values (?, ?)";
+			stmt = conn.prepareStatement(query);
+			stmt.setString(1, pName);
+			stmt.setString(2, pStatus.toLowerCase());
+			stmt.execute();
+			updateStatus = "inserted";
+		}
+		return updateStatus;
+	}
+
 }

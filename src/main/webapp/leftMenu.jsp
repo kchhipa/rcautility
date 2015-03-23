@@ -29,6 +29,12 @@ function generateReport()
 	document.RCA_Form.action="rcaReportView";
 	document.RCA_Form.submit(); 
 }
+function addProject()
+{
+	document.RCA_Form.action="viewAddProject";
+	document.RCA_Form.submit(); 
+}
+
 </script>
 </head>
 <body >
@@ -40,6 +46,7 @@ function generateReport()
 			   <s:if test="#session.role != null && #session.role.equals('manager')">
 			  <li><a href="javascript:generateReport()" style="color:black; padding-left:30px;">Generate Reports</a> </li>
 			  <li><a href="exportWeeklyData.jsp" style="color:black; padding-left:30px;">Export Weekly Data</a> </li>
+			  <li><a href="javascript:addProject()" style="color:black; padding-left:30px;">Add Project</a> </li>
 			  </s:if>
 		  </ul>
 	</div>

@@ -47,6 +47,16 @@
 			<result name="success">Rca_Report.jsp</result>
 		</action>
 		
+		<action name="viewAddProject" class="com.rca.controller.RcaUtility"
+			method="viewAddProject">
+			<result name="success">add_Project.jsp</result>
+		</action>
+	
+		<action name="submitAddProject" class="com.rca.controller.RcaUtility"
+			method="submitAddProject">
+			<result name="success">add_Project.jsp</result>
+		</action>
+		
 		<action name="templateDownload" class="com.rca.controller.RcaUtility"
 			method="templateDownload">
 			<result name="success" type="stream">

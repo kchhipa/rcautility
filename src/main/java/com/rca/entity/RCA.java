@@ -67,6 +67,8 @@ public class RCA {
 	private String weekCount;
 	private ArrayList<String> projectList;
 	private String[] project;
+	private String projectStatus;
+	private String projectName;
 	
 	/**
 	 * @return the project
@@ -469,6 +471,30 @@ public class RCA {
 	 */
 	public void setWeeks(List<String> weeks) {
 		this.weeks = weeks;
+	}
+	/**
+	 * @return the projectStatus
+	 */
+	public String getProjectStatus() {
+		return projectStatus;
+	}
+	/**
+	 * @param projectStatus the projectStatus to set
+	 */
+	public void setProjectStatus(String projectStatus) {
+		this.projectStatus = projectStatus;
+	}
+	/**
+	 * @return the projectName
+	 */
+	public String getProjectName() {
+		return projectName;
+	}
+	/**
+	 * @param projectName the projectName to set
+	 */
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
 	}
 
 	

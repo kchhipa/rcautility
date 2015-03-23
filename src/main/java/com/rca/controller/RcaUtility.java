@@ -64,6 +64,24 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 		return "success";
 	}
 	
+	public String submitAddProject() throws SQLException{
+		
+		String daoInfo = RcaUtilityDao.addProject(rca.getProjectName(), rca.getProjectStatus());
+		if(daoInfo.equals("inserted")){
+			addActionMessage("Project name added successfuly");
+		}
+		else{
+			addActionMessage("Project name already exist");
+		}
+		return SUCCESS;		
+	}
+	
+	public String viewAddProject(){
+		rca.setProjectStatus("Active");
+		return SUCCESS;
+	}
+
+	
 	public String reportRcaView() throws SQLException {
 		rca.setWeekType("Weekly");
 		List<String> weeks = findWeeks();
