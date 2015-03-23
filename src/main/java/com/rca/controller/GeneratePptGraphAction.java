@@ -6,12 +6,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.poi.hslf.model.Picture;
 import org.apache.poi.hslf.model.Slide;
 import org.apache.poi.hslf.model.TextBox;
+import org.apache.poi.hslf.model.TextRun;
 import org.apache.poi.hslf.usermodel.SlideShow;
 import org.apache.poi.xslf.usermodel.XSLFPictureData;
 import org.apache.struts2.dispatcher.SessionMap;
@@ -42,7 +43,27 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	private RCA rca;
 	
 	//Employee manager injected by spring context
-			private RcaManager rcaManager;
+	private RcaManager rcaManager;
+	SlideShow ppt = null;
+	GenerateGraph generateGraph = new GenerateGraph();
+	ReportUtility rU = new ReportUtility();
+	
+	
+	int idx = 0;
+	int bWCx = 0;
+	int lCx = 0;
+	int totalWeeklyBugCount = 0;
+	private static String QA = "QA";
+	private static String PRODUCTION = "PROD";
+	private static String UAT = "UAT";
+	private static String CUMULATIVE_OPEN = "Cumulative Open";
+	
+	public static String MIX_CATEGORY = "mixCategory";
+	public static String DATA_ISSUE = "dataIssue";
+	public static String INTEGRATION_ISSUE = "integrationIssue";
+	public static String CONFIGURATION_ISSUE = "configurationIssue";
+	public static String MISSED_CHANGE_REQUIREMENT = "MorCR";
+	public static String CLIENT_CODE_BUG = "cCB";
 	
 	public String execute() throws Exception {
 		
@@ -58,67 +79,389 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	}
 	
 	public  void createGraphPpt(List<RcaCount> rcaCounts) throws IOException{
-	  
-	  SlideShow ppt = new SlideShow();
-    Slide slide = ppt.createSlide();
-    int pageWidth = ppt.getPageSize().width/2;
-    int pageheight = ppt.getPageSize().height/2;
-    GenerateGraph generateGraph = new GenerateGraph();
-    // add a new picture to this slideshow and insert it in a  new slide
 
-    List<RcaCount> allWeeksrcaCounts = rcaManager.findRCAReportForMultipleWeek();
-    
-    ReportUtility rU = new ReportUtility();
-    List<String> allWeeks = rU.findWeeks();
-    int idx = ppt.addPicture(generateGraph.createGraph( rU.reportedQARCAForAllProjects(rcaCounts), "", "", "", 
-    		PlotOrientation.VERTICAL, false, 450, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
-    int lCx = ppt.addPicture(generateGraph.createLineGraph(rU.reportedQAAllWeeksCCBGraphForAllProject(allWeeksrcaCounts, allWeeks), "Client Code Trend", "", "", 
-    		PlotOrientation.VERTICAL, true, 650, 450,RCAConstants.LINE) , XSLFPictureData.PICTURE_TYPE_PNG);
-    int bWCx = ppt.addPicture(generateGraph.createWeeklyGraph(rU.reportedQAAllWeeksGraphForAllProject(allWeeksrcaCounts, allWeeks), "Weekly Trend", "", "", 
-      		PlotOrientation.VERTICAL, true, 650, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
-    Picture pict = new Picture(idx);
-    //set image position in the slide
-    pict.setAnchor(new java.awt.Rectangle(20, 20, pageWidth-50, pageheight-50));
-    slide.addShape(pict);
-
-    
-    TextBox txt1 = new TextBox();
-    txt1.setText("Reported Prod");
-    txt1.setAnchor(new java.awt.Rectangle(pageWidth+20, 20, pageWidth-50, pageheight-50));
-    slide.addShape(txt1);
-    
-         Picture pict1 = new Picture(bWCx);
-          //set image position in the slide
-          pict1.setAnchor(new java.awt.Rectangle(20, pageheight+20, pageWidth-50, pageheight-50));
-          slide.addShape(pict1);
-          
-          Picture ccbLineGraph = new Picture(lCx);
-          //set image position in the slide
-          ccbLineGraph.setAnchor(new java.awt.Rectangle(pageWidth+20,  pageheight+20, pageWidth-50, pageheight-50));
-          slide.addShape(ccbLineGraph);
-          
+		ppt = new SlideShow();
+		
+		//Adding Reported Prod Slide
+		addPptSlides(rcaCounts, PRODUCTION);
+		
+		//Adding Reported UAT Slide
+		addPptSlides(rcaCounts, UAT);
+		
+		//Adding Reported QA Slide
+		addPptSlides(rcaCounts, QA);
+		
+		//Adding Reported Cumulative Open Slide
+		addPptSlides(rcaCounts, CUMULATIVE_OPEN);
+		
 		// Adding Reopen Slide to PPT
 		createReopenSlide(ppt, rcaCounts);
+		
+		RcaCount rcaCount = null;
+		for (int x = 0; x < rcaCounts.size(); x++) {
+			String projName = rcaCounts.get(x).getProjectDetails().getProjectName();
+			if(projName.equals("MI-SG")){
+				rcaCount = rcaCounts.get(x);
+				break;
+			}
+		}
+		
+		//Adding Project 
+		createGraphIndividualPpt(rcaCount , ppt);
+		
+		FileOutputStream out = new FileOutputStream(
+				"D:\\project.ppt");
+		ppt.write(out);
+		out.close();
+	}
+	
+	/**
+	 * Generic Method to add slides in PPT as per requirements.
+	 * @param rcaCounts
+	 * @param slideType
+	 * @throws IOException
+	 */
+	public void addPptSlides(List<RcaCount> rcaCounts, String slideType) throws IOException{
+		
+		Slide slide = ppt.createSlide();
+		int pageWidth = ppt.getPageSize().width/2;
+		int pageheight = ppt.getPageSize().height/2;
+		// add a new picture to this slideshow and insert it in a  new slide
+		List<RcaCount> allWeeksrcaCounts = rcaManager.findRCAReportForMultipleWeek();
 
-          RcaCount rcaCount = null;
-    		for (int x = 0; x < rcaCounts.size(); x++) {
-    			String projName = rcaCounts.get(x).getProjectDetails().getProjectName();
-    			if(projName.equals("MI-SG")){
-    				rcaCount = rcaCounts.get(x);
-    				break;
-    			}
-    		}
-            createGraphIndividualPpt(rcaCount, ppt);
+		
+		//Calling QA Slide Data method.
+		if(QA.equals(slideType))
+		{
+			fillQADataInSlide(allWeeksrcaCounts, rcaCounts);
+			TextBox txt1 = new TextBox();
+			txt1.setText("Reported QA");
+			txt1.setAnchor(new java.awt.Rectangle(0, 0, pageWidth/2, pageheight/10));
+			slide.addShape(txt1);
+			
+			TextBox txt2 = new TextBox();
+			txt2.setText("Total " + totalWeeklyBugCount + "\n" + "\n");
+			
+			TextRun tr = txt2.createTextRun();
+			tr.appendText("Duplicate/ Not a Defect/ Unable to reproduce/ Browse/ As designed: " + calculateTotalBugTypeCountForQA(rcaCounts, MIX_CATEGORY) + "\n");
+			tr.appendText("Data Issue: " + calculateTotalBugTypeCountForQA(rcaCounts, DATA_ISSUE) + "\n");
+			tr.appendText("Integration Issue: " + calculateTotalBugTypeCountForQA(rcaCounts, INTEGRATION_ISSUE) + "\n");
+			tr.appendText("Configuration Issue: " + calculateTotalBugTypeCountForQA(rcaCounts, CONFIGURATION_ISSUE) + "\n");
+			tr.appendText("Missed/ Change Requirement: " + calculateTotalBugTypeCountForQA(rcaCounts, MISSED_CHANGE_REQUIREMENT) + "\n");
+			tr.appendText("Client Code Bug: " + calculateTotalBugTypeCountForQA(rcaCounts, CLIENT_CODE_BUG));
+			
+			txt2.setAnchor(new java.awt.Rectangle(pageWidth+20, 20, pageWidth-50, pageheight-50));
+			slide.addShape(txt2);
 
-   /* FileOutputStream out = new FileOutputStream(
-        "D:\\project.ppt");
-    ppt.write(out);
-    out.close();*/
+		}
+		
+		//Calling Prod Slide Data method.
+		if(PRODUCTION.equals(slideType))
+		{
+			fillProdDataInSlide(allWeeksrcaCounts, rcaCounts);
+			TextBox txt1 = new TextBox();
+			txt1.setText("Reported Prod");
+			txt1.setAnchor(new java.awt.Rectangle(0, 0, pageWidth/2, pageheight/10));
+			slide.addShape(txt1);
+			    
+			TextBox txt2 = new TextBox();
+			txt2.setText("Total " + totalWeeklyBugCount + "\n" + "\n");
+			
+			TextRun tr = txt2.createTextRun();
+			tr.appendText("Duplicate/ Not a Defect/ Unable to reproduce/ Browse/ As designed: " + calculateTotalBugTypeCountForProd(rcaCounts, MIX_CATEGORY) + "\n");
+			tr.appendText("Data Issue: " + calculateTotalBugTypeCountForProd(rcaCounts, DATA_ISSUE) + "\n");
+			tr.appendText("Integration Issue: " + calculateTotalBugTypeCountForProd(rcaCounts, INTEGRATION_ISSUE) + "\n");
+			tr.appendText("Configuration Issue: " + calculateTotalBugTypeCountForProd(rcaCounts, CONFIGURATION_ISSUE) + "\n");
+			tr.appendText("Missed/ Change Requirement: " + calculateTotalBugTypeCountForProd(rcaCounts, MISSED_CHANGE_REQUIREMENT) + "\n");
+			tr.appendText("Client Code Bug: " + calculateTotalBugTypeCountForProd(rcaCounts, CLIENT_CODE_BUG));
+
+			txt2.setAnchor(new java.awt.Rectangle(pageWidth+20, 20, pageWidth-50, pageheight-50));
+			slide.addShape(txt2);
+		}
+		
+		//Calling UAT Slide Data method.
+		if(UAT.equals(slideType))
+		{
+			fillUATDataInSlide(allWeeksrcaCounts, rcaCounts);
+			TextBox txt1 = new TextBox();
+			txt1.setText("Reported UAT");
+			txt1.setAnchor(new java.awt.Rectangle(0, 0, pageWidth/2, pageheight/10));
+			slide.addShape(txt1);
+			
+			TextBox txt2 = new TextBox();
+			txt2.setText("Total " + totalWeeklyBugCount + "\n" + "\n");
+			
+			TextRun tr = txt2.createTextRun();
+			tr.appendText("Duplicate/ Not a Defect/ Unable to reproduce/ Browse/ As designed: " + calculateTotalBugTypeCountForUAT(rcaCounts, MIX_CATEGORY) + "\n");
+			tr.appendText("Data Issue: " + calculateTotalBugTypeCountForUAT(rcaCounts, DATA_ISSUE) + "\n");
+			tr.appendText("Integration Issue: " + calculateTotalBugTypeCountForUAT(rcaCounts, INTEGRATION_ISSUE) + "\n");
+			tr.appendText("Configuration Issue: " + calculateTotalBugTypeCountForUAT(rcaCounts, CONFIGURATION_ISSUE) + "\n");
+			tr.appendText("Missed/ Change Requirement: " + calculateTotalBugTypeCountForUAT(rcaCounts, MISSED_CHANGE_REQUIREMENT) + "\n");
+			tr.appendText("Client Code Bug: " + calculateTotalBugTypeCountForUAT(rcaCounts, CLIENT_CODE_BUG));
+			
+			txt2.setAnchor(new java.awt.Rectangle(pageWidth+20, 20, pageWidth-50, pageheight-50));
+			slide.addShape(txt2);
+		}
+		
+		//Calling Cumulative Open Slide Data method.
+		if(CUMULATIVE_OPEN.equals(slideType))
+		{
+			fillCumulativeOpenDataInSlide(allWeeksrcaCounts, rcaCounts);
+			TextBox txt1 = new TextBox();
+			txt1.setText("Cumulative Open");
+			txt1.setAnchor(new java.awt.Rectangle(0, 0, pageWidth/2, pageheight/10));
+			slide.addShape(txt1);
+
+			TextBox txt2 = new TextBox();
+			txt2.setText("Backlog prioritized as per the business direction");
+
+			txt2.setAnchor(new java.awt.Rectangle(pageWidth+20, 20, pageWidth-50, pageheight-50));
+			slide.addShape(txt2);
+		}
+		
+		Picture pict = new Picture(idx);
+		//set image position in the slide
+		pict.setAnchor(new java.awt.Rectangle(20, 30, pageWidth-50, pageheight-50));
+		slide.addShape(pict);
+
+		Picture pict1 = new Picture(bWCx);
+		//set image position in the slide
+		pict1.setAnchor(new java.awt.Rectangle(20, pageheight+30, pageWidth-50, pageheight-50));
+		slide.addShape(pict1);
+		
+		if(!CUMULATIVE_OPEN.equals(slideType))
+		{
+			Picture ccbLineGraph = new Picture(lCx);
+			//set image position in the slide
+			ccbLineGraph.setAnchor(new java.awt.Rectangle(pageWidth+20, pageheight+20, pageWidth-50, pageheight-50));
+			slide.addShape(ccbLineGraph);
+		}
+
+	}
+	
+	/**
+	 * Method to fill relevant data for QA slide in PPT.
+	 * @param allWeeksrcaCounts
+	 * @param rcaCounts
+	 * @throws IOException
+	 */
+	public void fillQADataInSlide(List<RcaCount> allWeeksrcaCounts, List<RcaCount> rcaCounts) throws IOException{
+		
+		List<String> allWeeks = rU.findWeeks();
+		
+		RcaCount rcaCount = null;
+		
+		totalWeeklyBugCount = 0;
+		
+		Iterator<RcaCount> it = rcaCounts.iterator();
+		while(it.hasNext()){
+			
+			rcaCount = (RcaCount) it.next();
+			totalWeeklyBugCount = totalWeeklyBugCount + rU.weeklyBugCountForAllProjectsInQA(rcaCount);
+
+		}
+		
+		idx = ppt.addPicture(generateGraph.createGraph( rU.reportedQARCAForAllProjects(rcaCounts), "", "", "", 
+				PlotOrientation.VERTICAL, false, 450, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
+		
+		lCx = ppt.addPicture(generateGraph.createLineGraph(rU.reportedAllWeeksCCBGraphForAllProject(allWeeksrcaCounts, allWeeks, QA), "Client Code Trend", "", "",
+				PlotOrientation.VERTICAL, true, 650, 450,RCAConstants.LINE) , XSLFPictureData.PICTURE_TYPE_PNG);
+		
+		bWCx = ppt.addPicture(generateGraph.createWeeklyGraph(rU.reportedQAAllWeeksGraphForAllProject(allWeeksrcaCounts, allWeeks), "Weekly Trend", "", "", 
+				PlotOrientation.VERTICAL, true, 650, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
+	}
+	
+	/**
+	 * Method to fill relevant data for Production slide in PPT.
+	 * @param allWeeksrcaCounts
+	 * @param rcaCounts
+	 * @throws IOException
+	 */
+	public void fillProdDataInSlide(List<RcaCount> allWeeksrcaCounts, List<RcaCount> rcaCounts) throws IOException{
+		
+		ReportUtility rU = new ReportUtility();
+		List<String> allWeeks = rU.findWeeks();
+				
+		RcaCount rcaCount = null;
+		
+		totalWeeklyBugCount = 0;
+		
+		Iterator<RcaCount> it = rcaCounts.iterator();
+		while(it.hasNext()){
+			
+			rcaCount = (RcaCount) it.next();
+			totalWeeklyBugCount = totalWeeklyBugCount + rU.weeklyBugCountForAllProjectsInProduction(rcaCount);
+
+		}
+				
+		idx = ppt.addPicture(generateGraph.createGraph( rU.reportedProdRCAForAllProjects(rcaCounts), "", "", "", 
+				PlotOrientation.VERTICAL, false, 450, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
+		
+		lCx = ppt.addPicture(generateGraph.createLineGraph(rU.reportedAllWeeksCCBGraphForAllProject(allWeeksrcaCounts, allWeeks, PRODUCTION), "Client Code Trend", "", "",
+				PlotOrientation.VERTICAL, true, 650, 450,RCAConstants.LINE) , XSLFPictureData.PICTURE_TYPE_PNG);
+		
+		bWCx = ppt.addPicture(generateGraph.createWeeklyGraph(rU.reportedProdAllWeeksGraphForAllProject(allWeeksrcaCounts, allWeeks), "Weekly Trend", "", "", 
+				PlotOrientation.VERTICAL, true, 650, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
+	}
+	
+	/**
+	 * Method to fill relevant data for UAT slide in PPT.
+	 * @param allWeeksrcaCounts
+	 * @param rcaCounts
+	 * @throws IOException
+	 */
+	public void fillUATDataInSlide(List<RcaCount> allWeeksrcaCounts, List<RcaCount> rcaCounts) throws IOException{
+		
+		ReportUtility rU = new ReportUtility();
+		List<String> allWeeks = rU.findWeeks();
+		
+		RcaCount rcaCount = null;
+		
+		totalWeeklyBugCount = 0;
+		
+		Iterator<RcaCount> it = rcaCounts.iterator();
+		while(it.hasNext()){
+			
+			rcaCount = (RcaCount) it.next();
+			totalWeeklyBugCount = totalWeeklyBugCount + rU.weeklyBugCountForAllProjectsInUAT(rcaCount);
+
+		}
+		
+		idx = ppt.addPicture(generateGraph.createGraph( rU.reportedUATRCAForAllProjects(rcaCounts), "", "", "", 
+				PlotOrientation.VERTICAL, false, 450, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
+		
+		lCx = ppt.addPicture(generateGraph.createLineGraph(rU.reportedAllWeeksCCBGraphForAllProject(allWeeksrcaCounts, allWeeks, UAT), "Client Code Trend", "", "",
+				PlotOrientation.VERTICAL, true, 650, 450,RCAConstants.LINE) , XSLFPictureData.PICTURE_TYPE_PNG);
+		
+		bWCx = ppt.addPicture(generateGraph.createWeeklyGraph(rU.reportedUATAllWeeksGraphForAllProject(allWeeksrcaCounts, allWeeks), "Weekly Trend", "", "", 
+				PlotOrientation.VERTICAL, true, 650, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
+	}
+	
+	/**
+	 * Method to fill relevant data for Cumulative Open slide in PPT.
+	 * @param allWeeksrcaCounts
+	 * @param rcaCounts
+	 * @throws IOException
+	 */
+	public void fillCumulativeOpenDataInSlide(List<RcaCount> allWeeksrcaCounts, List<RcaCount> rcaCounts) throws IOException{
+		
+		ReportUtility rU = new ReportUtility();
+		List<String> allWeeks = rU.findWeeks();
+				
+		idx = ppt.addPicture(generateGraph.createGraph( rU.rcaCountForLastWeekForAllProjects(allWeeksrcaCounts), "", "", "", 
+				PlotOrientation.VERTICAL, true, 950, 550,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
+		
+		lCx = 0;
+		
+		bWCx = ppt.addPicture(generateGraph.createWeeklyGraph(rU.reportedCumulativeOpenAllWeeksGraphForAllProject(allWeeksrcaCounts, allWeeks), "Weekly Trend", "", "", 
+				PlotOrientation.VERTICAL, true, 650, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
+	}
+	
+	/**
+	 * Calculate the total bug count in Production environment as per bug type.
+	 * @param rcaCounts
+	 * @param bugType
+	 * @return
+	 */
+	private String calculateTotalBugTypeCountForProd(List<RcaCount> rcaCounts, String bugType)
+	{
+		int totalBugTypeCount = 0;
+		
+		RcaCount rcaCount = null;
+		
+		Iterator<RcaCount> it = rcaCounts.iterator();
+		while(it.hasNext()){
+			
+			rcaCount = (RcaCount) it.next();
+			if(bugType.equals(MIX_CATEGORY))
+				totalBugTypeCount = totalBugTypeCount + rU.mixCategoryWeeklyCountForAllProjectsInProd(rcaCount);
+			else if(bugType.equals(DATA_ISSUE))
+				totalBugTypeCount = totalBugTypeCount + rU.weeklyDataIssueForAllIssuesInProd(rcaCount);
+			else if(bugType.equals(INTEGRATION_ISSUE))
+				totalBugTypeCount = totalBugTypeCount + rU.weeklyIntegrationIssueForAllIssuesInProd(rcaCount);
+			else if(bugType.equals(CONFIGURATION_ISSUE))
+				totalBugTypeCount = totalBugTypeCount + rU.weeklyConfigurationIssueForAllIssuesInProd(rcaCount);
+			else if(bugType.equals(MISSED_CHANGE_REQUIREMENT))
+				totalBugTypeCount = totalBugTypeCount + rU.weeklyMissedAndCRCountForAllIssuesInProd(rcaCount);
+			else if(bugType.equals(CLIENT_CODE_BUG))
+				totalBugTypeCount = totalBugTypeCount + rU.weeklyClientCodeBugForAllIssuesInProd(rcaCount);
+
+		}
+		
+		return Integer.toString(totalBugTypeCount);
+	}
+	
+	/**
+	 * Calculate the total bug count in QA environment as per bug type.
+	 * @param rcaCounts
+	 * @param bugType
+	 * @return
+	 */
+	private String calculateTotalBugTypeCountForQA(List<RcaCount> rcaCounts, String bugType)
+	{
+		int totalBugTypeCount = 0;
+		
+		RcaCount rcaCount = null;
+		
+		Iterator<RcaCount> it = rcaCounts.iterator();
+		while(it.hasNext()){
+			
+			rcaCount = (RcaCount) it.next();
+			if(bugType.equals(MIX_CATEGORY))
+				totalBugTypeCount = totalBugTypeCount + rU.mixCategoryWeeklyCountForAllProjectsInQA(rcaCount);
+			else if(bugType.equals(DATA_ISSUE))
+				totalBugTypeCount = totalBugTypeCount + rU.weeklyDataIssueForAllIssuesInQA(rcaCount);
+			else if(bugType.equals(INTEGRATION_ISSUE))
+				totalBugTypeCount = totalBugTypeCount + rU.weeklyIntegrationIssueForAllIssuesInQA(rcaCount);
+			else if(bugType.equals(CONFIGURATION_ISSUE))
+				totalBugTypeCount = totalBugTypeCount + rU.weeklyConfigurationIssueForAllIssuesInQA(rcaCount);
+			else if(bugType.equals(MISSED_CHANGE_REQUIREMENT))
+				totalBugTypeCount = totalBugTypeCount + rU.weeklyMissedAndCRCountForAllIssuesInQA(rcaCount);
+			else if(bugType.equals(CLIENT_CODE_BUG))
+				totalBugTypeCount = totalBugTypeCount + rU.weeklyClientCodeBugForAllIssuesInQA(rcaCount);
+
+		}
+		
+		return Integer.toString(totalBugTypeCount);
+	}
+	
+	/**
+	 * Calculate the total bug count in UAT environment as per bug type.
+	 * @param rcaCounts
+	 * @param bugType
+	 * @return
+	 */
+	private String calculateTotalBugTypeCountForUAT(List<RcaCount> rcaCounts, String bugType)
+	{
+		int totalBugTypeCount = 0;
+		
+		RcaCount rcaCount = null;
+		
+		Iterator<RcaCount> it = rcaCounts.iterator();
+		while(it.hasNext()){
+			
+			rcaCount = (RcaCount) it.next();
+			if(bugType.equals(MIX_CATEGORY))
+				totalBugTypeCount = totalBugTypeCount + rU.mixCategoryWeeklyCountForAllProjectsInUAT(rcaCount);
+			else if(bugType.equals(DATA_ISSUE))
+				totalBugTypeCount = totalBugTypeCount + rU.weeklyDataIssueForAllIssuesInUAT(rcaCount);
+			else if(bugType.equals(INTEGRATION_ISSUE))
+				totalBugTypeCount = totalBugTypeCount + rU.weeklyIntegrationIssueForAllIssuesInUAT(rcaCount);
+			else if(bugType.equals(CONFIGURATION_ISSUE))
+				totalBugTypeCount = totalBugTypeCount + rU.weeklyConfigurationIssueForAllIssuesInUAT(rcaCount);
+			else if(bugType.equals(MISSED_CHANGE_REQUIREMENT))
+				totalBugTypeCount = totalBugTypeCount + rU.weeklyMissedAndCRCountForAllIssuesInUAT(rcaCount);
+			else if(bugType.equals(CLIENT_CODE_BUG))
+				totalBugTypeCount = totalBugTypeCount + rU.weeklyClientCodeBugForAllIssuesInUAT(rcaCount);
+
+		}
+		
+		return Integer.toString(totalBugTypeCount);
 	}
 	
 	/**
 	 * Generate Reopen Bug Count Slide
-	 * 
+	 *
 	 * @param ppt
 	 * @param rcaCounts
 	 * @throws IOException
@@ -132,10 +475,9 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		TextBox title = reopenSlide.addTitle();
 		title.setText("Reopen");
 		title.setHorizontalAlignment(TextBox.AlignLeft);
-
 		int pageWidth = ppt.getPageSize().width / 2;
 		int pageheight = ppt.getPageSize().height / 2;
-
+		title.setAnchor(new java.awt.Rectangle(0, 0, pageWidth/2, pageheight/10));
 		// Generating Graph and adding the graph in picture format to slide
 		GenerateGraph generateGraph = new GenerateGraph();
 		int idx = ppt.addPicture(generateGraph.createGraph(
@@ -148,7 +490,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 				(pageheight / 2), pageWidth - 50, pageheight - 50));
 		reopenSlide.addShape(pict);
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	List<RcaCount> getAllWeekRCACountsListforIndividual(List<String> allWeeks){
 		List<RcaCount> allWeeksrcaCountsforIndividual = new ArrayList<RcaCount>();
@@ -160,56 +502,43 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		}
 		return allWeeksrcaCountsforIndividual;
 	}
-	
-	public  void createGraphIndividualPpt(RcaCount rcaCount , SlideShow ppt) throws IOException{
-		  
-	    Slide slide = ppt.createSlide();
-	    int pageWidth = ppt.getPageSize().width/4;
-	    int pageheight = ppt.getPageSize().height/3;
-	    
-	    int totalPageHeight = ppt.getPageSize().height;
-	    GenerateGraph generateGraph = new GenerateGraph();
-	    // add a new picture to this slideshow and insert it in a  new slide
-	   
-	    //List<RcaCount> allWeeksrcaCounts = rcaManager.findRCAReportForMultipleWeek();
-	    ReportUtility rU = new ReportUtility();
-	    List<String> allWeeks = rU.findWeeks();
-	    
-	    int idx1 = ppt.addPicture(generateGraph.createIndividualWeeklyGraph( rU.reportedQAAllWeeksGraphForIndividual(getAllWeekRCACountsListforIndividual(allWeeks), allWeeks), "Cumulative Open", "", "", 
-	    		PlotOrientation.VERTICAL, true, 500, 500,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
-	    int idx2 = ppt.addPicture(generateGraph.createIndividualWeeklyGraph( rU.reportedQAAllWeeksGraphForIndividual(getAllWeekRCACountsListforIndividual(allWeeks), allWeeks), "Weekly PROD", "", "", 
-	    		PlotOrientation.VERTICAL, true, 500, 500,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
-	    int idx3 = ppt.addPicture(generateGraph.createIndividualWeeklyGraph( rU.reportedQAAllWeeksGraphForIndividual(getAllWeekRCACountsListforIndividual(allWeeks), allWeeks), "Weekly UAT", "", "", 
-	    		PlotOrientation.VERTICAL, true, 500, 500,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
-	    int idx4 = ppt.addPicture(generateGraph.createIndividualWeeklyGraph( rU.reportedQAAllWeeksGraphForIndividual(getAllWeekRCACountsListforIndividual(allWeeks), allWeeks), "Weekly QA", "", "", 
-	    		PlotOrientation.VERTICAL, true, 500, 500,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
-	    
+	public void createGraphIndividualPpt(RcaCount rcaCount , SlideShow ppt) throws IOException{
+		Slide slide = ppt.createSlide();
+		int pageWidth = ppt.getPageSize().width/4;
+		int pageheight = ppt.getPageSize().height/3;
+		int totalPageHeight = ppt.getPageSize().height;
+		GenerateGraph generateGraph = new GenerateGraph();
+		// add a new picture to this slideshow and insert it in a new slide
+		//List<RcaCount> allWeeksrcaCounts = rcaManager.findRCAReportForMultipleWeek();
+		ReportUtility rU = new ReportUtility();
+		List<String> allWeeks = rU.findWeeks();
+		int idx1 = ppt.addPicture(generateGraph.createIndividualWeeklyGraph( rU.reportedQAAllWeeksGraphForIndividual(getAllWeekRCACountsListforIndividual(allWeeks), allWeeks), "Cumulative Open", "", "",
+				PlotOrientation.VERTICAL, true, 500, 500,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
+		int idx2 = ppt.addPicture(generateGraph.createIndividualWeeklyGraph( rU.reportedQAAllWeeksGraphForIndividual(getAllWeekRCACountsListforIndividual(allWeeks), allWeeks), "Weekly PROD", "", "",
+				PlotOrientation.VERTICAL, true, 500, 500,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
+		int idx3 = ppt.addPicture(generateGraph.createIndividualWeeklyGraph( rU.reportedQAAllWeeksGraphForIndividual(getAllWeekRCACountsListforIndividual(allWeeks), allWeeks), "Weekly UAT", "", "",
+				PlotOrientation.VERTICAL, true, 500, 500,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
+		int idx4 = ppt.addPicture(generateGraph.createIndividualWeeklyGraph( rU.reportedQAAllWeeksGraphForIndividual(getAllWeekRCACountsListforIndividual(allWeeks), allWeeks), "Weekly QA", "", "",
+				PlotOrientation.VERTICAL, true, 500, 500,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
 		TextBox txt1 = new TextBox();
 		txt1.setText("MI-SG Dashboard");
 		txt1.setAnchor(new java.awt.Rectangle(pageWidth+20, 20, pageWidth-10, pageheight-50));
 		slide.addShape(txt1);
-		
-	    Picture pict2 = new Picture(idx1);
-	    pict2.setAnchor(new java.awt.Rectangle(0, totalPageHeight-160, pageWidth-50, pageheight-50));
-	    slide.addShape(pict2);
-	    
-	    Picture pict3 = new Picture(idx2);
-	    pict3.setAnchor(new java.awt.Rectangle(180, totalPageHeight-160, pageWidth-50, pageheight-50));
-	    slide.addShape(pict3);
-	    
-	    Picture pict4 = new Picture(idx3);
-	    pict4.setAnchor(new java.awt.Rectangle(360, totalPageHeight-160, pageWidth-50, pageheight-50));
-	    slide.addShape(pict4);
-	    
-	    Picture pict5 = new Picture(idx4);
-	    pict5.setAnchor(new java.awt.Rectangle(540, totalPageHeight-160, pageWidth-50, pageheight-50));
-	    slide.addShape(pict5);
-	    
-	    FileOutputStream out = new FileOutputStream(
-	        "D:\\project.ppt");
-	    ppt.write(out);
-	    out.close();
-		}
+		Picture pict2 = new Picture(idx1);
+		pict2.setAnchor(new java.awt.Rectangle(0, totalPageHeight-160, pageWidth-50, pageheight-50));
+		slide.addShape(pict2);
+		Picture pict3 = new Picture(idx2);
+		pict3.setAnchor(new java.awt.Rectangle(180, totalPageHeight-160, pageWidth-50, pageheight-50));
+		slide.addShape(pict3);
+		Picture pict4 = new Picture(idx3);
+		pict4.setAnchor(new java.awt.Rectangle(360, totalPageHeight-160, pageWidth-50, pageheight-50));
+		slide.addShape(pict4);
+		Picture pict5 = new Picture(idx4);
+		pict5.setAnchor(new java.awt.Rectangle(540, totalPageHeight-160, pageWidth-50, pageheight-50));
+		slide.addShape(pict5);
+
+	}
+	
 	
 	public Map getSession() {
 		return session;
@@ -234,13 +563,14 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	public void setRcaManager(RcaManager rcaManager) {
 		this.rcaManager = rcaManager;
 	}
-	
+
 	public RCA getRca() {
 		return rca;
 	}
+
 	public void setRca(RCA rca) {
 		this.rca = rca;
 	}
-
-
+	
+	
 }

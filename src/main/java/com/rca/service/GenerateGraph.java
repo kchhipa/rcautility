@@ -48,8 +48,10 @@ public class GenerateGraph
     DefaultCategoryDataset chartDataSet = dataSetObjectCreation(data);
     DifferentTypeGraphAbstractCreation graphCreationObject = DifferentTypeGraphCreationFactory.createGraphCreationObject(graphType, graphHeader, xAxis, yAxis, plotOrientation, chartDataSet, true, true);
     JFreeChart jFreeChart = graphCreationObject.createGraph();
- // set the background color for the chart...
+    
+    // set the background color for the chart...
     jFreeChart.setBackgroundPaint(Color.white);
+    
     LegendTitle legend = (LegendTitle) jFreeChart.getSubtitle(0);
     legend.setItemLabelPadding(new RectangleInsets(2, 2, 2, 30));
     //legend.setPosition(RectangleEdge.RIGHT);
@@ -57,6 +59,15 @@ public class GenerateGraph
     legend.setFrame(BlockBorder.NONE);
     
     CategoryPlot plot = createPlot(jFreeChart);
+	CategoryAxis domainAxis = plot.getDomainAxis();
+
+	/* If inclined label is required on domain axis */
+	if(rotatedLabel)
+	{
+		domainAxis.setCategoryLabelPositions(
+				CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 6.0));
+	}
+    
     plot.setRenderer(createRender());
     return createGraphImage(jFreeChart, graphWidth, graphHeight);
   }
@@ -311,7 +322,7 @@ public class GenerateGraph
 	  {
 		  Paint p1 = new GradientPaint(0.0f, 0.0f, new Color(57, 126, 186), 0.0f, 0.0f, new Color(57, 126, 186));
 		  // returns color depending on y coordinate.
-		  return (row > 0) ? p1 : Color.yellow ;
+		  return (row > 0) ? p1 : p1 ;
 	  }
   }
   

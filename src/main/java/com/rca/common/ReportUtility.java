@@ -3,6 +3,7 @@ package com.rca.common;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -37,7 +38,10 @@ public class ReportUtility {
           differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssues(rcaCount));
           differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssues(rcaCount));
           
-          diffCategory.put(projName, differentRootCause);
+          /* To ensure that Projects with RCA count as zero do not show up in Graph */
+          if((mixCategoryWeeklyCountForAllProjects(rcaCount) + weeklyDataIssueForAllIssues(rcaCount) + weeklyIntegrationIssueForAllIssues(rcaCount) + 
+        		  weeklyConfigurationIssueForAllIssues(rcaCount) + weeklyMissedAndCRCountForAllIssues(rcaCount) + weeklyClientCodeBugForAllIssues(rcaCount))>0)
+        	  	diffCategory.put(projName, differentRootCause);
           
           //projCount.put(projName, diffCategory);
     }
@@ -261,7 +265,8 @@ public class ReportUtility {
 	public int weeklyDataIssueForAllIssues(RcaCount rcaWeeks){
 		int total =0;
 		
-			total = total + (rcaWeeks.getDiQa() + rcaWeeks.getDiUat() + rcaWeeks.getDiProd());
+			total = total + (((rcaWeeks.getDiQa()==null)? 0 : rcaWeeks.getDiQa()) + ((rcaWeeks.getDiUat() == null)? 0 : rcaWeeks.getDiUat()) + 
+					((rcaWeeks.getDiProd()==null)? 0 : rcaWeeks.getDiProd()));
 		return total;
 		
 	}
@@ -293,7 +298,7 @@ public class ReportUtility {
 	public int weeklyIntegrationIssueForAllIssues(RcaCount rcaWeeks){
 		int total =0;
 		
-			total = total + (rcaWeeks.getIiQa() + rcaWeeks.getIiUat() + rcaWeeks.getIiProd());
+			total = total + (((rcaWeeks.getIiQa()==null)? 0 : rcaWeeks.getIiQa()) + ((rcaWeeks.getIiUat() == null)? 0 : rcaWeeks.getIiUat()) + ((rcaWeeks.getIiProd()==null)? 0 : rcaWeeks.getIiProd()));
 		return total;
 		
 	}
@@ -301,7 +306,7 @@ public class ReportUtility {
 	public int weeklyIntegrationIssueForAllIssuesInQA(RcaCount rcaWeeks){
 		int total =0;
 		
-			total = total + (rcaWeeks.getFfmQa() + rcaWeeks.getCrmesbQa() + rcaWeeks.getMrQa() + 
+			total = total + (rcaWeeks.getFfmQa() + rcaWeeks.getCrmesbQa() + rcaWeeks.getPmuuQa() + 
 					rcaWeeks.getOtpQa() + rcaWeeks.getIoQa());
 		return total;
 		
@@ -310,7 +315,7 @@ public class ReportUtility {
 	public int weeklyIntegrationIssueForAllIssuesInUAT(RcaCount rcaWeeks){
 		int total =0;
 		
-			total = total + (rcaWeeks.getFfmUat() + rcaWeeks.getCrmesbUat() + rcaWeeks.getMrUat() + 
+			total = total + (rcaWeeks.getFfmUat() + rcaWeeks.getCrmesbUat() + rcaWeeks.getPmuuUat() + 
 					rcaWeeks.getOtpUat() + rcaWeeks.getIoUat());
 		return total;
 		
@@ -319,7 +324,7 @@ public class ReportUtility {
 	public int weeklyIntegrationIssueForAllIssuesInProd(RcaCount rcaWeeks){
 		int total =0;
 		
-			total = total + (rcaWeeks.getFfmProd() + rcaWeeks.getCrmesbProd() + rcaWeeks.getMrProd() + 
+			total = total + (rcaWeeks.getFfmProd() + rcaWeeks.getCrmesbProd() + rcaWeeks.getPmuuProd() + 
 					rcaWeeks.getOtpProd() + rcaWeeks.getIoProd());
 		return total;
 		
@@ -328,7 +333,8 @@ public class ReportUtility {
 	public int weeklyConfigurationIssueForAllIssues(RcaCount rcaWeeks){
 		int total =0;
 		
-			total = total + (rcaWeeks.getConfigQa() + rcaWeeks.getConfigUat() + rcaWeeks.getConfigProd());
+			total = total + (((rcaWeeks.getConfigQa()==null)? 0 : rcaWeeks.getConfigQa()) + ((rcaWeeks.getConfigUat() == null)? 0 : rcaWeeks.getConfigUat()) + 
+					((rcaWeeks.getConfigProd()==null)? 0 : rcaWeeks.getConfigProd()));
 		return total;
 		
 	}
@@ -400,7 +406,8 @@ public class ReportUtility {
        
 		int total =0;
 		
-			total = total + rcaWeeks.getCcbQa() + rcaWeeks.getCcbUat() + rcaWeeks.getCcbProd();
+			total = total + (((rcaWeeks.getCcbQa()==null)? 0 : rcaWeeks.getCcbQa()) + ((rcaWeeks.getCcbUat() == null)? 0 : rcaWeeks.getCcbUat()) + 
+					((rcaWeeks.getCcbProd()==null)? 0 : rcaWeeks.getCcbProd()));
 		
 		return total;
 	}
@@ -489,10 +496,26 @@ public class ReportUtility {
 		return total;
 	}
 	
+	/**
+	 * Method which returns the total bug count for all projects in QA environment.
+	 * @param rcaCount
+	 * @return
+	 */
+	public int weeklyBugCountForAllProjectsInQA(RcaCount rcaCount){
+		int total =0;
+		
+		total = total + ( rcaCount.getAcQa() + rcaCount.getAdQa() + rcaCount.getBsiQa() + rcaCount.getCcbQa() + rcaCount.getCoQa() + 
+				          rcaCount.getCrmesbQa() + rcaCount.getCrQa() + rcaCount.getDiQa() + rcaCount.getDpQa() + rcaCount.getDupQa() + 
+				          rcaCount.getEnvQa() + rcaCount.getFfmQa() + rcaCount.getIoQa() + rcaCount.getMrQa() + rcaCount.getNadQa() + 
+				          rcaCount.getOtpQa() + rcaCount.getPdQa() + rcaCount.getPlanQa() + rcaCount.getPmuuQa() + rcaCount.getRateQa() + 
+				          rcaCount.getRpaQa() + rcaCount.getTiQa() + rcaCount.getUtrQa());
+		
+		return total;
+	}
+	
 	
 	
 	public List reportedQAAllWeeksGraphForAllProject(List<RcaCount> rcaCount, List<String> allWeeks){
-		int total =0;
 		
 		//Map<String, Integer> week_count = new LinkedHashMap<String, Integer>();
 		
@@ -500,6 +523,8 @@ public class ReportUtility {
 		
 		for(int i=0; i < allWeeks.size(); i++)
 		{
+			int total =0;
+
 			Map<String, Integer> week_count = new LinkedHashMap<String, Integer>();
 			String week = allWeeks.get(i);
 			for(int x=0; x < rcaCount.size(); x++)
@@ -539,30 +564,6 @@ public class ReportUtility {
 		 return lst;
 	}
 
-	/**
-	 * This API creates the list of QA client code bug per week
-	 * 
-	 * @param rcaCount
-	 * @param allWeeks
-	 * @return
-	 */
-	public List reportedQAAllWeeksCCBGraphForAllProject(
-			List<RcaCount> rcaCount, List<String> allWeeks) {
-		List lst = new ArrayList();
-		for (int i = allWeeks.size()-1; i >=0; i--) {
-			int total = 0;
-			Map<String, Integer> week_count = new LinkedHashMap<String, Integer>();
-			String week = allWeeks.get(i);
-			for (int x = 0; x < rcaCount.size(); x++) {
-				if (rcaCount.get(x).getWeek().equalsIgnoreCase(allWeeks.get(i))) {
-					total = total + (rcaCount.get(x).getCcbQa());
-				}
-			}
-			week_count.put(week, total);
-			lst.add(week_count);
-		}
-		return lst;
-	}
 
 	/**
 	 * This API creates the list of Production client code bug per week
@@ -571,16 +572,21 @@ public class ReportUtility {
 	 * @param allWeeks
 	 * @return
 	 */
-	public List reportedProdAllWeeksCCBGraphForAllProject(
-			List<RcaCount> rcaCount, List<String> allWeeks) {
+	public List reportedAllWeeksCCBGraphForAllProject(
+			List<RcaCount> rcaCount, List<String> allWeeks, String env) {
 		List lst = new ArrayList();
-		for (int i = allWeeks.size()-1; i >=0; i--) {
+		for (int i = 0; i < allWeeks.size(); i++) {
 			int total = 0;
 			Map<String, Integer> week_count = new LinkedHashMap<String, Integer>();
 			String week = allWeeks.get(i);
 			for (int x = 0; x < rcaCount.size(); x++) {
 				if (rcaCount.get(x).getWeek().equalsIgnoreCase(allWeeks.get(i))) {
-					total = total + (rcaCount.get(x).getCcbProd());
+					if(PRODUCTION.equals(env))
+						total = total + (rcaCount.get(x).getCcbProd());
+					else if(QA.equals(env))
+						total = total + (rcaCount.get(x).getCcbQa());
+					else if(UAT.equals(env))
+						total = total + (rcaCount.get(x).getCcbUat());
 				}
 			}
 			week_count.put(week, total);
@@ -588,29 +594,135 @@ public class ReportUtility {
 		}
 		return lst;
 	}
-
+	
 	/**
-	 * This API creates the list of UAT client code bug per week
-	 * 
+	 * Method to return Production environment bug counts for all Projects and for given set of Weeks.
 	 * @param rcaCount
 	 * @param allWeeks
 	 * @return
 	 */
-	public List reportedUATAllWeeksCCBGraphForAllProject(
-			List<RcaCount> rcaCount, List<String> allWeeks) {
+	public List reportedProdAllWeeksGraphForAllProject(List<RcaCount> rcaCount, List<String> allWeeks){
+		
 		List lst = new ArrayList();
-		for (int i = allWeeks.size()-1; i >=0; i--) {
-			int total = 0;
+		
+		for(int i=0; i < allWeeks.size(); i++)
+		{
+			int total =0;
+
 			Map<String, Integer> week_count = new LinkedHashMap<String, Integer>();
 			String week = allWeeks.get(i);
-			for (int x = 0; x < rcaCount.size(); x++) {
-				if (rcaCount.get(x).getWeek().equalsIgnoreCase(allWeeks.get(i))) {
-					total = total + (rcaCount.get(x).getCcbUat());
+			for(int x=0; x < rcaCount.size(); x++)
+			{
+				
+				if(rcaCount.get(x).getWeek().equalsIgnoreCase(allWeeks.get(i)))
+				{
+					total = total + (
+					         rcaCount.get(x).getAdProd() + rcaCount.get(x).getBsiProd() + rcaCount.get(x).getCcbProd() + 
+					         rcaCount.get(x).getCrProd() + rcaCount.get(x).getDiProd() + 
+					         rcaCount.get(x).getDupProd() +  
+					         rcaCount.get(x).getMrProd() + rcaCount.get(x).getNadProd() +  rcaCount.get(x).getPdProd() + 
+					        rcaCount.get(x).getUtrProd());
 				}
 			}
+			
 			week_count.put(week, total);
 			lst.add(week_count);
 		}
+		
+		 return lst;
+	}
+	
+	/**
+	 * Method to return UAT environment bug counts for all Projects and for given set of Weeks.
+	 * @param rcaCount
+	 * @param allWeeks
+	 * @return
+	 */
+	public List reportedUATAllWeeksGraphForAllProject(List<RcaCount> rcaCount, List<String> allWeeks){
+				
+		List lst = new ArrayList();
+		
+		for(int i=0; i < allWeeks.size(); i++)
+		{
+			int total =0;
+
+			Map<String, Integer> week_count = new LinkedHashMap<String, Integer>();
+			String week = allWeeks.get(i);
+			for(int x=0; x < rcaCount.size(); x++)
+			{
+				
+				if(rcaCount.get(x).getWeek().equalsIgnoreCase(allWeeks.get(i)))
+				{
+					total = total + (
+					         rcaCount.get(x).getAdUat() + rcaCount.get(x).getBsiUat() + rcaCount.get(x).getCcbUat() + 
+					         rcaCount.get(x).getCrUat() + rcaCount.get(x).getDiUat() + 
+					         rcaCount.get(x).getDupUat() +  
+					         rcaCount.get(x).getMrUat() + rcaCount.get(x).getNadUat() +  rcaCount.get(x).getPdUat() + 
+					        rcaCount.get(x).getUtrUat());
+				}
+			}
+			
+			week_count.put(week, total);
+			lst.add(week_count);
+		}
+		
+		 return lst;
+	}
+	
+	/**
+	 * Method to return total "Cumulative Open" bug counts for all Projects and for given set of Weeks.
+	 * @param rcaCount
+	 * @param allWeeks
+	 * @return
+	 */
+	public List reportedCumulativeOpenAllWeeksGraphForAllProject(List<RcaCount> rcaCount, List<String> allWeeks){
+
+		List lst = new ArrayList();
+
+		for(int i=0; i < allWeeks.size(); i++)
+		{
+			int total =0;
+
+			Map<String, Integer> week_count = new LinkedHashMap<String, Integer>();
+			String week = allWeeks.get(i);
+			for(int x=0; x < rcaCount.size(); x++)
+			{
+
+				if(rcaCount.get(x).getWeek().equalsIgnoreCase(allWeeks.get(i)))
+				{
+					total = total + (
+							((rcaCount.get(x).getAcProductBacklog()==null)? 0 : rcaCount.get(x).getAcProductBacklog()) + 
+							((rcaCount.get(x).getAdProductBacklog()==null)? 0 : rcaCount.get(x).getAdProductBacklog()) + 
+							((rcaCount.get(x).getBsiProductBacklog()==null)? 0 : rcaCount.get(x).getBsiProductBacklog()) + 
+							((rcaCount.get(x).getCcbProductBacklog()==null)? 0 : rcaCount.get(x).getCcbProductBacklog()) + 
+							((rcaCount.get(x).getConfigProductBacklog()==null)? 0 : rcaCount.get(x).getConfigProductBacklog()) + 
+							((rcaCount.get(x).getCoProductBacklog()==null)? 0 : rcaCount.get(x).getCoProductBacklog()) +  
+							((rcaCount.get(x).getCrmesbProductBacklog()==null)? 0 : rcaCount.get(x).getCrmesbProductBacklog()) + 
+							((rcaCount.get(x).getCrProductBacklog()==null)? 0 : rcaCount.get(x).getCrProductBacklog()) +  
+							((rcaCount.get(x).getDiProductBacklog()==null)? 0 : rcaCount.get(x).getDiProductBacklog()) + 
+							((rcaCount.get(x).getDpProductBacklog()==null)? 0 : rcaCount.get(x).getDpProductBacklog()) + 
+							((rcaCount.get(x).getDupProductBacklog()==null)? 0 : rcaCount.get(x).getDupProductBacklog()) + 
+							((rcaCount.get(x).getEnvProductBacklog()==null)? 0 : rcaCount.get(x).getEnvProductBacklog()) +  
+							((rcaCount.get(x).getFfmProductBacklog()==null)? 0 : rcaCount.get(x).getFfmProductBacklog()) + 
+							((rcaCount.get(x).getIiProductBacklog()==null)? 0 : rcaCount.get(x).getIiProductBacklog()) + 
+							((rcaCount.get(x).getIoProductBacklog()==null)? 0 : rcaCount.get(x).getIoProductBacklog()) + 
+							((rcaCount.get(x).getMrProductBacklog()==null)? 0 : rcaCount.get(x).getMrProductBacklog()) + 
+							((rcaCount.get(x).getNadProductBacklog()==null)? 0 : rcaCount.get(x).getNadProductBacklog()) + 
+							((rcaCount.get(x).getOtpProductBacklog()==null)? 0 : rcaCount.get(x).getOtpProductBacklog()) + 
+							((rcaCount.get(x).getPdProductBacklog()==null)? 0 : rcaCount.get(x).getPdProductBacklog()) + 
+							((rcaCount.get(x).getPlanProductBacklog()==null)? 0 : rcaCount.get(x).getPlanProductBacklog()) + 
+							((rcaCount.get(x).getPmuuProductBacklog()==null)? 0 : rcaCount.get(x).getPmuuProductBacklog()) + 
+							((rcaCount.get(x).getRateProductBacklog()==null)? 0 : rcaCount.get(x).getRateProductBacklog()) + 
+							((rcaCount.get(x).getRpaProductBacklog()==null)? 0 : rcaCount.get(x).getRpaProductBacklog()) + 
+							((rcaCount.get(x).getTiProductBacklog()==null)? 0 : rcaCount.get(x).getTiProductBacklog()) + 
+							((rcaCount.get(x).getUtrProductBacklog()==null)? 0 : rcaCount.get(x).getUtrProductBacklog()));
+				}
+			}
+
+			week_count.put(week, total);
+			lst.add(week_count);
+		}
+
 		return lst;
 	}
 	
@@ -622,7 +734,7 @@ public class ReportUtility {
 	  
 	    c1.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 	    c1.add(Calendar.WEEK_OF_MONTH, -1);
-	    for(int i=0; i<13; i++)
+	    for(int i=0; i<12; i++)
 	    {
 	        String startDate = formatter.format(c1.getTime());
 	        c1.add(Calendar.DAY_OF_WEEK, +6);
@@ -635,6 +747,8 @@ public class ReportUtility {
 	        
 	        c1.add(Calendar.DAY_OF_WEEK, 1);
 	    }
+	    
+	    Collections.reverse(weeks); // This sets the weeks set sequence in chronological order.
 	    
 	    return weeks;
 	}
