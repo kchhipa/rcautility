@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import com.opensymphony.xwork2.ActionSupport;
 import com.rca.common.RCAConstants;
 import com.rca.common.ReportUtility;
+import com.rca.entity.RCA;
 import com.rca.entity.RcaCount;
 import com.rca.service.GenerateGraph;
 import com.rca.service.RcaManager;
@@ -38,6 +40,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	private static final long serialVersionUID = -1269358124476669565L;
 	public SessionMap session;
 	private InputStream fileInputStream;
+	private RCA rca;
 	
 	//Employee manager injected by spring context
 	private RcaManager rcaManager;
@@ -48,9 +51,10 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	
 	int idx = 0;
 	int bWCx = 0;
+	int lCx = 0;
 	int totalWeeklyBugCount = 0;
 	private static String QA = "QA";
-	private static String PRODUCTION = "Prod";
+	private static String PRODUCTION = "PROD";
 	private static String UAT = "UAT";
 	private static String CUMULATIVE_OPEN = "Cumulative Open";
 	
@@ -63,7 +67,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	
 	public String execute() throws Exception {
 		
-		List<RcaCount> rcaCounts = rcaManager.findRCAByWeekPeriod("2/23/2015-3/1/2015");
+		List<RcaCount> rcaCounts = rcaManager.findRCAByWeekPeriod(rca.getWeek());
 		//rcaManager.findRCAReportForMultipleWeek();
 		createGraphPpt(rcaCounts);
 	    fileInputStream = new FileInputStream(new File("D:\\project.ppt"));
@@ -89,6 +93,21 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		
 		//Adding Reported Cumulative Open Slide
 		addPptSlides(rcaCounts, CUMULATIVE_OPEN);
+		
+		// Adding Reopen Slide to PPT
+		createReopenSlide(ppt, rcaCounts);
+		
+		RcaCount rcaCount = null;
+		for (int x = 0; x < rcaCounts.size(); x++) {
+			String projName = rcaCounts.get(x).getProjectDetails().getProjectName();
+			if(projName.equals("MI-SG")){
+				rcaCount = rcaCounts.get(x);
+				break;
+			}
+		}
+		
+		//Adding Project 
+		createGraphIndividualPpt(rcaCount , ppt);
 		
 		FileOutputStream out = new FileOutputStream(
 				"D:\\project.ppt");
@@ -209,6 +228,15 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		//set image position in the slide
 		pict1.setAnchor(new java.awt.Rectangle(20, pageheight+30, pageWidth-50, pageheight-50));
 		slide.addShape(pict1);
+		
+		if(!CUMULATIVE_OPEN.equals(slideType))
+		{
+			Picture ccbLineGraph = new Picture(lCx);
+			//set image position in the slide
+			ccbLineGraph.setAnchor(new java.awt.Rectangle(pageWidth+20, pageheight+20, pageWidth-50, pageheight-50));
+			slide.addShape(ccbLineGraph);
+		}
+
 	}
 	
 	/**
@@ -236,7 +264,8 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		idx = ppt.addPicture(generateGraph.createGraph( rU.reportedQARCAForAllProjects(rcaCounts), "", "", "", 
 				PlotOrientation.VERTICAL, false, 450, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
 		
-		//int lCx = ppt.addPicture(createLineChart() , XSLFPictureData.PICTURE_TYPE_PNG);
+		lCx = ppt.addPicture(generateGraph.createLineGraph(rU.reportedAllWeeksCCBGraphForAllProject(allWeeksrcaCounts, allWeeks, QA), "Client Code Trend", "", "",
+				PlotOrientation.VERTICAL, true, 650, 450,RCAConstants.LINE) , XSLFPictureData.PICTURE_TYPE_PNG);
 		
 		bWCx = ppt.addPicture(generateGraph.createWeeklyGraph(rU.reportedQAAllWeeksGraphForAllProject(allWeeksrcaCounts, allWeeks), "Weekly Trend", "", "", 
 				PlotOrientation.VERTICAL, true, 650, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
@@ -268,7 +297,8 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		idx = ppt.addPicture(generateGraph.createGraph( rU.reportedProdRCAForAllProjects(rcaCounts), "", "", "", 
 				PlotOrientation.VERTICAL, false, 450, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
 		
-		//int lCx = ppt.addPicture(createLineChart() , XSLFPictureData.PICTURE_TYPE_PNG);
+		lCx = ppt.addPicture(generateGraph.createLineGraph(rU.reportedAllWeeksCCBGraphForAllProject(allWeeksrcaCounts, allWeeks, PRODUCTION), "Client Code Trend", "", "",
+				PlotOrientation.VERTICAL, true, 650, 450,RCAConstants.LINE) , XSLFPictureData.PICTURE_TYPE_PNG);
 		
 		bWCx = ppt.addPicture(generateGraph.createWeeklyGraph(rU.reportedProdAllWeeksGraphForAllProject(allWeeksrcaCounts, allWeeks), "Weekly Trend", "", "", 
 				PlotOrientation.VERTICAL, true, 650, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
@@ -300,7 +330,8 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		idx = ppt.addPicture(generateGraph.createGraph( rU.reportedUATRCAForAllProjects(rcaCounts), "", "", "", 
 				PlotOrientation.VERTICAL, false, 450, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
 		
-		//int lCx = ppt.addPicture(createLineChart() , XSLFPictureData.PICTURE_TYPE_PNG);
+		lCx = ppt.addPicture(generateGraph.createLineGraph(rU.reportedAllWeeksCCBGraphForAllProject(allWeeksrcaCounts, allWeeks, UAT), "Client Code Trend", "", "",
+				PlotOrientation.VERTICAL, true, 650, 450,RCAConstants.LINE) , XSLFPictureData.PICTURE_TYPE_PNG);
 		
 		bWCx = ppt.addPicture(generateGraph.createWeeklyGraph(rU.reportedUATAllWeeksGraphForAllProject(allWeeksrcaCounts, allWeeks), "Weekly Trend", "", "", 
 				PlotOrientation.VERTICAL, true, 650, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
@@ -320,7 +351,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		idx = ppt.addPicture(generateGraph.createGraph( rU.rcaCountForLastWeekForAllProjects(allWeeksrcaCounts), "", "", "", 
 				PlotOrientation.VERTICAL, true, 950, 550,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
 		
-		//int lCx = ppt.addPicture(createLineChart() , XSLFPictureData.PICTURE_TYPE_PNG);
+		lCx = 0;
 		
 		bWCx = ppt.addPicture(generateGraph.createWeeklyGraph(rU.reportedCumulativeOpenAllWeeksGraphForAllProject(allWeeksrcaCounts, allWeeks), "Weekly Trend", "", "", 
 				PlotOrientation.VERTICAL, true, 650, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
@@ -428,6 +459,86 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		return Integer.toString(totalBugTypeCount);
 	}
 	
+	/**
+	 * Generate Reopen Bug Count Slide
+	 *
+	 * @param ppt
+	 * @param rcaCounts
+	 * @throws IOException
+	 */
+	public void createReopenSlide(SlideShow ppt, List<RcaCount> rcaCounts)
+			throws IOException {
+		ReportUtility rU = new ReportUtility();
+		// Create Slide
+		Slide reopenSlide = ppt.createSlide();
+		// Setting Title
+		TextBox title = reopenSlide.addTitle();
+		title.setText("Reopen");
+		title.setHorizontalAlignment(TextBox.AlignLeft);
+		int pageWidth = ppt.getPageSize().width / 2;
+		int pageheight = ppt.getPageSize().height / 2;
+		title.setAnchor(new java.awt.Rectangle(0, 0, pageWidth/2, pageheight/10));
+		// Generating Graph and adding the graph in picture format to slide
+		GenerateGraph generateGraph = new GenerateGraph();
+		int idx = ppt.addPicture(generateGraph.createGraph(
+				rU.reportedReopenRCAForAllProjects(rcaCounts), "Reopen Count",
+				"Projects", "Bug Count", PlotOrientation.VERTICAL, false, 450,
+				450, RCAConstants.BAR), XSLFPictureData.PICTURE_TYPE_PNG);
+		Picture pict = new Picture(idx);
+		// set image position in the slide
+		pict.setAnchor(new java.awt.Rectangle((pageWidth / 2) - 50,
+				(pageheight / 2), pageWidth - 50, pageheight - 50));
+		reopenSlide.addShape(pict);
+	}
+	
+	@SuppressWarnings("unchecked")
+	List<RcaCount> getAllWeekRCACountsListforIndividual(List<String> allWeeks){
+		List<RcaCount> allWeeksrcaCountsforIndividual = new ArrayList<RcaCount>();
+		for (int i = 0; i < allWeeks.size(); i++) {
+			RcaCount rca = rcaManager.findWeeklyRCAReportByProjectId(allWeeks.get(i), 14);
+			if(rca!= null){
+				allWeeksrcaCountsforIndividual.add(rca);
+			}
+		}
+		return allWeeksrcaCountsforIndividual;
+	}
+	public void createGraphIndividualPpt(RcaCount rcaCount , SlideShow ppt) throws IOException{
+		Slide slide = ppt.createSlide();
+		int pageWidth = ppt.getPageSize().width/4;
+		int pageheight = ppt.getPageSize().height/3;
+		int totalPageHeight = ppt.getPageSize().height;
+		GenerateGraph generateGraph = new GenerateGraph();
+		// add a new picture to this slideshow and insert it in a new slide
+		//List<RcaCount> allWeeksrcaCounts = rcaManager.findRCAReportForMultipleWeek();
+		ReportUtility rU = new ReportUtility();
+		List<String> allWeeks = rU.findWeeks();
+		int idx1 = ppt.addPicture(generateGraph.createIndividualWeeklyGraph( rU.reportedQAAllWeeksGraphForIndividual(getAllWeekRCACountsListforIndividual(allWeeks), allWeeks), "Cumulative Open", "", "",
+				PlotOrientation.VERTICAL, true, 500, 500,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
+		int idx2 = ppt.addPicture(generateGraph.createIndividualWeeklyGraph( rU.reportedQAAllWeeksGraphForIndividual(getAllWeekRCACountsListforIndividual(allWeeks), allWeeks), "Weekly PROD", "", "",
+				PlotOrientation.VERTICAL, true, 500, 500,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
+		int idx3 = ppt.addPicture(generateGraph.createIndividualWeeklyGraph( rU.reportedQAAllWeeksGraphForIndividual(getAllWeekRCACountsListforIndividual(allWeeks), allWeeks), "Weekly UAT", "", "",
+				PlotOrientation.VERTICAL, true, 500, 500,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
+		int idx4 = ppt.addPicture(generateGraph.createIndividualWeeklyGraph( rU.reportedQAAllWeeksGraphForIndividual(getAllWeekRCACountsListforIndividual(allWeeks), allWeeks), "Weekly QA", "", "",
+				PlotOrientation.VERTICAL, true, 500, 500,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
+		TextBox txt1 = new TextBox();
+		txt1.setText("MI-SG Dashboard");
+		txt1.setAnchor(new java.awt.Rectangle(pageWidth+20, 20, pageWidth-10, pageheight-50));
+		slide.addShape(txt1);
+		Picture pict2 = new Picture(idx1);
+		pict2.setAnchor(new java.awt.Rectangle(0, totalPageHeight-160, pageWidth-50, pageheight-50));
+		slide.addShape(pict2);
+		Picture pict3 = new Picture(idx2);
+		pict3.setAnchor(new java.awt.Rectangle(180, totalPageHeight-160, pageWidth-50, pageheight-50));
+		slide.addShape(pict3);
+		Picture pict4 = new Picture(idx3);
+		pict4.setAnchor(new java.awt.Rectangle(360, totalPageHeight-160, pageWidth-50, pageheight-50));
+		slide.addShape(pict4);
+		Picture pict5 = new Picture(idx4);
+		pict5.setAnchor(new java.awt.Rectangle(540, totalPageHeight-160, pageWidth-50, pageheight-50));
+		slide.addShape(pict5);
+
+	}
+	
 	
 	public Map getSession() {
 		return session;
@@ -451,6 +562,14 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 
 	public void setRcaManager(RcaManager rcaManager) {
 		this.rcaManager = rcaManager;
+	}
+
+	public RCA getRca() {
+		return rca;
+	}
+
+	public void setRca(RCA rca) {
+		this.rca = rca;
 	}
 	
 	
