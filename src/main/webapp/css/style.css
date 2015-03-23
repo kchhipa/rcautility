@@ -87,17 +87,24 @@ h1{
 #menu li { list-style-type: none; }
 
 /* first level */
-#menu { width: 200px; }
-#menu li, #menu a { float: left; width: 200px; }
-#menu a { display: block; background: #EEE; font-size: 15px;  padding: 5px 15px; }
+#menu { width: 200px; border: 1px solid #fff;float: left; }
+#menu li, #menu a {  
+	color: #fff;
+    float: left;
+    text-decoration: none;
+    width: 190px;
+ }
+#menu a { display: block; font-size: 15px;  padding: 5px 0 5px 10px; }
 #menu a:hover,
-#menu a.menu_open { background: #DDD; }
+#menu a.menu_open { color: #3483c5;
+	background: #DDD;    }
 
 /* second level */
 #menu ul { visibility: hidden; position: absolute; width: 100px; }
 #menu ul a { background: #DDD; }
-#menu ul a:hover,
-#menu ul a.menu_open { background: #CCC; }
+#menu ul a:hover, #menu ul a.menu_open {
+	background: #DDD;    
+}
 
 /* third level (colors) */
 #menu ul ul a { background: #CCC; }
