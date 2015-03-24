@@ -36,9 +36,7 @@ function addProject()
 </head>
 <body>
      <div id="main">
-        <div id="header" style="width: 100%; height:60px; background-color: #34495e; text-align: center; color: #fff;">
-          <h1> RCA<br><span style="font-size: 16px; color:yellow;">Please submit the data for your project before 2 PM on every Monday.  <a href="logout" class="button logout">Logout</a></span></h1>
-        </div>	
+		<%@ include file="common.jsp"%>
 		<div id="content">
 		 <form method="post" name="RCA_Form" id="RCA_Form" onsubmit="return false" enctype="multipart/form-data" > 
 		  <table cellspacing="12" class="content-table">
@@ -53,7 +51,7 @@ function addProject()
 		  <s:if test="#session.role != null && #session.role.equals('manager')">	
 		  <tr>  <td style="padding-top: 20px;"><a href="javascript:generateReport()" style="color:black; padding-left:30px;">Generate Reports</a> </td></tr>
 		  <tr>  <td style="padding-top: 20px;"><a href="exportWeeklyData.jsp" style="color:black; padding-left:30px;">Export Weekly Data</a> </td></tr>
-		  <tr>  <td style="padding-top: 20px;"><a href="javascript:addProject();" style="color:black; padding-left:30px;">Add Project</a> </td></tr>
+		  <tr>  <td style="padding-top: 20px;"><a href="javascript:addProject();" style="color:black; padding-left:30px;">Manage Project</a> </td></tr>
 		  </s:if>
 
 		  </table>

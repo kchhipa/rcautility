@@ -51,38 +51,31 @@ function validate()
 </head>
 <body>
      <div id="main">
-        <div id="header" style="width: 100%; height:60px; background-color: #34495e; text-align: center; color: #fff;">
-          <h1> RCA<br><span style="font-size: 16px; color:yellow;">Please submit the data for your project before 2 PM on every Monday. <a href="logout" class="button logout">Logout</a></span></h1>
-        </div>	
+		<%@ include file="common.jsp"%>
 		<div id="content">
 		<form method="post" name="RCA_Form" id="RCA_Form" onsubmit="javascript:return submitForm();" enctype="multipart/form-data" >
-		  <table class="content-table">
+		  <table cellspacing="30" class="content-table">
 		   <%@ include file="leftMenu.jsp"%>
 		  <tr>
-			  <td colspan="2"><h1>Add Project</h1> </td>
-		  </tr>
-		  
-		  <tr>
-		  	<td>
-		  	<s:radio name="rca.projectStatus" list="{'Active','Inactive'}"/>
-			</td>
+			  <td colspan="2"><h1>Manage Project</h1> </td>
 		  </tr>
 		  <tr></tr>
 		  <tr>
 				<td colspan="2">
-				<s:textfield name="rca.projectName" label="Project Name" id="projectName" />	
+					<s:textfield name="rca.projectName" label="Project Name" id="projectName" />	
 				</td>
-		  <tr></tr><tr></tr><tr></tr><tr></tr>
-		  <tr></tr><tr></tr><tr></tr><tr></tr>
-		  <tr></tr><tr></tr><tr></tr><tr></tr>
-		  
-		  
+		  </tr><tr>
+		  	<td>
+		  		<s:radio name="rca.projectStatus" label="Status" list="{'Active','Inactive'}"/>
+			</td>
+		  </tr>
+		  </tr><tr></tr>
+
 		  <tr></tr>
 		 	<tr>
 				<td colspan=3>
 				<input type="submit" value="Submit"/> 
 				<input type="button" value="Reset" onClick="resetForm()"/> 
-				<input type="button" value="Home" id="home" onClick="homePage()"/> 
 				</td>
 				</tr>
 				

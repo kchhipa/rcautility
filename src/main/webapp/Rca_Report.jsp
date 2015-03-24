@@ -46,59 +46,35 @@
 </head>
 <body>
      <div id="main">
-        <div id="header" style="width: 100%; height:60px; background-color: #34495e; text-align: center; color: #fff;">
-          <h1> RCA<br><span style="font-size: 16px; color:yellow;">Please submit the data for your project before 2 PM on every Monday.  <a href="logout" class="button logout">Logout</a></span></h1>
-        </div>	
+		<%@ include file="common.jsp"%>
 		<div id="content">
 		<form method="post" name="RCA_Form" id="RCA_Form" onsubmit="return false" enctype="multipart/form-data" >
-		  <table class="content-table">
+		  <table cellspacing="30" class="content-table">
+
 		   <%@ include file="leftMenu.jsp"%>
 		  
 		  <tr>
-			  <td colspan="2"><h1>Report</h1> </td>
-		  </tr>
-		  
-		  <tr>
-		  	<td>
-		  	<s:radio name="rca.weekType" list="{'Weekly','Monthly'}"/>
-			</td>
+			  <td colspan="2"><h1>Generate Report </h1> </td>
 		  </tr>
 		  <tr></tr>
+ 
+		  <tr>
+		  	 <td>
+			<s:radio name="rca.weekType"  label ="Report Type" list="{'Weekly','Monthly'}"/></td>
+		  </tr>
 		  <tr>
 				<td colspan="2">
 				<s:select name="rca.week" list="weeks" headerKey="Select Week" headerValue="Select Week" label="Week" id ="week_id" />			
 				</select></td>
 		  
-			<!-- <td>
-			 <s:textfield name="rca.startDate" label="Start Date" />			
-			 <s:textfield name="rca.endDate" label="End Date" />
-			</td> 
-		  </tr>
 		  <tr></tr>
-		  <tr>
-			<td> 
-			<s:textfield name="rca.weekCount" label="Week Count" id="week_id" />
-			</td>
-		  </tr>
-		  <tr></tr>
-		   <tr>
-			  <td>
-			  <s:checkboxlist list="rca.projectList" name="rca.project" label="Projects"/>
-			 </td>
-		  </tr> -->
-		  <tr></tr><tr></tr><tr></tr><tr></tr>
-		  <tr></tr><tr></tr><tr></tr><tr></tr>
-		  <tr></tr><tr></tr><tr></tr><tr></tr>
-		  
-		  
-		  <tr></tr>
+
 		 	<tr>
 				<td colspan=3>
 				<input type="submit" value="Submit" id="export" onclick="exportData()"/> 
 				<input type="submit" value="Cancel" onclick="homePage()"/> 
-				<input type="submit" value="Home" id="home" onclick="homePage()"/> 
 				</td>
-				</tr>
+		  </tr>	  
 	  </table>
 				
 			</form>

@@ -311,49 +311,19 @@ function calculateWeek()
 </head>
 <body onload="calculateWeek()">
      <div id="main">
-        <div id="header" style="width: 100%; height:60px; background-color: #34495e; text-align: center; color: #fff;">
-          <h1> RCA<br><span style="font-size: 16px; color:yellow;">Please submit the data for your project before 2 PM on every Monday.  <a href="logout" class="button logout">Logout</a></span></h1>
-        </div>	
+		<%@ include file="common.jsp"%>
 		<div id="content">
 		<form method="post" name="RCA_Form" id="RCA_Form" onsubmit="return false" enctype="multipart/form-data" >
 		  <table cellspacing="12" class="content-table">
 		 <%@ include file="leftMenu.jsp"%>
-		     <tr>
-		        <td colspan="3"></td>
-				<td><input type="submit" value="Submit" id="submitRcaId" onclick="submitForm()" <s:if test="isdisabled==true"> disabled </s:if> /></td>
-				<!-- <td><input type=button value="Update" id="updateId" onclick="updateRca()" <s:if test="isdisabled==true"> disabled </s:if> /></td> -->
-				<td><input type=button value="Reset" id="resetId" onclick="submitReset()" <s:if test="isdisabled==true"> disabled </s:if> /></td>
-			
-				</tr><tr>		     			 
+			<tr>		     			 
 				<td style="float:right;"><label for="project-name">Project Name</label></td> 
 				<td colspan="2"><select name="project_id" id="project_id" style="width:120px;">
 			    <option value="0">Select Project</option>
 			    <s:iterator value="projectNameWithId" var="data">
         		  <option value='<s:property value="value"/>' <s:if test="rca.project_id==#data.value"> selected </s:if> ><s:property value="key" /></option>  
        			</s:iterator> 
-				<!-- <option value="1" <s:if test="rca.project_id==1"> selected </s:if> >BCBSAL</option>
-				<option value="2" <s:if test="rca.project_id==2"> selected </s:if> >BCBSMA</option>	
-				<option value="3" <s:if test="rca.project_id==3"> selected </s:if> >BCBSMN</option>	
-				<option value="4" <s:if test="rca.project_id==4"> selected </s:if> >BCBSNE</option>	
-				<option value="5" <s:if test="rca.project_id==5"> selected </s:if> >BCBSTN</option>	
-				<option value="6" <s:if test="rca.project_id==6"> selected </s:if> >Centene</option>	
-				<option value="7" <s:if test="rca.project_id==7"> selected </s:if> >Federated</option>	
-				<option value="8" <s:if test="rca.project_id==8"> selected </s:if> >HFHP</option>	
-				<option value="9" <s:if test="rca.project_id==9"> selected </s:if> >HP</option>	
-				<option value="10" <s:if test="rca.project_id==10"> selected </s:if> >HP-SG</option>
-				<option value="11" <s:if test="rca.project_id==11"> selected </s:if> >IBC</option>	
-				<option value="12" <s:if test="rca.project_id==12"> selected </s:if> >Kaiser</option>	
-				<option value="13" <s:if test="rca.project_id==13"> selected </s:if> >MI-IFP</option>
-				<option value="14" <s:if test="rca.project_id==14"> selected </s:if> >MI-SG</option>	
-				<option value="15" <s:if test="rca.project_id==15"> selected </s:if> >Shopping</option>	
-				<option value="16" <s:if test="rca.project_id==16"> selected </s:if> >SHP</option>	
-				<option value="17" <s:if test="rca.project_id==17"> selected </s:if> >TN-PX</option>	
-				<option value="18" <s:if test="rca.project_id==18"> selected </s:if> >Topaz</option>	
-				<option value="19" <s:if test="rca.project_id==19"> selected </s:if> >WM</option>
-				<option value="20" <s:if test="rca.project_id==20"> selected </s:if> >WPS</option>
-				<option value="21" <s:if test="rca.project_id==21"> selected </s:if> >UCD</option>			
-				<option value="22" <s:if test="rca.project_id==22"> selected </s:if> >UHG</option> -->
-											
+									
 				</select></td> 
 				<td colspan="2"></td>          
     			  
@@ -363,13 +333,12 @@ function calculateWeek()
 				<s:if test="rca.week != null && !rca.week.equals('')">	
 				<option value="<s:property value="rca.week" />"><s:property value="weekStr" /></option>				
 				</s:if>	
-							
+
 				</select></td>
 				<td ><input type="submit" value="Search" id="searchId" onclick="serchRcaData()"/></td>
-				<!--<td ><input type="submit" value="export" id="export" onclick="exportData()"/></td> -->
-				
-			</tr> <tr>
-			    <td style="padding-top: 40px;"></td>			   
+				</tr>
+				<tr>
+			    <td style="padding-top: 20px;"></td>			   
 			    <td> <label for="QA">QA</label></td>				
 				<td> <label for="Uat">UAT</label></td>
 				<td> <label for="Prod">PROD</label></td>
@@ -455,6 +424,12 @@ function calculateWeek()
 				<td><input type="text" value="<s:property value="rca.ro_prod" />" name="ro_prod" id="ro_prod" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 				<td></td>
 			</tr>
+		     <tr>
+		        <td colspan="3"></td>
+				<td><input type="submit" value="Submit" id="submitRcaId" onclick="submitForm()" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<!-- <td><input type=button value="Update" id="updateId" onclick="updateRca()" <s:if test="isdisabled==true"> disabled </s:if> /></td> -->
+				<td><input type=button value="Reset" id="resetId" onclick="submitReset()" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+			</tr>			
 			<tr> 		
 				  <!-- <td colspan="5" style="padding-top:50px;"><input type="submit" value="Template Download" id="template" onclick="templateDownload()"/>
 			&nbsp;&nbsp;&nbsp;&nbsp;<label for="data_issue  ">Select File</label> 

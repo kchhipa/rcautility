@@ -102,22 +102,26 @@ function calculateWeek()
 </head>
 <body onload="calculateWeek()">
      <div id="main">
-        <div id="header" style="width: 100%; height:60px; background-color: #34495e; text-align: center; color: #fff;">
-          <h1> RCA<br><span style="font-size: 16px; color:yellow;">Please submit the data for your project before 2 PM on every Monday.  <a href="logout" class="button logout">Logout</a></span></h1>
-        </div>	
+		<%@ include file="common.jsp"%>
 		<div id="content">
 		 <form method="post" name="RCA_Form" id="RCA_Form" onsubmit="return false" enctype="multipart/form-data" > 
-		  <table cellspacing="12" class="content-table">
+		  <table cellspacing="80" class="content-table">
 		  <%@ include file="leftMenu.jsp"%>
 		  
 		   <tr>
-				<td style="float:right;"><label for="week">Week</label> </td>
-				<td colspan="2"><select name="week" id="week_id"  style="width:120px;">	
-				<s:if test="rca.week != null && !rca.week.equals('')">	
-				<option value="<s:property value="rca.week" />"><s:property value="weekStr" /></option>				
-				</s:if>	
-				</select></td>
-				<td ><input type="submit" value="export" id="export" onclick="exportData()"/></td>
+				<td colspan="2"><label for="week">Week: &nbsp;</label> 
+					<select name="week" id="week_id"  style="width:120px;">	
+					<s:if test="rca.week != null && !rca.week.equals('')">	
+					<option value="<s:property value="rca.week" />"><s:property value="weekStr" /></option>				
+					</s:if>	
+					</select>
+				</td>
+	 		 </tr>
+			 <tr>
+					<td style="float:right;">
+						<input type="submit" value="Submit" id="export" onclick="exportData()"/>
+						<input type="submit" value="Cancel" onclick="homePage()"/>
+					</td>
 			</tr>
 		  
 		  </table>

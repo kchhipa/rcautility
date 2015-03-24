@@ -13,31 +13,28 @@ function upload()
 	   var rcaFile = document.getElementById("rcaFile").value;
 	   if(rcaFile=="")
 	   	{
-	   	alert("Please browse RCA file");	
-	   	return false;
+			alert("Please browse RCA file");	
+			return false;
 	   	}
 	    
-	   var fileExt = rcaFile.substring(rcaFile.lastIndexOf('.') + 1).toLowerCase();
+	  var fileExt = rcaFile.substring(rcaFile.lastIndexOf('.') + 1).toLowerCase();
 	 
 	  if(fileExt == "csv" || fileExt == "xls" || fileExt == "xlsx")
 	   {
-
-
-		  var projectName = document.getElementById("project_id").value;
+		   var projectName = document.getElementById("project_id").value;
 		   var week = document.getElementById("week_id").value;
 		    if(projectName=="Select Project" || projectName=="0" || projectName=="")
-		    	{
+		    {
 		    	alert("Please select project name");
 		    	return false;
-		    	}	    
+		    }	    
 		    else if(week=="Select Week" || week=="")
-		    	{
+		    {
 		    	alert("Please select week");
 		    	return false;
-		    	}
+		    }
 		    else
 		    {
-		   
 			   document.RCA_Form.action="templateUpload";
 		       document.RCA_Form.submit();
 		    }	 
@@ -53,22 +50,32 @@ function upload()
 </head>
 <body>
      <div id="main">
-        <div id="header" style="width: 100%; height:60px; background-color: #34495e; text-align: center; color: #fff;">
-          <h1> RCA<br><span style="font-size: 16px; color:yellow;">Please submit the data for your project before 2 PM on every Monday.  <a href="logout" class="button logout">Logout</a></span></h1>
-        </div>	
+		<%@ include file="common.jsp"%>
 		<div id="content">
 		 <form method="post" name="RCA_Form" id="RCA_Form" onsubmit="return false" enctype="multipart/form-data" > 
-		  <table cellspacing="12" class="content-table">
+		  <table cellspacing="80" class="content-table">
 		 
 			<%@ include file="leftMenu.jsp"%>		 
 			
-			   	<tr>   
-			   	   <td>		
-				  <label for="data_issue  ">Select File</label> 
-			      <input  type="file" name="rcaFile" id="rcaFile"  /> 
-			      <input type="submit" value="Upload RCA" onclick="upload()" /> 
-			       </td>
-				</tr>
+			<tr>		     			 
+				<td style="float:left;"><label for="project-name">Project Name:</label></td> 
+				<td><select name="project_id" id="project_id" style="width:120px;">
+					<option value="0">Select Project</option>
+					<s:iterator value="projectNameWithId" var="data">
+					  <option value='<s:property value="value"/>' <s:if test="rca.project_id==#data.value"> selected </s:if> ><s:property value="key" /></option>  
+					</s:iterator> 
+					</select>
+				</td> 
+				</tr><tr>
+				  <td style="float:left;"><label for="data_issue  ">Select File:</label> </td>
+			      <td><input  type="file" name="rcaFile" id="rcaFile"  /> </td>        
+    			</tr>  
+			</tr>
+			<tr>
+			  <td>
+			      <input type="submit" value="Upload RCA" onclick="upload();" /> 
+			  </td>
+			</tr>
 		  </table>
 				
 			 </form> 

@@ -27,18 +27,16 @@ function addProject()
 }
 
 </script>
-
-
      <div class="left-box">
 		  <ul id="menu">
 		  
 		    <li><a href="RCA.jsp">Enter Last Week Data </a></li>
 	    	<li><a href="importData.jsp">Import Last Week Data</a></li>
 			<li><a href="javascript:templateDownload();">Download Template</a></li>
-			   <s:if test="#session.role != null && #session.role.equals('manager')">
-			   <li><a href="exportWeeklyData.jsp">Export Weekly Data</a></li>
-			   <li><a href="javascript:generateReport()">Generate Reports</a></li>	
-		       <li><a href="javascript:addProject()">Add Project</a> </li>
+			  <s:if test="#session.role != null && #session.role.equals('manager')">
+				   <li><a href="exportWeeklyData.jsp">Export Weekly Data</a></li>
+				   <li><a href="javascript:generateReport()">Generate Reports</a></li>	
+			       <li><a href="javascript:addProject()">Manage Project</a> </li>
 			  </s:if>
 		  </ul>
 	</div>

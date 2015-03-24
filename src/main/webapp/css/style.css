@@ -61,9 +61,18 @@ input[type='submit'], input[type='button'], button, .button{
 }
 .logout{
 	text-decoration: none;
-	position: absolute;
-    right: 9px;
-    top: 11px;	
+	display: inline-block;
+	font-size:14px;
+	margin-right: 5px;
+}
+.home{
+	text-decoration: none;
+	display: inline-block;
+	font-size:14px;
+}
+.buttons-navbar{
+	display: inline-block;
+	float: right;
 }
 #header h1{
 	position: relative;
