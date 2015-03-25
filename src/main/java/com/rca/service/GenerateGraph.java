@@ -12,6 +12,8 @@ import java.util.Set;
 
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.LegendItem;
+import org.jfree.chart.LegendItemCollection;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.NumberAxis;
@@ -248,33 +250,32 @@ public class GenerateGraph
     GroupedStackedBarRenderer renderer = new GroupedStackedBarRenderer();
     
     renderer.setItemMargin(0.0);
-    Paint p1 = new GradientPaint(
-        0.0f, 0.0f, new Color(0x22, 0x22, 0xFF), 0.0f, 0.0f, new Color(0x88, 0x88, 0xFF)
-    );
-    renderer.setSeriesPaint(0, p1);
-    renderer.setSeriesPaint(4, p1);
-    renderer.setSeriesPaint(8, p1);
+    Paint darkLilac = new GradientPaint(0.0f, 0.0f, new Color(128, 92, 146), 0.0f, 0.0f, new Color(128, 92, 146));
+    renderer.setSeriesPaint(0, darkLilac);
+    /*renderer.setSeriesPaint(4, p1);
+    renderer.setSeriesPaint(8, p1);*/
      
-    Paint p2 = new GradientPaint(
-        0.0f, 0.0f, new Color(0x22, 0xFF, 0x22), 0.0f, 0.0f, new Color(0x88, 0xFF, 0x88)
-    );
-    renderer.setSeriesPaint(1, p2); 
-    renderer.setSeriesPaint(5, p2); 
-    renderer.setSeriesPaint(9, p2); 
+    Paint steelGray = new GradientPaint(0.0f, 0.0f, new Color(153, 190, 215), 0.0f, 0.0f, new Color(153, 190, 215));
+    renderer.setSeriesPaint(1, steelGray); 
+    /*renderer.setSeriesPaint(5, p2); 
+    renderer.setSeriesPaint(9, p2); */
     
-    Paint p3 = new GradientPaint(
-        0.0f, 0.0f, new Color(0xFF, 0x22, 0x22), 0.0f, 0.0f, new Color(0xFF, 0x88, 0x88)
-    );
-    renderer.setSeriesPaint(2, p3);
-    renderer.setSeriesPaint(6, p3);
-    renderer.setSeriesPaint(10, p3);
+    Paint orange = new GradientPaint(0.0f, 0.0f, new Color(255, 128, 0), 0.0f, 0.0f, new Color(255, 128, 0));
+    renderer.setSeriesPaint(2, orange);
+    /*renderer.setSeriesPaint(6, p3);
+    renderer.setSeriesPaint(10, p3);*/
         
-    Paint p4 = new GradientPaint(
-        0.0f, 0.0f, new Color(0xFF, 0xFF, 0x22), 0.0f, 0.0f, new Color(0xFF, 0xFF, 0x88)
-    );
-    renderer.setSeriesPaint(3, p4);
-    renderer.setSeriesPaint(7, p4);
-    renderer.setSeriesPaint(11, p4);
+	Paint darkBrown = new GradientPaint(0.0f, 0.0f, new Color(153, 76, 0), 0.0f, 0.0f, new Color(153, 76, 0));
+    renderer.setSeriesPaint(3, darkBrown);
+    /*renderer.setSeriesPaint(7, p4);
+    renderer.setSeriesPaint(11, p4);*/
+    
+    Paint bluishGray = new GradientPaint(0.0f, 0.0f, new Color(40, 111, 172), 0.0f, 0.0f, new Color(40, 111, 172));
+    renderer.setSeriesPaint(4, bluishGray);
+    
+    Paint red = new GradientPaint(0.0f, 0.0f, Color.red.brighter(), 0.0f, 0.0f, Color.red.brighter());
+    renderer.setSeriesPaint(5, red);
+    
     renderer.setGradientPaintTransformer(
         new StandardGradientPaintTransformer(GradientPaintTransformType.HORIZONTAL)
     );
