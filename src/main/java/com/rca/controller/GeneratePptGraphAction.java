@@ -155,12 +155,24 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			txt2.setText("Total " + totalWeeklyBugCount + "\n" + "\n");
 			
 			TextRun tr = txt2.createTextRun();
-			tr.appendText("Duplicate/ Not a Defect/ Unable to reproduce/ Browse/ As designed: " + calculateTotalBugTypeCountForQA(rcaCounts, MIX_CATEGORY) + "\n");
-			tr.appendText("Data Issue: " + calculateTotalBugTypeCountForQA(rcaCounts, DATA_ISSUE) + "\n");
-			tr.appendText("Integration Issue: " + calculateTotalBugTypeCountForQA(rcaCounts, INTEGRATION_ISSUE) + "\n");
-			tr.appendText("Configuration Issue: " + calculateTotalBugTypeCountForQA(rcaCounts, CONFIGURATION_ISSUE) + "\n");
-			tr.appendText("Missed/ Change Requirement: " + calculateTotalBugTypeCountForQA(rcaCounts, MISSED_CHANGE_REQUIREMENT) + "\n");
-			tr.appendText("Client Code Bug: " + calculateTotalBugTypeCountForQA(rcaCounts, CLIENT_CODE_BUG));
+			if(calculateTotalBugTypeCountForQA(rcaCounts, CLIENT_CODE_BUG) != 0){
+				tr.appendText(calculateTotalBugTypeCountForQA(rcaCounts, CLIENT_CODE_BUG) +" Client Code Defect" + "\n");
+			}
+			if(calculateTotalBugTypeCountForQA(rcaCounts, MISSED_CHANGE_REQUIREMENT) != 0){
+				tr.appendText(calculateTotalBugTypeCountForQA(rcaCounts, MISSED_CHANGE_REQUIREMENT) + " Missed/ Change Requirement" +  "\n");
+			}
+			if(calculateTotalBugTypeCountForQA(rcaCounts, INTEGRATION_ISSUE) != 0){
+				tr.appendText(calculateTotalBugTypeCountForQA(rcaCounts, INTEGRATION_ISSUE) + " Integration Issue" + "\n");
+			}
+			if(calculateTotalBugTypeCountForQA(rcaCounts, CONFIGURATION_ISSUE) != 0){
+				tr.appendText(calculateTotalBugTypeCountForQA(rcaCounts, CONFIGURATION_ISSUE) + " Configuration Issue" + "\n");
+			}
+			if(calculateTotalBugTypeCountForQA(rcaCounts, DATA_ISSUE) != 0){
+				tr.appendText(calculateTotalBugTypeCountForQA(rcaCounts, DATA_ISSUE) + " Data Issue" + "\n");
+			}
+			if(calculateTotalBugTypeCountForQA(rcaCounts, MIX_CATEGORY) != 0){
+				tr.appendText(calculateTotalBugTypeCountForQA(rcaCounts, MIX_CATEGORY) + " Others " + "\n");
+			}
 			
 			txt2.setAnchor(new java.awt.Rectangle(pageWidth+20, 20, pageWidth-50, pageheight-50));
 			slide.addShape(txt2);
@@ -180,12 +192,24 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			txt2.setText("Total " + totalWeeklyBugCount + "\n" + "\n");
 			
 			TextRun tr = txt2.createTextRun();
-			tr.appendText("Duplicate/ Not a Defect/ Unable to reproduce/ Browse/ As designed: " + calculateTotalBugTypeCountForProd(rcaCounts, MIX_CATEGORY) + "\n");
-			tr.appendText("Data Issue: " + calculateTotalBugTypeCountForProd(rcaCounts, DATA_ISSUE) + "\n");
-			tr.appendText("Integration Issue: " + calculateTotalBugTypeCountForProd(rcaCounts, INTEGRATION_ISSUE) + "\n");
-			tr.appendText("Configuration Issue: " + calculateTotalBugTypeCountForProd(rcaCounts, CONFIGURATION_ISSUE) + "\n");
-			tr.appendText("Missed/ Change Requirement: " + calculateTotalBugTypeCountForProd(rcaCounts, MISSED_CHANGE_REQUIREMENT) + "\n");
-			tr.appendText("Client Code Bug: " + calculateTotalBugTypeCountForProd(rcaCounts, CLIENT_CODE_BUG));
+			if(calculateTotalBugTypeCountForProd(rcaCounts, CLIENT_CODE_BUG) != 0){
+				tr.appendText(calculateTotalBugTypeCountForProd(rcaCounts, CLIENT_CODE_BUG) +" Client Code Defect" + "\n");
+			}
+			if(calculateTotalBugTypeCountForProd(rcaCounts, MISSED_CHANGE_REQUIREMENT) != 0){
+				tr.appendText(calculateTotalBugTypeCountForProd(rcaCounts, MISSED_CHANGE_REQUIREMENT) + " Missed/ Change Requirement" +  "\n");
+			}
+			if(calculateTotalBugTypeCountForProd(rcaCounts, INTEGRATION_ISSUE) != 0){
+				tr.appendText(calculateTotalBugTypeCountForProd(rcaCounts, INTEGRATION_ISSUE) + " Integration Issue" + "\n");
+			}
+			if(calculateTotalBugTypeCountForProd(rcaCounts, CONFIGURATION_ISSUE) != 0){
+				tr.appendText(calculateTotalBugTypeCountForProd(rcaCounts, CONFIGURATION_ISSUE) + " Configuration Issue" + "\n");
+			}
+			if(calculateTotalBugTypeCountForProd(rcaCounts, DATA_ISSUE) != 0){
+				tr.appendText(calculateTotalBugTypeCountForProd(rcaCounts, DATA_ISSUE) + " Data Issue" + "\n");
+			}
+			if(calculateTotalBugTypeCountForProd(rcaCounts, MIX_CATEGORY) != 0){
+				tr.appendText(calculateTotalBugTypeCountForProd(rcaCounts, MIX_CATEGORY) + " Others " + "\n");
+			}	
 
 			txt2.setAnchor(new java.awt.Rectangle(pageWidth+20, 20, pageWidth-50, pageheight-50));
 			slide.addShape(txt2);
@@ -204,13 +228,25 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			txt2.setText("Total " + totalWeeklyBugCount + "\n" + "\n");
 			
 			TextRun tr = txt2.createTextRun();
-			tr.appendText("Duplicate/ Not a Defect/ Unable to reproduce/ Browse/ As designed: " + calculateTotalBugTypeCountForUAT(rcaCounts, MIX_CATEGORY) + "\n");
-			tr.appendText("Data Issue: " + calculateTotalBugTypeCountForUAT(rcaCounts, DATA_ISSUE) + "\n");
-			tr.appendText("Integration Issue: " + calculateTotalBugTypeCountForUAT(rcaCounts, INTEGRATION_ISSUE) + "\n");
-			tr.appendText("Configuration Issue: " + calculateTotalBugTypeCountForUAT(rcaCounts, CONFIGURATION_ISSUE) + "\n");
-			tr.appendText("Missed/ Change Requirement: " + calculateTotalBugTypeCountForUAT(rcaCounts, MISSED_CHANGE_REQUIREMENT) + "\n");
-			tr.appendText("Client Code Bug: " + calculateTotalBugTypeCountForUAT(rcaCounts, CLIENT_CODE_BUG));
-			
+			if(calculateTotalBugTypeCountForUAT(rcaCounts, CLIENT_CODE_BUG) != 0){
+				tr.appendText(calculateTotalBugTypeCountForUAT(rcaCounts, CLIENT_CODE_BUG) +" Client Code Defect" + "\n");
+			}
+			if(calculateTotalBugTypeCountForUAT(rcaCounts, MISSED_CHANGE_REQUIREMENT) != 0){
+				tr.appendText(calculateTotalBugTypeCountForUAT(rcaCounts, MISSED_CHANGE_REQUIREMENT) + " Missed/ Change Requirement" +  "\n");
+			}
+			if(calculateTotalBugTypeCountForUAT(rcaCounts, INTEGRATION_ISSUE) != 0){
+				tr.appendText(calculateTotalBugTypeCountForUAT(rcaCounts, INTEGRATION_ISSUE) + " Integration Issue" + "\n");
+			}
+			if(calculateTotalBugTypeCountForUAT(rcaCounts, CONFIGURATION_ISSUE) != 0){
+				tr.appendText(calculateTotalBugTypeCountForUAT(rcaCounts, CONFIGURATION_ISSUE) + " Configuration Issue" + "\n");
+			}
+			if(calculateTotalBugTypeCountForUAT(rcaCounts, DATA_ISSUE) != 0){
+				tr.appendText(calculateTotalBugTypeCountForUAT(rcaCounts, DATA_ISSUE) + " Data Issue" + "\n");
+			}
+			if(calculateTotalBugTypeCountForUAT(rcaCounts, MIX_CATEGORY) != 0){
+				tr.appendText(calculateTotalBugTypeCountForUAT(rcaCounts, MIX_CATEGORY) + " Others " + "\n");
+			}		
+									
 			txt2.setAnchor(new java.awt.Rectangle(pageWidth+20, 20, pageWidth-50, pageheight-50));
 			slide.addShape(txt2);
 		}
@@ -375,7 +411,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	 * @param bugType
 	 * @return
 	 */
-	private String calculateTotalBugTypeCountForProd(List<RcaCount> rcaCounts, String bugType)
+	private int calculateTotalBugTypeCountForProd(List<RcaCount> rcaCounts, String bugType)
 	{
 		int totalBugTypeCount = 0;
 		
@@ -400,7 +436,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 
 		}
 		
-		return Integer.toString(totalBugTypeCount);
+		return totalBugTypeCount;
 	}
 	
 	/**
@@ -409,7 +445,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	 * @param bugType
 	 * @return
 	 */
-	private String calculateTotalBugTypeCountForQA(List<RcaCount> rcaCounts, String bugType)
+	private int calculateTotalBugTypeCountForQA(List<RcaCount> rcaCounts, String bugType)
 	{
 		int totalBugTypeCount = 0;
 		
@@ -434,7 +470,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 
 		}
 		
-		return Integer.toString(totalBugTypeCount);
+		return totalBugTypeCount;
 	}
 	
 	/**
@@ -443,7 +479,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	 * @param bugType
 	 * @return
 	 */
-	private String calculateTotalBugTypeCountForUAT(List<RcaCount> rcaCounts, String bugType)
+	private int calculateTotalBugTypeCountForUAT(List<RcaCount> rcaCounts, String bugType)
 	{
 		int totalBugTypeCount = 0;
 		
@@ -468,7 +504,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 
 		}
 		
-		return Integer.toString(totalBugTypeCount);
+		return totalBugTypeCount;
 	}
 	
 	/**
