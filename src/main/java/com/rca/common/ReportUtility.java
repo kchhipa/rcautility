@@ -17,6 +17,7 @@ public class ReportUtility {
 	public static final String PRODUCTION = "PROD";
 	public static final String UAT = "UAT";
 	public static final String QA = "QA";
+	private static String CUMULATIVE_OPEN = "Cumulative Open";
 	
 
 	public Map<String, Map<String, Integer>> rcaCountForLastWeekForAllProjects(List<RcaCount> rcaWeeks){
@@ -717,6 +718,8 @@ public class ReportUtility {
 						total = total + (rcaCount.get(x).getCcbQa());
 					else if(UAT.equals(env))
 						total = total + (rcaCount.get(x).getCcbUat());
+					else if(CUMULATIVE_OPEN.equals(env))
+						total = total + (rcaCount.get(x).getCcbProductBacklog());
 				}
 			}
 			week_count.put(week, total);

@@ -277,15 +277,12 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		//set image position in the slide
 		pict1.setAnchor(new java.awt.Rectangle(20, pageheight+30, pageWidth-50, pageheight-50));
 		slide.addShape(pict1);
-		
-		if(!CUMULATIVE_OPEN.equals(slideType))
-		{
-			Picture ccbLineGraph = new Picture(lCx);
-			//set image position in the slide
-			ccbLineGraph.setAnchor(new java.awt.Rectangle(pageWidth+20, pageheight+20, pageWidth-50, pageheight-50));
-			slide.addShape(ccbLineGraph);
-		}
 
+		Picture ccbLineGraph = new Picture(lCx);
+		// set image position in the slide
+		ccbLineGraph.setAnchor(new java.awt.Rectangle(pageWidth + 20,
+				pageheight + 20, pageWidth - 50, pageheight - 50));
+		slide.addShape(ccbLineGraph);
 	}
 	
 	/**
@@ -400,7 +397,8 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		idx = ppt.addPicture(generateGraph.createGraph( rU.rcaCountForLastWeekForAllProjects(allWeeksrcaCounts), "", "", "", 
 				PlotOrientation.VERTICAL, true, 950, 550,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
 		
-		lCx = 0;
+		lCx = ppt.addPicture(generateGraph.createLineGraph(rU.reportedAllWeeksCCBGraphForAllProject(allWeeksrcaCounts, allWeeks, CUMULATIVE_OPEN), "Client Code Trend", "", "",
+				PlotOrientation.VERTICAL, true, 650, 450,RCAConstants.LINE) , XSLFPictureData.PICTURE_TYPE_PNG);
 		
 		bWCx = ppt.addPicture(generateGraph.createWeeklyGraph(rU.reportedCumulativeOpenAllWeeksGraphForAllProject(allWeeksrcaCounts, allWeeks), "Weekly Trend", "", "", 
 				PlotOrientation.VERTICAL, true, 650, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
