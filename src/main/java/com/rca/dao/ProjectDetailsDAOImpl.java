@@ -159,10 +159,12 @@ public class ProjectDetailsDAOImpl  implements ProjectDetailsDAO{
 	public List<ProjectDetails> getAllActiveProjects() {
 
 		String query = "from ProjectDetails where status=?";
-		Object[] queryParam = {"Active"};
+		Object[] queryParam = {"active"};
 		List<ProjectDetails> results = (List<ProjectDetails>) template.find(query, queryParam);
+		log.debug("getAllActiveProjects, result size: "
+				+ results.size());
 		if(results.size()>0){
-			return (List<ProjectDetails>) results.get(0);
+			return results;
 		}
 		return null;
 	}

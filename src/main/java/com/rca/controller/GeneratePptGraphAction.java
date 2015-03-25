@@ -73,7 +73,6 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	public String execute() throws Exception {
 		
 		List<RcaCount> rcaCounts = rcaManager.findRCAByWeekPeriod(rca.getWeek());
-		//rcaManager.findRCAReportForMultipleWeek();
 		createGraphPpt(rcaCounts);
 	    fileInputStream = new FileInputStream(new File("D:\\project.ppt"));
 	    return SUCCESS;
@@ -114,16 +113,16 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	
 	private void createProjectSpecificGraphs() throws IOException{
 		
-		//List<ProjectDetails> activeProjectList = projectDetailsManager.getAllActiveProjects();
+		List<ProjectDetails> activeProjectList = projectDetailsManager.getAllActiveProjects();
 				
 		List<String> allWeeks = rU.findWeeks(rca.getWeek());
-		//for(int index =0; index < activeProjectList.size(); index++)
+		for(int index =0; index < activeProjectList.size(); index++)
 		{
-		//	List<RcaCount> rcaCounts = rcaManager.findRCAReportForMultipleWeekForProject(allWeeks, activeProjectList.get(index).getProjectId() );
-			//To do nteed to udpate
-			createGraphIndividualPpt(rcaManager.findRCAReportForMultipleWeekForProject(22), ppt);
-			createGraphIndividualPpt(rcaManager.findRCAReportForMultipleWeekForProject(18), ppt);
-			createGraphIndividualPpt(rcaManager.findRCAReportForMultipleWeekForProject(1), ppt);
+			List<RcaCount> rcaCounts = rcaManager.findRCAReportForMultipleWeekForProject(activeProjectList.get(index).getProjectId() );
+			if(rcaCounts !=null && rcaCounts.size() >0)
+			{
+				createGraphIndividualPpt(rcaCounts, ppt);
+			}
 		}
 		
 	}
@@ -649,6 +648,14 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		this.rcaManager = rcaManager;
 	}
 
+	public ProjectDetailsManager getProjectDetailsManager() {
+		return projectDetailsManager;
+	}
+
+	public void setProjectDetailsManager(ProjectDetailsManager projectDetailsManager) {
+		this.projectDetailsManager = projectDetailsManager;
+	}
+	
 	public RCA getRca() {
 		return rca;
 	}
