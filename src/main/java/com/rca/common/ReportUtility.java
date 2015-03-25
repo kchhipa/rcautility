@@ -17,6 +17,7 @@ public class ReportUtility {
 	public static final String PRODUCTION = "PROD";
 	public static final String UAT = "UAT";
 	public static final String QA = "QA";
+	private static String CUMULATIVE_OPEN = "Cumulative Open";
 	
 
 	public Map<String, Map<String, Integer>> rcaCountForLastWeekForAllProjects(List<RcaCount> rcaWeeks){
@@ -38,10 +39,12 @@ public class ReportUtility {
           differentRootCause.put("Configuration Issue", weeklyConfigurationIssueForAllIssues(rcaCount));
           differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssues(rcaCount));
           differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssues(rcaCount));
+          differentRootCause.put("Product Defect", weeklyProductDefectForAllIssues(rcaCount));
           
           /* To ensure that Projects with RCA count as zero do not show up in Graph */
           if((mixCategoryWeeklyCountForAllProjects(rcaCount) + weeklyDataIssueForAllIssues(rcaCount) + weeklyIntegrationIssueForAllIssues(rcaCount) + 
-        		  weeklyConfigurationIssueForAllIssues(rcaCount) + weeklyMissedAndCRCountForAllIssues(rcaCount) + weeklyClientCodeBugForAllIssues(rcaCount))>0)
+        		  weeklyConfigurationIssueForAllIssues(rcaCount) + weeklyMissedAndCRCountForAllIssues(rcaCount) + weeklyClientCodeBugForAllIssues(rcaCount) + 
+        		  weeklyProductDefectForAllIssues(rcaCount)) > 0)
         	  	diffCategory.put(projName, differentRootCause);
           
           //projCount.put(projName, diffCategory);
@@ -64,7 +67,7 @@ public class ReportUtility {
 			
 			int totalCount = mixCategoryWeeklyCountForAllProjectsInQA(rcaCount) + weeklyDataIssueForAllIssuesInQA(rcaCount) +
 					weeklyIntegrationIssueForAllIssuesInQA(rcaCount) + weeklyConfigurationIssueForAllIssuesInQA(rcaCount) +
-					weeklyMissedAndCRCountForAllIssuesInQA(rcaCount) + weeklyClientCodeBugForAllIssuesInQA(rcaCount);
+					weeklyMissedAndCRCountForAllIssuesInQA(rcaCount) + weeklyClientCodeBugForAllIssuesInQA(rcaCount) + weeklyProductDefectForAllIssuesInQA(rcaCount);
 			
 			
 			if(totalCount > 0){
@@ -76,6 +79,7 @@ public class ReportUtility {
 	            differentRootCause.put("Configuration Issue", weeklyConfigurationIssueForAllIssuesInQA(rcaCount));
 	            differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssuesInQA(rcaCount));
 	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInQA(rcaCount));
+	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInQA(rcaCount));
 	
 	            diffCategory.put(projName, differentRootCause);
 				
@@ -140,6 +144,7 @@ public class ReportUtility {
 	            differentRootCause.put("Configuration Issue", weeklyConfigurationIssueForAllIssuesInQA(rcaCount));
 	            differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssuesInQA(rcaCount));
 	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInQA(rcaCount));
+	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInQA(rcaCount));
 	
 	            diffCategory.put(rcaCount.getWeek(), differentRootCause);
 			}
@@ -172,6 +177,7 @@ public class ReportUtility {
 	            differentRootCause.put("Configuration Issue", weeklyConfigurationIssueForAllIssuesInUAT(rcaCount));
 	            differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssuesInUAT(rcaCount));
 	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInUAT(rcaCount));
+	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInUAT(rcaCount));
 	
 	            diffCategory.put(rcaCount.getWeek(), differentRootCause);
 			}
@@ -204,6 +210,7 @@ public class ReportUtility {
 	            differentRootCause.put("Configuration Issue", weeklyConfigurationIssueForAllIssuesInProd(rcaCount));
 	            differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssuesInProd(rcaCount));
 	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInProd(rcaCount));
+	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInProd(rcaCount));
 	
 	            diffCategory.put(rcaCount.getWeek(), differentRootCause);
 			}
@@ -236,6 +243,7 @@ public class ReportUtility {
 	            differentRootCause.put("Configuration Issue", weeklyConfigurationIssueForAllIssues(rcaCount));
 	            differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssues(rcaCount));
 	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssues(rcaCount));
+	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssues(rcaCount));
 	
 	            diffCategory.put(rcaCount.getWeek(), differentRootCause);
 			}
@@ -255,7 +263,7 @@ public class ReportUtility {
 			
 			int totalCount = mixCategoryWeeklyCountForAllProjectsInUAT(rcaCount) + weeklyDataIssueForAllIssuesInUAT(rcaCount) +
 					weeklyIntegrationIssueForAllIssuesInUAT(rcaCount) + weeklyConfigurationIssueForAllIssuesInUAT(rcaCount) +
-					weeklyMissedAndCRCountForAllIssuesInUAT(rcaCount) + weeklyClientCodeBugForAllIssuesInUAT(rcaCount);
+					weeklyMissedAndCRCountForAllIssuesInUAT(rcaCount) + weeklyClientCodeBugForAllIssuesInUAT(rcaCount) + weeklyProductDefectForAllIssuesInUAT(rcaCount);
 			
 			
 			if(totalCount > 0){
@@ -267,6 +275,7 @@ public class ReportUtility {
 	            differentRootCause.put("Configuration Issue", weeklyConfigurationIssueForAllIssuesInUAT(rcaCount));
 	            differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssuesInUAT(rcaCount));
 	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInUAT(rcaCount));
+	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInUAT(rcaCount));
 	
 	            diffCategory.put(projName, differentRootCause);
 				
@@ -289,7 +298,7 @@ public class ReportUtility {
 			
 			int totalCount = mixCategoryWeeklyCountForAllProjectsInProd(rcaCount) + weeklyDataIssueForAllIssuesInProd(rcaCount) +
 					weeklyIntegrationIssueForAllIssuesInProd(rcaCount) + weeklyConfigurationIssueForAllIssuesInProd(rcaCount) +
-					weeklyMissedAndCRCountForAllIssuesInProd(rcaCount) + weeklyClientCodeBugForAllIssuesInProd(rcaCount);
+					weeklyMissedAndCRCountForAllIssuesInProd(rcaCount) + weeklyClientCodeBugForAllIssuesInProd(rcaCount) +  weeklyProductDefectForAllIssuesInProd(rcaCount);
 			
 			
 			if(totalCount > 0){
@@ -301,6 +310,7 @@ public class ReportUtility {
 	            differentRootCause.put("Configuration Issue", weeklyConfigurationIssueForAllIssuesInProd(rcaCount));
 	            differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssuesInProd(rcaCount));
 	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInProd(rcaCount));
+	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInProd(rcaCount));
 	
 	            diffCategory.put(projName, differentRootCause);
 				
@@ -568,6 +578,62 @@ public class ReportUtility {
 		return total;
 	}
 	
+	/**
+	 * Method to return all environments Product Defect count for a selected week.
+	 * @param rcaWeeks
+	 * @return
+	 */
+	public int weeklyProductDefectForAllIssues(RcaCount rcaWeeks){
+	       
+		int total =0;
+		
+			total = total + (rcaWeeks.getPdQa() + rcaWeeks.getPdUat() + rcaWeeks.getPdProd());
+		
+		return total;
+	}
+	
+	/**
+	 * Method to return QA Product Defect count for a selected week.
+	 * @param rcaWeeks
+	 * @return
+	 */
+	public int weeklyProductDefectForAllIssuesInQA(RcaCount rcaWeeks){
+	       
+		int total =0;
+		
+			total = total + rcaWeeks.getPdQa();
+		
+		return total;
+	}
+	
+	/**
+	 * Method to return UAT Product Defect count for a selected week.
+	 * @param rcaWeeks
+	 * @return
+	 */
+	public int weeklyProductDefectForAllIssuesInUAT(RcaCount rcaWeeks){
+	       
+		int total =0;
+		
+			total = total + rcaWeeks.getPdUat();
+		
+		return total;
+	}
+	
+	/**
+	 * Method to return Production environment Product Defect count for a selected week.
+	 * @param rcaWeeks
+	 * @return
+	 */
+	public int weeklyProductDefectForAllIssuesInProd(RcaCount rcaWeeks){
+	       
+		int total =0;
+		
+			total = total + rcaWeeks.getPdProd();
+		
+		return total;
+	}
+	
 	public int weeklyTotalBugCountForAllProjects(RcaCount rcaCount){
 		int total =0;
 		
@@ -717,6 +783,8 @@ public class ReportUtility {
 						total = total + (rcaCount.get(x).getCcbQa());
 					else if(UAT.equals(env))
 						total = total + (rcaCount.get(x).getCcbUat());
+					else if(CUMULATIVE_OPEN.equals(env))
+						total = total + (rcaCount.get(x).getCcbProductBacklog());
 				}
 			}
 			week_count.put(week, total);
