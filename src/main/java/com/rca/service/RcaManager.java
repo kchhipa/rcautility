@@ -29,5 +29,5 @@ public interface RcaManager {
 	
 	public List<RcaCount> findRCAReportForMultipleWeekForProject(int projectId);
 
-
+	List<RcaCount> findRCAReportForMultipleWeek(String week);
 }
