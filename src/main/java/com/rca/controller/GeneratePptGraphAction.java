@@ -68,6 +68,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	public static String CONFIGURATION_ISSUE = "configurationIssue";
 	public static String MISSED_CHANGE_REQUIREMENT = "MorCR";
 	public static String CLIENT_CODE_BUG = "cCB";
+	public static String PRODUCT_DEFECT = "productDefect";
 	
 	public String execute() throws Exception {
 		
@@ -155,12 +156,13 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			txt2.setText("Total " + totalWeeklyBugCount + "\n" + "\n");
 			
 			TextRun tr = txt2.createTextRun();
+			tr.appendText("Client Code Bug: " + calculateTotalBugTypeCountForQA(rcaCounts, CLIENT_CODE_BUG) + "\n");
 			tr.appendText("Duplicate/ Not a Defect/ Unable to reproduce/ Browse/ As designed: " + calculateTotalBugTypeCountForQA(rcaCounts, MIX_CATEGORY) + "\n");
 			tr.appendText("Data Issue: " + calculateTotalBugTypeCountForQA(rcaCounts, DATA_ISSUE) + "\n");
 			tr.appendText("Integration Issue: " + calculateTotalBugTypeCountForQA(rcaCounts, INTEGRATION_ISSUE) + "\n");
 			tr.appendText("Configuration Issue: " + calculateTotalBugTypeCountForQA(rcaCounts, CONFIGURATION_ISSUE) + "\n");
 			tr.appendText("Missed/ Change Requirement: " + calculateTotalBugTypeCountForQA(rcaCounts, MISSED_CHANGE_REQUIREMENT) + "\n");
-			tr.appendText("Client Code Bug: " + calculateTotalBugTypeCountForQA(rcaCounts, CLIENT_CODE_BUG));
+			tr.appendText("Product Defect: " + calculateTotalBugTypeCountForQA(rcaCounts, PRODUCT_DEFECT));
 			
 			txt2.setAnchor(new java.awt.Rectangle(pageWidth+20, 20, pageWidth-50, pageheight-50));
 			slide.addShape(txt2);
@@ -180,12 +182,13 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			txt2.setText("Total " + totalWeeklyBugCount + "\n" + "\n");
 			
 			TextRun tr = txt2.createTextRun();
+			tr.appendText("Client Code Bug: " + calculateTotalBugTypeCountForProd(rcaCounts, CLIENT_CODE_BUG) + "\n");
 			tr.appendText("Duplicate/ Not a Defect/ Unable to reproduce/ Browse/ As designed: " + calculateTotalBugTypeCountForProd(rcaCounts, MIX_CATEGORY) + "\n");
 			tr.appendText("Data Issue: " + calculateTotalBugTypeCountForProd(rcaCounts, DATA_ISSUE) + "\n");
 			tr.appendText("Integration Issue: " + calculateTotalBugTypeCountForProd(rcaCounts, INTEGRATION_ISSUE) + "\n");
 			tr.appendText("Configuration Issue: " + calculateTotalBugTypeCountForProd(rcaCounts, CONFIGURATION_ISSUE) + "\n");
 			tr.appendText("Missed/ Change Requirement: " + calculateTotalBugTypeCountForProd(rcaCounts, MISSED_CHANGE_REQUIREMENT) + "\n");
-			tr.appendText("Client Code Bug: " + calculateTotalBugTypeCountForProd(rcaCounts, CLIENT_CODE_BUG));
+			tr.appendText("Product Defect: " + calculateTotalBugTypeCountForProd(rcaCounts, PRODUCT_DEFECT));
 
 			txt2.setAnchor(new java.awt.Rectangle(pageWidth+20, 20, pageWidth-50, pageheight-50));
 			slide.addShape(txt2);
@@ -204,12 +207,13 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			txt2.setText("Total " + totalWeeklyBugCount + "\n" + "\n");
 			
 			TextRun tr = txt2.createTextRun();
+			tr.appendText("Client Code Bug: " + calculateTotalBugTypeCountForUAT(rcaCounts, CLIENT_CODE_BUG) + "\n");
 			tr.appendText("Duplicate/ Not a Defect/ Unable to reproduce/ Browse/ As designed: " + calculateTotalBugTypeCountForUAT(rcaCounts, MIX_CATEGORY) + "\n");
 			tr.appendText("Data Issue: " + calculateTotalBugTypeCountForUAT(rcaCounts, DATA_ISSUE) + "\n");
 			tr.appendText("Integration Issue: " + calculateTotalBugTypeCountForUAT(rcaCounts, INTEGRATION_ISSUE) + "\n");
 			tr.appendText("Configuration Issue: " + calculateTotalBugTypeCountForUAT(rcaCounts, CONFIGURATION_ISSUE) + "\n");
 			tr.appendText("Missed/ Change Requirement: " + calculateTotalBugTypeCountForUAT(rcaCounts, MISSED_CHANGE_REQUIREMENT) + "\n");
-			tr.appendText("Client Code Bug: " + calculateTotalBugTypeCountForUAT(rcaCounts, CLIENT_CODE_BUG));
+			tr.appendText("Product Defect: " + calculateTotalBugTypeCountForUAT(rcaCounts, PRODUCT_DEFECT));
 			
 			txt2.setAnchor(new java.awt.Rectangle(pageWidth+20, 20, pageWidth-50, pageheight-50));
 			slide.addShape(txt2);
@@ -397,6 +401,8 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyMissedAndCRCountForAllIssuesInProd(rcaCount);
 			else if(bugType.equals(CLIENT_CODE_BUG))
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyClientCodeBugForAllIssuesInProd(rcaCount);
+			else if(bugType.equals(PRODUCT_DEFECT))
+				totalBugTypeCount = totalBugTypeCount + rU.weeklyProductDefectForAllIssuesInProd(rcaCount);
 
 		}
 		
@@ -431,6 +437,8 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyMissedAndCRCountForAllIssuesInQA(rcaCount);
 			else if(bugType.equals(CLIENT_CODE_BUG))
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyClientCodeBugForAllIssuesInQA(rcaCount);
+			else if(bugType.equals(PRODUCT_DEFECT))
+				totalBugTypeCount = totalBugTypeCount + rU.weeklyProductDefectForAllIssuesInQA(rcaCount);
 
 		}
 		
@@ -465,6 +473,8 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyMissedAndCRCountForAllIssuesInUAT(rcaCount);
 			else if(bugType.equals(CLIENT_CODE_BUG))
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyClientCodeBugForAllIssuesInUAT(rcaCount);
+			else if(bugType.equals(PRODUCT_DEFECT))
+				totalBugTypeCount = totalBugTypeCount + rU.weeklyProductDefectForAllIssuesInUAT(rcaCount);
 
 		}
 		

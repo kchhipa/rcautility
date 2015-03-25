@@ -281,6 +281,9 @@ public class GenerateGraph
     Paint red = new GradientPaint(0.0f, 0.0f, Color.red.brighter(), 0.0f, 0.0f, Color.red.brighter());
     renderer.setSeriesPaint(5, red);
     
+    Paint seaGreen = new GradientPaint(0.0f, 0.0f, new Color(0, 153, 153), 0.0f, 0.0f, new Color(0, 153, 153));
+    renderer.setSeriesPaint(6, seaGreen);
+    
     renderer.setGradientPaintTransformer(
         new StandardGradientPaintTransformer(GradientPaintTransformType.HORIZONTAL)
     );
