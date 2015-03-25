@@ -110,4 +110,18 @@ public class RcaManagerImpl implements RcaManager {
 		// TODO Auto-generated method stub
 		return rcaCountDAO.findRCAReportForMultipleWeekForProject(projectId);
 	}
+
+	/**
+	 * Generates the last 12 week RCA Data from the given week end range
+	 * 
+	 * @param week
+	 * @return
+	 */
+	@Override
+	public List<RcaCount> findRCAReportForMultipleWeek(String week) {
+		ReportUtility rU = new ReportUtility();
+		/* Calling the Utility method to find all weeks in reverse order */
+		List<String> weeks = rU.findWeeks(week);
+		return rcaCountDAO.findRCAReportForMultipleWeek(weeks);
+	}
 }

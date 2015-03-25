@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.poi.hslf.model.Picture;
 import org.apache.poi.hslf.model.Slide;
@@ -115,7 +116,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		
 		//List<ProjectDetails> activeProjectList = projectDetailsManager.getAllActiveProjects();
 				
-		List<String> allWeeks = rU.findWeeks();
+		List<String> allWeeks = rU.findWeeks(rca.getWeek());
 		//for(int index =0; index < activeProjectList.size(); index++)
 		{
 		//	List<RcaCount> rcaCounts = rcaManager.findRCAReportForMultipleWeekForProject(allWeeks, activeProjectList.get(index).getProjectId() );
@@ -139,7 +140,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		int pageWidth = ppt.getPageSize().width/2;
 		int pageheight = ppt.getPageSize().height/2;
 		// add a new picture to this slideshow and insert it in a  new slide
-		List<RcaCount> allWeeksrcaCounts = rcaManager.findRCAReportForMultipleWeek();
+		List<RcaCount> allWeeksrcaCounts = rcaManager.findRCAReportForMultipleWeek(rca.getWeek());
 
 		
 		//Calling QA Slide Data method.
@@ -295,7 +296,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	 */
 	public void fillQADataInSlide(List<RcaCount> allWeeksrcaCounts, List<RcaCount> rcaCounts) throws IOException{
 		
-		List<String> allWeeks = rU.findWeeks();
+		List<String> allWeeks = rU.findWeeks(rca.getWeek());
 		
 		RcaCount rcaCount = null;
 		
@@ -328,7 +329,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	public void fillProdDataInSlide(List<RcaCount> allWeeksrcaCounts, List<RcaCount> rcaCounts) throws IOException{
 		
 		ReportUtility rU = new ReportUtility();
-		List<String> allWeeks = rU.findWeeks();
+		List<String> allWeeks = rU.findWeeks(rca.getWeek());
 				
 		RcaCount rcaCount = null;
 		
@@ -361,7 +362,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	public void fillUATDataInSlide(List<RcaCount> allWeeksrcaCounts, List<RcaCount> rcaCounts) throws IOException{
 		
 		ReportUtility rU = new ReportUtility();
-		List<String> allWeeks = rU.findWeeks();
+		List<String> allWeeks = rU.findWeeks(rca.getWeek());
 		
 		RcaCount rcaCount = null;
 		
@@ -394,7 +395,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	public void fillCumulativeOpenDataInSlide(List<RcaCount> allWeeksrcaCounts, List<RcaCount> rcaCounts) throws IOException{
 		
 		ReportUtility rU = new ReportUtility();
-		List<String> allWeeks = rU.findWeeks();
+		List<String> allWeeks = rU.findWeeks(rca.getWeek());
 				
 		idx = ppt.addPicture(generateGraph.createGraph( rU.rcaCountForLastWeekForAllProjects(allWeeksrcaCounts), "", "", "", 
 				PlotOrientation.VERTICAL, true, 950, 550,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
@@ -506,10 +507,10 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		
 		return totalBugTypeCount;
 	}
-	
+
 	/**
 	 * Generate Reopen Bug Count Slide
-	 *
+	 * 
 	 * @param ppt
 	 * @param rcaCounts
 	 * @throws IOException
@@ -520,12 +521,14 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		// Create Slide
 		Slide reopenSlide = ppt.createSlide();
 		// Setting Title
-		TextBox title = reopenSlide.addTitle();
-		title.setText("Reopen");
-		title.setHorizontalAlignment(TextBox.AlignLeft);
 		int pageWidth = ppt.getPageSize().width / 2;
 		int pageheight = ppt.getPageSize().height / 2;
-		title.setAnchor(new java.awt.Rectangle(0, 0, pageWidth/2, pageheight/10));
+
+		TextBox txt1 = new TextBox();
+		txt1.setText("Reopen");
+		txt1.setAnchor(new java.awt.Rectangle(0, 0, pageWidth / 2,
+				pageheight / 10));
+		reopenSlide.addShape(txt1);
 		// Generating Graph and adding the graph in picture format to slide
 		GenerateGraph generateGraph = new GenerateGraph();
 		int idx = ppt.addPicture(generateGraph.createGraph(
@@ -534,11 +537,45 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 				450, RCAConstants.BAR), XSLFPictureData.PICTURE_TYPE_PNG);
 		Picture pict = new Picture(idx);
 		// set image position in the slide
-		pict.setAnchor(new java.awt.Rectangle((pageWidth / 2) - 50,
-				(pageheight / 2), pageWidth - 50, pageheight - 50));
+		int x = (pageWidth / 2), y = pageheight / 4, width = pageWidth - 50, height = pageheight - 50;
+		pict.setAnchor(new java.awt.Rectangle(x, y, width, height));
 		reopenSlide.addShape(pict);
+		y = y + height + 20;
+		x = 50;
+		TextBox txt2 = new TextBox();
+		TextRun tr = txt2.createTextRun();
+		addDetailReopenCount(rcaCounts, tr, PRODUCTION);
+		addDetailReopenCount(rcaCounts, tr, UAT);
+		addDetailReopenCount(rcaCounts, tr, QA);
+
+		txt2.setAnchor(new java.awt.Rectangle(x, y, pageWidth * 2 - 50,
+				pageheight - 80));
+		reopenSlide.addShape(txt2);
 	}
-	
+
+	/**
+	 * Add detail of reopen bugs in Reopen slide
+	 * 
+	 * @param rcaCounts
+	 * @param tr
+	 * @param enviType
+	 */
+	public void addDetailReopenCount(List<RcaCount> rcaCounts, TextRun tr,
+			String enviType) {
+		Map<String, Map<String, Integer>> count = rU
+				.reportedReopenRCAForAllProjects(rcaCounts);
+		Map<String, Integer> reopenCount = rU
+				.reopenRCACountByEnvironment(rcaCounts);
+		tr.appendText(enviType + " (" + reopenCount.get(enviType) + ")" + "\n");
+		if (reopenCount.get(enviType) > 0) {
+			for (Entry<String, Map<String, Integer>> temp : count.entrySet()) {
+				if (temp.getValue().get(enviType) > 0)
+					tr.appendText("\t" + temp.getKey() + " - "
+							+ temp.getValue().get(enviType) + "\n");
+			}
+		}
+	}
+
 	@SuppressWarnings("unchecked")
 	List<RcaCount> getAllWeekRCACountsListforIndividual(List<String> allWeeks){
 		List<RcaCount> allWeeksrcaCountsforIndividual = new ArrayList<RcaCount>();
@@ -559,7 +596,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		// add a new picture to this slideshow and insert it in a new slide
 		//List<RcaCount> allWeeksrcaCounts = rcaManager.findRCAReportForMultipleWeek();
 		ReportUtility rU = new ReportUtility();
-		List<String> allWeeks = rU.findWeeks();
+		List<String> allWeeks = rU.findWeeks(rca.getWeek());
 		int idx1 = ppt.addPicture(generateGraph.createGraph( rU.reportedOpenllWeeksGraphForIndividualProject(rcaCount, allWeeks), "Cumulative Open", "", "",
 				PlotOrientation.VERTICAL, true, 500, 500,RCAConstants.BAR, false) , XSLFPictureData.PICTURE_TYPE_PNG);
 		int idx2 = ppt.addPicture(generateGraph.createGraph( rU.reportedProdllWeeksGraphForIndividualProject(getAllWeekRCACountsListforIndividual(allWeeks), allWeeks), "Weekly PROD", "", "",
