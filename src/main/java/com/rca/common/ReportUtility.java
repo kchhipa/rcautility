@@ -1,5 +1,6 @@
 package com.rca.common;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -16,6 +17,7 @@ public class ReportUtility {
 	public static final String PRODUCTION = "PROD";
 	public static final String UAT = "UAT";
 	public static final String QA = "QA";
+	private static String CUMULATIVE_OPEN = "Cumulative Open";
 	
 
 	public Map<String, Map<String, Integer>> rcaCountForLastWeekForAllProjects(List<RcaCount> rcaWeeks){
@@ -332,13 +334,13 @@ public class ReportUtility {
 			List<RcaCount> rcaCounts) {
 		Map<String, Map<String, Integer>> diffCategory = new LinkedHashMap<String, Map<String, Integer>>();
 		for (int x = 0; x < rcaCounts.size(); x++) {
-			String projName = rcaCounts.get(x).getProjectDetails()
-					.getProjectName();
 			RcaCount rcaCount = rcaCounts.get(x);
 			int totalCount = rcaCount.getRoQa() + rcaCount.getRoUat()
 					+ rcaCount.getRoProd();
 
 			if (totalCount > 0) {
+				String projName = rcaCounts.get(x).getProjectDetails()
+						.getProjectName();
 				Map<String, Integer> differentReopenEnvironment = new LinkedHashMap<String, Integer>();
 				differentReopenEnvironment.put(QA, rcaCount.getRoQa());
 				differentReopenEnvironment.put(UAT, rcaCount.getRoUat());
@@ -781,6 +783,8 @@ public class ReportUtility {
 						total = total + (rcaCount.get(x).getCcbQa());
 					else if(UAT.equals(env))
 						total = total + (rcaCount.get(x).getCcbUat());
+					else if(CUMULATIVE_OPEN.equals(env))
+						total = total + (rcaCount.get(x).getCcbProductBacklog());
 				}
 			}
 			week_count.put(week, total);
@@ -788,7 +792,7 @@ public class ReportUtility {
 		}	
 		return lst;
 	}
-	
+
 	/**
 	 * Method to return Production environment bug counts for all Projects and for given set of Weeks.
 	 * @param rcaCount
@@ -946,6 +950,59 @@ public class ReportUtility {
 	    
 	    return weeks;
 	}
-	
 
+	/**
+	 * This method will generate the reopen bug count by environment type.
+	 * 
+	 * @param rcaCounts
+	 * @return
+	 */
+	public Map<String, Integer> reopenRCACountByEnvironment(
+			List<RcaCount> rcaCounts) {
+		Map<String, Integer> reopenCount = new HashMap<String, Integer>();
+		int qaCount = 0;
+		int uatCount = 0;
+		int prodCount = 0;
+		for (RcaCount rcaCount : rcaCounts) {
+			qaCount += rcaCount.getRoQa();
+			uatCount += rcaCount.getRoUat();
+			prodCount += rcaCount.getRoProd();
+		}
+		reopenCount.put(QA, qaCount);
+		reopenCount.put(UAT, uatCount);
+		reopenCount.put(PRODUCTION, prodCount);
+		return reopenCount;
+	}
+
+	/**
+	 * Generates the last 12 week range list from the given week end range
+	 * 
+	 * @param week
+	 * @return
+	 */
+	public List<String> findWeeks(String week) {
+		List<String> weeks = new ArrayList<String>();
+		SimpleDateFormat formatter = new SimpleDateFormat("M/d/yyyy");
+		Calendar c1 = Calendar.getInstance();
+		try {
+			c1.setTime(formatter.parse(week.split("-")[1]));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		c1.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+		c1.add(Calendar.WEEK_OF_MONTH, -1);
+		for (int i = 0; i < 12; i++) {
+			String startDate = formatter.format(c1.getTime());
+			c1.add(Calendar.DAY_OF_WEEK, +6);
+			String endDate = formatter.format(c1.getTime());
+			String finalRange = startDate + "-" + endDate;
+			weeks.add(finalRange);
+			c1.add(Calendar.DAY_OF_WEEK, -14);
+			c1.add(Calendar.DAY_OF_WEEK, 1);
+		}
+		Collections.reverse(weeks); // This sets the weeks set sequence in
+									// chronological order.
+		return weeks;
+	}
 }
