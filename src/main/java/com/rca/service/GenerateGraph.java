@@ -265,7 +265,7 @@ public class GenerateGraph
     /*renderer.setSeriesPaint(5, p2); 
     renderer.setSeriesPaint(9, p2); */
     
-    Paint orange = new GradientPaint(0.0f, 0.0f, new Color(255, 128, 0), 0.0f, 0.0f, new Color(255, 128, 0));
+    Paint orange = new GradientPaint(0.0f, 0.0f, new Color(210, 136, 62), 0.0f, 0.0f, new Color(210, 136, 62));
     renderer.setSeriesPaint(2, orange);
     /*renderer.setSeriesPaint(6, p3);
     renderer.setSeriesPaint(10, p3);*/
