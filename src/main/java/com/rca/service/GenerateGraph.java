@@ -42,8 +42,12 @@ import com.rca.service.graph.creation.DifferentTypeGraphCreationFactory;
 public class GenerateGraph
 {
 
+	public File createGraph(Map<String, Map<String,Integer>> data, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, boolean rotatedLabel, int graphWidth, int graphHeight, String graphType)
+	{
+		return createGraph(data, graphHeader, xAxis, yAxis, plotOrientation, rotatedLabel, graphWidth, graphHeight, graphType, true);
+	}
  
-  public File createGraph(Map<String, Map<String,Integer>> data, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, boolean rotatedLabel, int graphWidth, int graphHeight, String graphType)
+  public File createGraph(Map<String, Map<String,Integer>> data, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, boolean rotatedLabel, int graphWidth, int graphHeight, String graphType, boolean showLegend)
   {
     DefaultCategoryDataset chartDataSet = dataSetObjectCreation(data);
     DifferentTypeGraphAbstractCreation graphCreationObject = DifferentTypeGraphCreationFactory.createGraphCreationObject(graphType, graphHeader, xAxis, yAxis, plotOrientation, chartDataSet, true, true);
@@ -57,6 +61,7 @@ public class GenerateGraph
     //legend.setPosition(RectangleEdge.RIGHT);
     legend.setLegendItemGraphicLocation(RectangleAnchor.CENTER);
     legend.setFrame(BlockBorder.NONE);
+    legend.setVisible(showLegend);
     
     CategoryPlot plot = createPlot(jFreeChart);
 	CategoryAxis domainAxis = plot.getDomainAxis();

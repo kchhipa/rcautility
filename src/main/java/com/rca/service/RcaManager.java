@@ -26,4 +26,8 @@ public interface RcaManager {
 	public abstract RcaCount findWeeklyRCAReportByProjectId(String week, int projectId);
 	
 	public abstract List<RcaCount> findRCAReportForMultipleWeek();
+	
+	public List<RcaCount> findRCAReportForMultipleWeekForProject(int projectId);
+
+
 }

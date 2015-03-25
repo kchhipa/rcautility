@@ -26,5 +26,7 @@ public interface ProjectDetailsDAO {
 
 	//This setter will be used by Spring context to inject the sessionFactory instance
 	public abstract void setSessionFactory(SessionFactory sessionFactory);
+	
+	public abstract List<ProjectDetails> getAllActiveProjects();
 
 }

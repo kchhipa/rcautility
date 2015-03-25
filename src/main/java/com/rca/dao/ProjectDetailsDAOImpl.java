@@ -153,4 +153,17 @@ public class ProjectDetailsDAOImpl  implements ProjectDetailsDAO{
 		return pd;
 	}
 	
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ProjectDetails> getAllActiveProjects() {
+
+		String query = "from ProjectDetails where status=?";
+		Object[] queryParam = {"Active"};
+		List<ProjectDetails> results = (List<ProjectDetails>) template.find(query, queryParam);
+		if(results.size()>0){
+			return (List<ProjectDetails>) results.get(0);
+		}
+		return null;
+	}
 }

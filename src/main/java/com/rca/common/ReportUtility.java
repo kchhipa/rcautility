@@ -86,7 +86,7 @@ public class ReportUtility {
 		
 	}
 	
-	public Map<String, Map<String, Integer>> reportedQAAllWeeksGraphForIndividual(List<RcaCount> rcaCounts, List<String> allWeeks){
+/*	public Map<String, Map<String, Integer>> reportedQAAllWeeksGraphForIndividual(List<RcaCount> rcaCounts, List<String> allWeeks){
 		
 		Map<String, Map<String, Integer>> diffCategory = new LinkedHashMap<String, Map<String, Integer>>();
 		
@@ -113,8 +113,136 @@ public class ReportUtility {
 		}
 		
 		return diffCategory;
-	}
+	}*/
 	
+	/**
+	 * This method return map of all QA defect category wise for A project
+	 * @param rcaCounts
+	 * @param allWeeks
+	 * @return
+	 */
+	public Map<String, Map<String, Integer>> reportedQAAllWeeksGraphForIndividualProject(List<RcaCount> rcaCounts, List<String> allWeeks){
+		
+		Map<String, Map<String, Integer>> diffCategory = new LinkedHashMap<String, Map<String, Integer>>();
+		
+		for(int x=0; x < rcaCounts.size(); x++){
+			
+			RcaCount rcaCount = rcaCounts.get(x);
+			
+			if(allWeeks.contains(rcaCount.getWeek()))
+			{
+				Map<String, Integer> differentRootCause = new LinkedHashMap<String, Integer>();
+				
+				differentRootCause.put("Duplicate/ Not a Defect/ Unable to reproduce/ Browse/ As designed", mixCategoryWeeklyCountForAllProjectsInQA(rcaCount));
+	            differentRootCause.put("Data Issue", weeklyDataIssueForAllIssuesInQA(rcaCount));
+	            differentRootCause.put("Integration Issue", weeklyIntegrationIssueForAllIssuesInQA(rcaCount));
+	            differentRootCause.put("Configuration Issue", weeklyConfigurationIssueForAllIssuesInQA(rcaCount));
+	            differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssuesInQA(rcaCount));
+	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInQA(rcaCount));
+	
+	            diffCategory.put(rcaCount.getWeek(), differentRootCause);
+			}
+		}
+		
+		return diffCategory;
+	}
+
+	/**
+	 * This method return map of all UAT defect category wise for A project
+	 * @param rcaCounts
+	 * @param allWeeks
+	 * @return
+	 */
+	public Map<String, Map<String, Integer>> reportedUATAllWeeksGraphForIndividualProject(List<RcaCount> rcaCounts, List<String> allWeeks){
+		
+		Map<String, Map<String, Integer>> diffCategory = new LinkedHashMap<String, Map<String, Integer>>();
+		
+		for(int x=0; x < rcaCounts.size(); x++){
+			
+			RcaCount rcaCount = rcaCounts.get(x);
+			
+			if(allWeeks.contains(rcaCount.getWeek()))
+			{
+				Map<String, Integer> differentRootCause = new LinkedHashMap<String, Integer>();
+				
+				differentRootCause.put("Duplicate/ Not a Defect/ Unable to reproduce/ Browse/ As designed", mixCategoryWeeklyCountForAllProjectsInUAT(rcaCount));
+	            differentRootCause.put("Data Issue", weeklyDataIssueForAllIssuesInUAT(rcaCount));
+	            differentRootCause.put("Integration Issue", weeklyIntegrationIssueForAllIssuesInUAT(rcaCount));
+	            differentRootCause.put("Configuration Issue", weeklyConfigurationIssueForAllIssuesInUAT(rcaCount));
+	            differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssuesInUAT(rcaCount));
+	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInUAT(rcaCount));
+	
+	            diffCategory.put(rcaCount.getWeek(), differentRootCause);
+			}
+		}
+		
+		return diffCategory;
+	}	
+	
+	/**
+	 * This method return map of all prod defect category wise for A project
+	 * @param rcaCounts
+	 * @param allWeeks
+	 * @return
+	 */
+	public Map<String, Map<String, Integer>> reportedProdllWeeksGraphForIndividualProject(List<RcaCount> rcaCounts, List<String> allWeeks){
+		
+		Map<String, Map<String, Integer>> diffCategory = new LinkedHashMap<String, Map<String, Integer>>();
+		
+		for(int x=0; x < rcaCounts.size(); x++){
+			
+			RcaCount rcaCount = rcaCounts.get(x);
+			
+			if(allWeeks.contains(rcaCount.getWeek()))
+			{
+				Map<String, Integer> differentRootCause = new LinkedHashMap<String, Integer>();
+				
+				differentRootCause.put("Duplicate/ Not a Defect/ Unable to reproduce/ Browse/ As designed", mixCategoryWeeklyCountForAllProjectsInProd(rcaCount));
+	            differentRootCause.put("Data Issue", weeklyDataIssueForAllIssuesInProd(rcaCount));
+	            differentRootCause.put("Integration Issue", weeklyIntegrationIssueForAllIssuesInProd(rcaCount));
+	            differentRootCause.put("Configuration Issue", weeklyConfigurationIssueForAllIssuesInProd(rcaCount));
+	            differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssuesInProd(rcaCount));
+	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInProd(rcaCount));
+	
+	            diffCategory.put(rcaCount.getWeek(), differentRootCause);
+			}
+		}
+		
+		return diffCategory;
+	}	
+
+	/**
+	 * This method return map of all open defect category wise for A project
+	 * @param rcaCounts
+	 * @param allWeeks
+	 * @return
+	 */
+	public Map<String, Map<String, Integer>> reportedOpenllWeeksGraphForIndividualProject(List<RcaCount> rcaCounts, List<String> allWeeks){
+		
+		Map<String, Map<String, Integer>> diffCategory = new LinkedHashMap<String, Map<String, Integer>>();
+		
+		for(int x=0; x < rcaCounts.size(); x++){
+			
+			RcaCount rcaCount = rcaCounts.get(x);
+			
+			if(allWeeks.contains(rcaCount.getWeek()))
+			{
+				Map<String, Integer> differentRootCause = new LinkedHashMap<String, Integer>();
+				
+				differentRootCause.put("Duplicate/ Not a Defect/ Unable to reproduce/ Browse/ As designed", mixCategoryWeeklyCountForAllProjects(rcaCount));
+	            differentRootCause.put("Data Issue", weeklyDataIssueForAllIssues(rcaCount));
+	            differentRootCause.put("Integration Issue", weeklyIntegrationIssueForAllIssues(rcaCount));
+	            differentRootCause.put("Configuration Issue", weeklyConfigurationIssueForAllIssues(rcaCount));
+	            differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssues(rcaCount));
+	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssues(rcaCount));
+	
+	            diffCategory.put(rcaCount.getWeek(), differentRootCause);
+			}
+		}
+		
+		return diffCategory;
+	}	
+
 	public Map<String, Map<String, Integer>> reportedUATRCAForAllProjects(List<RcaCount> rcaCounts){
 
 		Map<String, Map<String, Integer>> diffCategory = new LinkedHashMap<String, Map<String, Integer>>();;
