@@ -219,7 +219,21 @@ public class RcaCountDAOImpl implements RcaCountDAO {
 						Restrictions.in("week", weeks)));
 		return results;
 	}
-	
+	/**
+	 * This method return all week rca count for single project
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<RcaCount> findRCAReportForMultipleWeekForProject(int projectId) {
+
+		String query = "from RcaCount where project_id =?";
+		Object[] queryParam = {projectId};
+		List<RcaCount> results = (List<RcaCount>) template.find(query, queryParam);
+		if(results.size()>0){
+			return (List<RcaCount>) results;
+		}
+		return null;
+	}
 	// This setter will be used by Spring context to inject the sessionFactory
 		// instance
 		public void setSessionFactory(SessionFactory sessionFactory) {

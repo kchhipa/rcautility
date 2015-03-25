@@ -1,5 +1,7 @@
 package com.rca.service;
 
+import java.util.List;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import com.rca.dao.ProjectDetailsDAO;
@@ -30,5 +32,10 @@ public class ProjectDetailsManagerImpl implements ProjectDetailsManager {
 		return projectDetailsDAO.findProjectDetailsByIdWithRcaCount(id);
 	}
 
-
+	@Override
+	@Transactional
+	public List<ProjectDetails> getAllActiveProjects() {
+		// TODO Auto-generated method stub
+		return projectDetailsDAO.getAllActiveProjects();
+	}
 }

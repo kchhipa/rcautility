@@ -1,9 +1,5 @@
 package com.rca.service;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -107,5 +103,11 @@ public class RcaManagerImpl implements RcaManager {
 	public List<RcaCount> findRCAByWeekPeriod(String week) {
 		// TODO Auto-generated method stub
 		return rcaCountDAO.findRCAByWeekPeriod(week);
+	}
+	
+	@Override
+	public List<RcaCount> findRCAReportForMultipleWeekForProject(int projectId)  {
+		// TODO Auto-generated method stub
+		return rcaCountDAO.findRCAReportForMultipleWeekForProject(projectId);
 	}
 }

@@ -29,5 +29,7 @@ public interface RcaCountDAO {
 	public abstract RcaCount findWeeklyRCAReportByProjectId(String week, int projectId);
 	
 	public abstract List<RcaCount> findRCAReportForMultipleWeek(List<String> weeks);
+	
+	public List<RcaCount> findRCAReportForMultipleWeekForProject(int projectId);
 
 }
