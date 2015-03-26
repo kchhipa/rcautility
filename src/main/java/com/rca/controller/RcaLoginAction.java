@@ -31,6 +31,7 @@ public class RcaLoginAction extends ActionSupport implements SessionAware {
 	//Employee manager injected by spring context
 		private RcaManager rcaManager;
 		public static final String Manger = "manager";
+		public static final String Lead = "lead";
 	
 	public String execute() throws FileNotFoundException, IOException, URISyntaxException
 	{
@@ -56,6 +57,10 @@ public class RcaLoginAction extends ActionSupport implements SessionAware {
 		   if(result.contains(Manger)){
 			   setRole(Manger);
 			   session.put("role", Manger);
+		   }
+		   else if(result.contains(Lead))
+		   {
+			   session.put("role", Lead);
 		   }
 			  getProjectDetails();			
 	   }

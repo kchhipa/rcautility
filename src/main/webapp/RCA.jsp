@@ -207,6 +207,8 @@ function calculateWeek()
 	   var dayDiff = null;
 	   var weekValue = document.getElementById("week_id").value;
 	   var weeks = new Array();
+	   var role = "<%= (String) session.getAttribute("role")%>";
+	   //alert("Role is: " + role);
 	   if(weekValue != "Select Week")
 		   {
 		 	  weeks = weekValue.split("-");		   
@@ -215,13 +217,14 @@ function calculateWeek()
 		
 			  dayDiff = (todaysDate.getTime() - lastWeekDay.getTime())/(1000*60*60*24);
 		   }
-	   if(dayDiff != null && dayDiff>7)
+	   if(dayDiff != null && dayDiff>2 && role != "manager")
 		   {
 			   document.getElementById("submitRcaId").disabled=true;
 			  /*  document.getElementById("updateId").disabled=true; */
 			   document.getElementById("resetId").disabled=true;
 			   disableTextFields(true);
 			   submitReset();
+			   document.getElementById("tuesdayError").innerHTML = "You cannot fill RCA data after due date i.e. every Monday.";
 		   }
 	   else
 		   {
@@ -247,6 +250,7 @@ function calculateWeek()
 		   {
 		  	 elementIdArray[i].value="";
 		   }
+	   document.getElementById("tuesdayError").disabled=false;
    }
    function getElementIdArray()
    {	
@@ -430,7 +434,9 @@ function calculateWeek()
 				<!-- <td><input type=button value="Update" id="updateId" onclick="updateRca()" <s:if test="isdisabled==true"> disabled </s:if> /></td> -->
 				<td><input type=button value="Reset" id="resetId" onclick="submitReset()" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 			</tr>			
-			<tr> 		
+			<tr> 
+				<div id="tuesdayError" class="errors" style="color: red;"> </div>
+		
 				  <!-- <td colspan="5" style="padding-top:50px;"><input type="submit" value="Template Download" id="template" onclick="templateDownload()"/>
 			&nbsp;&nbsp;&nbsp;&nbsp;<label for="data_issue  ">Select File</label> 
 			<input  type="file" name="rcaFile" id="rcaFile"  /> 

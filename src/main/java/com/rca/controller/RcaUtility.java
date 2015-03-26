@@ -358,7 +358,9 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 			e.printStackTrace();
 		}
 		
-		if(diffDays<7)
+		String role = (String) session.get("role");
+		
+		if(diffDays<2 || role.equals("manager"))
 			isdisabled = false;
 		
 		Calendar cal = Calendar.getInstance();
