@@ -648,7 +648,6 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		Picture pict5 = new Picture(idx4);
 		pict5.setAnchor(new java.awt.Rectangle(540, totalPageHeight-115, pageWidth-5, pageheight-30));
 		slide.addShape(pict5);
-		Log.debug("Eixt createGraphIndividualPpt");
 
 		// reading an image
 		InputStream stream = getClass().getResourceAsStream("ColorCategory.jpg");
@@ -660,6 +659,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		pictImage.setAnchor(new java.awt.Rectangle(0, totalPageHeight,
 				pageWidth * 4, pageheight / 7));
 		slide.addShape(pictImage);
+		Log.debug("Eixt createGraphIndividualPpt");
 	}
 	
 	

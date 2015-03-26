@@ -267,13 +267,13 @@ public class ReportUtility {
 			Map<String, Integer> differentRootCause = new LinkedHashMap<String, Integer>();
 			if(rcaCount !=null )
 			{
-				differentRootCause.put("Duplicate/ Not a Defect/ Unable to reproduce/ Browse/ As designed", mixCategoryWeeklyCountForAllProjects(rcaCount));
-	            differentRootCause.put("Data Issue", weeklyDataIssueForAllIssues(rcaCount));
-	            differentRootCause.put("Integration Issue", weeklyIntegrationIssueForAllIssues(rcaCount));
-	            differentRootCause.put("Configuration Issue", weeklyConfigurationIssueForAllIssues(rcaCount));
-	            differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssues(rcaCount));
-	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssues(rcaCount));
-	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssues(rcaCount));
+				differentRootCause.put("Duplicate/ Not a Defect/ Unable to reproduce/ Browse/ As designed", mixCategoryWeeklyCountForAllProjectsInOpen(rcaCount));
+	            differentRootCause.put("Data Issue", weeklyDataIssueForAllIssuesInOpen(rcaCount));
+	            differentRootCause.put("Integration Issue", weeklyIntegrationIssueForAllIssuesInOpen(rcaCount));
+	            differentRootCause.put("Configuration Issue", weeklyConfigurationIssueForAllIssuesInOpen(rcaCount));
+	            differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssuesInOpen(rcaCount));
+	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInOpen(rcaCount));
+	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInOpen(rcaCount));
 	            diffCategory.put(allWeeks.get(x), differentRootCause);
 			}
 			else
@@ -464,6 +464,18 @@ public class ReportUtility {
 		return total;
 	}
 	
+	/**
+	 * Method to return open Others Defect count for a selected week.
+	 * @param rcaWeeks
+	 * @return
+	 */
+	public int mixCategoryWeeklyCountForAllProjectsInOpen(RcaCount rcaWeeks){
+		int total=0;
+			total = total + ( rcaWeeks.getDupProductBacklog()+ rcaWeeks.getNadProductBacklog() + rcaWeeks.getUtrProductBacklog() +  
+					rcaWeeks.getBsiProductBacklog() + rcaWeeks.getAdProductBacklog());
+		return total;
+	}
+	
 	public int weeklyDataIssueForAllIssues(RcaCount rcaWeeks){
 		int total =0;
 		
@@ -496,7 +508,19 @@ public class ReportUtility {
 		return total;
 		
 	}
+	/**
+	 * Method to return open data Defect count for a selected week.
+	 * @param rcaWeeks
+	 * @return
+	 */
 	
+	public int weeklyDataIssueForAllIssuesInOpen(RcaCount rcaWeeks){
+		int total =0;
+		
+			total = total + (rcaWeeks.getDiProductBacklog());
+		return total;
+		
+	}
 	public int weeklyIntegrationIssueForAllIssues(RcaCount rcaWeeks){
 		int total =0;
 		
@@ -531,7 +555,19 @@ public class ReportUtility {
 		return total;
 		
 	}
-	
+	/**
+	 * Method to return open Integration Defect count for a selected week.
+	 * @param rcaWeeks
+	 * @return
+	 */
+	public int weeklyIntegrationIssueForAllIssuesInOpen(RcaCount rcaWeeks){
+		int total =0;
+		
+			total = total + (rcaWeeks.getFfmProductBacklog() + rcaWeeks.getCrmesbProductBacklog() + rcaWeeks.getPmuuProductBacklog() + 
+					rcaWeeks.getOtpProductBacklog() + rcaWeeks.getIoProductBacklog());
+		return total;
+		
+	}
 	public int weeklyConfigurationIssueForAllIssues(RcaCount rcaWeeks){
 		int total =0;
 		
@@ -570,7 +606,21 @@ public class ReportUtility {
 		return total;
 		
 	}
-	
+	/**
+	 * Sum of all configuration issue in open for a project and a week
+	 * @param rcaWeeks
+	 * @return
+	 */
+	public int weeklyConfigurationIssueForAllIssuesInOpen(RcaCount rcaWeeks){
+		int total =0;
+		
+			
+			total = total + (rcaWeeks.getPlanProductBacklog() + rcaWeeks.getRateProductBacklog() + rcaWeeks.getRpaProductBacklog() + rcaWeeks.getAcProductBacklog() +
+				rcaWeeks.getTiProductBacklog() + rcaWeeks.getDpProductBacklog() + rcaWeeks.getEnvProductBacklog() + rcaWeeks.getCoProductBacklog());
+		
+		return total;
+		
+	}
 	public int weeklyMissedAndCRCountForAllIssues(RcaCount rcaWeeks){
 		
 		int total =0;
@@ -603,6 +653,20 @@ public class ReportUtility {
 			total = total + (rcaWeeks.getMrProd() + rcaWeeks.getCrProd());
 		return total;
 	}
+	
+	/**
+	 * This function sum all changed and missed require for a project and a week
+	 * @param rcaWeeks
+	 * @return
+	 */
+	public int weeklyMissedAndCRCountForAllIssuesInOpen(RcaCount rcaWeeks){
+		
+		int total =0;
+		
+			total = total + (rcaWeeks.getMrProductBacklog() + rcaWeeks.getCrProductBacklog());
+		return total;
+	}
+
 	
 	public int weeklyClientCodeBugForAllIssues(RcaCount rcaWeeks){
        
@@ -640,6 +704,20 @@ public class ReportUtility {
 		
 		return total;
 	}
+	/**
+	 * This method rerurn sum of client code defect for a week and a project from open category
+	 * @param rcaWeeks
+	 * @return
+	 */
+	public int weeklyClientCodeBugForAllIssuesInOpen(RcaCount rcaWeeks){
+	       
+		int total =0;
+		
+			total = total + rcaWeeks.getCcbProductBacklog();
+		
+		return total;
+	}
+		
 	
 	/**
 	 * Method to return all environments Product Defect count for a selected week.
@@ -693,6 +771,20 @@ public class ReportUtility {
 		int total =0;
 		
 			total = total + rcaWeeks.getPdProd();
+		
+		return total;
+	}
+	
+	/**
+	 * Method to return open Product Defect count for a selected week.
+	 * @param rcaWeeks
+	 * @return
+	 */
+	public int weeklyProductDefectForAllIssuesInOpen(RcaCount rcaWeeks){
+	       
+		int total =0;
+		
+			total = total + rcaWeeks.getPdProductBacklog();
 		
 		return total;
 	}
