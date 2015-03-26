@@ -20,6 +20,7 @@ import org.apache.poi.xslf.usermodel.XSLFPictureData;
 import org.apache.struts2.dispatcher.SessionMap;
 import org.apache.struts2.interceptor.SessionAware;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.util.Log;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.rca.common.RCAConstants;
@@ -112,11 +113,14 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		out.close();
 	}
 	
+	/**
+	 * This method get active project list and create PPT for all active projects.
+	 * @throws IOException
+	 */
 	private void createProjectSpecificGraphs() throws IOException{
 		
 		List<ProjectDetails> activeProjectList = projectDetailsManager.getAllActiveProjects();
 				
-		List<String> allWeeks = rU.findWeeks(rca.getWeek());
 		for(int index =0; index < activeProjectList.size(); index++)
 		{
 			List<RcaCount> rcaCounts = rcaManager.findRCAReportForMultipleWeekForProject(activeProjectList.get(index).getProjectId() );
@@ -600,7 +604,14 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		}
 		return allWeeksrcaCountsforIndividual;
 	}
+	/**
+	 * 
+	 * @param rcaCount
+	 * @param ppt
+	 * @throws IOException
+	 */
 	public void createGraphIndividualPpt(List<RcaCount> rcaCount , SlideShow ppt) throws IOException{
+		Log.debug("Enter createGraphIndividualPpt");
 		Slide slide = ppt.createSlide();
 		int pageWidth = ppt.getPageSize().width/4;
 		int pageheight = ppt.getPageSize().height/3;
@@ -610,30 +621,33 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		//List<RcaCount> allWeeksrcaCounts = rcaManager.findRCAReportForMultipleWeek();
 		ReportUtility rU = new ReportUtility();
 		List<String> allWeeks = rU.findWeeks(rca.getWeek());
-		int idx1 = ppt.addPicture(generateGraph.createGraph( rU.reportedOpenllWeeksGraphForIndividualProject(rcaCount, allWeeks), "Cumulative Open", "", "",
-				PlotOrientation.VERTICAL, true, 850, 550,RCAConstants.BAR, false) , XSLFPictureData.PICTURE_TYPE_PNG);
-		int idx2 = ppt.addPicture(generateGraph.createGraph( rU.reportedProdllWeeksGraphForIndividualProject(rcaCount, allWeeks), "Weekly PROD", "", "",
-				PlotOrientation.VERTICAL, true, 850, 550,RCAConstants.BAR, false) , XSLFPictureData.PICTURE_TYPE_PNG);
+		int idx1 = ppt.addPicture(generateGraph.createGraph( rU.reportedOpenAllWeeksGraphForIndividualProject(rcaCount, allWeeks), "Cumulative Open", "", "",
+				PlotOrientation.VERTICAL, true, 900, 650,RCAConstants.BAR, false) , XSLFPictureData.PICTURE_TYPE_PNG);
+		int idx2 = ppt.addPicture(generateGraph.createGraph( rU.reportedProdAllWeeksGraphForIndividualProject(rcaCount, allWeeks), "Weekly PROD", "", "",
+				PlotOrientation.VERTICAL, true, 900, 650,RCAConstants.BAR, false) , XSLFPictureData.PICTURE_TYPE_PNG);
 		int idx3 = ppt.addPicture(generateGraph.createGraph( rU.reportedUATAllWeeksGraphForIndividualProject(rcaCount, allWeeks), "Weekly UAT", "", "",
-				PlotOrientation.VERTICAL, true, 850, 550,RCAConstants.BAR, false) , XSLFPictureData.PICTURE_TYPE_PNG);
+				PlotOrientation.VERTICAL, true, 900, 650,RCAConstants.BAR, false) , XSLFPictureData.PICTURE_TYPE_PNG);
 		int idx4 = ppt.addPicture(generateGraph.createGraph( rU.reportedQAAllWeeksGraphForIndividualProject(rcaCount, allWeeks), "Weekly QA", "", "",
-				PlotOrientation.VERTICAL, true, 850, 550,RCAConstants.BAR, false) , XSLFPictureData.PICTURE_TYPE_PNG);
+				PlotOrientation.VERTICAL, true, 900, 650,RCAConstants.BAR, false) , XSLFPictureData.PICTURE_TYPE_PNG);
 		TextBox txt1 = new TextBox();
 		txt1.setText(rcaCount.get(0).getProjectDetails().getProjectName() + " Dashboard");
 		txt1.setAnchor(new java.awt.Rectangle(pageWidth+20, 20, pageWidth-10, pageheight-50));
 		slide.addShape(txt1);
+		
+		//Adding 4 RCA slide
 		Picture pict2 = new Picture(idx1);
-		pict2.setAnchor(new java.awt.Rectangle(0, totalPageHeight-160, pageWidth-5, pageheight-50));
+		pict2.setAnchor(new java.awt.Rectangle(0, totalPageHeight-160, pageWidth, pageheight-10));
 		slide.addShape(pict2);
 		Picture pict3 = new Picture(idx2);
-		pict3.setAnchor(new java.awt.Rectangle(180, totalPageHeight-160, pageWidth-5, pageheight-50));
+		pict3.setAnchor(new java.awt.Rectangle(180, totalPageHeight-160, pageWidth, pageheight-10));
 		slide.addShape(pict3);
 		Picture pict4 = new Picture(idx3);
-		pict4.setAnchor(new java.awt.Rectangle(360, totalPageHeight-160, pageWidth-5, pageheight-50));
+		pict4.setAnchor(new java.awt.Rectangle(360, totalPageHeight-160, pageWidth, pageheight-10));
 		slide.addShape(pict4);
 		Picture pict5 = new Picture(idx4);
-		pict5.setAnchor(new java.awt.Rectangle(540, totalPageHeight-160, pageWidth-5, pageheight-50));
+		pict5.setAnchor(new java.awt.Rectangle(540, totalPageHeight-160, pageWidth, pageheight-10));
 		slide.addShape(pict5);
+		Log.debug("Eixt createGraphIndividualPpt");
 
 	}
 	
