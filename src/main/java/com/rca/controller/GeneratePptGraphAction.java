@@ -615,7 +615,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		Log.debug("Enter createGraphIndividualPpt");
 		Slide slide = ppt.createSlide();
 		int pageWidth = ppt.getPageSize().width/4;
-		int pageheight = ppt.getPageSize().height/4;
+		int pageheight = ppt.getPageSize().height/3;
 		int totalPageHeight = ppt.getPageSize().height;
 		GenerateGraph generateGraph = new GenerateGraph();
 		// add a new picture to this slideshow and insert it in a new slide
@@ -637,16 +637,16 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		
 		//Adding 4 RCA slide
 		Picture pict2 = new Picture(idx1);
-		pict2.setAnchor(new java.awt.Rectangle(0, totalPageHeight-135, pageWidth-5, pageheight-30));
+		pict2.setAnchor(new java.awt.Rectangle(0, pageheight+180, pageWidth-5, pageheight-30));
 		slide.addShape(pict2);
 		Picture pict3 = new Picture(idx2);
-		pict3.setAnchor(new java.awt.Rectangle(180, totalPageHeight-135, pageWidth-5, pageheight-30));
+		pict3.setAnchor(new java.awt.Rectangle(180, pageheight+180, pageWidth-5, pageheight-30));
 		slide.addShape(pict3);
 		Picture pict4 = new Picture(idx3);
-		pict4.setAnchor(new java.awt.Rectangle(360, totalPageHeight-135, pageWidth-5, pageheight-30));
+		pict4.setAnchor(new java.awt.Rectangle(360, pageheight+180, pageWidth-5, pageheight-30));
 		slide.addShape(pict4);
 		Picture pict5 = new Picture(idx4);
-		pict5.setAnchor(new java.awt.Rectangle(540, totalPageHeight-135, pageWidth-5, pageheight-30));
+		pict5.setAnchor(new java.awt.Rectangle(540, pageheight+180, pageWidth-5, pageheight-30));
 		slide.addShape(pict5);
 
 		// reading an image
@@ -656,7 +656,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		// adding the image to the presentation
 		int imgx = ppt.addPicture(picture, XSLFPictureData.PICTURE_TYPE_JPEG);
 		Picture pictImage = new Picture(imgx);
-		pictImage.setAnchor(new java.awt.Rectangle(0, totalPageHeight-20,
+		pictImage.setAnchor(new java.awt.Rectangle(0, pageheight+320,
 				pageWidth * 4, pageheight / 7));
 		slide.addShape(pictImage);
 		Log.debug("Eixt createGraphIndividualPpt");
