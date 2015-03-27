@@ -56,6 +56,11 @@
 			method="submitAddProject">
 			<result name="success">add_Project.jsp</result>
 		</action>
+	
+		<action name="importData" class="com.rca.controller.RcaUtility"
+			method="importData">
+			<result name="success">importData.jsp</result>
+		</action>
 		
 		<action name="templateDownload" class="com.rca.controller.RcaUtility"
 			method="templateDownload">

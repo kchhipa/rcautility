@@ -25,13 +25,23 @@ function addProject()
 	document.RCA_Form.action="viewAddProject";
 	document.RCA_Form.submit(); 
 }
+function importData()
+{
+	document.RCA_Form.action="importData";
+	document.RCA_Form.submit(); 
+}
+function displayRcaPage()
+{
+	document.RCA_Form.action="getRcaDetail";
+	document.RCA_Form.submit(); 
+}
 
 </script>
      <div class="left-box">
 		  <ul id="menu">
 		  
-		    <li><a href="RCA.jsp">Enter Last Week Data </a></li>
-	    	<li><a href="importData.jsp">Import Last Week Data</a></li>
+		    <li><a href="javascript:displayRcaPage()">Enter Last Week Data </a></li>
+	    	<li><a href="javascript:importData();">Import Last Week Data</a></li>
 			<li><a href="javascript:templateDownload();">Download Template</a></li>
 			  <s:if test="#session.role != null && #session.role.equals('manager')">
 				   <li><a href="exportWeeklyData.jsp">Export Weekly Data</a></li>
