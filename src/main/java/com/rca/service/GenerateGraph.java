@@ -1,6 +1,7 @@
 package com.rca.service;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Paint;
 import java.io.File;
@@ -46,10 +47,10 @@ public class GenerateGraph
 
 	public File createGraph(Map<String, Map<String,Integer>> data, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, boolean rotatedLabel, int graphWidth, int graphHeight, String graphType)
 	{
-		return createGraph(data, graphHeader, xAxis, yAxis, plotOrientation, rotatedLabel, graphWidth, graphHeight, graphType, true);
+		return createGraph(data, graphHeader, xAxis, yAxis, plotOrientation, rotatedLabel, graphWidth, graphHeight, graphType, true, false);
 	}
  
-  public File createGraph(Map<String, Map<String,Integer>> data, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, boolean rotatedLabel, int graphWidth, int graphHeight, String graphType, boolean showLegend)
+  public File createGraph(Map<String, Map<String,Integer>> data, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, boolean rotatedLabel, int graphWidth, int graphHeight, String graphType, boolean showLegend, boolean projectFontSize)
   {
     DefaultCategoryDataset chartDataSet = dataSetObjectCreation(data);
     DifferentTypeGraphAbstractCreation graphCreationObject = DifferentTypeGraphCreationFactory.createGraphCreationObject(graphType, graphHeader, xAxis, yAxis, plotOrientation, chartDataSet, true, true);
@@ -67,12 +68,22 @@ public class GenerateGraph
     
     CategoryPlot plot = createPlot(jFreeChart);
 	CategoryAxis domainAxis = plot.getDomainAxis();
-
+	
 	/* If inclined label is required on domain axis */
 	if(rotatedLabel)
 	{
-		domainAxis.setCategoryLabelPositions(
-				CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 6.0));
+		if(projectFontSize){
+		  	Font font = new Font("Arial", Font.BOLD, 26);
+		  	jFreeChart.getLegend().setItemFont(font);
+		  	domainAxis.setTickLabelFont(font);
+		  	plot.getRangeAxis().setTickLabelFont(font);
+		  	domainAxis.setCategoryLabelPositions(
+					CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 2.0));
+		}else{
+			domainAxis.setCategoryLabelPositions(
+					CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 6.0));
+		}
+
 	}
     
     plot.setRenderer(createRender());
