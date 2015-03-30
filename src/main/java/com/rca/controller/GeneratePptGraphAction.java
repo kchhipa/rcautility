@@ -109,7 +109,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		createProjectSpecificGraphs();
 		
 		FileOutputStream out = new FileOutputStream(
-				"D:\\project.ppt");
+				"D:\\Weekly review.ppt");
 		ppt.write(out);
 		out.close();
 	}
