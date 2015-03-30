@@ -6,6 +6,7 @@ import java.awt.GradientPaint;
 import java.awt.Paint;
 import java.io.File;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -20,9 +21,11 @@ import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.block.BlockBorder;
 import org.jfree.chart.labels.CategoryItemLabelGenerator;
+import org.jfree.chart.labels.CategoryToolTipGenerator;
 import org.jfree.chart.labels.ItemLabelAnchor;
 import org.jfree.chart.labels.ItemLabelPosition;
 import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
+import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
@@ -87,6 +90,7 @@ public class GenerateGraph
 	}
     
     plot.setRenderer(createRender());
+    
     return createGraphImage(jFreeChart, graphWidth, graphHeight);
   }
   
@@ -94,7 +98,7 @@ public class GenerateGraph
   public File createWeeklyGraph(List data, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, boolean rotatedLabel, int graphWidth, int graphHeight, String graphType)
   {
 	  DefaultCategoryDataset chartDataSet = dataSetObjectCreation(data);
-	  DifferentTypeGraphAbstractCreation graphCreationObject = DifferentTypeGraphCreationFactory.createGraphCreationObject(graphType, graphHeader, xAxis, yAxis, plotOrientation, chartDataSet, false, false);
+	  DifferentTypeGraphAbstractCreation graphCreationObject = DifferentTypeGraphCreationFactory.createGraphCreationObject(graphType, graphHeader, xAxis, yAxis, plotOrientation, chartDataSet, false, true);
 	  JFreeChart jFreeChart = graphCreationObject.createGraph();
 
 	  // set the background color for the chart...
@@ -110,6 +114,9 @@ public class GenerateGraph
 	  }
 
 	  CategoryItemRenderer renderer = new CustomRenderer();
+	  
+	  /* Enabling the tool tip generator */
+	  renderer.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator());
 
 	  /* This Generator enables the labels to be placed on top of bars */
 	  CategoryItemLabelGenerator itemLabelGenerator = new StandardCategoryItemLabelGenerator();
@@ -122,7 +129,7 @@ public class GenerateGraph
 
 	  plot.setRenderer(renderer);
 	  	  
-	  //plot.setRenderer(createWeeklyGraphRender(plot));   
+	  //plot.setRenderer(createWeeklyGraphRender(plot));   +
 	  return createGraphImage(jFreeChart, graphWidth, graphHeight);
 	}
   
@@ -266,38 +273,41 @@ public class GenerateGraph
     GroupedStackedBarRenderer renderer = new GroupedStackedBarRenderer();
     
     renderer.setItemMargin(0.0);
-    Paint darkLilac = new GradientPaint(0.0f, 0.0f, new Color(128, 92, 146), 0.0f, 0.0f, new Color(128, 92, 146));
+    Paint darkLilac = new GradientPaint(0.0f, 0.0f, new Color(113, 88, 143), 0.0f, 0.0f, new Color(113, 88, 143));
     renderer.setSeriesPaint(0, darkLilac);
     /*renderer.setSeriesPaint(4, p1);
     renderer.setSeriesPaint(8, p1);*/
      
-    Paint steelGray = new GradientPaint(0.0f, 0.0f, new Color(153, 190, 215), 0.0f, 0.0f, new Color(153, 190, 215));
+    Paint steelGray = new GradientPaint(0.0f, 0.0f, new Color(147, 169, 207), 0.0f, 0.0f, new Color(153, 190, 215));
     renderer.setSeriesPaint(1, steelGray); 
     /*renderer.setSeriesPaint(5, p2); 
     renderer.setSeriesPaint(9, p2); */
     
-    Paint orange = new GradientPaint(0.0f, 0.0f, new Color(210, 136, 62), 0.0f, 0.0f, new Color(210, 136, 62));
+    Paint orange = new GradientPaint(0.0f, 0.0f, new Color(219, 132, 61), 0.0f, 0.0f, new Color(219, 132, 61));
     renderer.setSeriesPaint(2, orange);
     /*renderer.setSeriesPaint(6, p3);
     renderer.setSeriesPaint(10, p3);*/
         
-	Paint darkBrown = new GradientPaint(0.0f, 0.0f, new Color(153, 76, 0), 0.0f, 0.0f, new Color(153, 76, 0));
+	Paint darkBrown = new GradientPaint(0.0f, 0.0f, new Color(170, 70, 67), 0.0f, 0.0f, new Color(170, 70, 67));
     renderer.setSeriesPaint(3, darkBrown);
     /*renderer.setSeriesPaint(7, p4);
     renderer.setSeriesPaint(11, p4);*/
     
-    Paint bluishGray = new GradientPaint(0.0f, 0.0f, new Color(40, 111, 172), 0.0f, 0.0f, new Color(40, 111, 172));
+    Paint bluishGray = new GradientPaint(0.0f, 0.0f, new Color(69, 114, 167), 0.0f, 0.0f, new Color(69, 114, 167));
     renderer.setSeriesPaint(4, bluishGray);
     
-    Paint red = new GradientPaint(0.0f, 0.0f, Color.red.brighter(), 0.0f, 0.0f, Color.red.brighter());
+    Paint red = new GradientPaint(0.0f, 0.0f, new Color(255, 0, 0), 0.0f, 0.0f, new Color(255, 0, 0));
     renderer.setSeriesPaint(5, red);
     
-    Paint seaGreen = new GradientPaint(0.0f, 0.0f, new Color(0, 153, 153), 0.0f, 0.0f, new Color(0, 153, 153));
+    Paint seaGreen = new GradientPaint(0.0f, 0.0f, new Color(65, 152, 175), 0.0f, 0.0f, new Color(65, 152, 175));
     renderer.setSeriesPaint(6, seaGreen);
     
     renderer.setGradientPaintTransformer(
         new StandardGradientPaintTransformer(GradientPaintTransformType.HORIZONTAL)
     );
+    
+    /* Enabling the tool tip generator */
+    renderer.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator());
     
     /* Setting the Bar paint to be plain & not glossy. */
     ((BarRenderer) renderer).setBarPainter(new StandardBarPainter());

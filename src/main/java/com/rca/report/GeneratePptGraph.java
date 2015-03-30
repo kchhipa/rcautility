@@ -20,6 +20,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
@@ -124,6 +125,9 @@ public class GeneratePptGraph {
 	        
 	        final BarRenderer3D renderer = (BarRenderer3D) plot.getRenderer();
 	        renderer.setDrawBarOutline(false);
+	        
+	        /* Enabling the tool tip generator */
+	  	  renderer.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator());
 	        
 	     // add the chart to a panel...
 	        final ChartPanel chartPanel = new ChartPanel(barChartObject);
