@@ -66,6 +66,8 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 	
 	public String importData()
 	{
+		RcaUtilityDao.getRcaDetail(rca);
+		getWeekDates(rca.week);
 		return SUCCESS;
 	}
 	
