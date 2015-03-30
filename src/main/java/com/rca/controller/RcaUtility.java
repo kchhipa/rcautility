@@ -61,7 +61,12 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 	{		
 		RcaUtilityDao.getRcaDetail(rca);
 		getWeekDates(rca.week);
-		return "success";
+		return SUCCESS;
+	}
+	
+	public String importData()
+	{
+		return SUCCESS;
 	}
 	
 	public String submitAddProject() throws SQLException{
@@ -341,34 +346,29 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 		Date currentDate = new Date();
 		long diffDays=0;
 		if(weekdates!=null && !weekdates.isEmpty()){
-		if(weekdates.contains("-"))
-			dates = weekdates.split("-");	
-		
-			
-	    SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-	    
-		try {			 
-				Date date = formatter.parse(dates[1]);								
-				long diff = currentDate.getTime() - date.getTime();			 		
-				diffDays = diff / (24 * 60 * 60 * 1000);
-	 
+			if(weekdates.contains("-"))
+			{
+				dates = weekdates.split("-");	
+			    SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+				try {			 
+						Date date = formatter.parse(dates[1]);								
+						long diff = currentDate.getTime() - date.getTime();			 		
+						diffDays = diff / (24 * 60 * 60 * 1000);
+				}
+				catch (ParseException e)
+				{
+					e.printStackTrace();
+				}
+				String role = (String) session.get("role");
+				if(diffDays<2 || role.equals("manager"))
+					isdisabled = false;
+				Calendar cal = Calendar.getInstance();
+			    cal.setTime(currentDate);
+				weekStr = weekdates.replaceAll("/"+cal.get(Calendar.YEAR), "");
 			}
-		catch (ParseException e)
-		{
-			e.printStackTrace();
-		}
-		
-		String role = (String) session.get("role");
-		
-		if(diffDays<2 || role.equals("manager"))
-			isdisabled = false;
-		
-		Calendar cal = Calendar.getInstance();
-	    cal.setTime(currentDate);
-		
-		weekStr = weekdates.replaceAll("/"+cal.get(Calendar.YEAR), "");
 		}
 	}
+
 public String exportData() throws IOException, RowsExceededException, WriteException, BiffException 
 {
 	 List<RCA> rcaList=null;;

@@ -64,8 +64,8 @@
 		  </tr>
 		  <tr>
 				<td colspan="2">
-				<s:select name="rca.week" list="weeks" headerKey="Select Week" headerValue="Select Week" label="Week" id ="week_id" />			
-				</select></td>
+					<s:select name="rca.week" list="weeks" headerKey="Select Week" headerValue="Select Week" label="Week" id ="week_id" />			
+				</td>
 		  
 		  <tr></tr>
 
