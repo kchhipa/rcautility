@@ -118,12 +118,15 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		List<ProjectDetails> activeProjectList = projectDetailsManager.getAllActiveProjects();
 				
 		List<String> allWeeks = rU.findWeeks(rca.getWeek());
-		for(int index =0; index < activeProjectList.size(); index++)
+		if(activeProjectList != null && activeProjectList.size()!=0)
 		{
-			List<RcaCount> rcaCounts = rcaManager.findRCAReportForMultipleWeekForProject(activeProjectList.get(index).getProjectId() );
-			if(rcaCounts !=null && rcaCounts.size() >0)
+			for(int index =0; index < activeProjectList.size(); index++)
 			{
-				createGraphIndividualPpt(rcaCounts, ppt);
+				List<RcaCount> rcaCounts = rcaManager.findRCAReportForMultipleWeekForProject(activeProjectList.get(index).getProjectId() );
+				if(rcaCounts !=null && rcaCounts.size() >0)
+				{
+					createGraphIndividualPpt(rcaCounts, ppt);
+				}
 			}
 		}
 		
