@@ -50,6 +50,7 @@ function calculateWeek()
 		var years = new Array();
 		
 		var d2 = new Date();
+		d2.setDate(d2.getDate()+3);
 		
 		for(var i=0;d<=d2;i++)
 			{
@@ -203,6 +204,7 @@ function calculateWeek()
    function disableSubmit()
    {
 	   var todaysDate = new Date();
+	   todaysDate.setDate(todaysDate.getDate()+2);
 	   var lastWeekDay = null;
 	   var dayDiff = null;
 	   var weekValue = document.getElementById("week_id").value;
@@ -264,49 +266,93 @@ function calculateWeek()
 	   elementIdsArray[5] = document.getElementById("cr_qa");
 	   elementIdsArray[6] = document.getElementById("cr_uat");
 	   elementIdsArray[7] = document.getElementById("cr_prod");
-	   elementIdsArray[8] = document.getElementById("config_product_backlog");
-	   elementIdsArray[9] = document.getElementById("config_qa");
-	   elementIdsArray[10] = document.getElementById("config_uat");
-	   elementIdsArray[11] = document.getElementById("config_prod");
-	   elementIdsArray[12] = document.getElementById("ccb_product_backlog");
-	   elementIdsArray[13] = document.getElementById("ccb_qa");
-	   elementIdsArray[14] = document.getElementById("ccb_uat");
-	   elementIdsArray[15] = document.getElementById("ccb_prod");
-	   elementIdsArray[16] = document.getElementById("ad_product_backlog");
-	   elementIdsArray[17] = document.getElementById("ad_qa");
-	   elementIdsArray[18] = document.getElementById("ad_uat");
-	   elementIdsArray[19] = document.getElementById("ad_prod");
-	   elementIdsArray[20] = document.getElementById("dup_product_backlog");
-	   elementIdsArray[21] = document.getElementById("dup_qa");
-	   elementIdsArray[22] = document.getElementById("dup_uat");
-	   elementIdsArray[23] = document.getElementById("dup_prod");
-	   elementIdsArray[24] = document.getElementById("nad_product_backlog");
-	   elementIdsArray[25] = document.getElementById("nad_qa");
-	   elementIdsArray[26] = document.getElementById("nad_uat");
-	   elementIdsArray[27] = document.getElementById("nad_prod");
-	   elementIdsArray[28] = document.getElementById("bsi_product_backlog");
-	   elementIdsArray[29] = document.getElementById("bsi_qa");
-	   elementIdsArray[30] = document.getElementById("bsi_uat");
-	   elementIdsArray[31] = document.getElementById("bsi_prod");
-	   elementIdsArray[32] = document.getElementById("utr_product_backlog");
-	   elementIdsArray[33] = document.getElementById("utr_qa");
-	   elementIdsArray[34] = document.getElementById("utr_uat");
-	   elementIdsArray[35] = document.getElementById("utr_prod");
-	   elementIdsArray[36] = document.getElementById("pd_product_backlog");
-	   elementIdsArray[37] = document.getElementById("pd_qa");
-	   elementIdsArray[38] = document.getElementById("pd_uat");
-	   elementIdsArray[39] = document.getElementById("pd_prod");
-	   elementIdsArray[40] = document.getElementById("ii_product_backlog");
-	   elementIdsArray[41] = document.getElementById("ii_qa");	   
-	   elementIdsArray[42] = document.getElementById("ii_uat");
-	   elementIdsArray[43] = document.getElementById("ii_prod");
-	   elementIdsArray[44] = document.getElementById("di_product_backlog");
-	   elementIdsArray[45] = document.getElementById("di_qa");
-	   elementIdsArray[46] = document.getElementById("di_uat");
-	   elementIdsArray[47] = document.getElementById("di_prod");
-	   elementIdsArray[48] = document.getElementById("ro_qa");
-	   elementIdsArray[49] = document.getElementById("ro_uat");
-	   elementIdsArray[50] = document.getElementById("ro_prod");
+	   elementIdsArray[8] = document.getElementById("ccb_product_backlog");
+	   elementIdsArray[9] = document.getElementById("ccb_qa");
+	   elementIdsArray[10] = document.getElementById("ccb_uat");
+	   elementIdsArray[11] = document.getElementById("ccb_prod");
+	   elementIdsArray[12] = document.getElementById("ad_product_backlog");
+	   elementIdsArray[13] = document.getElementById("ad_qa");
+	   elementIdsArray[14] = document.getElementById("ad_uat");
+	   elementIdsArray[15] = document.getElementById("ad_prod");
+	   elementIdsArray[16] = document.getElementById("dup_product_backlog");
+	   elementIdsArray[17] = document.getElementById("dup_qa");
+	   elementIdsArray[18] = document.getElementById("dup_uat");
+	   elementIdsArray[19] = document.getElementById("dup_prod");
+	   elementIdsArray[20] = document.getElementById("nad_product_backlog");
+	   elementIdsArray[21] = document.getElementById("nad_qa");
+	   elementIdsArray[22] = document.getElementById("nad_uat");
+	   elementIdsArray[23] = document.getElementById("nad_prod");
+	   elementIdsArray[24] = document.getElementById("bsi_product_backlog");
+	   elementIdsArray[25] = document.getElementById("bsi_qa");
+	   elementIdsArray[26] = document.getElementById("bsi_uat");
+	   elementIdsArray[27] = document.getElementById("bsi_prod");
+	   elementIdsArray[28] = document.getElementById("utr_product_backlog");
+	   elementIdsArray[29] = document.getElementById("utr_qa");
+	   elementIdsArray[30] = document.getElementById("utr_uat");
+	   elementIdsArray[31] = document.getElementById("utr_prod");
+	   elementIdsArray[32] = document.getElementById("pd_product_backlog");
+	   elementIdsArray[33] = document.getElementById("pd_qa");
+	   elementIdsArray[34] = document.getElementById("pd_uat");
+	   elementIdsArray[35] = document.getElementById("pd_prod");
+	   elementIdsArray[36] = document.getElementById("di_product_backlog");
+	   elementIdsArray[37] = document.getElementById("di_qa");
+	   elementIdsArray[38] = document.getElementById("di_uat");
+	   elementIdsArray[39] = document.getElementById("di_prod");
+	   elementIdsArray[40] = document.getElementById("plan_product_backlog");
+	   elementIdsArray[41] = document.getElementById("plan_qa");
+	   elementIdsArray[42] = document.getElementById("plan_uat");
+	   elementIdsArray[43] = document.getElementById("plan_prod");
+	   elementIdsArray[44] = document.getElementById("rate_product_backlog");
+	   elementIdsArray[45] = document.getElementById("rate_qa");
+	   elementIdsArray[46] = document.getElementById("rate_uat");
+	   elementIdsArray[47] = document.getElementById("rate_prod");
+	   elementIdsArray[48] = document.getElementById("rpa_product_backlog");
+	   elementIdsArray[49] = document.getElementById("rpa_qa");
+	   elementIdsArray[50] = document.getElementById("rpa_uat");
+	   elementIdsArray[51] = document.getElementById("rpa_prod");
+	   elementIdsArray[52] = document.getElementById("ac_product_backlog");
+	   elementIdsArray[53] = document.getElementById("ac_qa");
+	   elementIdsArray[54] = document.getElementById("ac_uat");
+	   elementIdsArray[55] = document.getElementById("ac_prod");
+	   elementIdsArray[56] = document.getElementById("ti_product_backlog");
+	   elementIdsArray[57] = document.getElementById("ti_qa");
+	   elementIdsArray[58] = document.getElementById("ti_uat");
+	   elementIdsArray[59] = document.getElementById("ti_prod");
+	   elementIdsArray[60] = document.getElementById("dp_product_backlog");
+	   elementIdsArray[61] = document.getElementById("dp_qa");
+	   elementIdsArray[62] = document.getElementById("dp_uat");
+	   elementIdsArray[63] = document.getElementById("dp_prod");
+	   elementIdsArray[64] = document.getElementById("env_product_backlog");
+	   elementIdsArray[65] = document.getElementById("env_qa");
+	   elementIdsArray[66] = document.getElementById("env_uat");
+	   elementIdsArray[67] = document.getElementById("env_prod");
+	   elementIdsArray[68] = document.getElementById("co_product_backlog");
+	   elementIdsArray[69] = document.getElementById("co_qa");
+	   elementIdsArray[70] = document.getElementById("co_uat");
+	   elementIdsArray[71] = document.getElementById("co_prod");
+	   elementIdsArray[72] = document.getElementById("ffm_product_backlog");
+	   elementIdsArray[73] = document.getElementById("ffm_qa");
+	   elementIdsArray[74] = document.getElementById("ffm_uat");
+	   elementIdsArray[75] = document.getElementById("ffm_prod");
+	   elementIdsArray[76] = document.getElementById("crmesb_product_backlog");
+	   elementIdsArray[77] = document.getElementById("crmesb_qa");
+	   elementIdsArray[78] = document.getElementById("crmesb_uat");
+	   elementIdsArray[79] = document.getElementById("crmesb_prod");
+	   elementIdsArray[80] = document.getElementById("otp_product_backlog");
+	   elementIdsArray[81] = document.getElementById("otp_qa");
+	   elementIdsArray[82] = document.getElementById("otp_uat");
+	   elementIdsArray[83] = document.getElementById("otp_prod");
+	   elementIdsArray[84] = document.getElementById("pmuu_product_backlog");
+	   elementIdsArray[85] = document.getElementById("pmuu_qa");
+	   elementIdsArray[86] = document.getElementById("pmuu_uat");
+	   elementIdsArray[87] = document.getElementById("pmuu_prod");
+	   elementIdsArray[88] = document.getElementById("io_product_backlog");
+	   elementIdsArray[89] = document.getElementById("io_qa");
+	   elementIdsArray[90] = document.getElementById("io_uat");
+	   elementIdsArray[91] = document.getElementById("io_prod");
+	   elementIdsArray[92] = document.getElementById("ro_qa");
+	   elementIdsArray[93] = document.getElementById("ro_uat");
+	   elementIdsArray[94] = document.getElementById("ro_prod");
 	   
 	  	return elementIdsArray;   
    }
@@ -361,12 +407,6 @@ function calculateWeek()
 				<td><input type="text" value="<s:property value="rca.cr_prod" />" name="cr_prod" id="cr_prod" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 				<td><input type="text" value="<s:property value="rca.cr_product_backlog" />" name="cr_product_backlog" id="cr_product_backlog" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 			</tr> <tr>
-				<td style="float:right;"><label for="configuration">Configuration</label></td>				
-				<td><input type="text" value="<s:property value="rca.config_qa" />" name="config_qa" id="config_qa" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
-				<td><input type="text" value="<s:property value="rca.config_uat" />" name="config_uat" id="config_uat" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
-				<td><input type="text" value="<s:property value="rca.config_prod" />" name="config_prod" id="config_prod" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
-				<td><input type="text" value="<s:property value="rca.config_product_backlog" />" name="config_product_backlog" id="config_product_backlog" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
-			</tr> <tr>
 				<td style="float:right;"><label for="client_code_bug  ">Client Code Bug</label></td>				
 				<td><input type="text" value="<s:property value="rca.ccb_qa" />" name="ccb_qa" id="ccb_qa" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if>/></td>
 				<td><input type="text" value="<s:property value="rca.ccb_uat" />" name="ccb_uat" id="ccb_uat" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if>/></td>
@@ -408,18 +448,98 @@ function calculateWeek()
 				<td><input type="text" value="<s:property value="rca.pd_uat" />" name="pd_uat" id="pd_uat" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 				<td><input type="text" value="<s:property value="rca.pd_prod" />" name="pd_prod" id="pd_prod" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 				<td><input type="text" value="<s:property value="rca.pd_product_backlog" />" name="pd_product_backlog" id="pd_product_backlog" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
-			</tr> <tr>
-				<td style="float:right;"><label for="integration_issue  ">Integration Issue</label></td>				
-				<td><input type="text" value="<s:property value="rca.ii_qa" />" name="ii_qa" id="ii_qa" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
-				<td><input type="text" value="<s:property value="rca.ii_uat" />" name="ii_uat" id="ii_uat" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
-				<td><input type="text" value="<s:property value="rca.ii_prod" />" name="ii_prod" id="ii_prod" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
-				<td><input type="text" value="<s:property value="rca.ii_product_backlog" />" name="ii_product_backlog" id="ii_product_backlog" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
-			</tr> <tr>
+			</tr>   <tr>
 				<td style="float:right;"><label for="data_issue  ">Data Issue</label></td>				
 				<td><input type="text" value="<s:property value="rca.di_qa" />" name="di_qa" id="di_qa" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 				<td><input type="text" value="<s:property value="rca.di_uat" />" name="di_uat" id="di_uat" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 				<td><input type="text" value="<s:property value="rca.di_prod" />" name="di_prod" id="di_prod" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 				<td><input type="text" value="<s:property value="rca.di_product_backlog" />" name="di_product_backlog" id="di_product_backlog" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+			</tr>
+			<tr>
+				<td style="float:right;"><label for="configuration">Configuration</label></td>				
+				<td colspan="5">----------Configuration Sub Categories------------</td>
+			</tr> <tr>
+				<td style="float:right; color: white;"><label for="plan_package">Plan Package</label></td>				
+				<td><input type="text" value="<s:property value="rca.plan_qa" />" name="plan_qa" id="plan_qa" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.plan_uat" />" name="plan_uat" id="plan_uat" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.plan_prod" />" name="plan_prod" id="plan_prod" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.plan_product_backlog" />" name="plan_product_backlog" id="plan_product_backlog" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+			</tr> <tr>
+				<td style="float:right; color: white;"><label for="rate_package">Rate Package</label></td>				
+				<td><input type="text" value="<s:property value="rca.rate_qa" />" name="rate_qa" id="rate_qa" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.rate_uat" />" name="rate_uat" id="rate_uat" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.rate_prod" />" name="rate_prod" id="rate_prod" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.rate_product_backlog" />" name="rate_product_backlog" id="rate_product_backlog" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+			</tr> <tr>
+				<td style="float:right; color: white;"><label for="rules_plan_advisor">Rules And Plan Advisor</label></td>				
+				<td><input type="text" value="<s:property value="rca.rpa_qa" />" name="rpa_qa" id="rpa_qa" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.rpa_uat" />" name="rpa_uat" id="rpa_uat" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.rpa_prod" />" name="rpa_prod" id="rpa_prod" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.rpa_product_backlog" />" name="rpa_product_backlog" id="rpa_product_backlog" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+			</tr> <tr>
+				<td style="float:right; color: white;"><label for="app_config">App Config</label></td>				
+				<td><input type="text" value="<s:property value="rca.ac_qa" />" name="ac_qa" id="ac_qa" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.ac_uat" />" name="ac_uat" id="ac_uat" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.ac_prod" />" name="ac_prod" id="ac_prod" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.ac_product_backlog" />" name="ac_product_backlog" id="ac_product_backlog" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+			</tr>  <tr>
+				<td style="float:right; color: white;"><label for="template_issues">Template Issues</label></td>				
+				<td><input type="text" value="<s:property value="rca.ti_qa" />" name="ti_qa" id="ti_qa" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.ti_uat" />" name="ti_uat" id="ti_uat" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.ti_prod" />" name="ti_prod" id="ti_prod" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.ti_product_backlog" />" name="ti_product_backlog" id="ti_product_backlog" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+			</tr>  <tr>
+				<td style="float:right; color: white;"><label for="deployment_properties">Deployment Properties</label></td>				
+				<td><input type="text" value="<s:property value="rca.dp_qa" />" name="dp_qa" id="dp_qa" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.dp_uat" />" name="dp_uat" id="dp_uat" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.dp_prod" />" name="dp_prod" id="dp_prod" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.dp_product_backlog" />" name="dp_product_backlog" id="dp_product_backlog" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+			</tr>  <tr>
+				<td style="float:right; color: white;"><label for="environment">Environment</label></td>				
+				<td><input type="text" value="<s:property value="rca.env_qa" />" name="env_qa" id="env_qa" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.env_uat" />" name="env_uat" id="env_uat" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.env_prod" />" name="env_prod" id="env_prod" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.env_product_backlog" />" name="env_product_backlog" id="env_product_backlog" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+			</tr>  <tr>
+				<td style="float:right; color: white;"><label for="config_others">Others</label></td>				
+				<td><input type="text" value="<s:property value="rca.co_qa" />" name="co_qa" id="co_qa" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.co_uat" />" name="co_uat" id="co_uat" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.co_prod" />" name="co_prod" id="co_prod" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.co_product_backlog" />" name="co_product_backlog" id="co_product_backlog" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+			</tr> 
+			<tr>
+				<td style="float:right;"><label for="integration_issue  ">Integration Issue</label></td>				
+				<td colspan="4">----------Integration Sub Categories------------</td>
+			</tr> <tr>
+				<td style="float:right; color: white;"><label for="ffm">FFM</label></td>				
+				<td><input type="text" value="<s:property value="rca.ffm_qa" />" name="ffm_qa" id="ffm_qa" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.ffm_uat" />" name="ffm_uat" id="ffm_uat" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.ffm_prod" />" name="ffm_prod" id="ffm_prod" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.ffm_product_backlog" />" name="ffm_product_backlog" id="ffm_product_backlog" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+			</tr> <tr>
+			<td style="float:right; color: white;"><label for="crm/esb">CRM/ESB</label></td>				
+				<td><input type="text" value="<s:property value="rca.crmesb_qa" />" name="crmesb_qa" id="crmesb_qa" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.crmesb_uat" />" name="crmesb_uat" id="crmesb_uat" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.crmesb_prod" />" name="crmesb_prod" id="crmesb_prod" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.crmesb_product_backlog" />" name="crmesb_product_backlog" id="crmesb_product_backlog" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+			</tr> <tr>
+				<td style="float:right; color: white;"><label for="other_third_party">Other Third Party</label></td>				
+				<td><input type="text" value="<s:property value="rca.otp_qa" />" name="otp_qa" id="otp_qa" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.otp_uat" />" name="otp_uat" id="otp_uat" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.otp_prod" />" name="otp_prod" id="otp_prod" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.otp_product_backlog" />" name="otp_product_backlog" id="otp_product_backlog" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+			</tr> <tr>
+				<td style="float:right; color: white;"><label for="product_merge/upgrade/update">Product Merge/ upgrade/ update</label></td>				
+				<td><input type="text" value="<s:property value="rca.pmuu_qa" />" name="pmuu_qa" id="pmuu_qa" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.pmuu_uat" />" name="pmuu_uat" id="pmuu_uat" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.pmuu_prod" />" name="pmuu_prod" id="pmuu_prod" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.pmuu_product_backlog" />" name="pmuu_product_backlog" id="pmuu_product_backlog" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+			</tr>  <tr>
+				<td style="float:right; color: white; "><label for="integration_others">Others</label></td>				
+				<td><input type="text" value="<s:property value="rca.io_qa" />" name="io_qa" id="io_qa" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.io_uat" />" name="io_uat" id="io_uat" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.io_prod" />" name="io_prod" id="io_prod" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.io_product_backlog" />" name="io_product_backlog" id="io_product_backlog" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 			</tr>
 			<tr>
 			<td style="float:right;"><label for="data_issue">Re Open</label></td>				
