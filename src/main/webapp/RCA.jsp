@@ -456,8 +456,8 @@ function calculateWeek()
 				<td><input type="text" value="<s:property value="rca.di_product_backlog" />" name="di_product_backlog" id="di_product_backlog" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 			</tr>
 			<tr>
-				<td style="float:right;"><label for="configuration">Configuration</label></td>				
-				<td colspan="5">----------Configuration Sub Categories------------</td>
+				<td style="float:right;"><label for="configuration">Configuration Issue: </label></td>				
+				<td colspan="5">Configuration Sub Categories</td>
 			</tr> <tr>
 				<td style="float:right; color: white;"><label for="plan_package">Plan Package</label></td>				
 				<td><input type="text" value="<s:property value="rca.plan_qa" />" name="plan_qa" id="plan_qa" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
@@ -508,8 +508,8 @@ function calculateWeek()
 				<td><input type="text" value="<s:property value="rca.co_product_backlog" />" name="co_product_backlog" id="co_product_backlog" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 			</tr> 
 			<tr>
-				<td style="float:right;"><label for="integration_issue  ">Integration Issue</label></td>				
-				<td colspan="4">----------Integration Sub Categories------------</td>
+				<td style="float:right;"><label for="integration_issue  ">Integration Issue: </label></td>
+				<td colspan="5">Integration Sub Categories</td>
 			</tr> <tr>
 				<td style="float:right; color: white;"><label for="ffm">FFM</label></td>				
 				<td><input type="text" value="<s:property value="rca.ffm_qa" />" name="ffm_qa" id="ffm_qa" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>

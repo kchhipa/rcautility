@@ -888,8 +888,7 @@ public class ReportUtility {
 	
 	public List<Map<String, Integer>> reportedQAAllWeeksGraphForAllProject(List<RcaCount> rcaCount, List<String> allWeeks){
 		
-		//Map<String, Integer> week_count = new LinkedHashMap<String, Integer>();
-		
+		log.info("Enter reportedQAAllWeeksGraphForAllProject");
 		List<Map<String, Integer>> lst = new ArrayList<Map<String, Integer>>();
 		
 		for(int i=0; i < allWeeks.size(); i++)
@@ -928,7 +927,8 @@ public class ReportUtility {
 										rcaCountData.getCoQa() + rcaCountData.getTiQa();
 							}else {
 								total = total + rcaCountData.getConfigQa();
-							}					
+							}	
+							log.info(" QA Defect Count Project Name: "+ rcaCountData.getProjectDetails().getProjectName() + " Week: " + week + " Week Count: " + total);
 				}
 				
 			}
@@ -937,6 +937,7 @@ public class ReportUtility {
 			
 			lst.add(week_count);
 		}
+		log.info("Exit reportedProdAllWeeksGraphForAllProject");
 		 return lst;
 	}
 
@@ -1018,7 +1019,7 @@ public class ReportUtility {
 					}else {
 						total = total + rcaCountData.getConfigProd();
 					}
-					log.info(" reportedProdAllWeeksGraphForAllProject Project Name: "+ rcaCountData.getProjectDetails().getProjectName() + " Week: " + week + " Week Count: " + total);
+					log.info(" Prod defect Count Project Name: "+ rcaCountData.getProjectDetails().getProjectName() + " Week: " + week + " Week Count: " + total);
 				}
 			}
 			week_count.put(week, total);
@@ -1076,7 +1077,8 @@ public class ReportUtility {
 										rcaCountData.getCoUat() + rcaCountData.getTiUat();
 							}else {
 								total = total + rcaCountData.getConfigUat();
-							}					
+							}	
+							log.info(" UAT defect Count Project Name: "+ rcaCountData.getProjectDetails().getProjectName() + " Week: " + week + " Week Count: " + total);
 				}
 			}
 			
@@ -1134,7 +1136,8 @@ public class ReportUtility {
 										rcaCountData.getCoProductBacklog() + rcaCountData.getTiProductBacklog();
 							}else {
 								total = total + rcaCountData.getConfigProductBacklog();
-							}					
+							}	
+							log.info(" Open defect Count Project Name: "+ rcaCountData.getProjectDetails().getProjectName() + " Week: " + week + " Week Count: " + total);
 				}
 			}
 
