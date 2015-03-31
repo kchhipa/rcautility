@@ -50,7 +50,7 @@ function calculateWeek()
 		var years = new Array();
 		
 		var d2 = new Date();
-		d2.setDate(d2.getDate()+3);
+		// d2.setDate(d2.getDate()+3);
 		
 		for(var i=0;d<=d2;i++)
 			{
@@ -204,7 +204,7 @@ function calculateWeek()
    function disableSubmit()
    {
 	   var todaysDate = new Date();
-	   todaysDate.setDate(todaysDate.getDate()+2);
+	   // todaysDate.setDate(todaysDate.getDate()+2);
 	   var lastWeekDay = null;
 	   var dayDiff = null;
 	   var weekValue = document.getElementById("week_id").value;
@@ -380,7 +380,7 @@ function calculateWeek()
 			</tr> <tr>
 				<td style="float:right;"><label for="week">Week</label> </td>
 				<td colspan="2"><select name="week" id="week_id"  style="width:120px;" onchange="disableSubmit();">	
-				<s:if test="rca.week != null && !rca.week.equals('')">	
+				<s:if test="rca.week != null && !rca.week.equals('') && !rca.week.equals('Select Week')">	
 				<option value="<s:property value="rca.week" />"><s:property value="weekStr" /></option>				
 				</s:if>	
 
