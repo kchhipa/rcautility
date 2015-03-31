@@ -16,10 +16,58 @@ public class RCA {
 	public int cr_qa;
 	public int cr_uat;
 	public int cr_prod;
-	public int config_product_backlog;
-	public int config_qa;
-	public int config_uat;
-	public int config_prod;
+	public int plan_product_backlog;
+	public int plan_qa;
+	public int plan_uat;
+	public int plan_prod;
+	public int rate_product_backlog;
+	public int rate_qa;
+	public int rate_uat;
+	public int rate_prod;
+	public int rpa_product_backlog;
+	public int rpa_qa;
+	public int rpa_uat;
+	public int rpa_prod;
+	public int ac_product_backlog;
+	public int ac_qa;
+	public int ac_uat;
+	public int ac_prod;
+	public int ti_product_backlog;
+	public int ti_qa;
+	public int ti_uat;
+	public int ti_prod;
+	public int dp_product_backlog;
+	public int dp_qa;
+	public int dp_uat;
+	public int dp_prod;
+	public int env_product_backlog;
+	public int env_qa;
+	public int env_uat;
+	public int env_prod;
+	public int co_product_backlog;
+	public int co_qa;
+	public int co_uat;
+	public int co_prod;
+	public int ffm_product_backlog;
+	public int ffm_qa;
+	public int ffm_uat;
+	public int ffm_prod;
+	public int crmesb_product_backlog;
+	public int crmesb_qa;
+	public int crmesb_uat;
+	public int crmesb_prod;
+	public int otp_product_backlog;
+	public int otp_qa;
+	public int otp_uat;
+	public int otp_prod;
+	public int pmuu_product_backlog;
+	public int pmuu_qa;
+	public int pmuu_uat;
+	public int pmuu_prod;
+	public int io_product_backlog;
+	public int io_qa;
+	public int io_uat;
+	public int io_prod;
 	public int ccb_product_backlog;
 	public int ccb_qa;
 	public int ccb_uat;
@@ -48,10 +96,6 @@ public class RCA {
 	public int pd_qa;
 	public int pd_uat;
 	public int pd_prod;
-	public int ii_product_backlog;
-	public int ii_qa;
-	public int ii_uat;
-	public int ii_prod;
 	public int di_product_backlog;
 	public int di_qa;
 	public int di_uat;
@@ -141,30 +185,6 @@ public class RCA {
 	}
 	public void setCr_prod(int cr_prod) {
 		this.cr_prod = cr_prod;
-	}
-	public int getConfig_product_backlog() {
-		return config_product_backlog;
-	}
-	public void setConfig_product_backlog(int config_product_backlog) {
-		this.config_product_backlog = config_product_backlog;
-	}
-	public int getConfig_qa() {
-		return config_qa;
-	}
-	public void setConfig_qa(int config_qa) {
-		this.config_qa = config_qa;
-	}
-	public int getConfig_uat() {
-		return config_uat;
-	}
-	public void setConfig_uat(int config_uat) {
-		this.config_uat = config_uat;
-	}
-	public int getConfig_prod() {
-		return config_prod;
-	}
-	public void setConfig_prod(int config_prod) {
-		this.config_prod = config_prod;
 	}
 	public int getCcb_product_backlog() {
 		return ccb_product_backlog;
@@ -334,30 +354,6 @@ public class RCA {
 	public void setPd_prod(int pd_prod) {
 		this.pd_prod = pd_prod;
 	}
-	public int getIi_product_backlog() {
-		return ii_product_backlog;
-	}
-	public void setIi_product_backlog(int ii_product_backlog) {
-		this.ii_product_backlog = ii_product_backlog;
-	}
-	public int getIi_qa() {
-		return ii_qa;
-	}
-	public void setIi_qa(int ii_qa) {
-		this.ii_qa = ii_qa;
-	}
-	public int getIi_uat() {
-		return ii_uat;
-	}
-	public void setIi_uat(int ii_uat) {
-		this.ii_uat = ii_uat;
-	}
-	public int getIi_prod() {
-		return ii_prod;
-	}
-	public void setIi_prod(int ii_prod) {
-		this.ii_prod = ii_prod;
-	}
 	public int getDi_product_backlog() {
 		return di_product_backlog;
 	}
@@ -399,6 +395,318 @@ public class RCA {
 	}
 	public void setRo_prod(int ro_prod) {
 		this.ro_prod = ro_prod;
+	}
+	public int getPlan_product_backlog() {
+		return plan_product_backlog;
+	}
+	public void setPlan_product_backlog(int plan_product_backlog) {
+		this.plan_product_backlog = plan_product_backlog;
+	}
+	public int getPlan_qa() {
+		return plan_qa;
+	}
+	public void setPlan_qa(int plan_qa) {
+		this.plan_qa = plan_qa;
+	}
+	public int getPlan_uat() {
+		return plan_uat;
+	}
+	public void setPlan_uat(int plan_uat) {
+		this.plan_uat = plan_uat;
+	}
+	public int getPlan_prod() {
+		return plan_prod;
+	}
+	public void setPlan_prod(int plan_prod) {
+		this.plan_prod = plan_prod;
+	}
+	public int getRate_product_backlog() {
+		return rate_product_backlog;
+	}
+	public void setRate_product_backlog(int rate_product_backlog) {
+		this.rate_product_backlog = rate_product_backlog;
+	}
+	public int getRate_qa() {
+		return rate_qa;
+	}
+	public void setRate_qa(int rate_qa) {
+		this.rate_qa = rate_qa;
+	}
+	public int getRate_uat() {
+		return rate_uat;
+	}
+	public void setRate_uat(int rate_uat) {
+		this.rate_uat = rate_uat;
+	}
+	public int getRate_prod() {
+		return rate_prod;
+	}
+	public void setRate_prod(int rate_prod) {
+		this.rate_prod = rate_prod;
+	}
+	public int getRpa_product_backlog() {
+		return rpa_product_backlog;
+	}
+	public void setRpa_product_backlog(int rpa_product_backlog) {
+		this.rpa_product_backlog = rpa_product_backlog;
+	}
+	public int getRpa_qa() {
+		return rpa_qa;
+	}
+	public void setRpa_qa(int rpa_qa) {
+		this.rpa_qa = rpa_qa;
+	}
+	public int getRpa_uat() {
+		return rpa_uat;
+	}
+	public void setRpa_uat(int rpa_uat) {
+		this.rpa_uat = rpa_uat;
+	}
+	public int getRpa_prod() {
+		return rpa_prod;
+	}
+	public void setRpa_prod(int rpa_prod) {
+		this.rpa_prod = rpa_prod;
+	}
+	public int getAc_product_backlog() {
+		return ac_product_backlog;
+	}
+	public void setAc_product_backlog(int ac_product_backlog) {
+		this.ac_product_backlog = ac_product_backlog;
+	}
+	public int getAc_qa() {
+		return ac_qa;
+	}
+	public void setAc_qa(int ac_qa) {
+		this.ac_qa = ac_qa;
+	}
+	public int getAc_uat() {
+		return ac_uat;
+	}
+	public void setAc_uat(int ac_uat) {
+		this.ac_uat = ac_uat;
+	}
+	public int getAc_prod() {
+		return ac_prod;
+	}
+	public void setAc_prod(int ac_prod) {
+		this.ac_prod = ac_prod;
+	}
+	public int getTi_product_backlog() {
+		return ti_product_backlog;
+	}
+	public void setTi_product_backlog(int ti_product_backlog) {
+		this.ti_product_backlog = ti_product_backlog;
+	}
+	public int getTi_qa() {
+		return ti_qa;
+	}
+	public void setTi_qa(int ti_qa) {
+		this.ti_qa = ti_qa;
+	}
+	public int getTi_uat() {
+		return ti_uat;
+	}
+	public void setTi_uat(int ti_uat) {
+		this.ti_uat = ti_uat;
+	}
+	public int getTi_prod() {
+		return ti_prod;
+	}
+	public void setTi_prod(int ti_prod) {
+		this.ti_prod = ti_prod;
+	}
+	public int getDp_product_backlog() {
+		return dp_product_backlog;
+	}
+	public void setDp_product_backlog(int dp_product_backlog) {
+		this.dp_product_backlog = dp_product_backlog;
+	}
+	public int getDp_qa() {
+		return dp_qa;
+	}
+	public void setDp_qa(int dp_qa) {
+		this.dp_qa = dp_qa;
+	}
+	public int getDp_uat() {
+		return dp_uat;
+	}
+	public void setDp_uat(int dp_uat) {
+		this.dp_uat = dp_uat;
+	}
+	public int getDp_prod() {
+		return dp_prod;
+	}
+	public void setDp_prod(int dp_prod) {
+		this.dp_prod = dp_prod;
+	}
+	public int getEnv_product_backlog() {
+		return env_product_backlog;
+	}
+	public void setEnv_product_backlog(int env_product_backlog) {
+		this.env_product_backlog = env_product_backlog;
+	}
+	public int getEnv_qa() {
+		return env_qa;
+	}
+	public void setEnv_qa(int env_qa) {
+		this.env_qa = env_qa;
+	}
+	public int getEnv_uat() {
+		return env_uat;
+	}
+	public void setEnv_uat(int env_uat) {
+		this.env_uat = env_uat;
+	}
+	public int getEnv_prod() {
+		return env_prod;
+	}
+	public void setEnv_prod(int env_prod) {
+		this.env_prod = env_prod;
+	}
+	public int getCo_product_backlog() {
+		return co_product_backlog;
+	}
+	public void setCo_product_backlog(int co_product_backlog) {
+		this.co_product_backlog = co_product_backlog;
+	}
+	public int getCo_qa() {
+		return co_qa;
+	}
+	public void setCo_qa(int co_qa) {
+		this.co_qa = co_qa;
+	}
+	public int getCo_uat() {
+		return co_uat;
+	}
+	public void setCo_uat(int co_uat) {
+		this.co_uat = co_uat;
+	}
+	public int getCo_prod() {
+		return co_prod;
+	}
+	public void setCo_prod(int co_prod) {
+		this.co_prod = co_prod;
+	}
+	public int getFfm_product_backlog() {
+		return ffm_product_backlog;
+	}
+	public void setFfm_product_backlog(int ffm_product_backlog) {
+		this.ffm_product_backlog = ffm_product_backlog;
+	}
+	public int getFfm_qa() {
+		return ffm_qa;
+	}
+	public void setFfm_qa(int ffm_qa) {
+		this.ffm_qa = ffm_qa;
+	}
+	public int getFfm_uat() {
+		return ffm_uat;
+	}
+	public void setFfm_uat(int ffm_uat) {
+		this.ffm_uat = ffm_uat;
+	}
+	public int getFfm_prod() {
+		return ffm_prod;
+	}
+	public void setFfm_prod(int ffm_prod) {
+		this.ffm_prod = ffm_prod;
+	}
+	public int getCrmesb_product_backlog() {
+		return crmesb_product_backlog;
+	}
+	public void setCrmesb_product_backlog(int crmesb_product_backlog) {
+		this.crmesb_product_backlog = crmesb_product_backlog;
+	}
+	public int getCrmesb_qa() {
+		return crmesb_qa;
+	}
+	public void setCrmesb_qa(int crmesb_qa) {
+		this.crmesb_qa = crmesb_qa;
+	}
+	public int getCrmesb_uat() {
+		return crmesb_uat;
+	}
+	public void setCrmesb_uat(int crmesb_uat) {
+		this.crmesb_uat = crmesb_uat;
+	}
+	public int getCrmesb_prod() {
+		return crmesb_prod;
+	}
+	public void setCrmesb_prod(int crmesb_prod) {
+		this.crmesb_prod = crmesb_prod;
+	}
+	public int getOtp_product_backlog() {
+		return otp_product_backlog;
+	}
+	public void setOtp_product_backlog(int otp_product_backlog) {
+		this.otp_product_backlog = otp_product_backlog;
+	}
+	public int getOtp_qa() {
+		return otp_qa;
+	}
+	public void setOtp_qa(int otp_qa) {
+		this.otp_qa = otp_qa;
+	}
+	public int getOtp_uat() {
+		return otp_uat;
+	}
+	public void setOtp_uat(int otp_uat) {
+		this.otp_uat = otp_uat;
+	}
+	public int getOtp_prod() {
+		return otp_prod;
+	}
+	public void setOtp_prod(int otp_prod) {
+		this.otp_prod = otp_prod;
+	}
+	public int getPmuu_product_backlog() {
+		return pmuu_product_backlog;
+	}
+	public void setPmuu_product_backlog(int pmuu_product_backlog) {
+		this.pmuu_product_backlog = pmuu_product_backlog;
+	}
+	public int getPmuu_qa() {
+		return pmuu_qa;
+	}
+	public void setPmuu_qa(int pmuu_qa) {
+		this.pmuu_qa = pmuu_qa;
+	}
+	public int getPmuu_uat() {
+		return pmuu_uat;
+	}
+	public void setPmuu_uat(int pmuu_uat) {
+		this.pmuu_uat = pmuu_uat;
+	}
+	public int getPmuu_prod() {
+		return pmuu_prod;
+	}
+	public void setPmuu_prod(int pmuu_prod) {
+		this.pmuu_prod = pmuu_prod;
+	}
+	public int getIo_product_backlog() {
+		return io_product_backlog;
+	}
+	public void setIo_product_backlog(int io_product_backlog) {
+		this.io_product_backlog = io_product_backlog;
+	}
+	public int getIo_qa() {
+		return io_qa;
+	}
+	public void setIo_qa(int io_qa) {
+		this.io_qa = io_qa;
+	}
+	public int getIo_uat() {
+		return io_uat;
+	}
+	public void setIo_uat(int io_uat) {
+		this.io_uat = io_uat;
+	}
+	public int getIo_prod() {
+		return io_prod;
+	}
+	public void setIo_prod(int io_prod) {
+		this.io_prod = io_prod;
 	}
 	/**
 	 * @return the startDate

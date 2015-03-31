@@ -129,7 +129,7 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 	    WritableWorkbook workbook = Workbook.createWorkbook(file, wbSettings);
 	    WritableSheet sheet= workbook.createSheet("RCA", 0);	    
 	    WritableCellFormat cellFormatRcaType=getCellFormatRcaType(Colour.GRAY_25, Pattern.GRAY_75);    
-	    getRcaTypeLabels(sheet, cellFormatRcaType,0,0);
+	    getRcaTypeLabelsForTemplateDownload(sheet, cellFormatRcaType,0,0);
 	    getDefectOriginLabels(sheet, cellFormatRcaType);
 	    
 	    workbook.write();
@@ -188,13 +188,83 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 		 
 		 col=0;
 		 cell = sheet.getCell(++col, ++row);        
-		 rca.setConfig_qa(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));      
+		 rca.setPlan_qa(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));      
          cell = sheet.getCell(++col, row);        
-		 rca.setConfig_uat(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));  
+		 rca.setPlan_uat(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));  
 		 cell = sheet.getCell(++col, row);        
-		 rca.setConfig_prod(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0")); 
+		 rca.setPlan_prod(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0")); 
 		 cell = sheet.getCell(++col, row);        
-		 rca.setConfig_product_backlog(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));
+		 rca.setPlan_product_backlog(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));
+		 
+		 col=0;
+		 cell = sheet.getCell(++col, ++row);        
+		 rca.setRate_qa(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));      
+         cell = sheet.getCell(++col, row);        
+		 rca.setRate_uat(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));  
+		 cell = sheet.getCell(++col, row);        
+		 rca.setRate_prod(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0")); 
+		 cell = sheet.getCell(++col, row);        
+		 rca.setRate_product_backlog(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));
+		 
+		 col=0;
+		 cell = sheet.getCell(++col, ++row);        
+		 rca.setRpa_qa(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));      
+         cell = sheet.getCell(++col, row);        
+		 rca.setRpa_uat(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));  
+		 cell = sheet.getCell(++col, row);        
+		 rca.setRpa_prod(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0")); 
+		 cell = sheet.getCell(++col, row);        
+		 rca.setRpa_product_backlog(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));
+		 
+		 col=0;
+		 cell = sheet.getCell(++col, ++row);        
+		 rca.setAc_qa(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));      
+         cell = sheet.getCell(++col, row);        
+		 rca.setAc_uat(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));  
+		 cell = sheet.getCell(++col, row);        
+		 rca.setAc_prod(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0")); 
+		 cell = sheet.getCell(++col, row);        
+		 rca.setAc_product_backlog(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));
+		 
+		 col=0;
+		 cell = sheet.getCell(++col, ++row);        
+		 rca.setTi_qa(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));      
+         cell = sheet.getCell(++col, row);        
+		 rca.setTi_uat(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));  
+		 cell = sheet.getCell(++col, row);        
+		 rca.setTi_prod(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0")); 
+		 cell = sheet.getCell(++col, row);        
+		 rca.setTi_product_backlog(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));
+		 
+		 col=0;
+		 cell = sheet.getCell(++col, ++row);        
+		 rca.setDp_qa(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));      
+         cell = sheet.getCell(++col, row);        
+		 rca.setDp_uat(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));  
+		 cell = sheet.getCell(++col, row);        
+		 rca.setDp_prod(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0")); 
+		 cell = sheet.getCell(++col, row);        
+		 rca.setDp_product_backlog(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));
+		 
+		 col=0;
+		 cell = sheet.getCell(++col, ++row);        
+		 rca.setEnv_qa(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));      
+         cell = sheet.getCell(++col, row);        
+		 rca.setEnv_uat(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));  
+		 cell = sheet.getCell(++col, row);        
+		 rca.setEnv_prod(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0")); 
+		 cell = sheet.getCell(++col, row);        
+		 rca.setEnv_product_backlog(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));
+		 
+		 col=0;
+		 cell = sheet.getCell(++col, ++row);        
+		 rca.setCo_qa(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));      
+         cell = sheet.getCell(++col, row);        
+		 rca.setCo_uat(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));  
+		 cell = sheet.getCell(++col, row);        
+		 rca.setCo_prod(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0")); 
+		 cell = sheet.getCell(++col, row);        
+		 rca.setCo_product_backlog(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));
          
 		 col=0;
 		 cell = sheet.getCell(++col, ++row);        
@@ -268,13 +338,53 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 
 		 col=0;
 		 cell = sheet.getCell(++col, ++row);        
-		 rca.setIi_qa(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));      
+		 rca.setFfm_qa(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));      
          cell = sheet.getCell(++col, row);        
-		 rca.setIi_uat(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));  
+		 rca.setFfm_uat(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));  
 		 cell = sheet.getCell(++col, row);        
-		 rca.setIi_prod(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0")); 
+		 rca.setFfm_prod(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0")); 
 		 cell = sheet.getCell(++col, row);        
-		 rca.setIi_product_backlog(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));
+		 rca.setFfm_product_backlog(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));
+		 
+		 col=0;
+		 cell = sheet.getCell(++col, ++row);        
+		 rca.setCrmesb_qa(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));      
+         cell = sheet.getCell(++col, row);        
+		 rca.setCrmesb_uat(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));  
+		 cell = sheet.getCell(++col, row);        
+		 rca.setCrmesb_prod(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0")); 
+		 cell = sheet.getCell(++col, row);        
+		 rca.setCrmesb_product_backlog(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));
+		 
+		 col=0;
+		 cell = sheet.getCell(++col, ++row);        
+		 rca.setOtp_qa(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));      
+         cell = sheet.getCell(++col, row);        
+		 rca.setOtp_uat(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));  
+		 cell = sheet.getCell(++col, row);        
+		 rca.setOtp_prod(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0")); 
+		 cell = sheet.getCell(++col, row);        
+		 rca.setOtp_product_backlog(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));
+		 
+		 col=0;
+		 cell = sheet.getCell(++col, ++row);        
+		 rca.setPmuu_qa(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));      
+         cell = sheet.getCell(++col, row);        
+		 rca.setPmuu_uat(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));  
+		 cell = sheet.getCell(++col, row);        
+		 rca.setPmuu_prod(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0")); 
+		 cell = sheet.getCell(++col, row);        
+		 rca.setPmuu_product_backlog(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));
+		 
+		 col=0;
+		 cell = sheet.getCell(++col, ++row);        
+		 rca.setIo_qa(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));      
+         cell = sheet.getCell(++col, row);        
+		 rca.setIo_uat(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));  
+		 cell = sheet.getCell(++col, row);        
+		 rca.setIo_prod(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0")); 
+		 cell = sheet.getCell(++col, row);        
+		 rca.setIo_product_backlog(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));
 		
 		 col=0;
 		 cell = sheet.getCell(++col, ++row);        
@@ -397,7 +507,7 @@ public String exportData() throws IOException, RowsExceededException, WriteExcep
     
     getProjectLabels(sheet, cellFormatProject);
     
-    getRcaTypeLabels(sheet, cellFormatRcaType,1,1);
+    getRcaTypeLabelsForExport(sheet, cellFormatRcaType,1,1);
     
     if(rcaList !=null && rcaList.size()>0)
     {
@@ -428,114 +538,173 @@ private void writeRcaData(WritableSheet sheet, List<RCA> rcaList) throws RowsExc
 		if(rca.project_id==16)
 		{
 			col=1;
+			writeExceldata(col,row,sheet,rca);
 		}
 		else if(rca.project_id==6) // CENTENE
 		{
 			col=6;
+			writeExceldata(col,row,sheet,rca);
 		}
 		else if(rca.project_id==11) // IBC	
 		{
 			col=11;
+			writeExceldata(col,row,sheet,rca);
 		}
 		else if(rca.project_id==20) // WPS
 		{
 			col=16;
+			writeExceldata(col,row,sheet,rca);
 		}
 		else if(rca.project_id==8) // HFHP
 		{
 			col=21;
+			writeExceldata(col,row,sheet,rca);
 		}
 		else if(rca.project_id==9) // HP
 		{
 			col=26;
+			writeExceldata(col,row,sheet,rca);
 		}
 		else if(rca.project_id==12) //Kaiser
 		{
 			col=31;
+			writeExceldata(col,row,sheet,rca);
 		}
 		else if(rca.project_id==7) //Federated	
 		{
 			col=36;
+			writeExceldata(col,row,sheet,rca);
 		}
 		else if(rca.project_id==13) //MI-IFP
 		{
 			col=41;
+			writeExceldata(col,row,sheet,rca);
 		}
 		else if(rca.project_id==14) //MI-SG	
 		{
 			col=46;
+			writeExceldata(col,row,sheet,rca);
 		}
 		else if(rca.project_id==1) //BCBSAL
 		{
 			col=51;
+			writeExceldata(col,row,sheet,rca);
 		}
 		else if(rca.project_id==3) //BCBSMN
 		{
 			col=56;
+			writeExceldata(col,row,sheet,rca);
 		}
 		else if(rca.project_id==2) //BCBSMA	
 		{
 			col=61;
+			writeExceldata(col,row,sheet,rca);
 		}
 		else if(rca.project_id==4) //BCBSNE
 		{
 			col=66;
+			writeExceldata(col,row,sheet,rca);
 		}
 		else if(rca.project_id==5) //BCSBTN	
 		{
 			col=71;
+			writeExceldata(col,row,sheet,rca);
 		}
 		else if(rca.project_id==18)//Topaz
 		{
 			col=76;
+			writeExceldata(col,row,sheet,rca);
 		}
 		else if(rca.project_id==19) //WM	
 		{
 			col=81;
+			writeExceldata(col,row,sheet,rca);
 		}
 		else if(rca.project_id==17) //TN-PX		
 		{
 			col=86;
+			writeExceldata(col,row,sheet,rca);
 		}
 		else if(rca.project_id==10) //HP-SG	
 		{
 			col=91;
+			writeExceldata(col,row,sheet,rca);
 		}
 		else if(rca.project_id==21) //UCD	
 		{
 			col=96;
+			writeExceldata(col,row,sheet,rca);
 		}
 		else if(rca.project_id==22)//UHG	
 		{
 			col=101;
+			writeExceldata(col,row,sheet,rca);
 		}
 		else if(rca.project_id==15)//Shopping
 		{
 			col=106;
+			writeExceldata(col,row,sheet,rca);
 		}	
 		else if(rca.project_id==23)//Shopping
 		{
 			col=111;
+			writeExceldata(col,row,sheet,rca);
 		}	
-		
-						
-			writeMissedReq(col,row,sheet,rca);
-			writeChangeReq(col,++row,sheet,rca);
-			writeConfiguration(col,++row,sheet,rca);
-			writeClientCodeBug(col,++row,sheet,rca);
-			writeAsDesigned(col,++row,sheet,rca);
-			writeDuplicate(col,++row,sheet,rca);
-			writeNotDefect(col,++row,sheet,rca);
-			writeBrowserSpecific(col,++row,sheet,rca);
-			writeUnableToRep(col,++row,sheet,rca);
-			writeProductDefect(col,++row,sheet,rca);
-			writeIntegerationIssue(col,++row,sheet,rca);
-			writeDataIssue(col,++row,sheet,rca);
-			writeReOpen(col,++row,sheet,rca);
-		
+		else if(rca.project_id==24)//DHP
+		{
+			col=116;
+			writeExceldata(col,row,sheet,rca);
 		}
-		
+		else if(rca.project_id==25)//CRM
+		{
+			col=116;
+			writeExceldata(col,row,sheet,rca);
+		}
+		else if(rca.project_id==26)//Rating
+		{
+			col=116;
+			writeExceldata(col,row,sheet,rca);
+		}
+		else if(rca.project_id==27)//AppConfig
+		{
+			col=116;
+			writeExceldata(col,row,sheet,rca);
+		}
+
 	}
+		
+}
+
+private void writeExceldata(int col, int row,WritableSheet sheet,RCA rca) throws RowsExceededException, WriteException{
+	
+	writeMissedReq(col,row,sheet,rca);
+	writeChangeReq(col,++row,sheet,rca);
+	writeConfigrationSum(col,++row,sheet,rca);
+	writePlanPackage(col,++row,sheet,rca);
+	writeRatePackage(col,++row,sheet,rca);
+	writeRulesPlanAdvisor(col,++row,sheet,rca);
+	writeAppConfig(col,++row,sheet,rca);
+	writeTemplateIssue(col,++row,sheet,rca);
+	writeDeploymentProperties(col,++row,sheet,rca);
+	writeEnvironment(col,++row,sheet,rca);
+	writeConfigOthers(col,++row,sheet,rca);
+	writeClientCodeBug(col,++row,sheet,rca);
+	writeAsDesigned(col,++row,sheet,rca);
+	writeDuplicate(col,++row,sheet,rca);
+	writeNotDefect(col,++row,sheet,rca);
+	writeBrowserSpecific(col,++row,sheet,rca);
+	writeUnableToRep(col,++row,sheet,rca);
+	writeProductDefect(col,++row,sheet,rca);
+	writeIntegrationSum(col,++row,sheet,rca);
+	writeFfmIssue(col,++row,sheet,rca);
+	writeCrmEsbIssue(col,++row,sheet,rca);
+	writeOtherThirdPartyIssue(col,++row,sheet,rca);
+	writeProductMergeUpdateUpgradeIssue(col,++row,sheet,rca);
+	writeIntegrationOthers(col,++row,sheet,rca);
+	writeDataIssue(col,++row,sheet,rca);
+	writeReOpen(col,++row,sheet,rca);
+	
+}
 	
 private void writeReOpen(int col, int row,WritableSheet sheet,RCA rca) throws RowsExceededException, WriteException {
 	Label label;
@@ -567,20 +736,100 @@ private void writeDataIssue(int col, int row,WritableSheet sheet,RCA rca) throws
     sheet.addCell(label);
 }
 
-
-private void writeIntegerationIssue(int col, int row,WritableSheet sheet,RCA rca) throws RowsExceededException, WriteException {
-	Label label;
+private void writeIntegrationSum(int col, int row,WritableSheet sheet,RCA rca) throws RowsExceededException, WriteException {
+    Label label;
     
-    label = new Label(++col,row, String.valueOf(rca.ii_qa));
+    label = new Label(++col,row, String.valueOf(rca.ffm_qa+rca.crmesb_qa+rca.otp_qa+rca.pmuu_qa+rca.io_qa));
     sheet.addCell(label);
     
-    label = new Label(++col,row, String.valueOf(rca.ii_uat));
+    label = new Label(++col,row, String.valueOf(rca.ffm_uat+rca.crmesb_uat+rca.otp_uat+rca.pmuu_uat+rca.io_uat));
     sheet.addCell(label);
     ++col;
-    label = new Label(++col,row, String.valueOf(rca.ii_prod));
+    label = new Label(++col,row, String.valueOf(rca.ffm_prod+rca.crmesb_prod+rca.otp_prod+rca.pmuu_prod+rca.io_prod));
+    sheet.addCell(label);
+    
+    label = new Label(++col,row, String.valueOf(rca.ffm_product_backlog+rca.crmesb_product_backlog+rca.otp_product_backlog+rca.pmuu_product_backlog+rca.io_product_backlog));
+    sheet.addCell(label);
+    
+}
+
+private void writeFfmIssue(int col, int row,WritableSheet sheet,RCA rca) throws RowsExceededException, WriteException {
+	Label label;
+    
+    label = new Label(++col,row, String.valueOf(rca.ffm_qa));
+    sheet.addCell(label);
+    
+    label = new Label(++col,row, String.valueOf(rca.ffm_uat));
+    sheet.addCell(label);
+    ++col;
+    label = new Label(++col,row, String.valueOf(rca.ffm_prod));
     sheet.addCell(label);	
     
-	label = new Label(++col,row, String.valueOf(rca.ii_product_backlog));
+	label = new Label(++col,row, String.valueOf(rca.ffm_product_backlog));
+    sheet.addCell(label);
+}
+
+private void writeCrmEsbIssue(int col, int row,WritableSheet sheet,RCA rca) throws RowsExceededException, WriteException {
+	Label label;
+    
+    label = new Label(++col,row, String.valueOf(rca.crmesb_qa));
+    sheet.addCell(label);
+    
+    label = new Label(++col,row, String.valueOf(rca.crmesb_uat));
+    sheet.addCell(label);
+    ++col;
+    label = new Label(++col,row, String.valueOf(rca.crmesb_prod));
+    sheet.addCell(label);	
+    
+	label = new Label(++col,row, String.valueOf(rca.crmesb_product_backlog));
+    sheet.addCell(label);
+}
+
+private void writeOtherThirdPartyIssue(int col, int row,WritableSheet sheet,RCA rca) throws RowsExceededException, WriteException {
+	Label label;
+    
+    label = new Label(++col,row, String.valueOf(rca.otp_qa));
+    sheet.addCell(label);
+    
+    label = new Label(++col,row, String.valueOf(rca.otp_uat));
+    sheet.addCell(label);
+    ++col;
+    label = new Label(++col,row, String.valueOf(rca.otp_prod));
+    sheet.addCell(label);	
+    
+	label = new Label(++col,row, String.valueOf(rca.otp_product_backlog));
+    sheet.addCell(label);
+}
+
+private void writeProductMergeUpdateUpgradeIssue(int col, int row,WritableSheet sheet,RCA rca) throws RowsExceededException, WriteException {
+	Label label;
+    
+    label = new Label(++col,row, String.valueOf(rca.pmuu_qa));
+    sheet.addCell(label);
+    
+    label = new Label(++col,row, String.valueOf(rca.pmuu_uat));
+    sheet.addCell(label);
+    ++col;
+    label = new Label(++col,row, String.valueOf(rca.pmuu_prod));
+    sheet.addCell(label);	
+    
+	label = new Label(++col,row, String.valueOf(rca.pmuu_product_backlog));
+    sheet.addCell(label);
+}
+
+private void writeIntegrationOthers(int col, int row,WritableSheet sheet,RCA rca) throws RowsExceededException, WriteException {
+	Label label;
+    
+    label = new Label(++col,row, String.valueOf(rca.io_qa));
+    sheet.addCell(label);
+    
+    label = new Label(++col,row, String.valueOf(rca.io_uat));
+    sheet.addCell(label);
+    ++col;
+    label = new Label(++col,row, String.valueOf(rca.io_prod));
+    sheet.addCell(label);	
+    
+	label = new Label(++col,row, String.valueOf(rca.io_product_backlog));
     sheet.addCell(label);
 }
 
@@ -699,19 +948,155 @@ private void writeClientCodeBug(int col, int row,WritableSheet sheet,RCA rca) th
 	
 }
 
-private void writeConfiguration(int col, int row,WritableSheet sheet,RCA rca) throws RowsExceededException, WriteException {
-	Label label;
-	    
-    label = new Label(++col,row, String.valueOf(rca.config_qa));
+private void writeConfigrationSum(int col, int row,WritableSheet sheet,RCA rca) throws RowsExceededException, WriteException {
+    Label label;
+    
+    label = new Label(++col,row, String.valueOf(rca.plan_qa+rca.rate_qa+rca.rpa_qa+rca.ac_qa+rca.ti_qa+rca.dp_qa+rca.env_qa+rca.co_qa));
     sheet.addCell(label);
     
-    label = new Label(++col,row, String.valueOf(rca.config_uat));
+    label = new Label(++col,row, String.valueOf(rca.plan_uat+rca.rate_uat+rca.rpa_uat+rca.ac_uat+rca.ti_uat+rca.dp_uat+rca.env_uat+rca.co_uat));
     sheet.addCell(label);
     ++col;
-    label = new Label(++col,row, String.valueOf(rca.config_prod));
+    label = new Label(++col,row, String.valueOf(rca.plan_prod+rca.rate_prod+rca.rpa_prod+rca.ac_prod+rca.ti_prod+rca.dp_prod+rca.env_prod+rca.co_prod));
     sheet.addCell(label);
     
-    label = new Label(++col,row, String.valueOf(rca.config_product_backlog));
+    label = new Label(++col,row, String.valueOf(rca.plan_product_backlog+rca.rate_product_backlog+rca.rpa_product_backlog+rca.ac_product_backlog+rca.ti_product_backlog+rca.dp_product_backlog+rca.env_product_backlog+rca.co_product_backlog));
+    sheet.addCell(label);
+    
+}
+
+private void writePlanPackage(int col, int row,WritableSheet sheet,RCA rca) throws RowsExceededException, WriteException {
+	Label label;
+	    
+    label = new Label(++col,row, String.valueOf(rca.plan_qa));
+    sheet.addCell(label);
+    
+    label = new Label(++col,row, String.valueOf(rca.plan_uat));
+    sheet.addCell(label);
+    ++col;
+    label = new Label(++col,row, String.valueOf(rca.plan_prod));
+    sheet.addCell(label);
+    
+    label = new Label(++col,row, String.valueOf(rca.plan_product_backlog));
+    sheet.addCell(label);
+	
+}
+
+private void writeRatePackage(int col, int row,WritableSheet sheet,RCA rca) throws RowsExceededException, WriteException {
+	Label label;
+	    
+    label = new Label(++col,row, String.valueOf(rca.rate_qa));
+    sheet.addCell(label);
+    
+    label = new Label(++col,row, String.valueOf(rca.rate_uat));
+    sheet.addCell(label);
+    ++col;
+    label = new Label(++col,row, String.valueOf(rca.rate_prod));
+    sheet.addCell(label);
+    
+    label = new Label(++col,row, String.valueOf(rca.rate_product_backlog));
+    sheet.addCell(label);
+	
+}
+
+private void writeRulesPlanAdvisor(int col, int row,WritableSheet sheet,RCA rca) throws RowsExceededException, WriteException {
+	Label label;
+	    
+    label = new Label(++col,row, String.valueOf(rca.rpa_qa));
+    sheet.addCell(label);
+    
+    label = new Label(++col,row, String.valueOf(rca.rpa_uat));
+    sheet.addCell(label);
+    ++col;
+    label = new Label(++col,row, String.valueOf(rca.rpa_prod));
+    sheet.addCell(label);
+    
+    label = new Label(++col,row, String.valueOf(rca.rpa_product_backlog));
+    sheet.addCell(label);
+	
+}
+
+private void writeAppConfig(int col, int row,WritableSheet sheet,RCA rca) throws RowsExceededException, WriteException {
+	Label label;
+	    
+    label = new Label(++col,row, String.valueOf(rca.ac_qa));
+    sheet.addCell(label);
+    
+    label = new Label(++col,row, String.valueOf(rca.ac_uat));
+    sheet.addCell(label);
+    ++col;
+    label = new Label(++col,row, String.valueOf(rca.ac_prod));
+    sheet.addCell(label);
+    
+    label = new Label(++col,row, String.valueOf(rca.ac_product_backlog));
+    sheet.addCell(label);
+	
+}
+
+private void writeTemplateIssue(int col, int row,WritableSheet sheet,RCA rca) throws RowsExceededException, WriteException {
+	Label label;
+	    
+    label = new Label(++col,row, String.valueOf(rca.ti_qa));
+    sheet.addCell(label);
+    
+    label = new Label(++col,row, String.valueOf(rca.ti_uat));
+    sheet.addCell(label);
+    ++col;
+    label = new Label(++col,row, String.valueOf(rca.ti_prod));
+    sheet.addCell(label);
+    
+    label = new Label(++col,row, String.valueOf(rca.ti_product_backlog));
+    sheet.addCell(label);
+	
+}
+
+private void writeDeploymentProperties(int col, int row,WritableSheet sheet,RCA rca) throws RowsExceededException, WriteException {
+	Label label;
+	    
+    label = new Label(++col,row, String.valueOf(rca.dp_qa));
+    sheet.addCell(label);
+    
+    label = new Label(++col,row, String.valueOf(rca.dp_uat));
+    sheet.addCell(label);
+    ++col;
+    label = new Label(++col,row, String.valueOf(rca.dp_prod));
+    sheet.addCell(label);
+    
+    label = new Label(++col,row, String.valueOf(rca.dp_product_backlog));
+    sheet.addCell(label);
+	
+}
+
+private void writeEnvironment(int col, int row,WritableSheet sheet,RCA rca) throws RowsExceededException, WriteException {
+	Label label;
+	    
+    label = new Label(++col,row, String.valueOf(rca.env_qa));
+    sheet.addCell(label);
+    
+    label = new Label(++col,row, String.valueOf(rca.env_uat));
+    sheet.addCell(label);
+    ++col;
+    label = new Label(++col,row, String.valueOf(rca.env_prod));
+    sheet.addCell(label);
+    
+    label = new Label(++col,row, String.valueOf(rca.env_product_backlog));
+    sheet.addCell(label);
+	
+}
+
+private void writeConfigOthers(int col, int row,WritableSheet sheet,RCA rca) throws RowsExceededException, WriteException {
+	Label label;
+	    
+    label = new Label(++col,row, String.valueOf(rca.co_qa));
+    sheet.addCell(label);
+    
+    label = new Label(++col,row, String.valueOf(rca.co_uat));
+    sheet.addCell(label);
+    ++col;
+    label = new Label(++col,row, String.valueOf(rca.co_prod));
+    sheet.addCell(label);
+    
+    label = new Label(++col,row, String.valueOf(rca.co_product_backlog));
     sheet.addCell(label);
 	
 }
@@ -752,7 +1137,7 @@ private void writeMissedReq(int col, int row,WritableSheet sheet,RCA rca) throws
 }
 
 
-private void getRcaTypeLabels(WritableSheet sheet, WritableCellFormat cellFormat, int row,int col) throws RowsExceededException, WriteException {
+private void getRcaTypeLabelsForExport(WritableSheet sheet, WritableCellFormat cellFormat, int row,int col) throws RowsExceededException, WriteException {
 
 	Label label;	
 	label = new Label(col,++row, "Missed requirement",cellFormat);
@@ -761,6 +1146,22 @@ private void getRcaTypeLabels(WritableSheet sheet, WritableCellFormat cellFormat
     sheet.addCell(label);
     label = new Label(col,++row, "Configuration",cellFormat);
     sheet.addCell(label);    
+    label = new Label(col,++row, "Plan Package",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row, "Rate Package",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row, "Rules Plan And Advisor",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row, "App Config",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row, "Template Issues",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row, "Deployment Properties",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row, "Environment",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row, "Config Others",cellFormat);
+    sheet.addCell(label);
     label = new Label(col,++row, "Client Code Bug",cellFormat);
     sheet.addCell(label);
     label = new Label(col,++row, "As designed",cellFormat);
@@ -775,7 +1176,17 @@ private void getRcaTypeLabels(WritableSheet sheet, WritableCellFormat cellFormat
     sheet.addCell(label);
     label = new Label(col,++row, "Product Defect",cellFormat);
     sheet.addCell(label);
-    label = new Label(col,++row,"Integration Issue",cellFormat);
+    label = new Label(col,++row, "Integration",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row,"FFM Issue",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row,"CRM/ESB Issue",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row,"Other Third Party Issue",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row,"Product Merge/ Upgrade/ Update Issue",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row,"Integration Other Issue",cellFormat);
     sheet.addCell(label);
     label = new Label(col,++row,"Data Issue",cellFormat);
     sheet.addCell(label);
@@ -783,6 +1194,61 @@ private void getRcaTypeLabels(WritableSheet sheet, WritableCellFormat cellFormat
     sheet.addCell(label);
     
 	
+}
+
+private void getRcaTypeLabelsForTemplateDownload(WritableSheet sheet, WritableCellFormat cellFormat, int row,int col) throws RowsExceededException, WriteException {
+
+    Label label;    
+    label = new Label(col,++row, "Missed requirement",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row, "Change Requirement",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row, "Plan Package",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row, "Rate Package",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row, "Rules Plan And Advisor",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row, "App Config",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row, "Template Issues",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row, "Deployment Properties",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row, "Environment",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row, "Config Others",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row, "Client Code Bug",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row, "As designed",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row, "Duplicate",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row, "Not a defect",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row, "Browser specific issue",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row, "Unable to reproduce",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row, "Product Defect",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row,"FFM Issue",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row,"CRM/ESB Issue",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row,"Other Third Party Issue",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row,"Product Merge/ Upgrade/ Update Issue",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row,"Integration Other Issue",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row,"Data Issue",cellFormat);
+    sheet.addCell(label);
+    label = new Label(col,++row,"Re Open",cellFormat);
+    sheet.addCell(label);
+    
+    
 }
 
 
@@ -1208,6 +1674,78 @@ private void getProjectLabels(WritableSheet sheet, WritableCellFormat cellFormat
     
     sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
     label = new Label(mergeColStart,0, "IA-PX",cellFormat);
+    sheet.addCell(label);    
+    
+    label = new Label(++i,1, "QA");
+    sheet.addCell(label);
+    label = new Label(++i,1, "UAT");
+    sheet.addCell(label);
+    label = new Label(++i,1, "STAGE");
+    sheet.addCell(label);
+    label = new Label(++i,1, "PROD");
+    sheet.addCell(label);
+    label = new Label(++i,1, "OPEN");
+    sheet.addCell(label);
+    
+    mergeColStart=mergeColEnd+1;
+    mergeColEnd=mergeColStart+4;
+    
+    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
+    label = new Label(mergeColStart,0, "DHP",cellFormat);
+    sheet.addCell(label);    
+    
+    label = new Label(++i,1, "QA");
+    sheet.addCell(label);
+    label = new Label(++i,1, "UAT");
+    sheet.addCell(label);
+    label = new Label(++i,1, "STAGE");
+    sheet.addCell(label);
+    label = new Label(++i,1, "PROD");
+    sheet.addCell(label);
+    label = new Label(++i,1, "OPEN");
+    sheet.addCell(label);
+    
+    mergeColStart=mergeColEnd+1;
+    mergeColEnd=mergeColStart+4;
+    
+    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
+    label = new Label(mergeColStart,0, "CRM",cellFormat);
+    sheet.addCell(label);    
+    
+    label = new Label(++i,1, "QA");
+    sheet.addCell(label);
+    label = new Label(++i,1, "UAT");
+    sheet.addCell(label);
+    label = new Label(++i,1, "STAGE");
+    sheet.addCell(label);
+    label = new Label(++i,1, "PROD");
+    sheet.addCell(label);
+    label = new Label(++i,1, "OPEN");
+    sheet.addCell(label);
+    
+    mergeColStart=mergeColEnd+1;
+    mergeColEnd=mergeColStart+4;
+    
+    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
+    label = new Label(mergeColStart,0, "Rating",cellFormat);
+    sheet.addCell(label);    
+    
+    label = new Label(++i,1, "QA");
+    sheet.addCell(label);
+    label = new Label(++i,1, "UAT");
+    sheet.addCell(label);
+    label = new Label(++i,1, "STAGE");
+    sheet.addCell(label);
+    label = new Label(++i,1, "PROD");
+    sheet.addCell(label);
+    label = new Label(++i,1, "OPEN");
+    sheet.addCell(label);
+    
+    mergeColStart=mergeColEnd+1;
+    mergeColEnd=mergeColStart+4;
+    
+    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
+    label = new Label(mergeColStart,0, "AppConfig",cellFormat);
     sheet.addCell(label);    
     
     label = new Label(++i,1, "QA");
