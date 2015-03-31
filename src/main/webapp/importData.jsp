@@ -191,7 +191,7 @@ function calculateWeek()
 				<tr>
 				<td style="float:left;"><label for="week">Week:</label> </td>
 				<td colspan="2"><select name="week" id="week_id"  style="width:120px;" onchange="disableSubmit();">	
-				<s:if test="rca.week != null && !rca.week.equals('')">	
+				<s:if test="rca.week != null && !rca.week.equals('') && !rca.week.equals('Select Week')">	
 				<option value="<s:property value="rca.week" />"><s:property value="weekStr" /></option>				
 				</s:if>	
 
