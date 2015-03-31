@@ -77,7 +77,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		
 		List<RcaCount> rcaCounts = rcaManager.findRCAByWeekPeriod(rca.getWeek());
 		createGraphPpt(rcaCounts);
-	    fileInputStream = new FileInputStream(new File("D:\\project.ppt"));
+	    fileInputStream = new FileInputStream(new File("D:\\Weekly review.ppt"));
 	    return SUCCESS;
 	}
 	

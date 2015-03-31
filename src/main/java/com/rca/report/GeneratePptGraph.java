@@ -62,7 +62,7 @@ public class GeneratePptGraph {
             slide.addShape(pict2);
 			 						
 			FileOutputStream out = new FileOutputStream(
-					"D:\\project.ppt");
+					"D:\\Weekly review.ppt");
 			ppt.write(out);
 			out.close();
 		} catch (FileNotFoundException e) {

@@ -48,7 +48,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	public String execute() throws Exception {
 		
 		createGraphPpt();
-	    fileInputStream = new FileInputStream(new File("D:\\project.ppt"));
+	    fileInputStream = new FileInputStream(new File("D:\\Weekly review.ppt"));
 	    return SUCCESS;
 	}
 	
@@ -89,7 +89,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
             slide.addShape(pict2);
 			 						
 			FileOutputStream out = new FileOutputStream(
-					"D:\\project.ppt");
+					"D:\\Weekly review.ppt");
 			ppt.write(out);
 			out.close();
 		} catch (FileNotFoundException e) {
