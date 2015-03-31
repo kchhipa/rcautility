@@ -10,6 +10,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.rca.dao.RcaCountDAOImpl;
 import com.rca.entity.RcaCount;
 
 public class ReportUtility {
@@ -18,7 +22,7 @@ public class ReportUtility {
 	public static final String UAT = "UAT";
 	public static final String QA = "QA";
 	private static String CUMULATIVE_OPEN = "Cumulative Open";
-	
+	private static final Log log = LogFactory.getLog(RcaCountDAOImpl.class);
 
 	public Map<String, Map<String, Integer>> rcaCountForLastWeekForAllProjects(List<RcaCount> rcaWeeks){
 	  Map<String, Map<String, Integer>> diffCategory = new HashMap<String, Map<String, Integer>>();;
@@ -33,18 +37,18 @@ public class ReportUtility {
           
           Map<String, Integer> differentRootCause = new HashMap<String, Integer>();
           differentRootCause.put("Duplicate/ Not a Defect/ Unable to reproduce/ Browse/ As designed", 
-                                     mixCategoryWeeklyCountForAllProjects(rcaCount));
-          differentRootCause.put("Data Issue", weeklyDataIssueForAllIssues(rcaCount));
-          differentRootCause.put("Integration Issue", weeklyIntegrationIssueForAllIssues(rcaCount));
-          differentRootCause.put("Configuration Issue", weeklyConfigurationIssueForAllIssues(rcaCount));
-          differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssues(rcaCount));
-          differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssues(rcaCount));
-          differentRootCause.put("Product Defect", weeklyProductDefectForAllIssues(rcaCount));
+        		  mixCategoryWeeklyCountForAllProjectsInOpen(rcaCount));
+          differentRootCause.put("Data Issue", weeklyDataIssueForAllIssuesInOpen(rcaCount));
+          differentRootCause.put("Integration Issue", weeklyIntegrationIssueForAllIssuesInOpen(rcaCount));
+          differentRootCause.put("Configuration Issue", weeklyConfigurationIssueForAllIssuesInOpen(rcaCount));
+          differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssuesInOpen(rcaCount));
+          differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInOpen(rcaCount));
+          differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInOpen(rcaCount));
           
           /* To ensure that Projects with RCA count as zero do not show up in Graph */
-          if((mixCategoryWeeklyCountForAllProjects(rcaCount) + weeklyDataIssueForAllIssues(rcaCount) + weeklyIntegrationIssueForAllIssues(rcaCount) + 
-        		  weeklyConfigurationIssueForAllIssues(rcaCount) + weeklyMissedAndCRCountForAllIssues(rcaCount) + weeklyClientCodeBugForAllIssues(rcaCount) + 
-        		  weeklyProductDefectForAllIssues(rcaCount)) > 0)
+          if((mixCategoryWeeklyCountForAllProjectsInOpen(rcaCount) + weeklyDataIssueForAllIssuesInOpen(rcaCount) + weeklyDataIssueForAllIssuesInOpen(rcaCount) + 
+        		  weeklyConfigurationIssueForAllIssuesInOpen(rcaCount) + weeklyMissedAndCRCountForAllIssuesInOpen(rcaCount) + weeklyClientCodeBugForAllIssuesInOpen(rcaCount) + 
+        		  weeklyProductDefectForAllIssuesInOpen(rcaCount)) > 0)
         	  	diffCategory.put(projName, differentRootCause);
           
           //projCount.put(projName, diffCategory);
@@ -310,6 +314,23 @@ public class ReportUtility {
 		return rcaCountMap;
 	}
 	
+	/**
+	 * This mehotd returning map of rca count
+	 * @param rcaCounts
+	 * @return
+	 */
+
+	public LinkedHashMap<String, RcaCount> getRcaCountMapForPrjWeek(List<RcaCount> rcaCounts){
+		
+		LinkedHashMap<String, RcaCount> rcaCountMap = new LinkedHashMap<String, RcaCount>();
+		
+		for(int x=0; x < rcaCounts.size(); x++){
+		
+			rcaCountMap.put(rcaCounts.get(x).getWeek()+"*"+rcaCounts.get(x).getProjectDetails().getProjectId() , rcaCounts.get(x));
+		}
+		
+		return rcaCountMap;
+	}	
 	/**
 	 * 
 	 * @param rcaCounts
@@ -874,31 +895,40 @@ public class ReportUtility {
 		for(int i=0; i < allWeeks.size(); i++)
 		{
 			int total =0;
-
 			Map<String, Integer> week_count = new LinkedHashMap<String, Integer>();
 			String week = allWeeks.get(i);
 			for(int x=0; x < rcaCount.size(); x++)
 			{
-				
 				if(rcaCount.get(x).getWeek().equalsIgnoreCase(allWeeks.get(i)))
 				{
-					
-					/*total = total + ( rcaCount.get(x).getAcQa() +
-					         rcaCount.get(x).getAdQa() + rcaCount.get(x).getBsiQa() + rcaCount.get(x).getCcbQa() + rcaCount.get(x).getCoQa() + 
-					         rcaCount.get(x).getCrmesbQa() + rcaCount.get(x).getCrQa() + rcaCount.get(x).getDiQa() + rcaCount.get(x).getDpQa() + 
-					         rcaCount.get(x).getDupQa() + rcaCount.get(x).getEnvQa() + rcaCount.get(x).getFfmQa() + rcaCount.get(x).getIoQa() + 
-					         rcaCount.get(x).getMrQa() + rcaCount.get(x).getNadQa() + rcaCount.get(x).getOtpQa() + rcaCount.get(x).getPdQa() + 
-					         rcaCount.get(x).getPlanQa() + rcaCount.get(x).getPmuuQa() + rcaCount.get(x).getRateQa() + rcaCount.get(x).getRpaQa() + 
-					         rcaCount.get(x).getTiQa() + rcaCount.get(x).getUtrQa());*/
-					
+					RcaCount rcaCountData = rcaCount.get(x);
 					total = total + (
-					         rcaCount.get(x).getAdQa() + rcaCount.get(x).getBsiQa() + rcaCount.get(x).getCcbQa() + 
-					         rcaCount.get(x).getCrQa() + rcaCount.get(x).getDiQa() + 
-					         rcaCount.get(x).getDupQa() +  
-					         rcaCount.get(x).getMrQa() + rcaCount.get(x).getNadQa() +  rcaCount.get(x).getPdQa() + 
-					          
-					        rcaCount.get(x).getUtrQa());
-
+							rcaCountData.getAdQa() + // As Desgin 
+							rcaCountData.getBsiQa() + // Browser Specific
+							rcaCountData.getCcbQa() + //Client Code
+							rcaCountData.getCrQa() + //Change Req
+							rcaCountData.getDiQa() + //Data Issue
+							rcaCountData.getDupQa() +  //Duplicate
+							rcaCountData.getMrQa() + //Missed Requirement
+							rcaCountData.getNadQa() +  //Not a defect
+							rcaCountData.getPdQa() + //Product defec
+							rcaCountData.getUtrQa()); //Unable to reproduce
+							//Integration Issues
+							if (rcaCountData.getIiQa() != null && rcaCountData.getIiQa() == 0){
+								total = total + rcaCountData.getCrmesbQa() + rcaCountData.getFfmQa() +
+										rcaCountData.getIoQa() + rcaCountData.getOtpQa() +  rcaCountData.getPmuuQa() ;
+							}
+							else{
+								total = total + rcaCountData.getIiQa();
+							}
+							// Configuration Issues
+							if (rcaCountData.getConfigProd() != null && rcaCountData.getConfigProd() == 0){
+								total = total + rcaCountData.getPlanQa() + rcaCountData.getAcQa() +  rcaCountData.getRateQa() +
+										rcaCountData.getRpaQa() + rcaCountData.getEnvQa() + rcaCountData.getDpQa() +
+										rcaCountData.getCoQa() + rcaCountData.getTiQa();
+							}else {
+								total = total + rcaCountData.getConfigQa();
+							}					
 				}
 				
 			}
@@ -907,10 +937,6 @@ public class ReportUtility {
 			
 			lst.add(week_count);
 		}
-		
-
-		 
-		 
 		 return lst;
 	}
 
@@ -956,6 +982,7 @@ public class ReportUtility {
 	 */
 	public List<Map<String, Integer>> reportedProdAllWeeksGraphForAllProject(List<RcaCount> rcaCount, List<String> allWeeks){
 		
+		log.info("Enter reportedProdAllWeeksGraphForAllProject");
 		List<Map<String, Integer>> lst = new ArrayList<Map<String, Integer>>();
 		
 		for(int i=0; i < allWeeks.size(); i++)
@@ -966,23 +993,39 @@ public class ReportUtility {
 			String week = allWeeks.get(i);
 			for(int x=0; x < rcaCount.size(); x++)
 			{
-				
 				if(rcaCount.get(x).getWeek().equalsIgnoreCase(allWeeks.get(i)))
 				{
-					total = total + (
-					         rcaCount.get(x).getAdProd() + rcaCount.get(x).getBsiProd() + rcaCount.get(x).getCcbProd() + 
-					         rcaCount.get(x).getCrProd() + rcaCount.get(x).getDiProd() + 
-					         rcaCount.get(x).getDupProd() +  
-					         rcaCount.get(x).getMrProd() + rcaCount.get(x).getNadProd() +  rcaCount.get(x).getPdProd() + 
-					        rcaCount.get(x).getUtrProd());
+					RcaCount rcaCountData = rcaCount.get(x);
+
+					total = total + rcaCountData.getAdProd() + rcaCountData.getBsiProd() + rcaCountData.getCcbProd() + 
+					rcaCountData.getCrProd() + rcaCountData.getDiProd() + rcaCountData.getDupProd() +  
+					rcaCountData.getMrProd() + rcaCountData.getNadProd() +  rcaCountData.getPdProd() + 
+					rcaCountData.getUtrProd() ;
+
+					//Integration Issues
+					if (rcaCountData.getIiProd() != null && rcaCountData.getIiProd() == 0){
+						total = total + rcaCountData.getCrmesbProd() + rcaCountData.getFfmProd() +
+								rcaCountData.getIoProd() + rcaCountData.getOtpProd() +  rcaCountData.getPmuuProd() ;
+					}
+					else{
+						total = total + rcaCountData.getIiProd();
+					}
+					// Configuration Issues
+					if (rcaCountData.getConfigProd() != null && rcaCountData.getConfigProd() == 0){
+						total = total + rcaCountData.getPlanProd() + rcaCountData.getAcProd() +  rcaCountData.getRateProd() +
+								rcaCountData.getRpaProd() + rcaCountData.getEnvProd() + rcaCountData.getDpProd() +
+								rcaCountData.getCoProd() + rcaCountData.getTiProd();
+					}else {
+						total = total + rcaCountData.getConfigProd();
+					}
+					log.info(" reportedProdAllWeeksGraphForAllProject Project Name: "+ rcaCountData.getProjectDetails().getProjectName() + " Week: " + week + " Week Count: " + total);
 				}
 			}
-			
 			week_count.put(week, total);
-			lst.add(week_count);
+			lst.add(week_count);			
 		}
-		
-		 return lst;
+		log.info("Exit reportedProdAllWeeksGraphForAllProject");
+		return lst;
 	}
 	
 	/**
@@ -992,7 +1035,7 @@ public class ReportUtility {
 	 * @return
 	 */
 	public List<Map<String, Integer>> reportedUATAllWeeksGraphForAllProject(List<RcaCount> rcaCount, List<String> allWeeks){
-				
+		log.info("Enter reportedUATAllWeeksGraphForAllProject");		
 		List<Map<String, Integer>> lst = new ArrayList<Map<String, Integer>>();
 		
 		for(int i=0; i < allWeeks.size(); i++)
@@ -1006,19 +1049,41 @@ public class ReportUtility {
 				
 				if(rcaCount.get(x).getWeek().equalsIgnoreCase(allWeeks.get(i)))
 				{
+					RcaCount rcaCountData = rcaCount.get(x);
 					total = total + (
-					         rcaCount.get(x).getAdUat() + rcaCount.get(x).getBsiUat() + rcaCount.get(x).getCcbUat() + 
-					         rcaCount.get(x).getCrUat() + rcaCount.get(x).getDiUat() + 
-					         rcaCount.get(x).getDupUat() +  
-					         rcaCount.get(x).getMrUat() + rcaCount.get(x).getNadUat() +  rcaCount.get(x).getPdUat() + 
-					        rcaCount.get(x).getUtrUat());
+							rcaCountData.getAdUat() + // As Desgin 
+							rcaCountData.getBsiUat() + // Browser Specific
+							rcaCountData.getCcbUat() + //Client Code
+							rcaCountData.getCrUat() + //Change Req
+							rcaCountData.getDiUat() + //Data Issue
+							rcaCountData.getDupUat() +  //Duplicate
+							rcaCountData.getMrUat() + //Missed Requirement
+							rcaCountData.getNadUat() +  //Not a defect
+							rcaCountData.getPdUat() + //Product defec
+							rcaCountData.getUtrUat()); //Unable to reproduce
+							//Integration Issues
+							if (rcaCountData.getIiUat() != null && rcaCountData.getIiUat() == 0){
+								total = total + rcaCountData.getCrmesbUat() + rcaCountData.getFfmUat() +
+										rcaCountData.getIoUat() + rcaCountData.getOtpUat() +  rcaCountData.getPmuuUat() ;
+							}
+							else{
+								total = total + rcaCountData.getIiUat();
+							}
+							// Configuration Issues
+							if (rcaCountData.getConfigProd() != null && rcaCountData.getConfigProd() == 0){
+								total = total + rcaCountData.getPlanUat() + rcaCountData.getAcUat() +  rcaCountData.getRateUat() +
+										rcaCountData.getRpaUat() + rcaCountData.getEnvUat() + rcaCountData.getDpUat() +
+										rcaCountData.getCoUat() + rcaCountData.getTiUat();
+							}else {
+								total = total + rcaCountData.getConfigUat();
+							}					
 				}
 			}
 			
 			week_count.put(week, total);
 			lst.add(week_count);
 		}
-		
+		log.info("Exit reportedUATAllWeeksGraphForAllProject");
 		 return lst;
 	}
 	
@@ -1040,35 +1105,36 @@ public class ReportUtility {
 			String week = allWeeks.get(i);
 			for(int x=0; x < rcaCount.size(); x++)
 			{
-
 				if(rcaCount.get(x).getWeek().equalsIgnoreCase(allWeeks.get(i)))
 				{
+					RcaCount rcaCountData = rcaCount.get(x);
 					total = total + (
-							((rcaCount.get(x).getAcProductBacklog()==null)? 0 : rcaCount.get(x).getAcProductBacklog()) + 
-							((rcaCount.get(x).getAdProductBacklog()==null)? 0 : rcaCount.get(x).getAdProductBacklog()) + 
-							((rcaCount.get(x).getBsiProductBacklog()==null)? 0 : rcaCount.get(x).getBsiProductBacklog()) + 
-							((rcaCount.get(x).getCcbProductBacklog()==null)? 0 : rcaCount.get(x).getCcbProductBacklog()) + 
-							((rcaCount.get(x).getConfigProductBacklog()==null)? 0 : rcaCount.get(x).getConfigProductBacklog()) + 
-							((rcaCount.get(x).getCoProductBacklog()==null)? 0 : rcaCount.get(x).getCoProductBacklog()) +  
-							((rcaCount.get(x).getCrmesbProductBacklog()==null)? 0 : rcaCount.get(x).getCrmesbProductBacklog()) + 
-							((rcaCount.get(x).getCrProductBacklog()==null)? 0 : rcaCount.get(x).getCrProductBacklog()) +  
-							((rcaCount.get(x).getDiProductBacklog()==null)? 0 : rcaCount.get(x).getDiProductBacklog()) + 
-							((rcaCount.get(x).getDpProductBacklog()==null)? 0 : rcaCount.get(x).getDpProductBacklog()) + 
-							((rcaCount.get(x).getDupProductBacklog()==null)? 0 : rcaCount.get(x).getDupProductBacklog()) + 
-							((rcaCount.get(x).getEnvProductBacklog()==null)? 0 : rcaCount.get(x).getEnvProductBacklog()) +  
-							((rcaCount.get(x).getFfmProductBacklog()==null)? 0 : rcaCount.get(x).getFfmProductBacklog()) + 
-							((rcaCount.get(x).getIiProductBacklog()==null)? 0 : rcaCount.get(x).getIiProductBacklog()) + 
-							((rcaCount.get(x).getIoProductBacklog()==null)? 0 : rcaCount.get(x).getIoProductBacklog()) + 
-							((rcaCount.get(x).getMrProductBacklog()==null)? 0 : rcaCount.get(x).getMrProductBacklog()) + 
-							((rcaCount.get(x).getNadProductBacklog()==null)? 0 : rcaCount.get(x).getNadProductBacklog()) + 
-							((rcaCount.get(x).getOtpProductBacklog()==null)? 0 : rcaCount.get(x).getOtpProductBacklog()) + 
-							((rcaCount.get(x).getPdProductBacklog()==null)? 0 : rcaCount.get(x).getPdProductBacklog()) + 
-							((rcaCount.get(x).getPlanProductBacklog()==null)? 0 : rcaCount.get(x).getPlanProductBacklog()) + 
-							((rcaCount.get(x).getPmuuProductBacklog()==null)? 0 : rcaCount.get(x).getPmuuProductBacklog()) + 
-							((rcaCount.get(x).getRateProductBacklog()==null)? 0 : rcaCount.get(x).getRateProductBacklog()) + 
-							((rcaCount.get(x).getRpaProductBacklog()==null)? 0 : rcaCount.get(x).getRpaProductBacklog()) + 
-							((rcaCount.get(x).getTiProductBacklog()==null)? 0 : rcaCount.get(x).getTiProductBacklog()) + 
-							((rcaCount.get(x).getUtrProductBacklog()==null)? 0 : rcaCount.get(x).getUtrProductBacklog()));
+							rcaCountData.getAdProductBacklog() + // As Desgin 
+							rcaCountData.getBsiProductBacklog() + // Browser Specific
+							rcaCountData.getCcbProductBacklog() + //Client Code
+							rcaCountData.getCrProductBacklog() + //Change Req
+							rcaCountData.getDiProductBacklog() + //Data Issue
+							rcaCountData.getDupProductBacklog() +  //Duplicate
+							rcaCountData.getMrProductBacklog() + //Missed Requirement
+							rcaCountData.getNadProductBacklog() +  //Not a defect
+							rcaCountData.getPdProductBacklog() + //Product defect
+							rcaCountData.getUtrProductBacklog()); //Unable to reproduce
+							//Integration Issues
+							if (rcaCountData.getIiProductBacklog() != null && rcaCountData.getIiProductBacklog() == 0){
+								total = total + rcaCountData.getCrmesbProductBacklog() + rcaCountData.getFfmProductBacklog() +
+										rcaCountData.getIoProductBacklog() + rcaCountData.getOtpProductBacklog() +  rcaCountData.getPmuuProductBacklog() ;
+							}
+							else{
+								total = total + rcaCountData.getIiProductBacklog();
+							}
+							// Configuration Issues
+							if (rcaCountData.getConfigProd() != null && rcaCountData.getConfigProd() == 0){
+								total = total + rcaCountData.getPlanProductBacklog() + rcaCountData.getAcProductBacklog() +  rcaCountData.getRateProductBacklog() +
+										rcaCountData.getRpaProductBacklog() + rcaCountData.getEnvProductBacklog() + rcaCountData.getDpProductBacklog() +
+										rcaCountData.getCoProductBacklog() + rcaCountData.getTiProductBacklog();
+							}else {
+								total = total + rcaCountData.getConfigProductBacklog();
+							}					
 				}
 			}
 
