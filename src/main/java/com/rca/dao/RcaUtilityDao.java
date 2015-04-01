@@ -626,10 +626,11 @@ public class RcaUtilityDao {
 	    }
   }
   
-  public static ArrayList<String> getProjectDetails() throws SQLException{
+  public static ArrayList<RCA> getProjectDetails() throws SQLException{
 	  Connection conn  = null;
-	  ArrayList<String> projectList = new ArrayList<String>();
-	  conn = ConnectionProvider.getConnection();	 
+	  ArrayList<RCA> projectList = new ArrayList<RCA>();
+	  conn = ConnectionProvider.getConnection();
+	 
   	String sql1;
   	sql1 = "select * from project_details";
   	
@@ -637,10 +638,12 @@ public class RcaUtilityDao {
   	ResultSet rs = stmt.executeQuery();
   	
   	while(rs.next()){
-  		projectList.add(rs.getString("project_name"));
-  		
+    RCA rca = new RCA();
+  	rca.setProjectName(rs.getString("project_name"));
+  	rca.setProjectStatus(rs.getString("status"));
+  	projectList.add(rca);	
   	}
-  	return projectList;
+  return projectList;
   }
   
 	public static String addProject(String pName, String pStatus)

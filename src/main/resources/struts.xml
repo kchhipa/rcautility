@@ -51,6 +51,11 @@
 			method="viewAddProject">
 			<result name="success">add_Project.jsp</result>
 		</action>
+		
+		<action name="showProject" class="com.rca.controller.RcaUtility"
+			method="showProjectDetails">
+			<result name="success">ShowProjects.jsp</result>
+		</action>
 	
 		<action name="submitAddProject" class="com.rca.controller.RcaUtility"
 			method="submitAddProject">
