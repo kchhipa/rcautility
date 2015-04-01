@@ -90,17 +90,17 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 	}
 
 	
-	/*public String reportRcaView() throws SQLException {
+	public String reportRcaView() throws SQLException {
 		rca.setWeekType("Weekly");
 		List<String> weeks = findWeeks();
 		rca.setWeeks(weeks);
 		ArrayList<String> projectList = RcaUtilityDao.getProjectDetails(); 
 		rca.setProjectList(projectList);
 		return SUCCESS;
-	}*/
+	}
 	
 	public String showProjectDetails() throws SQLException {
-		   projectList = RcaUtilityDao.getProjectDetails();
+		   projectList = RcaUtilityDao.getProjectsDetails();
 		   rca.setProjectDetailList(projectList);
 		   return SUCCESS;
 		}
