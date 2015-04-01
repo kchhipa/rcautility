@@ -61,6 +61,10 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 	{		
 		RcaUtilityDao.getRcaDetail(rca);
 		getWeekDates(rca.week);
+		String role = (String) session.get("role");
+		if(role.equals("manager"))
+			isdisabled = false;
+		
 		return SUCCESS;
 	}
 	

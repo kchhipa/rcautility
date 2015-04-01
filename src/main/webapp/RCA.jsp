@@ -363,6 +363,7 @@ function calculateWeek()
      <div id="main">
 		<%@ include file="common.jsp"%>
 		<div id="content">
+		<div id="tuesdayError" class="errors" style="color: red;" align="center"> </div>
 		<form method="post" name="RCA_Form" id="RCA_Form" onsubmit="return false" enctype="multipart/form-data" >
 		  <table cellspacing="12" class="content-table">
 		 <%@ include file="leftMenu.jsp"%>
@@ -548,6 +549,14 @@ function calculateWeek()
 				<td><input type="text" value="<s:property value="rca.ro_prod" />" name="ro_prod" id="ro_prod" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 				<td></td>
 			</tr>
+			</table>
+			
+			<table cellspacing="12" class="content-table">
+			<tr>
+			<td colspan="1"></td>
+			<td colspan="1"><label for="data_issue">Overview Message: </label>
+			<textarea rows="2" cols="60" name="overview_message" id="overview_message" <s:if test="isdisabled==true"> disabled </s:if> ><s:property value="rca.overview_message" /></textarea></td>
+			</tr>
 		     <tr>
 		        <td colspan="3"></td>
 				<td><input type="submit" value="Submit" id="submitRcaId" onclick="submitForm()" <s:if test="isdisabled==true"> disabled </s:if> /></td>
@@ -555,7 +564,7 @@ function calculateWeek()
 				<td><input type=button value="Reset" id="resetId" onclick="submitReset()" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 			</tr>			
 			<tr> 
-				<div id="tuesdayError" class="errors" style="color: red;"> </div>
+				<!-- <div id="tuesdayError" class="errors" style="color: red;"> </div> -->
 		
 				  <!-- <td colspan="5" style="padding-top:50px;"><input type="submit" value="Template Download" id="template" onclick="templateDownload()"/>
 			&nbsp;&nbsp;&nbsp;&nbsp;<label for="data_issue  ">Select File</label> 

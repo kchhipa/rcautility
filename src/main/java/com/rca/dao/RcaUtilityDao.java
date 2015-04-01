@@ -41,8 +41,8 @@ public class RcaUtilityDao {
 	    			"di_product_backlog, di_qa, di_uat,di_prod,ro_qa,ro_uat,ro_prod, plan_product_backlog, plan_qa, plan_uat, plan_prod, " +
 	    			"rate_product_backlog, rate_qa, rate_uat, rate_prod, rpa_product_backlog, rpa_qa, rpa_uat, rpa_prod, ac_product_backlog, ac_qa, ac_uat, ac_prod, " +
 	    			"ti_product_backlog, ti_qa, ti_uat, ti_prod, dp_product_backlog, dp_qa, dp_uat, dp_prod, env_product_backlog, env_qa, env_uat, env_prod, co_product_backlog, co_qa, co_uat, co_prod, " +
-	    			"ffm_product_backlog, ffm_qa, ffm_uat, ffm_prod, crmesb_product_backlog, crmesb_qa, crmesb_uat, crmesb_prod, otp_product_backlog, otp_qa, otp_uat, otp_prod, pmuu_product_backlog, pmuu_qa, pmuu_uat, pmuu_prod, io_product_backlog, io_qa, io_uat, io_prod, week,project_id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?," +
-	    			" ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	    			"ffm_product_backlog, ffm_qa, ffm_uat, ffm_prod, crmesb_product_backlog, crmesb_qa, crmesb_uat, crmesb_prod, otp_product_backlog, otp_qa, otp_uat, otp_prod, pmuu_product_backlog, pmuu_qa, pmuu_uat, pmuu_prod, io_product_backlog, io_qa, io_uat, io_prod, overview_message, week,project_id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?," +
+	    			" ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	    	
 	        stmt = conn.prepareStatement(sql);
 	    	setRcaFields(rca,stmt);	    	
@@ -76,7 +76,7 @@ public class RcaUtilityDao {
 	    			"ccb_product_backlog = ?, ccb_qa = ?, ccb_uat = ?, ccb_prod = ?, ad_product_backlog = ?, ad_qa = ?, " +
 	    			"ad_uat = ?, ad_prod = ?, dup_product_backlog = ?, dup_qa = ?, dup_uat = ?, dup_prod = ?, nad_product_backlog = ?, nad_qa = ?, nad_uat = ?, nad_prod = ?, bsi_product_backlog = ?, " +
 	    			"bsi_qa = ?, bsi_uat = ?, bsi_prod = ?, utr_product_backlog = ?, utr_qa = ?, utr_uat = ?, utr_prod = ?, pd_product_backlog = ?, pd_qa = ?, pd_uat = ?, pd_prod = ?, " +
-	    			"di_product_backlog = ?, di_qa = ?, di_uat = ?,di_prod = ?,ro_qa = ?,ro_uat = ?,ro_prod = ?, plan_product_backlog = ?, plan_qa = ?, plan_uat = ?, plan_prod = ?, rate_product_backlog = ?, rate_qa = ?, rate_uat = ?, rate_prod = ?,rpa_product_backlog = ?, rpa_qa = ?, rpa_uat = ?, rpa_prod = ?,ac_product_backlog = ?, ac_qa = ?, ac_uat = ?, ac_prod = ?,ti_product_backlog = ?, ti_qa = ?, ti_uat = ?, ti_prod = ?,dp_product_backlog = ?, dp_qa = ?, dp_uat = ?, dp_prod = ?,env_product_backlog = ?, env_qa = ?, env_uat = ?, env_prod = ?,co_product_backlog = ?, co_qa = ?, co_uat = ?, co_prod = ?,ffm_product_backlog = ?, ffm_qa = ?, ffm_uat = ?, ffm_prod = ?,crmesb_product_backlog = ?, crmesb_qa = ?, crmesb_uat = ?, crmesb_prod = ?,otp_product_backlog = ?, otp_qa = ?, otp_uat = ?, otp_prod = ?,pmuu_product_backlog = ?, pmuu_qa = ?, pmuu_uat = ?, pmuu_prod = ?,io_product_backlog = ?, io_qa = ?, io_uat = ?, io_prod = ? where week = ? and project_id = ?";
+	    			"di_product_backlog = ?, di_qa = ?, di_uat = ?,di_prod = ?,ro_qa = ?,ro_uat = ?,ro_prod = ?, plan_product_backlog = ?, plan_qa = ?, plan_uat = ?, plan_prod = ?, rate_product_backlog = ?, rate_qa = ?, rate_uat = ?, rate_prod = ?,rpa_product_backlog = ?, rpa_qa = ?, rpa_uat = ?, rpa_prod = ?,ac_product_backlog = ?, ac_qa = ?, ac_uat = ?, ac_prod = ?,ti_product_backlog = ?, ti_qa = ?, ti_uat = ?, ti_prod = ?,dp_product_backlog = ?, dp_qa = ?, dp_uat = ?, dp_prod = ?,env_product_backlog = ?, env_qa = ?, env_uat = ?, env_prod = ?,co_product_backlog = ?, co_qa = ?, co_uat = ?, co_prod = ?,ffm_product_backlog = ?, ffm_qa = ?, ffm_uat = ?, ffm_prod = ?,crmesb_product_backlog = ?, crmesb_qa = ?, crmesb_uat = ?, crmesb_prod = ?,otp_product_backlog = ?, otp_qa = ?, otp_uat = ?, otp_prod = ?,pmuu_product_backlog = ?, pmuu_qa = ?, pmuu_uat = ?, pmuu_prod = ?,io_product_backlog = ?, io_qa = ?, io_uat = ?, io_prod = ?, overview_message = ? where week = ? and project_id = ?";
 	    	
 	    	PreparedStatement  stmt = conn.prepareStatement(sql);
 	    	setRcaFields(rca,stmt);
@@ -199,9 +199,10 @@ public class RcaUtilityDao {
 	    	stmt.setInt(93, rca.io_qa);
 	    	stmt.setInt(94, rca.io_uat);
 	    	stmt.setInt(95, rca.io_prod);
+	    	stmt.setString(96, rca.overview_message);
 	    
-	    	stmt.setString(96, rca.week);
-	    	stmt.setInt(97, rca.project_id);
+	    	stmt.setString(97, rca.week);
+	    	stmt.setInt(98, rca.project_id);
 	    	
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -463,6 +464,7 @@ public class RcaUtilityDao {
             	rca.setIo_qa(rs.getInt("io_qa"));
             	rca.setIo_uat(rs.getInt("io_uat"));
             	rca.setIo_prod(rs.getInt("io_prod"));
+            	rca.setOverview_message(rs.getString("overview_message"));
             }
             else
             {

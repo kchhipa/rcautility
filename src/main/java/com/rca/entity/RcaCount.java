@@ -127,6 +127,7 @@ public class RcaCount implements java.io.Serializable {
 	private Integer ioQa;
 	private Integer ioUat;
 	private Integer ioProd;
+	private String overviewMessage;
 
 	public RcaCount() {
 	}
@@ -165,7 +166,7 @@ public class RcaCount implements java.io.Serializable {
 			Integer otpProductBacklog, Integer otpQa, Integer otpUat,
 			Integer otpProd, Integer pmuuProductBacklog, Integer pmuuQa,
 			Integer pmuuUat, Integer pmuuProd, Integer ioProductBacklog,
-			Integer ioQa, Integer ioUat, Integer ioProd) {
+			Integer ioQa, Integer ioUat, Integer ioProd, String overviewMessage) {
 		this.projectDetails = projectDetails;
 		this.mrProductBacklog = mrProductBacklog;
 		this.mrQa = mrQa;
@@ -271,6 +272,7 @@ public class RcaCount implements java.io.Serializable {
 		this.ioQa = ioQa;
 		this.ioUat = ioUat;
 		this.ioProd = ioProd;
+		this.overviewMessage = overviewMessage;
 	}
 
 	@Id
@@ -1228,6 +1230,15 @@ public class RcaCount implements java.io.Serializable {
 
 	public void setIoProd(Integer ioProd) {
 		this.ioProd = ioProd;
+	}
+	
+	@Column(name = "overview_message")
+	public String getOverviewMessage() {
+		return overviewMessage;
+	}
+
+	public void setOverviewMessage(String overviewMessage) {
+		this.overviewMessage = overviewMessage;
 	}
 
 }

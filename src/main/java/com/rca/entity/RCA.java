@@ -103,6 +103,7 @@ public class RCA {
 	public int ro_qa;
 	public int ro_uat;
 	public int ro_prod;
+	public String overview_message;
 	
 	private List<String> weeks;
 	private String startDate;
@@ -803,6 +804,12 @@ public class RCA {
 	 */
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
+	}
+	public String getOverview_message() {
+		return overview_message;
+	}
+	public void setOverview_message(String overview_message) {
+		this.overview_message = overview_message;
 	}
 
 	
