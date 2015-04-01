@@ -7,14 +7,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>RCA</title>
 <link href="css/style.css" rel="stylesheet"/>
-<style type="text/css" media="screen">
-TD { 
- margin: 0;
- padding: 4px;
- border-width: 1px 1px 0 1px;
- border-style: solid dotted; 
-}
-</style>
 <script type="text/javascript">
 function addProject()
 {
@@ -28,7 +20,7 @@ function addProject()
 		<%@ include file="common.jsp"%>
 		<div style="border:2px;width:510;" id="content">
 		 <form method="post" name="RCA_Form" id="RCA_Form" onsubmit="return false" enctype="multipart/form-data" > 
-		 <table cellspacing="12" class="content-table">
+		 <table width="100%" class="project-table">
 	
     <tr>
         <th><u>Project Name</u></th>
@@ -41,6 +33,15 @@ function addProject()
 			<td><s:property value="projectName"/></td>
 			
             <td><s:property value="projectStatus"/></td>
+            
+            <td>
+                     <s:if test="projectStatus.equals('active')">
+                     <a href="changeProjectStatus?projectName=<s:property value="projectName" />&projectStatus=inactive">Inactivate</a>
+                     </s:if>
+                     <s:else>
+                     <a href="changeProjectStatus?projectName=<s:property value="projectName" />&projectStatus=active">Activate&nbsp;&nbsp;&nbsp;</a>
+                     </s:else>
+            </td>
         </tr>
 	</s:iterator>
 		

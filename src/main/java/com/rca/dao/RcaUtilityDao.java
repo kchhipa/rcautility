@@ -693,5 +693,20 @@ public class RcaUtilityDao {
 		}
 		return updateStatus;
 	}
+	
+	public static String updateProjectStatus(String pName, String pStatus)
+            throws SQLException {
+     Connection conn = null;
+     conn = ConnectionProvider.getConnection();
+     PreparedStatement stmt;
+     String updateStatus = "";
+     String query = "update project_details set status=? where project_name=?";
+     stmt = conn.prepareStatement(query);
+     stmt.setString(2, pName);
+     stmt.setString(1, pStatus.toLowerCase());
+     stmt.execute();
+     updateStatus = "updated";
+     return updateStatus;
+}
 
 }

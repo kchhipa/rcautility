@@ -25,6 +25,11 @@ function addProject()
 	document.RCA_Form.action="viewAddProject";
 	document.RCA_Form.submit(); 
 }
+function manageProject()
+{
+	document.RCA_Form.action="showProject";
+	document.RCA_Form.submit(); 
+}
 function importData()
 {
 	document.RCA_Form.action="importData";
@@ -46,7 +51,7 @@ function displayRcaPage()
 			  <s:if test="#session.role != null && #session.role.equals('manager')">
 				   <li><a href="exportWeeklyData.jsp">Export Weekly Data</a></li>
 				   <li><a href="javascript:generateReport()">Generate Reports</a></li>	
-			       <li><a href="javascript:addProject()">Manage Project</a> </li>
+			       <li><a href="javascript:manageProject()">Manage Project</a> </li>
 			  </s:if>
 		  </ul>
 	</div>
