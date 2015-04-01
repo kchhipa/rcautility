@@ -114,6 +114,7 @@ public class RCA {
 	private String[] project;
 	private String projectStatus;
 	private String projectName;
+	private ArrayList<RCA> projectDetailList;
 	
 	/**
 	 * @return the project
@@ -805,6 +806,12 @@ public class RCA {
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
 	}
+	public ArrayList<RCA> getProjectDetailList() {
+		return projectDetailList;
+	}
+	public void setProjectDetailList(ArrayList<RCA> projectDetailList) {
+		this.projectDetailList = projectDetailList;
+	}
 	public String getOverview_message() {
 		return overview_message;
 	}
@@ -812,7 +819,4 @@ public class RCA {
 		this.overview_message = overview_message;
 	}
 
-	
-	
-	
 }

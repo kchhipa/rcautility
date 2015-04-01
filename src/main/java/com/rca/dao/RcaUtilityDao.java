@@ -645,6 +645,26 @@ public class RcaUtilityDao {
   	return projectList;
   }
   
+  public static ArrayList<RCA> getProjectsDetails() throws SQLException{
+	  Connection conn  = null;
+	  ArrayList<RCA> projectList = new ArrayList<RCA>();
+	  conn = ConnectionProvider.getConnection();
+	 
+  	String sql1;
+  	sql1 = "select * from project_details";
+  	
+  	PreparedStatement  stmt = conn.prepareStatement(sql1);	    	    		    	
+  	ResultSet rs = stmt.executeQuery();
+  	
+  	while(rs.next()){
+    RCA rca = new RCA();
+  	rca.setProjectName(rs.getString("project_name"));
+  	rca.setProjectStatus(rs.getString("status"));
+  	projectList.add(rca);	
+  	}
+  return projectList;
+  }
+  
 	public static String addProject(String pName, String pStatus)
 			throws SQLException {
 		Connection conn = null;

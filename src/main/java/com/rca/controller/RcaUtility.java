@@ -55,6 +55,7 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 	private File rcaFile;
 	private static Map projectNameWithId;
 	private static Map session;
+	ArrayList<RCA> projectList;
 	
 		
 	public String execute()
@@ -101,6 +102,12 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 		rca.setProjectList(projectList);
 		return SUCCESS;
 	}
+	
+	public String showProjectDetails() throws SQLException {
+		   projectList = RcaUtilityDao.getProjectsDetails();
+		   rca.setProjectDetailList(projectList);
+		   return SUCCESS;
+		}
 	
 	public static List<String> findWeeks(){
 	    List<String> weeks = new ArrayList<String>();
