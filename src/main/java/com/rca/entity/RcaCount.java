@@ -128,6 +128,7 @@ public class RcaCount implements java.io.Serializable {
 	private Integer ioUat;
 	private Integer ioProd;
 	private String overviewMessage;
+	private String risksIssues;
 
 	public RcaCount() {
 	}
@@ -166,7 +167,7 @@ public class RcaCount implements java.io.Serializable {
 			Integer otpProductBacklog, Integer otpQa, Integer otpUat,
 			Integer otpProd, Integer pmuuProductBacklog, Integer pmuuQa,
 			Integer pmuuUat, Integer pmuuProd, Integer ioProductBacklog,
-			Integer ioQa, Integer ioUat, Integer ioProd, String overviewMessage) {
+			Integer ioQa, Integer ioUat, Integer ioProd, String overviewMessage, String risksIssues) {
 		this.projectDetails = projectDetails;
 		this.mrProductBacklog = mrProductBacklog;
 		this.mrQa = mrQa;
@@ -273,6 +274,7 @@ public class RcaCount implements java.io.Serializable {
 		this.ioUat = ioUat;
 		this.ioProd = ioProd;
 		this.overviewMessage = overviewMessage;
+		this.risksIssues = risksIssues;
 	}
 
 	@Id
@@ -1239,6 +1241,15 @@ public class RcaCount implements java.io.Serializable {
 
 	public void setOverviewMessage(String overviewMessage) {
 		this.overviewMessage = overviewMessage;
+	}
+
+	@Column(name = "risks_issues")
+	public String getRisksIssues() {
+		return risksIssues;
+	}
+
+	public void setRisksIssues(String risksIssues) {
+		this.risksIssues = risksIssues;
 	}
 
 }

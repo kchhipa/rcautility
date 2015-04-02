@@ -557,6 +557,11 @@ function calculateWeek()
 			<td colspan="1"><label for="data_issue">Overview Message: </label>
 			<textarea rows="2" cols="60" name="overview_message" id="overview_message" <s:if test="isdisabled==true"> disabled </s:if> ><s:property value="rca.overview_message" /></textarea></td>
 			</tr>
+			<tr>
+			<td colspan="1"></td>
+			<td colspan="1"><label for="data_issue">Risks/Issues: </label>
+			<textarea rows="2" cols="60" name="risks_issues" id="risks_issues" <s:if test="isdisabled==true"> disabled </s:if> ><s:property value="rca.risks_issues" /></textarea></td>
+			</tr>
 		     <tr>
 		        <td colspan="3"></td>
 				<td><input type="submit" value="Submit" id="submitRcaId" onclick="submitForm()" <s:if test="isdisabled==true"> disabled </s:if> /></td>

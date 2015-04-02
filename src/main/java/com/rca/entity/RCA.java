@@ -104,6 +104,7 @@ public class RCA {
 	public int ro_uat;
 	public int ro_prod;
 	public String overview_message;
+	public String risks_issues;
 	
 	private List<String> weeks;
 	private String startDate;
@@ -817,6 +818,12 @@ public class RCA {
 	}
 	public void setOverview_message(String overview_message) {
 		this.overview_message = overview_message;
+	}
+	public String getRisks_issues() {
+		return risks_issues;
+	}
+	public void setRisks_issues(String risks_issues) {
+		this.risks_issues = risks_issues;
 	}
 
 }
