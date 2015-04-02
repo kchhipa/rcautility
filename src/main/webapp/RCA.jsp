@@ -353,6 +353,8 @@ function calculateWeek()
 	   elementIdsArray[92] = document.getElementById("ro_qa");
 	   elementIdsArray[93] = document.getElementById("ro_uat");
 	   elementIdsArray[94] = document.getElementById("ro_prod");
+	   elementIdsArray[95] = document.getElementById("overview_message");
+	   elementIdsArray[96] = document.getElementById("risks_issues");
 	   
 	  	return elementIdsArray;   
    }
