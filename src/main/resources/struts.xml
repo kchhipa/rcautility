@@ -59,9 +59,15 @@
 	
 		<action name="submitAddProject" class="com.rca.controller.RcaUtility"
 			method="submitAddProject">
-			<result name="success">add_Project.jsp</result>
+			<result name="success" type="redirect">showProject.action</result>
+			<result name="error">add_Project.jsp</result>
 		</action>
-	
+		
+		<action name="changeProjectStatus" class="com.rca.controller.RcaUtility"
+                     method="changeProjectStatus">
+                     <result type="redirectAction">showProject</result>
+       </action>
+		
 		<action name="importData" class="com.rca.controller.RcaUtility"
 			method="importData">
 			<result name="success">importData.jsp</result>

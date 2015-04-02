@@ -91,6 +91,16 @@ h1{
 	padding-left:10%;  
 	font-family:verdana;
 }
+.project-table{
+	font-weight:bold; 	
+	font-family:verdana;
+	border: solid 1px #000;
+}
+
+.project-table tr td{
+	padding: 10px;
+	border: solid 1px #000;
+}
 #menu,
 #menu ul { margin: 0; padding: 0; }
 #menu li { list-style-type: none; }

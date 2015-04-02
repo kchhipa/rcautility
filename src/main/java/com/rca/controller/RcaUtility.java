@@ -6,6 +6,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Map;
 import java.io.File;
@@ -81,11 +83,12 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 		String daoInfo = RcaUtilityDao.addProject(rca.getProjectName(), rca.getProjectStatus());
 		if(daoInfo.equals("inserted")){
 			addActionMessage("Project name added successfuly");
+			return SUCCESS;
 		}
 		else{
 			addActionMessage("Project name already exist");
+			return ERROR;
 		}
-		return SUCCESS;		
 	}
 	
 	public String viewAddProject(){
@@ -103,11 +106,31 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 		return SUCCESS;
 	}
 	
+	public String changeProjectStatus() throws SQLException{
+        
+        RcaUtilityDao.updateProjectStatus(rca.getProjectName(), rca.getProjectStatus());
+        return SUCCESS;            
+	}
+	
 	public String showProjectDetails() throws SQLException {
 		   projectList = RcaUtilityDao.getProjectsDetails();
+		   Collections.sort(projectList, new RCAComparator());
 		   rca.setProjectDetailList(projectList);
 		   return SUCCESS;
 		}
+	
+	public static class RCAComparator implements Comparator<RCA>
+	  {
+	    public int compare(RCA rca1, RCA rca2) {
+	      if(rca1 == null && rca2 == null)
+	        return 0;
+	      if(rca1 == null && rca2 != null)
+	        return -1;
+	      if(rca1 != null && rca2 == null)
+	        return 1;
+	      return rca1.getProjectStatus().compareTo(rca2.getProjectStatus());
+	    }
+	  }
 	
 	public static List<String> findWeeks(){
 	    List<String> weeks = new ArrayList<String>();
