@@ -633,10 +633,55 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 				PlotOrientation.VERTICAL, true, 650, 950,RCAConstants.BAR, false, true) , XSLFPictureData.PICTURE_TYPE_PNG);
 		int idx4 = ppt.addPicture(generateGraph.createGraph( rU.reportedQAAllWeeksGraphForIndividualProject(rcaCount, allWeeks), "Weekly QA", "", "",
 				PlotOrientation.VERTICAL, true, 650, 950,RCAConstants.BAR, false, true) , XSLFPictureData.PICTURE_TYPE_PNG);
+		
+		/* Correcting the Project Dashboard name location & Adding Overview/Risk Issues section in Individual Project PPTs - Begins */
 		TextBox txt1 = new TextBox();
 		txt1.setText(rcaCount.get(0).getProjectDetails().getProjectName() + " Dashboard");
-		txt1.setAnchor(new java.awt.Rectangle(pageWidth+20, 20, pageWidth-10, pageheight-50));
+		txt1.setAnchor(new java.awt.Rectangle(0, 0, (ppt.getPageSize().width/2)/2, (ppt.getPageSize().height/2)/10));
 		slide.addShape(txt1);
+		
+		TextBox txt2 = new TextBox();
+		
+		TextRun tr = txt2.createTextRun();
+		if(rcaCount.size() > 0){
+			
+			RcaCount rcaList = null;
+			Iterator<RcaCount> itOM = rcaCount.iterator();
+			
+			while(itOM.hasNext())
+			{
+				rcaList = itOM.next();
+				if(rcaList.getWeek().equals(rca.getWeek()))
+				{
+					txt2.setText("Overview: " + "\n");
+
+					if(rcaList.getOverviewMessage() != null && !rcaList.getOverviewMessage().isEmpty())
+						tr.appendText(rcaList.getOverviewMessage() + "\n");
+					else
+						tr.appendText("N/A" + "\n");
+				}
+			}
+			
+			Iterator<RcaCount> itRI = rcaCount.iterator();
+			
+			while(itRI.hasNext())
+			{
+				rcaList = itRI.next();
+				if(rcaList.getWeek().equals(rca.getWeek()))
+				{
+					tr.appendText("\n" + "Risks/Issues: " + "\n");
+
+					if(rcaList.getRisksIssues() != null && !rcaList.getRisksIssues().isEmpty())
+						tr.appendText(rcaList.getRisksIssues() + "\n");
+					else
+						tr.appendText("N/A" + "\n");
+				}
+			}
+			
+		}
+		txt2.setAnchor(new java.awt.Rectangle(ppt.getPageSize().width/2+20, 20, ppt.getPageSize().width/2-50, ppt.getPageSize().height/2-50));
+		slide.addShape(txt2);
+		/* Adding Overview/Risk Issues section in Individual Project PPTs - Ends */
 		
 		//Adding 4 RCA slide
 		Picture pict2 = new Picture(idx1);
