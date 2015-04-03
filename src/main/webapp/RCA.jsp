@@ -82,8 +82,19 @@ function calculateWeek()
 			   option.text = text;
 			   option.value = value;
 			   x.add(option,x[i+1]);
-		   }  
+		   } 
+		   
+		   checkManagerSectionVisibility();
 }
+   
+   function checkManagerSectionVisibility()
+   {
+	   var role = "<%= (String) session.getAttribute("role")%>";
+	   if(role != "manager")
+	   {
+		   document.getElementById("manager_sections").style.display = "none";
+	   }
+   }
    
    function submitForm()
    {
@@ -227,6 +238,10 @@ function calculateWeek()
 			   disableTextFields(true);
 			   submitReset();
 			   document.getElementById("tuesdayError").innerHTML = "You cannot fill RCA data after due date i.e. every Monday.";
+			   document.getElementById("overview_message").style.display = "none";
+			   document.getElementById("overview_label").style.display = "none";
+			   document.getElementById("risks_issues").style.display = "none";
+			   document.getElementById("risks_label").style.display = "none";
 		   }
 	   else
 		   {
@@ -235,6 +250,14 @@ function calculateWeek()
 			   document.getElementById("resetId").disabled=false;
 			   disableTextFields(false);
 			   submitReset();
+			   if(role != "manager")
+				   {
+					   document.getElementById("overview_message").style.display = "none";
+					   document.getElementById("overview_label").style.display = "none";
+					   document.getElementById("risks_issues").style.display = "none";
+					   document.getElementById("risks_label").style.display = "none";
+				   }
+
 		   }
    }
    function disableTextFields(isDisabled)
@@ -370,26 +393,48 @@ function calculateWeek()
 		  <table cellspacing="12" class="content-table">
 		 <%@ include file="leftMenu.jsp"%>
 			<tr>		     			 
-				<td style="float:right;"><label for="project-name">Project Name</label></td> 
-				<td colspan="2"><select name="project_id" id="project_id" style="width:120px;">
+				<td style="float:left;"><label for="project-name">Project Name: </label> 
+				<select name="project_id" id="project_id" style="width:120px;" onchange="disableSubmit();">
 			    <option value="0">Select Project</option>
 			    <s:iterator value="projectNameWithId" var="data">
         		  <option value='<s:property value="value"/>' <s:if test="rca.project_id==#data.value"> selected </s:if> ><s:property value="key" /></option>  
        			</s:iterator> 
 									
 				</select></td> 
-				<td colspan="2"></td>          
+				<td style="float:left; padding-left: 20px;"><label for="week">Week: </label>
+				<select name="week" id="week_id"  style="width:120px;" onchange="disableSubmit();">	
+				<s:if test="rca.week != null && !rca.week.equals('') && !rca.week.equals('Select Week')">	
+				<option value="<s:property value="rca.week" />"><s:property value="weekStr" /></option>				
+				</s:if>	
+
+				</select>
+				<input type="submit" value="Search" id="searchId" onclick="serchRcaData()"/></td>
+				<!-- <td colspan="2"></td> -->          
     			  
 			</tr> <tr>
-				<td style="float:right;"><label for="week">Week</label> </td>
+<%-- 				<td style="float:right;"><label for="week">Week</label> </td>
 				<td colspan="2"><select name="week" id="week_id"  style="width:120px;" onchange="disableSubmit();">	
 				<s:if test="rca.week != null && !rca.week.equals('') && !rca.week.equals('Select Week')">	
 				<option value="<s:property value="rca.week" />"><s:property value="weekStr" /></option>				
 				</s:if>	
 
-				</select></td>
-				<td ><input type="submit" value="Search" id="searchId" onclick="serchRcaData()"/></td>
+				</select></td> --%>
+				<!-- <td ><input type="submit" value="Search" id="searchId" onclick="serchRcaData()"/></td> -->
 				</tr>
+				</table>
+				<div id="manager_sections">
+				<table cellspacing="12" class="content-table">
+				<tr>
+				<td style="float:right;"><label for="data_issue" id="overview_label">Overview Message: </label>
+				<textarea rows="2" cols="60" name="overview_message" id="overview_message" <s:if test="isdisabled==true"> disabled </s:if> ><s:property value="rca.overview_message" /></textarea></td>
+				</tr>
+				<tr>
+				<td style="float:right;"><label for="data_issue" id="risks_label">Risks/Issues: </label>
+				<textarea rows="2" cols="60" name="risks_issues" id="risks_issues" <s:if test="isdisabled==true"> disabled </s:if> ><s:property value="rca.risks_issues" /></textarea></td>
+				</tr>
+				</table>
+				</div>
+				<table cellspacing="12" class="content-table">
 				<tr>
 			    <td style="padding-top: 20px;"></td>			   
 			    <td> <label for="QA">QA</label></td>				
@@ -551,26 +596,26 @@ function calculateWeek()
 				<td><input type="text" value="<s:property value="rca.ro_prod" />" name="ro_prod" id="ro_prod" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 				<td></td>
 			</tr>
-			</table>
+			<%-- </table>
 			
 			<table cellspacing="12" class="content-table">
 			<tr>
 			<td colspan="1"></td>
-			<td colspan="1"><label for="data_issue">Overview Message: </label>
+			<td colspan="1"><label for="data_issue" id="overview_label">Overview Message: </label>
 			<textarea rows="2" cols="60" name="overview_message" id="overview_message" <s:if test="isdisabled==true"> disabled </s:if> ><s:property value="rca.overview_message" /></textarea></td>
 			</tr>
 			<tr>
 			<td colspan="1"></td>
-			<td colspan="1"><label for="data_issue">Risks/Issues: </label>
+			<td colspan="1"><label for="data_issue" id="risks_label">Risks/Issues: </label>
 			<textarea rows="2" cols="60" name="risks_issues" id="risks_issues" <s:if test="isdisabled==true"> disabled </s:if> ><s:property value="rca.risks_issues" /></textarea></td>
-			</tr>
+			</tr> --%> 
 		     <tr>
 		        <td colspan="3"></td>
 				<td><input type="submit" value="Submit" id="submitRcaId" onclick="submitForm()" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 				<!-- <td><input type=button value="Update" id="updateId" onclick="updateRca()" <s:if test="isdisabled==true"> disabled </s:if> /></td> -->
 				<td><input type=button value="Reset" id="resetId" onclick="submitReset()" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 			</tr>			
-			<tr> 
+			<tr>
 				<!-- <div id="tuesdayError" class="errors" style="color: red;"> </div> -->
 		
 				  <!-- <td colspan="5" style="padding-top:50px;"><input type="submit" value="Template Download" id="template" onclick="templateDownload()"/>
