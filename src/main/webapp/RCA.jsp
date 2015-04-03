@@ -243,6 +243,16 @@ function calculateWeek()
 			   document.getElementById("risks_issues").style.display = "none";
 			   document.getElementById("risks_label").style.display = "none";
 		   }
+	   else if(dayDiff != null && dayDiff>3 && role == "manager")
+		   {
+
+			   document.getElementById("submitRcaId").disabled=true;
+			  /*  document.getElementById("updateId").disabled=true; */
+			   document.getElementById("resetId").disabled=true;
+			   disableTextFields(true);
+			   submitReset();
+			   document.getElementById("tuesdayError").innerHTML = "You cannot fill RCA data after due date i.e. every Tuesday.";
+		   }
 	   else
 		   {
 			   document.getElementById("submitRcaId").disabled=false;
@@ -250,6 +260,7 @@ function calculateWeek()
 			   document.getElementById("resetId").disabled=false;
 			   disableTextFields(false);
 			   submitReset();
+			   document.getElementById("tuesdayError").innerHTML = "";
 			   if(role != "manager")
 				   {
 					   document.getElementById("overview_message").style.display = "none";
