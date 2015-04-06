@@ -29,9 +29,11 @@ import com.rca.common.ReportUtility;
 import com.rca.entity.ProjectDetails;
 import com.rca.entity.RCA;
 import com.rca.entity.RcaCount;
+import com.rca.entity.SprintReport;
 import com.rca.service.GenerateGraph;
 import com.rca.service.ProjectDetailsManager;
 import com.rca.service.RcaManager;
+import com.rca.service.SprintReportManager;
 
 /**
  * Main action class to generate RCA graph charts and generating PPT Slides.
@@ -51,6 +53,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	//Employee manager injected by spring context
 	private RcaManager rcaManager;
 	private ProjectDetailsManager projectDetailsManager;
+	private SprintReportManager sprintReportManager;
 	SlideShow ppt = null;
 	GenerateGraph generateGraph = new GenerateGraph();
 	ReportUtility rU = new ReportUtility();
@@ -76,7 +79,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	public String execute() throws Exception {
 		
 		List<RcaCount> rcaCounts = rcaManager.findRCAByWeekPeriod(rca.getWeek());
-		createGraphPpt(rcaCounts);
+		createGraphPpt(rcaCounts,rca.getWeek());
 	    fileInputStream = new FileInputStream(new File("D:\\Weekly review.ppt"));
 	    return SUCCESS;
 	}
@@ -85,7 +88,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		return SUCCESS;
 	}
 	
-	public  void createGraphPpt(List<RcaCount> rcaCounts) throws IOException{
+	public  void createGraphPpt(List<RcaCount> rcaCounts, String week) throws IOException{
 
 		ppt = new SlideShow();
 		
@@ -106,7 +109,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		
 		
 		//Adding Project 
-		createProjectSpecificGraphs();
+		createProjectSpecificGraphs(week);
 		
 		FileOutputStream out = new FileOutputStream(
 				"D:\\Weekly review.ppt");
@@ -118,7 +121,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	 * This method get active project list and create PPT for all active projects.
 	 * @throws IOException
 	 */
-	private void createProjectSpecificGraphs() throws IOException{
+	private void createProjectSpecificGraphs(String week) throws IOException{
 		
 		List<ProjectDetails> activeProjectList = projectDetailsManager.getAllActiveProjects();
 				
@@ -127,9 +130,12 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			for(int index =0; index < activeProjectList.size(); index++)
 			{
 				List<RcaCount> rcaCounts = rcaManager.findRCAReportForMultipleWeekForProject(activeProjectList.get(index).getProjectId() );
+				SprintReport sprintReport  = sprintReportManager.findWeeklySprintReportByProjectId(week,activeProjectList.get(index).getProjectId() );
+				if(sprintReport!=null)
+					sprintReport.setWeek(rU.removeYearFromWeek(sprintReport.getWeek()));
 				if(rcaCounts !=null && rcaCounts.size() >0)
 				{
-					createGraphIndividualPpt(rcaCounts, ppt);
+					createGraphIndividualPpt(rcaCounts,sprintReport, ppt);
 				}
 			}
 		}
@@ -614,7 +620,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	 * @param ppt
 	 * @throws IOException
 	 */
-	public void createGraphIndividualPpt(List<RcaCount> rcaCount , SlideShow ppt) throws IOException{
+	public void createGraphIndividualPpt(List<RcaCount> rcaCount, SprintReport sprintReport , SlideShow ppt) throws IOException{
 		Log.debug("Enter createGraphIndividualPpt");
 		Slide slide = ppt.createSlide();
 		int pageWidth = ppt.getPageSize().width/4;
@@ -633,6 +639,11 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 				PlotOrientation.VERTICAL, true, 650, 950,RCAConstants.BAR, false, true) , XSLFPictureData.PICTURE_TYPE_PNG);
 		int idx4 = ppt.addPicture(generateGraph.createGraph( rU.reportedQAAllWeeksGraphForIndividualProject(rcaCount, allWeeks), "Weekly QA", "", "",
 				PlotOrientation.VERTICAL, true, 650, 950,RCAConstants.BAR, false, true) , XSLFPictureData.PICTURE_TYPE_PNG);
+		int idx5 = 0;
+		if(sprintReport!= null){
+		    idx5 = ppt.addPicture(generateGraph.createWeeklyBarGraph( rU.reportedSprintGraph(sprintReport), rcaCount.get(0).getProjectDetails().getProjectName()+"( Dev: "+sprintReport.getDevMembers()+", QA: "+sprintReport.getQaMembers()+")", "", "",
+				PlotOrientation.VERTICAL, false, 450, 450,RCAConstants.NORMAL_BAR,true,false) , XSLFPictureData.PICTURE_TYPE_PNG);
+		}
 		
 		/* Correcting the Project Dashboard name location & Adding Overview/Risk Issues section in Individual Project PPTs - Begins */
 		TextBox txt1 = new TextBox();
@@ -696,7 +707,11 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		Picture pict5 = new Picture(idx4);
 		pict5.setAnchor(new java.awt.Rectangle(540, pageheight+180, pageWidth-5, pageheight-30));
 		slide.addShape(pict5);
-
+		if(idx5!=0){
+			Picture pict6 = new Picture(idx5);
+			pict6.setAnchor(new java.awt.Rectangle(20, 70, pageWidth+160, pageheight-30));
+			slide.addShape(pict6);
+		}
 		// reading an image
 		InputStream stream = getClass().getResourceAsStream("ColorCategory.jpg");
 		// converting it into a byte array
@@ -750,6 +765,12 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	public void setRca(RCA rca) {
 		this.rca = rca;
 	}
-	
+	public SprintReportManager getSprintReportManager() {
+		return sprintReportManager;
+	}
+
+	public void setSprintReportManager(SprintReportManager sprintReportManager) {
+		this.sprintReportManager = sprintReportManager;
+	}
 	
 }

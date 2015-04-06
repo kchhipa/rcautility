@@ -19,6 +19,7 @@ import org.jfree.chart.LegendItemCollection;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.block.BlockBorder;
 import org.jfree.chart.labels.CategoryItemLabelGenerator;
 import org.jfree.chart.labels.CategoryToolTipGenerator;
@@ -55,12 +56,13 @@ public class GenerateGraph
  
   public File createGraph(Map<String, Map<String,Integer>> data, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, boolean rotatedLabel, int graphWidth, int graphHeight, String graphType, boolean showLegend, boolean projectFontSize)
   {
+	
     DefaultCategoryDataset chartDataSet = dataSetObjectCreation(data);
     DifferentTypeGraphAbstractCreation graphCreationObject = DifferentTypeGraphCreationFactory.createGraphCreationObject(graphType, graphHeader, xAxis, yAxis, plotOrientation, chartDataSet, true, true);
     JFreeChart jFreeChart = graphCreationObject.createGraph();
     
     // set the background color for the chart...
-    jFreeChart.setBackgroundPaint(Color.white);
+    jFreeChart.setBackgroundPaint(Color.WHITE);
     
     LegendTitle legend = (LegendTitle) jFreeChart.getSubtitle(0);
     legend.setItemLabelPadding(new RectangleInsets(2, 2, 2, 30));
@@ -93,6 +95,8 @@ public class GenerateGraph
     
     return createGraphImage(jFreeChart, graphWidth, graphHeight);
   }
+  
+ 
   
   @SuppressWarnings("deprecation")
   public File createWeeklyGraph(List data, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, boolean rotatedLabel, int graphWidth, int graphHeight, String graphType)
@@ -158,6 +162,42 @@ public class GenerateGraph
 	    return createGraphImage(jFreeChart, graphWidth, graphHeight);
   }
 
+  
+  @SuppressWarnings("deprecation")
+  public File createWeeklyBarGraph(Map<String, Map<String,Integer>> data, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, boolean rotatedLabel, int graphWidth, int graphHeight, String graphType, boolean showLegend, boolean projectFontSize)
+  {
+	  DefaultCategoryDataset chartDataSet = dataSetObjectCreation(data);
+	    DifferentTypeGraphAbstractCreation graphCreationObject = DifferentTypeGraphCreationFactory.createGraphCreationObject(graphType, graphHeader, xAxis, yAxis, plotOrientation, chartDataSet, true, true);
+	    JFreeChart jFreeChart = graphCreationObject.createGraph();
+	    
+	    // set the background color for the chart...
+	    jFreeChart.setBackgroundPaint(Color.white);
+	    
+	    LegendTitle legend = (LegendTitle) jFreeChart.getSubtitle(0);
+	    legend.setItemLabelPadding(new RectangleInsets(2, 2, 2, 30));
+	    Font font = new Font("Arial", Font.BOLD, 10);
+	    legend.setItemFont(font);
+	    //legend.setPosition(RectangleEdge.RIGHT);
+	    legend.setLegendItemGraphicLocation(RectangleAnchor.CENTER);
+	    legend.setFrame(BlockBorder.NONE);
+	    legend.setVisible(showLegend);
+	    
+	    
+	    
+	    CategoryPlot plot = createPlot(jFreeChart);
+		CategoryAxis domainAxis = plot.getDomainAxis();
+		
+	 	
+	  	domainAxis.setTickLabelFont(font);
+	  	plot.getRangeAxis().setTickLabelFont(font);
+		
+	    
+	    plot.setRenderer(createBarRender());
+	    
+	    return createGraphImage(jFreeChart, graphWidth, graphHeight);
+	}
+  
+  
 	/**
 	 * This API will create Line graph using the data parameter
 	 * 
@@ -317,6 +357,46 @@ public class GenerateGraph
     return renderer;
   }
   
+  public BarRenderer createBarRender()
+  {
+    BarRenderer renderer = new BarRenderer();
+    
+    renderer.setItemMargin(0.0);
+    Paint bluishGray = new GradientPaint(0.0f, 0.0f, new Color(69, 114, 167), 0.0f, 0.0f, new Color(69, 114, 167));
+    renderer.setSeriesPaint(0, bluishGray);
+    /*renderer.setSeriesPaint(4, p1);
+    renderer.setSeriesPaint(8, p1);*/
+     
+    Paint orange = new GradientPaint(0.0f, 0.0f, new Color(219, 132, 61), 0.0f, 0.0f, new Color(219, 132, 61));
+    renderer.setSeriesPaint(1, orange); 
+    /*renderer.setSeriesPaint(5, p2); 
+    renderer.setSeriesPaint(9, p2); */
+    
+    renderer.setGradientPaintTransformer(
+        new StandardGradientPaintTransformer(GradientPaintTransformType.HORIZONTAL)
+    );
+    
+    /* Enabling the tool tip generator */
+    renderer.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator());
+    
+      CategoryItemLabelGenerator itemLabelGenerator = new StandardCategoryItemLabelGenerator();
+	  renderer.setBaseItemLabelGenerator(itemLabelGenerator);
+	  renderer.setPositiveItemLabelPosition(new ItemLabelPosition(ItemLabelAnchor.OUTSIDE12,TextAnchor.BASELINE_CENTER));
+	  renderer.setBaseItemLabelsVisible(true);
+	  
+	 
+    
+    /* Setting the Bar paint to be plain & not glossy. */
+    ((BarRenderer) renderer).setBarPainter(new StandardBarPainter());
+    
+    ((BarRenderer) renderer).setShadowVisible(false);
+    // Set bars maximum width
+    ((BarRenderer) renderer).setMaximumBarWidth(0.15);
+    
+    return renderer;
+  }
+  
+  
   public CategoryPlot createPlot(JFreeChart jFreeChart)
   {
  // get a reference to the plot for further customization...
@@ -328,7 +408,10 @@ public class GenerateGraph
     
     // set the range axis to display integers only...
     final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+    ValueAxis yAxis = plot.getRangeAxis();
+    yAxis.setUpperMargin(0.15);
     rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+    
     /*CategoryAxis domainAxis = plot.getDomainAxis();
     domainAxis.setCategoryLabelPositions(
         CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 6.0)

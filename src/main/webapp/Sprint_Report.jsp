@@ -1,0 +1,316 @@
+ <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>RCA</title>
+<link href="css/style.css" rel="stylesheet"/>
+<script type="text/javascript">
+
+function calculateWeek()
+{
+	var d = new Date();
+	d.setMonth(d.getMonth()-3);
+	var dateStartFrom = new Date("09/22/2014");
+	if(d<dateStartFrom)
+		d = dateStartFrom;
+	
+	var weekday = new Array(7);
+	weekday[0]=  "Sunday";
+	weekday[1] = "Monday";
+	weekday[2] = "Tuesday";
+	weekday[3] = "Wednesday";
+	weekday[4] = "Thursday";
+	weekday[5] = "Friday";
+	weekday[6] = "Saturday";
+	var n = weekday[d.getDay()];
+		if(n=="Tuesday")
+		d.setDate(d.getDate()-1);
+		if(n=="Wednesday")
+		d.setDate(d.getDate()-2);
+		if(n=="Thursday")
+		d.setDate(d.getDate()-3);
+		if(n=="Friday")
+		d.setDate(d.getDate()-4);
+		if(n=="Saturday")
+		d.setDate(d.getDate()-5);
+		if(n=="Sunday")
+		d.setDate(d.getDate()-6);
+
+		var date2 = new Date();
+		date2.setMonth(d.getMonth());
+		date2.setFullYear(d.getFullYear());
+		date2.setDate(d.getDate()+6);
+		
+		var mondays = new Array();
+		var sundays = new Array();
+		var months = new Array();
+		var years = new Array();
+		
+		var d2 = new Date();
+		// d2.setDate(d2.getDate()+3);
+		
+		for(var i=0;d<=d2;i++)
+			{
+			 mondays[i]= d.getDate();
+			 months[i]= d.getMonth()+1;
+			 years[i]= d.getFullYear();
+			 d.setDate(d.getDate()+7);
+			}
+		for(var i=0;date2<=d2;i++)
+			{
+			 sundays[i]= date2.getDate();		
+			 date2.setDate(date2.getDate()+7);
+			}
+		
+		   var x = document.getElementById("week_id");
+		   var weekValue = x.value;
+		   
+		   var option = document.createElement("option");
+		   option.text = "Select Week";
+		   option.value = "Select Week";
+		   x.add(option,x[0]);		   		   
+		   
+		   for(var i = 0; i < mondays.length-1; i++) {
+			   var option = document.createElement("option");
+			   var text = months[i]+"/"+mondays[i]+"-"+months[i+1]+"/"+sundays[i];
+			   var value = months[i]+"/"+mondays[i]+"/"+years[i]+"-"+months[i+1]+"/"+sundays[i]+"/"+years[i+1];
+			   if(weekValue==value)
+				   continue;
+			   option.text = text;
+			   option.value = value;
+			   x.add(option,x[i+1]);
+		   }  
+}
+   
+   function submitForm()
+   {
+	   if(valideateProjectAndWeek())
+		   {
+		   	document.RCA_Form.action="saveSprintDetail";
+		    document.RCA_Form.submit();
+		   }
+	    
+   }
+   function serchRcaData()
+   {
+	   var result=valideateProjectAndWeek();
+	    if(result)
+	    	{
+			document.RCA_Form.action="getSprintDetail";
+	    	document.RCA_Form.submit();
+	    	}
+   }
+   function valideateProjectAndWeek()
+   {
+	   
+	   var projectName = document.getElementById("project_id").value;
+	   var week = document.getElementById("week_id").value;
+	    if(projectName=="Select Project" || projectName=="0" || projectName=="")
+	    	{
+	    	alert("Please select project name");
+	    	return false;
+	    	}	    
+	    else if(week=="Select Week" || week=="")
+	    	{
+	    	alert("Please select week");
+	    	return false;
+	    	}
+	    return true;
+   }
+   
+   function isNumberKey(evt)
+   {
+      var charCode = (evt.which) ? evt.which : evt.keyCode;
+      if (charCode > 31 && (charCode < 48 || charCode > 57))
+    	  {
+    	    alert("Please enter numbers only");
+         	return false;
+    	  }
+
+      return true;
+   }
+   
+  
+   function disableSubmit()
+   {
+	   var todaysDate = new Date();
+	   // todaysDate.setDate(todaysDate.getDate()+2);
+	   var lastWeekDay = null;
+	   var dayDiff = null;
+	   var weekValue = document.getElementById("week_id").value;
+	   var weeks = new Array();
+	   var role = "<%= (String) session.getAttribute("role")%>";
+	   //alert("Role is: " + role);
+	   if(weekValue != "Select Week")
+		   {
+		 	  weeks = weekValue.split("-");		   
+			  if(weeks[1] != "" || weeks[1] != null)  
+			 	lastWeekDay = new Date(weeks[1]);
+		
+			  dayDiff = (todaysDate.getTime() - lastWeekDay.getTime())/(1000*60*60*24);
+		   }
+	   if(dayDiff != null && dayDiff>2 && role != "manager")
+		   {
+			   document.getElementById("submitRcaId").disabled=true;
+			  /*  document.getElementById("updateId").disabled=true; */
+			   document.getElementById("resetId").disabled=true;
+			   disableTextFields(true);
+			   submitReset();
+			   document.getElementById("tuesdayError").innerHTML = "You cannot fill RCA data after due date i.e. every Monday.";
+		   }
+	   else
+		   {
+			   document.getElementById("submitRcaId").disabled=false;
+			  /*  document.getElementById("updateId").disabled=false; */
+			   document.getElementById("resetId").disabled=false;
+			   disableTextFields(false);
+			   submitReset();
+		   }
+   }
+   function disableTextFields(isDisabled)
+   {
+	   var elementIdArray = getElementIdArray();
+	   for(var i=0;i<elementIdArray.length;i++)
+	   {
+	  	 elementIdArray[i].disabled=isDisabled;
+	   }
+   }
+   function submitReset()
+   {
+	   var elementIdArray = getElementIdArray();
+	   for(var i=0;i<elementIdArray.length;i++)
+		   {
+		  	 elementIdArray[i].value="";
+		   }
+	   document.getElementById("tuesdayError").disabled=false;
+   }
+   function getElementIdArray()
+   {	
+	   var elementIdsArray = new Array();	 	   
+	   
+	   elementIdsArray[0] = document.getElementById("sprint1Name");
+	   elementIdsArray[1] = document.getElementById("sprint2Name");
+	   elementIdsArray[2] = document.getElementById("sprint1UserStory");
+	   elementIdsArray[3] = document.getElementById("sprint2UserStory");
+	   elementIdsArray[4] = document.getElementById("sprint1BugCount");
+	   elementIdsArray[5] = document.getElementById("sprint2BugCount");
+	   elementIdsArray[6] = document.getElementById("devMembers");
+	   elementIdsArray[7] = document.getElementById("qaMembers");
+	 
+	   
+	  	return elementIdsArray;   
+   }
+ 
+</script>
+</head>
+<body onload="calculateWeek()">
+     <div id="main">
+		<%@ include file="common.jsp"%>
+		<div id="content">
+		<div id="tuesdayError" class="errors" style="color: red;" align="center"> </div>
+		<form method="post" name="RCA_Form" id="RCA_Form" onsubmit="return false" enctype="multipart/form-data" >
+		  <table cellspacing="12" class="content-table">
+		 <%@ include file="leftMenu.jsp"%>
+		 
+		<tr><td>&nbsp;</td></tr>				 
+		 
+			<tr>		     			 
+				<td style="float:right;"><label for="project-name">Project Name</label></td> 
+				<td colspan="2"><select name="project_id" id="project_id" style="width:120px;">
+			    <option value="0">Select Project</option>
+			    <s:iterator value="projectNameWithId" var="data">
+        		  <option value='<s:property value="value"/>' <s:if test="project_id==#data.value"> selected </s:if> ><s:property value="key" /></option>  
+       			</s:iterator> 
+									
+				</select></td> 
+				<td colspan="2"></td>          
+    			  
+			</tr> <tr><td>&nbsp;</td></tr> <tr>
+				<td style="float:right;"><label for="week">Week</label> </td>
+				<td colspan="2"><select name="week" id="week_id"  style="width:120px;" onchange="disableSubmit();">	
+				<s:if test="sprintReport.week != null && !sprintReport.week.equals('') && !sprintReport.week.equals('Select Week')">	
+				<option value="<s:property value="sprintReport.week" />"><s:property value="weekStr" /></option>				
+				</s:if>	
+
+				</select></td>
+				<td ><input type="submit" value="Search" id="searchId" onclick="serchRcaData()"/></td>
+				</tr>
+				
+				<tr><td>&nbsp;</td></tr>
+				
+				<tr><td></td><td style="text-align: center;">Sprint Name</td><td style="text-align: center;">User Story</td><td style="text-align: center;">Bug Count</td></tr>
+				<tr><td style="float:right;">Sprint 1</td><td><input value="<s:property value="sprintReport.sprint1Name" />" name="sprint1Name" id="sprint1Name" type="text" size="12" maxlength="20"  required /></td><td><input value="<s:property value="sprintReport.sprint1UserStory" />" name="sprint1UserStory" id="sprint1UserStory" type="text" size="12" maxlength="4" onkeypress="return isNumberKey(event);" required /></td><td><input value="<s:property value="sprintReport.sprint1BugCount" />" name="sprint1BugCount" id="sprint1BugCount" type="text" size="12" maxlength="4" onkeypress="return isNumberKey(event);" required/></td></tr>
+				<tr><td>&nbsp;</td></tr>
+				<tr><td></td><td>Sprint Name</td><td>User Story</td><td>Bug Count</td></tr>
+				<tr><td style="float:right;">Sprint 2</td><td><input value="<s:property value="sprintReport.sprint2Name" />" name="sprint2Name" id="sprint2Name" type="text" size="12" maxlength="20" required /></td><td><input value="<s:property value="sprintReport.sprint2UserStory" />" name="sprint2UserStory" id="sprint2UserStory" type="text" size="12" maxlength="4" onkeypress="return isNumberKey(event);" required /></td><td><input value="<s:property value="sprintReport.sprint2BugCount" />" name="sprint2BugCount" id="sprint2BugCount" type="text" size="12" maxlength="4" onkeypress="return isNumberKey(event);" required/></td></tr>
+				
+				<tr><td>&nbsp;</td></tr>
+				
+				<tr>		     			 
+				<td style="float:right;"><label for="project-name">Dev Members</label></td> 
+				<td colspan="2"><input value="<s:property value="sprintReport.devMembers" />" name="devMembers" id="devMembers" type="text" size="12" maxlength="4" onkeypress="return isNumberKey(event);"  required/></td> 
+				<td colspan="2"></td>          
+    			  
+			</tr>
+			<tr><td>&nbsp;</td></tr>
+			 <tr>
+				<td style="float:right;"><label for="week">QA Members</label> </td>
+				<td colspan="2"><input value="<s:property value="sprintReport.qaMembers" />" name="qaMembers" id="qaMembers" type="text" size="12" maxlength="4" onkeypress="return isNumberKey(event);" required/></td>
+				<td colspan="2"></td>
+				</tr>
+				
+				<tr><td>&nbsp;</td></tr>					
+				
+				<tr>
+				 <td colspan="1"></td>
+				<td ><input type="submit" value="Submit" id="submitRcaId" onclick="submitForm()" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<!-- <td><input type=button value="Update" id="updateId" onclick="updateRca()" <s:if test="isdisabled==true"> disabled </s:if> /></td> -->
+				<td><input type=button value="Reset" id="resetId" onclick="submitReset()" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				</tr>
+				
+				
+			</table>
+			
+			<table cellspacing="12" class="content-table">
+		     <tr>
+		        <td colspan="5"></td>
+				</tr>			
+			<tr> 
+				<!-- <div id="tuesdayError" class="errors" style="color: red;"> </div> -->
+		
+				  <!-- <td colspan="5" style="padding-top:50px;"><input type="submit" value="Template Download" id="template" onclick="templateDownload()"/>
+			&nbsp;&nbsp;&nbsp;&nbsp;<label for="data_issue  ">Select File</label> 
+			<input  type="file" name="rcaFile" id="rcaFile"  /> 
+				
+			<input type="submit" value="Upload RCA" onclick="upload()" /> </td>
+			 -->
+				</tr> 
+				
+			  <tr align="center">
+				<td colspan="5" style="padding-top:30px;">
+				
+				<s:if test="hasActionErrors()">
+				   <div class="errors" style="color: red;">
+				      <s:actionerror/>
+				   </div>
+				</s:if>
+				<s:if test="hasActionMessages()">
+				   <div class="success"  style="color: yellow;">
+				      <b><s:actionmessage/></b>
+				   </div>
+				</s:if>				
+				
+				</td>
+				<td colspan="3"></td>
+				</tr>
+				</table>
+				
+			</form>
+		</div>
+	</div>
+</body>
+</html>
+
