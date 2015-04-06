@@ -10,6 +10,6 @@ public interface SprintReportManager {
 
 	public abstract void updateSprintReport(SprintReport instance);
 		
-	public abstract SprintReport findWeeklySprintReportByProjectId(String week, int projectId); 
+	public abstract SprintReport findWeeklySprintReportByProjectId(String week, int projectId);
 	
 }
