@@ -242,23 +242,23 @@ function calculateWeek()
 				<tr><td>&nbsp;</td></tr>
 				
 				<tr><td></td><td style="text-align: center;">Sprint Name</td><td style="text-align: center;">User Story</td><td style="text-align: center;">Bug Count</td></tr>
-				<tr><td style="float:right;">Sprint 1</td><td><input value="<s:property value="sprintReport.sprint1Name" />" name="sprint1Name" id="sprint1Name" type="text" size="12" maxlength="20"  required /></td><td><input value="<s:property value="sprintReport.sprint1UserStory" />" name="sprint1UserStory" id="sprint1UserStory" type="text" size="12" maxlength="4" onkeypress="return isNumberKey(event);" required /></td><td><input value="<s:property value="sprintReport.sprint1BugCount" />" name="sprint1BugCount" id="sprint1BugCount" type="text" size="12" maxlength="4" onkeypress="return isNumberKey(event);" required/></td></tr>
+				<tr><td style="float:right;">Sprint 1</td><td><input value="<s:property value="sprintReport.sprint1Name" />" name="sprint1Name" id="sprint1Name" type="text" size="12" maxlength="20"   /></td><td><input value="<s:property value="sprintReport.sprint1UserStory" />" name="sprint1UserStory" id="sprint1UserStory" type="text" size="12" maxlength="4" onkeypress="return isNumberKey(event);"  /></td><td><input value="<s:property value="sprintReport.sprint1BugCount" />" name="sprint1BugCount" id="sprint1BugCount" type="text" size="12" maxlength="4" onkeypress="return isNumberKey(event);" /></td></tr>
 				<tr><td>&nbsp;</td></tr>
 				<tr><td></td><td>Sprint Name</td><td>User Story</td><td>Bug Count</td></tr>
-				<tr><td style="float:right;">Sprint 2</td><td><input value="<s:property value="sprintReport.sprint2Name" />" name="sprint2Name" id="sprint2Name" type="text" size="12" maxlength="20" required /></td><td><input value="<s:property value="sprintReport.sprint2UserStory" />" name="sprint2UserStory" id="sprint2UserStory" type="text" size="12" maxlength="4" onkeypress="return isNumberKey(event);" required /></td><td><input value="<s:property value="sprintReport.sprint2BugCount" />" name="sprint2BugCount" id="sprint2BugCount" type="text" size="12" maxlength="4" onkeypress="return isNumberKey(event);" required/></td></tr>
+				<tr><td style="float:right;">Sprint 2</td><td><input value="<s:property value="sprintReport.sprint2Name" />" name="sprint2Name" id="sprint2Name" type="text" size="12" maxlength="20"  /></td><td><input value="<s:property value="sprintReport.sprint2UserStory" />" name="sprint2UserStory" id="sprint2UserStory" type="text" size="12" maxlength="4" onkeypress="return isNumberKey(event);"  /></td><td><input value="<s:property value="sprintReport.sprint2BugCount" />" name="sprint2BugCount" id="sprint2BugCount" type="text" size="12" maxlength="4" onkeypress="return isNumberKey(event);" /></td></tr>
 				
 				<tr><td>&nbsp;</td></tr>
 				
 				<tr>		     			 
 				<td style="float:right;"><label for="project-name">Dev Members</label></td> 
-				<td colspan="2"><input value="<s:property value="sprintReport.devMembers" />" name="devMembers" id="devMembers" type="text" size="12" maxlength="4" onkeypress="return isNumberKey(event);"  required/></td> 
+				<td colspan="2"><input value="<s:property value="sprintReport.devMembers" />" name="devMembers" id="devMembers" type="text" size="12" maxlength="4" onkeypress="return isNumberKey(event);"  /></td> 
 				<td colspan="2"></td>          
     			  
 			</tr>
 			<tr><td>&nbsp;</td></tr>
 			 <tr>
 				<td style="float:right;"><label for="week">QA Members</label> </td>
-				<td colspan="2"><input value="<s:property value="sprintReport.qaMembers" />" name="qaMembers" id="qaMembers" type="text" size="12" maxlength="4" onkeypress="return isNumberKey(event);" required/></td>
+				<td colspan="2"><input value="<s:property value="sprintReport.qaMembers" />" name="qaMembers" id="qaMembers" type="text" size="12" maxlength="4" onkeypress="return isNumberKey(event);" /></td>
 				<td colspan="2"></td>
 				</tr>
 				
