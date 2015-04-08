@@ -56,6 +56,23 @@
 			method="showProjectDetails">
 			<result name="success">ShowProjects.jsp</result>
 		</action>
+		
+		<action name="showUsers" class="com.rca.controller.RcaLoginAction"
+			method="showUserDetails">
+			<result name="success">showUsers.jsp</result>
+			<result name="error">showUsers.jsp</result>
+		</action>
+		
+		<action name="addUserView" class="com.rca.controller.RcaLoginAction"
+			method="userView">
+			<result name="success">addUser.jsp</result>
+		</action>
+		
+		<action name="addUser" class="com.rca.controller.RcaLoginAction"
+			method="addUser">
+			<result name="success">addUser.jsp</result>
+			<result name="error">addUser.jsp</result>
+		</action>
 	
 		<action name="submitAddProject" class="com.rca.controller.RcaUtility"
 			method="submitAddProject">

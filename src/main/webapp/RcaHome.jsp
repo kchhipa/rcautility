@@ -36,6 +36,13 @@ function manageProject()
 	document.RCA_Form.submit(); 
 }
 
+function manageUsers()
+{
+	document.RCA_Form.action="showUsers";
+	document.RCA_Form.method="get";
+	document.RCA_Form.submit(); 
+}
+
 function importData()
 {
 	document.RCA_Form.action="importData";
@@ -63,6 +70,7 @@ function importData()
 		  <tr>  <td style="padding-top: 20px;"><a href="exportWeeklyData.jsp" style="color:black; padding-left:30px;">Export Weekly Data</a> </td></tr>
 		 <!--  <tr>  <td style="padding-top: 20px;"><a href="javascript:addProject();" style="color:black; padding-left:30px;">Manage Project</a> </td></tr> -->
 		  <tr>  <td style="padding-top: 20px;"><a href="javascript:manageProject();" style="color:black; padding-left:30px;">Manage Project</a> </td></tr>
+		  <tr>  <td style="padding-top: 20px;"><a href="javascript:manageUsers();" style="color:black; padding-left:30px;">Manage Users</a> </td></tr>
 		  </s:if>
 
 		  </table>

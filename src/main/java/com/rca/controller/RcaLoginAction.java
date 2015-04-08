@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -11,11 +13,16 @@ import java.util.TreeMap;
 
 import org.apache.struts2.dispatcher.SessionMap;
 import org.apache.struts2.interceptor.SessionAware;
+import org.jfree.util.Log;
+import org.junit.runner.notification.Failure;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.rca.dao.LoginDAO;
+import com.rca.dao.LoginDetailsDAO;
 import com.rca.dao.ProjectDAO;
+import com.rca.entity.LoginDetails;
 import com.rca.entity.RcaCount;
+import com.rca.service.LoginDetailService;
 import com.rca.service.RcaManager;
 
 public class RcaLoginAction extends ActionSupport implements SessionAware {
@@ -24,12 +31,14 @@ public class RcaLoginAction extends ActionSupport implements SessionAware {
 	private String passWord;
 	private List projectList;
 	private Map projectNameWithId;
+	private List<LoginDetails> loginDetailsList;
 	public SessionMap session;
 	public String role; 
 
 	
 	//Employee manager injected by spring context
 		private RcaManager rcaManager;
+		private LoginDetailService loginDetailsService;
 		public static final String Manger = "manager";
 		public static final String Lead = "lead";
 	
@@ -95,6 +104,45 @@ public class RcaLoginAction extends ActionSupport implements SessionAware {
 		}
 	}
 	
+	public String showUserDetails()
+	{	
+	 try
+	 {
+		loginDetailsList =  loginDetailsService.getLoginDetail();		
+		Collections.sort(loginDetailsList, new loginNameComparator());		
+		return SUCCESS;
+	 }
+	 catch(Exception e)
+	 {
+		 Log.info("Problem in getting login details " +e);
+		 return ERROR;
+	 }
+	}
+	
+	public String userView()
+	{		
+		return SUCCESS;
+	}
+	
+	public String addUser()
+	{
+		try
+		{
+			LoginDetails loginDetail = new LoginDetails();
+			loginDetail.setLoginId(userName);
+			loginDetail.setPassword(passWord);
+			loginDetail.setRole(role);
+			loginDetailsService.saveOrUpdateLoginDetails(loginDetail);
+			addActionMessage("Save or updated successfully");
+			return SUCCESS;
+		}
+		catch(Exception e)
+		{
+			 Log.info("Problem in adding user " +e);
+			 addActionError("Problem in adding user " +e.getMessage());
+			 return ERROR;
+		}
+	}
 	public String logoutRca()
 	{		
 		if(session!=null)
@@ -109,6 +157,15 @@ public class RcaLoginAction extends ActionSupport implements SessionAware {
 	{	return "success";
 	}
 
+	public static class loginNameComparator implements Comparator<LoginDetails>
+	{
+
+		@Override
+		public int compare(LoginDetails loginDetails1, LoginDetails loginDetails2) {
+			return loginDetails1.getPassword().compareToIgnoreCase(loginDetails2.getPassword());
+		}
+		
+	}
 	
 	public String getUserName() {
 		return userName;
@@ -157,10 +214,35 @@ public class RcaLoginAction extends ActionSupport implements SessionAware {
 		return role;
 	}
 
-    /**
+    public LoginDetailService getLoginDetailsService() {
+		return loginDetailsService;
+	}
+
+
+
+	public void setLoginDetailsService(LoginDetailService loginDetailsService) {
+		this.loginDetailsService = loginDetailsService;
+	}
+
+
+
+	/**
 	 * @param role the role to set
 	 */
 	public void setRole(String role) {
 		this.role = role;
-	}	
+	}
+
+
+
+	public List<LoginDetails> getLoginDetailsList() {
+		return loginDetailsList;
+	}
+
+
+
+	public void setLoginDetailsList(List<LoginDetails> loginDetailsList) {
+		this.loginDetailsList = loginDetailsList;
+	}
+	
 }

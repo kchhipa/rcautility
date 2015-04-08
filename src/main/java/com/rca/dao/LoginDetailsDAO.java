@@ -3,10 +3,17 @@ package com.rca.dao;
 // Generated Mar 10, 2015 6:01:20 AM by Hibernate Tools 3.4.0.CR1
 
 import java.util.List;
+import java.util.Map;
+
+import javax.persistence.Query;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.HibernateException;
 import org.hibernate.LockMode;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.rca.entity.LoginDetails;
 
@@ -34,15 +41,15 @@ public class LoginDetailsDAO {
 			throw re;
 		}
 	}
-
-	public void attachDirty(LoginDetails instance) {
+@Transactional
+	public void attachDirty(LoginDetails instance) throws HibernateException {
 		log.debug("attaching dirty LoginDetails instance");
 		try {
 			sessionFactory.getCurrentSession().saveOrUpdate(instance);
 			log.debug("attach successful");
-		} catch (RuntimeException re) {
-			log.error("attach failed", re);
-			throw re;
+		} catch (HibernateException he) {
+			log.error("attach failed", he);
+			throw he;
 		}
 	}
 
@@ -110,6 +117,21 @@ public class LoginDetailsDAO {
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
 			throw re;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<LoginDetails> getLoginDetailsDao() throws HibernateException {
+		log.debug("finding LoginDetails instances");
+		try {
+				Session session = sessionFactory.openSession();			
+				List<LoginDetails> loginDetails= session.createCriteria(LoginDetails.class).list();				
+				session.close();
+				return loginDetails;
+				
+		} catch (HibernateException he) {
+			log.error("finding instances failed", he);
+			throw he;
 		}
 	}
 	

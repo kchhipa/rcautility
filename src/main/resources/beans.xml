@@ -20,7 +20,8 @@
     <!-- Make scope prototype; This is really important. -->
     
     <bean name="rcaLogin" class="com.rca.controller.RcaLoginAction" scope="prototype">
-	   <property name="rcaManager" ref="rcaManager" />  
+	   <property name="rcaManager" ref="rcaManager" /> 
+	   <property name="loginDetailsService" ref="loginDetailsService" />  
     </bean>
     
     
@@ -32,6 +33,14 @@
     
     <bean id="rcaCountDAO" class="com.rca.dao.RcaCountDAOImpl">
       <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+     <bean id="loginDetailsService" class="com.rca.service.LoginDetailServiceImpl">
+        <property name="loginDetailsDao" ref="loginDetailsDao"/>
+    </bean>
+    
+     <bean id="loginDetailsDao" class="com.rca.dao.LoginDetailsDAO">  
+      <property name="sessionFactory" ref="sessionFactory"/>     
     </bean>
     
     <bean id="projectDetailsManager" class="com.rca.service.ProjectDetailsManagerImpl">

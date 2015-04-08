@@ -17,6 +17,7 @@ public class LoginDetails implements java.io.Serializable {
 
 	private String loginId;
 	private String password;
+	private String role;
 
 	public LoginDetails() {
 	}
@@ -43,6 +44,15 @@ public class LoginDetails implements java.io.Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	@Column(name = "role", nullable = true, length = 30)
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 }
