@@ -24,12 +24,16 @@
 	   <property name="loginDetailsService" ref="loginDetailsService" />  
     </bean>
     
+     <bean name="sprintReportAction" class="com.rca.controller.SprintReportAction" scope="prototype">
+	   <property name="sprintReportManager" ref="sprintReportManager" />  
+    </bean>
     
     <!-- These beans are injected automatically by spring context -->
     
     <bean id="rcaManager" class="com.rca.service.RcaManagerImpl">
         <property name="rcaCountDAO" ref="rcaCountDAO"/>
     </bean>
+    
     
     <bean id="rcaCountDAO" class="com.rca.dao.RcaCountDAOImpl">
       <property name="sessionFactory" ref="sessionFactory"/>
@@ -50,6 +54,16 @@
     <bean id="projectDetailsDAO" class="com.rca.dao.ProjectDetailsDAOImpl">
       <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+    
+    <bean id="sprintReportManager" class="com.rca.service.SprintReportManagerImpl">
+        <property name="sprintReportDAO" ref="sprintReportDAO"/>
+    </bean>
+    
+    <bean id="sprintReportDAO" class="com.rca.dao.SprintReportDAOImpl">
+      <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    
     
     
     

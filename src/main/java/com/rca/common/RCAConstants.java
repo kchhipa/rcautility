@@ -4,6 +4,7 @@ public final class RCAConstants
 {
 
   public static final String BAR = "Bar";
+  public static final String NORMAL_BAR = "Normal_Bar";
   public static final String LINE = "Line";
   
   

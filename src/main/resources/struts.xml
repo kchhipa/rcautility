@@ -36,6 +36,18 @@
 		<action name="getRcaDetail" class="com.rca.controller.RcaUtility">
 			<result name="success">RCA.jsp</result>
 		</action>
+		
+		<action name="sprintReportView" class="com.rca.controller.SprintReportAction" method="reportSprintView">
+			<result name="success">Sprint_Report.jsp</result>
+		</action>
+		
+		<action name="saveSprintDetail" class="com.rca.controller.SprintReportAction" method="submitSprintReport">
+			<result name="success">Sprint_Report.jsp</result>
+		</action>
+		
+		<action name="getSprintDetail" class="com.rca.controller.SprintReportAction" method="getSprintReportDetails">
+			<result name="success">Sprint_Report.jsp</result>
+		</action>
 	
 		<action name="saveRcaDetail" class="com.rca.controller.RcaUtility"
 			method="saveRcaDetail">

@@ -15,6 +15,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.rca.dao.RcaCountDAOImpl;
 import com.rca.entity.RcaCount;
+import com.rca.entity.SprintReport;
 
 public class ReportUtility {
 	
@@ -95,34 +96,24 @@ public class ReportUtility {
 		
 	}
 	
-/*	public Map<String, Map<String, Integer>> reportedQAAllWeeksGraphForIndividual(List<RcaCount> rcaCounts, List<String> allWeeks){
-		
-		Map<String, Map<String, Integer>> diffCategory = new LinkedHashMap<String, Map<String, Integer>>();
-		
-		for(int x=0; x < rcaCounts.size(); x++){
-			
-			RcaCount rcaCount = rcaCounts.get(x);
-			int totalCount = mixCategoryWeeklyCountForAllProjectsInQA(rcaCount) + weeklyDataIssueForAllIssuesInQA(rcaCount) +
-					weeklyIntegrationIssueForAllIssuesInQA(rcaCount) + weeklyConfigurationIssueForAllIssuesInQA(rcaCount) +
-					weeklyMissedAndCRCountForAllIssuesInQA(rcaCount) + weeklyClientCodeBugForAllIssuesInQA(rcaCount);
-			
-			if(totalCount > 0){
-				Map<String, Integer> differentRootCause = new LinkedHashMap<String, Integer>();
-				
-				differentRootCause.put("Duplicate/ Not a Defect/ Unable to reproduce/ Browse/ As designed", mixCategoryWeeklyCountForAllProjectsInQA(rcaCount));
-	            differentRootCause.put("Data Issue", weeklyDataIssueForAllIssuesInQA(rcaCount));
-	            differentRootCause.put("Integration Issue", weeklyIntegrationIssueForAllIssuesInQA(rcaCount));
-	            differentRootCause.put("Configuration Issue", weeklyConfigurationIssueForAllIssuesInQA(rcaCount));
-	            differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssuesInQA(rcaCount));
-	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInQA(rcaCount));
-	
-	            diffCategory.put(rcaCounts.get(x).getWeek(), differentRootCause);
-				
-			}
+	public Map<String, Map<String, Integer>> reportedSprintGraph(SprintReport sprintReport) {
+
+		Map<String, Map<String, Integer>> diffCategory = new LinkedHashMap<String, Map<String, Integer>>();;
+		Map<String, Integer> differentRootCause = new LinkedHashMap<String, Integer>();
+		Map<String, Integer> differentRootCause1 = new LinkedHashMap<String, Integer>();
+		if(sprintReport!=null){
+			differentRootCause.put("User Story Points", sprintReport.getSprint1UserStory());
+			differentRootCause.put("No. of Defects", sprintReport.getSprint1BugCount());
+			diffCategory.put(sprintReport.getSprint1Name()+"("+sprintReport.getWeek()+")", differentRootCause);
+
+			differentRootCause1.put("User Story Points", sprintReport.getSprint2UserStory());
+			differentRootCause1.put("No. of Defects", sprintReport.getSprint2BugCount());
+			diffCategory.put(sprintReport.getSprint2Name()+"("+sprintReport.getWeek()+")", differentRootCause1);
 		}
-		
 		return diffCategory;
-	}*/
+
+
+	}
 	
 	/**
 	 * This method return map of all QA defect category wise for A project
@@ -166,6 +157,8 @@ public class ReportUtility {
 		
 		return diffCategory;
 	}
+	
+	
 
 	/**
 	 * This method return map of all UAT defect category wise for A project
@@ -1228,5 +1221,13 @@ public class ReportUtility {
 		Collections.reverse(weeks); // This sets the weeks set sequence in
 									// chronological order.
 		return weeks;
+	}
+	
+	public String removeYearFromWeek(String week){
+		String dates[] = null;
+		dates = week.split("-");	
+		String y1=dates[0].substring(0,dates[0].lastIndexOf('/'));
+	    String y2=dates[1].substring(0,dates[1].lastIndexOf('/'));
+		return y1+" - "+y2;
 	}
 }
