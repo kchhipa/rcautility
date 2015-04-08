@@ -14,11 +14,9 @@ import java.util.TreeMap;
 import org.apache.struts2.dispatcher.SessionMap;
 import org.apache.struts2.interceptor.SessionAware;
 import org.jfree.util.Log;
-import org.junit.runner.notification.Failure;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.rca.dao.LoginDAO;
-import com.rca.dao.LoginDetailsDAO;
 import com.rca.dao.ProjectDAO;
 import com.rca.entity.LoginDetails;
 import com.rca.entity.RcaCount;
