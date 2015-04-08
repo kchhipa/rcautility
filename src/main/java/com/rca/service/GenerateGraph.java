@@ -59,8 +59,9 @@ public class GenerateGraph
     DifferentTypeGraphAbstractCreation graphCreationObject = DifferentTypeGraphCreationFactory.createGraphCreationObject(graphType, graphHeader, xAxis, yAxis, plotOrientation, chartDataSet, true, true);
     JFreeChart jFreeChart = graphCreationObject.createGraph();
     
-    TextTitle title = jFreeChart.getTitle();
-    title.setFont(new Font("Calibri", Font.BOLD, 42));
+    if(graphHeader.equalsIgnoreCase("Cumulative Open")|| graphHeader.equalsIgnoreCase("Weekly PROD")||graphHeader.equalsIgnoreCase("Weekly UAT")|| graphHeader.equalsIgnoreCase("Weekly QA"))
+        jFreeChart.setTitle(new org.jfree.chart.title.TextTitle(graphHeader,new java.awt.Font("SansSerif", java.awt.Font.BOLD, 50)));
+    
     // set the background color for the chart...
     jFreeChart.setBackgroundPaint(Color.WHITE);
     
@@ -169,6 +170,8 @@ public class GenerateGraph
 	  DefaultCategoryDataset chartDataSet = dataSetObjectCreation(data);
 	    DifferentTypeGraphAbstractCreation graphCreationObject = DifferentTypeGraphCreationFactory.createGraphCreationObject(graphType, graphHeader, xAxis, yAxis, plotOrientation, chartDataSet, true, true);
 	    JFreeChart jFreeChart = graphCreationObject.createGraph();
+	    
+	    jFreeChart.setTitle(new org.jfree.chart.title.TextTitle(graphHeader,new java.awt.Font("SansSerif", java.awt.Font.BOLD, 20)));
 	    
 	    // set the background color for the chart...
 	    jFreeChart.setBackgroundPaint(Color.white);
