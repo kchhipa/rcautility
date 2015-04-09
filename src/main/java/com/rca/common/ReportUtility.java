@@ -1100,37 +1100,40 @@ public class ReportUtility {
 			String week = allWeeks.get(i);
 			for(int x=0; x < rcaCount.size(); x++)
 			{
-				if(rcaCount.get(x).getWeek().equalsIgnoreCase(allWeeks.get(i)))
+				if(null != rcaCount.get(x))
 				{
-					RcaCount rcaCountData = rcaCount.get(x);
-					total = total + (
-							rcaCountData.getAdProductBacklog() + // As Desgin 
-							rcaCountData.getBsiProductBacklog() + // Browser Specific
-							rcaCountData.getCcbProductBacklog() + //Client Code
-							rcaCountData.getCrProductBacklog() + //Change Req
-							rcaCountData.getDiProductBacklog() + //Data Issue
-							rcaCountData.getDupProductBacklog() +  //Duplicate
-							rcaCountData.getMrProductBacklog() + //Missed Requirement
-							rcaCountData.getNadProductBacklog() +  //Not a defect
-							rcaCountData.getPdProductBacklog() + //Product defect
-							rcaCountData.getUtrProductBacklog()); //Unable to reproduce
-							//Integration Issues
-							if (rcaCountData.getIiProductBacklog() != null && rcaCountData.getIiProductBacklog() == 0){
-								total = total + rcaCountData.getCrmesbProductBacklog() + rcaCountData.getFfmProductBacklog() +
-										rcaCountData.getIoProductBacklog() + rcaCountData.getOtpProductBacklog() +  rcaCountData.getPmuuProductBacklog() ;
-							}
-							else{
-								total = total + rcaCountData.getIiProductBacklog();
-							}
-							// Configuration Issues
-							if (rcaCountData.getConfigProd() != null && rcaCountData.getConfigProd() == 0){
-								total = total + rcaCountData.getPlanProductBacklog() + rcaCountData.getAcProductBacklog() +  rcaCountData.getRateProductBacklog() +
-										rcaCountData.getRpaProductBacklog() + rcaCountData.getEnvProductBacklog() + rcaCountData.getDpProductBacklog() +
-										rcaCountData.getCoProductBacklog() + rcaCountData.getTiProductBacklog();
-							}else {
-								total = total + rcaCountData.getConfigProductBacklog();
-							}	
-							log.info(" Open defect Count Project Name: "+ rcaCountData.getProjectDetails().getProjectName() + " Week: " + week + " Week Count: " + total);
+					if(rcaCount.get(x).getWeek().equalsIgnoreCase(allWeeks.get(i)))
+					{
+						RcaCount rcaCountData = rcaCount.get(x);
+						total = total + (
+								rcaCountData.getAdProductBacklog() + // As Desgin 
+								rcaCountData.getBsiProductBacklog() + // Browser Specific
+								rcaCountData.getCcbProductBacklog() + //Client Code
+								rcaCountData.getCrProductBacklog() + //Change Req
+								rcaCountData.getDiProductBacklog() + //Data Issue
+								rcaCountData.getDupProductBacklog() +  //Duplicate
+								rcaCountData.getMrProductBacklog() + //Missed Requirement
+								rcaCountData.getNadProductBacklog() +  //Not a defect
+								rcaCountData.getPdProductBacklog() + //Product defect
+								rcaCountData.getUtrProductBacklog()); //Unable to reproduce
+								//Integration Issues
+								if (rcaCountData.getIiProductBacklog() != null && rcaCountData.getIiProductBacklog() == 0){
+									total = total + rcaCountData.getCrmesbProductBacklog() + rcaCountData.getFfmProductBacklog() +
+											rcaCountData.getIoProductBacklog() + rcaCountData.getOtpProductBacklog() +  rcaCountData.getPmuuProductBacklog() ;
+								}
+								else{
+									total = total + rcaCountData.getIiProductBacklog();
+								}
+								// Configuration Issues
+								if (rcaCountData.getConfigProd() != null && rcaCountData.getConfigProd() == 0){
+									total = total + rcaCountData.getPlanProductBacklog() + rcaCountData.getAcProductBacklog() +  rcaCountData.getRateProductBacklog() +
+											rcaCountData.getRpaProductBacklog() + rcaCountData.getEnvProductBacklog() + rcaCountData.getDpProductBacklog() +
+											rcaCountData.getCoProductBacklog() + rcaCountData.getTiProductBacklog();
+								}else {
+									total = total + rcaCountData.getConfigProductBacklog();
+								}	
+								log.info(" Open defect Count Project Name: "+ rcaCountData.getProjectDetails().getProjectName() + " Week: " + week + " Week Count: " + total);
+					}
 				}
 			}
 

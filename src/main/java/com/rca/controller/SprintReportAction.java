@@ -45,7 +45,7 @@ public class SprintReportAction extends ActionSupport implements ModelDriven<Spr
 				
 				sprintReportManager.persistSprintReport(sprintReport);
 				getWeekDates(sprintReport.getWeek());
-				addActionMessage("Project name added successfuly");
+				addActionMessage("Sprint Report added successfuly");
 			}else{
 				
 				sprintReport.setSprintReportId(sprintReport1.getSprintReportId());

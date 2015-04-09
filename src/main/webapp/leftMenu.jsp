@@ -45,6 +45,11 @@ function generateReportForSprint()
 	document.RCA_Form.action="sprintReportView";
 	document.RCA_Form.submit(); 
 }
+function generateSummary()
+{
+	document.RCA_Form.action="generateSummarySlide";
+	document.RCA_Form.submit(); 
+}
 
 </script>
      <div class="left-box">
@@ -53,12 +58,13 @@ function generateReportForSprint()
 		    <li><a href="javascript:displayRcaPage()">Enter Last Week Data </a></li>
 	    	<li><a href="javascript:importData();">Import Last Week Data</a></li>
 			<li><a href="javascript:templateDownload();">Download Template</a></li>
-			<li><a href="javascript:generateReportForSprint();" >Generate Reports for Sprint</a></li>
+			<li><a href="javascript:generateReportForSprint();" >Enter Sprint Data</a></li>
 			  <s:if test="#session.role != null && #session.role.equals('manager')">
 				   <li><a href="exportWeeklyData.jsp">Export Weekly Data</a></li>
 				   <li><a href="javascript:generateReport()">Generate Reports</a></li>	
 			       <li><a href="javascript:manageProject()">Manage Project</a> </li>
 			  </s:if>
+			 <li><a href="javascript:generateSummary();" > Generate Summary Slide</a></li> 
 		  </ul>
 	</div>
 

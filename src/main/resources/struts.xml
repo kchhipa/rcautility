@@ -40,9 +40,10 @@
 		<action name="sprintReportView" class="com.rca.controller.SprintReportAction" method="reportSprintView">
 			<result name="success">Sprint_Report.jsp</result>
 		</action>
-		
+
 		<action name="saveSprintDetail" class="com.rca.controller.SprintReportAction" method="submitSprintReport">
 			<result name="success">Sprint_Report.jsp</result>
+
 		</action>
 		
 		<action name="getSprintDetail" class="com.rca.controller.SprintReportAction" method="getSprintReportDetails">
@@ -141,6 +142,15 @@
 				<param name="contentType">application/octet-stream</param>
 				<param name="inputName">fileInputStream</param>
 				<param name="contentDisposition">attachment;filename="Weekly review.ppt"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
+		
+		<action name="generateSummarySlide" class="com.rca.controller.GenerateSummaryAction" >
+			<result name="success" type="stream">
+				<param name="contentType">application/octet-stream</param>
+				<param name="inputName">fileInputStream</param>
+				<param name="contentDisposition">attachment;filename="Ranking Framework.xlsx"</param>
 				<param name="bufferSize">1024</param>
 			</result>
 		</action>

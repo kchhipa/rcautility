@@ -54,6 +54,11 @@ function generateReportForSprint()
 	document.RCA_Form.action="sprintReportView";
 	document.RCA_Form.submit(); 
 }
+function generateSummary()
+{
+	document.RCA_Form.action="generateSummarySlide";
+	document.RCA_Form.submit(); 
+}
 
 
 </script>
@@ -72,14 +77,16 @@ function generateReportForSprint()
 		  <tr>  <td style="padding-top: 20px;"><a href="javascript:displayRcaPage();" style="color:black; padding-left:30px;">Enter Last Week Data</a> </td></tr>
 		  <tr>  <td style="padding-top: 20px;"><a href="javascript:importData();" style="color:black; padding-left:30px;">Import Last Week Data</a> </td></tr>
 		  <tr>  <td style="padding-top: 20px;"><a href="javascript:templateDownload();" style="color:black; padding-left:30px;">Download Template</a> </td></tr>
-		  <tr>  <td style="padding-top: 20px;"><a href="javascript:generateReportForSprint();" style="color:black; padding-left:30px;">Generate Reports for Sprint</a> </td></tr>
+		  <tr>  <td style="padding-top: 20px;"><a href="javascript:generateReportForSprint();" style="color:black; padding-left:30px;">Enter Sprint Data</a> </td></tr>
 		  <s:if test="#session.role != null && #session.role.equals('manager')">	
 		  <tr>  <td style="padding-top: 20px;"><a href="javascript:generateReport()" style="color:black; padding-left:30px;">Generate Reports</a> </td></tr>
 		  <tr>  <td style="padding-top: 20px;"><a href="exportWeeklyData.jsp" style="color:black; padding-left:30px;">Export Weekly Data</a> </td></tr>
 		 <!--  <tr>  <td style="padding-top: 20px;"><a href="javascript:addProject();" style="color:black; padding-left:30px;">Manage Project</a> </td></tr> -->
 		  <tr>  <td style="padding-top: 20px;"><a href="javascript:manageProject();" style="color:black; padding-left:30px;">Manage Project</a> </td></tr>
 		  <tr>  <td style="padding-top: 20px;"><a href="javascript:manageUsers();" style="color:black; padding-left:30px;">Manage Users</a> </td></tr>
+		  
 		  </s:if>
+		 <tr>  <td style="padding-top: 20px;"><a href="javascript:generateSummary();" style="color:black; padding-left:30px;">Generate Summary Slide</a> </td></tr>
 
 		  </table>
 				
