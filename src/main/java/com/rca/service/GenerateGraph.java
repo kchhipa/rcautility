@@ -177,9 +177,9 @@ public class GenerateGraph
 	    jFreeChart.setBackgroundPaint(Color.white);
 	    
 	    LegendTitle legend = (LegendTitle) jFreeChart.getSubtitle(0);
-	    legend.setItemLabelPadding(new RectangleInsets(2, 2, 2, 30));
-	    Font font = new Font("Arial", Font.BOLD, 10);
-	    legend.setItemFont(font);
+	    legend.setItemLabelPadding(new RectangleInsets(2, 2, 12, 30));
+	    Font legendFont = new Font("Arial", Font.BOLD, 15);
+	    legend.setItemFont(legendFont);
 	    //legend.setPosition(RectangleEdge.RIGHT);
 	    legend.setLegendItemGraphicLocation(RectangleAnchor.CENTER);
 	    legend.setFrame(BlockBorder.NONE);
@@ -189,9 +189,9 @@ public class GenerateGraph
 	    
 	    CategoryPlot plot = createPlot(jFreeChart);
 		CategoryAxis domainAxis = plot.getDomainAxis();
-		
-	 	
+		Font font = new Font("Arial", Font.BOLD, 15);
 	  	domainAxis.setTickLabelFont(font);
+	  	domainAxis.setTickLabelInsets(new RectangleInsets(2, 2, 12, 30));
 	  	plot.getRangeAxis().setTickLabelFont(font);
 		
 	    

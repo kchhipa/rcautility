@@ -1,12 +1,13 @@
- <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%> 
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>RCA</title>
-<link href="css/style.css" rel="stylesheet"/>
+<link href="css/style.css" rel="stylesheet" />
 <script type="text/javascript">
 
 function calculateWeek()
@@ -85,41 +86,116 @@ function calculateWeek()
 		   }  
 }
    
-   function submitForm()
-   {
-	   if(valideateProjectAndWeek())
-		   {
-		   	document.RCA_Form.action="saveSprintDetail";
-		    document.RCA_Form.submit();
-		   }
-	    
-   }
-   function serchRcaData()
-   {
-	   var result=valideateProjectAndWeek();
-	    if(result)
-	    	{
-			document.RCA_Form.action="getSprintDetail";
-	    	document.RCA_Form.submit();
-	    	}
-   }
-   function valideateProjectAndWeek()
-   {
-	   
-	   var projectName = document.getElementById("project_id").value;
-	   var week = document.getElementById("week_id").value;
-	    if(projectName=="Select Project" || projectName=="0" || projectName=="")
-	    	{
-	    	alert("Please select project name");
-	    	return false;
-	    	}	    
-	    else if(week=="Select Week" || week=="")
-	    	{
-	    	alert("Please select week");
-	    	return false;
-	    	}
-	    return true;
-   }
+	function submitForm()
+	{
+		   if(validateForm())
+			   {
+			   	document.RCA_Form.action="saveSprintDetail";
+			    document.RCA_Form.submit();
+			   }
+		    
+	}
+	function serchRcaData()
+	{
+		   var result=validateProjectAndWeek();
+		    if(result)
+		    	{
+				document.RCA_Form.action="getSprintDetail";
+		    	document.RCA_Form.submit();
+		    	}
+	}
+	
+	
+	function validateProjectAndWeek()
+	{
+		   
+			var projectName = document.getElementById("project_id").value;
+		   
+		   	if(projectName=="Select Project" || projectName=="0" || projectName=="")
+		   	{
+		    	alert("Please select project name");
+		    	return false;
+		    }	    
+			var week = document.getElementById("week_id").value;
+		    if(week=="Select Week" || week=="")
+		    {
+		    	alert("Please select week");
+		    	return false;
+		    }
+			
+		    return true;
+	}
+	
+	
+	
+	function validateForm()
+	{
+		   
+			var projectName = document.getElementById("project_id").value;
+		   
+		   	if(projectName=="Select Project" || projectName=="0" || projectName=="")
+		   	{
+		    	alert("Please select project name");
+		    	return false;
+		    }	    
+			var week = document.getElementById("week_id").value;
+		    if(week=="Select Week" || week=="")
+		    {
+		    	alert("Please select week");
+		    	return false;
+		    }
+		    var sprint1Name = document.getElementById("sprint1Name").value;
+		 	if(sprint1Name=="" || sprint1Name==null)
+		    {
+		    	alert("Sprint 1 Name can not be blank");
+		    	return false;
+		    }
+			var sprint1UserStory = document.getElementById("sprint1UserStory").value;
+			if(sprint1UserStory=="" || sprint1UserStory==null)
+			{
+				alert("Sprint 1 User Story can not be blank");
+				return false;
+			}
+			var sprint1BugCount = document.getElementById("sprint1BugCount").value;
+			if(sprint1BugCount=="" || sprint1BugCount==null)
+			{
+			   	alert("Sprint 1 Bug Count can not be blank");
+			    return false;
+			}
+// 			var sprint2Name = document.getElementById("sprint2Name").value;
+// 			if(sprint2Name=="" || sprint2Name==null)
+// 			{
+// 			  	alert("Sprint 2 Name can not be blank");
+// 			    	return false;
+// 			}
+// 			var sprint2UserStory = document.getElementById("sprint2UserStory").value;
+// 			if(sprint2UserStory=="" || sprint2UserStory==null)
+// 			{
+// 				alert("Sprint 2 User Story can not be blank");
+// 				return false;
+// 			}
+// 			var sprint2BugCount = document.getElementById("sprint2BugCount").value;
+// 			if(sprint2BugCount=="" || sprint2BugCount==null)
+// 			{
+// 				alert("Sprint 2 Bug Count can not be blank");
+// 				return false;
+// 			}
+			var devMembers = document.getElementById("devMembers").value;
+			if(devMembers=="" || devMembers==null)
+			{
+				alert("Dev Members can not be blank");
+				return false;
+			}
+			
+			var qaMembers = document.getElementById("qaMembers").value;
+			if(qaMembers=="" || qaMembers==null)
+			{
+				alert("QA Members can not be blank");
+				return false;
+			}
+			
+		    return true;
+	}
    
    function isNumberKey(evt)
    {
@@ -142,7 +218,7 @@ function calculateWeek()
 	   var dayDiff = null;
 	   var weekValue = document.getElementById("week_id").value;
 	   var weeks = new Array();
-	   var role = "<%= (String) session.getAttribute("role")%>";
+	   var role = "<%=(String) session.getAttribute("role")%>";
 	   //alert("Role is: " + role);
 	   if(weekValue != "Select Week")
 		   {
@@ -207,107 +283,169 @@ function calculateWeek()
 </script>
 </head>
 <body onload="calculateWeek()">
-     <div id="main">
+	<div id="main">
 		<%@ include file="common.jsp"%>
 		<div id="content">
-		<div id="tuesdayError" class="errors" style="color: red;" align="center"> </div>
-		<form method="post" name="RCA_Form" id="RCA_Form" onsubmit="return false" enctype="multipart/form-data" >
-		  <table cellspacing="12" class="content-table">
-		 <%@ include file="leftMenu.jsp"%>
-		 
-		<tr><td>&nbsp;</td></tr>				 
-		 
-			<tr>		     			 
-				<td style="float:right;"><label for="project-name">Project Name</label></td> 
-				<td colspan="2"><select name="project_id" id="project_id" style="width:120px;">
-			    <option value="0">Select Project</option>
-			    <s:iterator value="projectNameWithId" var="data">
-        		  <option value='<s:property value="value"/>' <s:if test="project_id==#data.value"> selected </s:if> ><s:property value="key" /></option>  
-       			</s:iterator> 
-									
-				</select></td> 
-				<td colspan="2"></td>          
-    			  
-			</tr> <tr><td>&nbsp;</td></tr> <tr>
-				<td style="float:right;"><label for="week">Week</label> </td>
-				<td colspan="2"><select name="week" id="week_id"  style="width:120px;" onchange="disableSubmit();">	
-				<s:if test="sprintReport.week != null && !sprintReport.week.equals('') && !sprintReport.week.equals('Select Week')">	
-				<option value="<s:property value="sprintReport.week" />"><s:property value="weekStr" /></option>				
-				</s:if>	
+			<div id="tuesdayError" class="errors" style="color: red;"
+				align="center"></div>
+			<form method="post" name="RCA_Form" id="RCA_Form"
+				onsubmit="return false" enctype="multipart/form-data">
+				<table cellspacing="12" class="content-table">
+					<%@ include file="leftMenu.jsp"%>
 
-				</select></td>
-				<td ><input type="submit" value="Search" id="searchId" onclick="serchRcaData()"/></td>
-				</tr>
-				
-				<tr><td>&nbsp;</td></tr>
-				
-				<tr><td></td><td style="text-align: center;">Sprint Name</td><td style="text-align: center;">User Story</td><td style="text-align: center;">Bug Count</td></tr>
-				<tr><td style="float:right;">Sprint 1</td><td><input value="<s:property value="sprintReport.sprint1Name" />" name="sprint1Name" id="sprint1Name" type="text" size="12" maxlength="20"   /></td><td><input value="<s:property value="sprintReport.sprint1UserStory" />" name="sprint1UserStory" id="sprint1UserStory" type="text" size="12" maxlength="4" onkeypress="return isNumberKey(event);"  /></td><td><input value="<s:property value="sprintReport.sprint1BugCount" />" name="sprint1BugCount" id="sprint1BugCount" type="text" size="12" maxlength="4" onkeypress="return isNumberKey(event);" /></td></tr>
-				<tr><td>&nbsp;</td></tr>
-				<tr><td></td><td>Sprint Name</td><td>User Story</td><td>Bug Count</td></tr>
-				<tr><td style="float:right;">Sprint 2</td><td><input value="<s:property value="sprintReport.sprint2Name" />" name="sprint2Name" id="sprint2Name" type="text" size="12" maxlength="20"  /></td><td><input value="<s:property value="sprintReport.sprint2UserStory" />" name="sprint2UserStory" id="sprint2UserStory" type="text" size="12" maxlength="4" onkeypress="return isNumberKey(event);"  /></td><td><input value="<s:property value="sprintReport.sprint2BugCount" />" name="sprint2BugCount" id="sprint2BugCount" type="text" size="12" maxlength="4" onkeypress="return isNumberKey(event);" /></td></tr>
-				
-				<tr><td>&nbsp;</td></tr>
-				
-				<tr>		     			 
-				<td style="float:right;"><label for="project-name">Dev Members</label></td> 
-				<td colspan="2"><input value="<s:property value="sprintReport.devMembers" />" name="devMembers" id="devMembers" type="text" size="12" maxlength="4" onkeypress="return isNumberKey(event);"  /></td> 
-				<td colspan="2"></td>          
-    			  
-			</tr>
-			<tr><td>&nbsp;</td></tr>
-			 <tr>
-				<td style="float:right;"><label for="week">QA Members</label> </td>
-				<td colspan="2"><input value="<s:property value="sprintReport.qaMembers" />" name="qaMembers" id="qaMembers" type="text" size="12" maxlength="4" onkeypress="return isNumberKey(event);" /></td>
-				<td colspan="2"></td>
-				</tr>
-				
-				<tr><td>&nbsp;</td></tr>					
-				
-				<tr>
-				 <td colspan="1"></td>
-				<td ><input type="submit" value="Submit" id="submitRcaId" onclick="submitForm()" <s:if test="isdisabled==true"> disabled </s:if> /></td>
-				<!-- <td><input type=button value="Update" id="updateId" onclick="updateRca()" <s:if test="isdisabled==true"> disabled </s:if> /></td> -->
-				<td><input type=button value="Reset" id="resetId" onclick="submitReset()" <s:if test="isdisabled==true"> disabled </s:if> /></td>
-				</tr>
-				
-				
-			</table>
-			
-			<table cellspacing="12" class="content-table">
-		     <tr>
-		        <td colspan="5"></td>
-				</tr>			
-			<tr> 
-				<!-- <div id="tuesdayError" class="errors" style="color: red;"> </div> -->
-		
-				  <!-- <td colspan="5" style="padding-top:50px;"><input type="submit" value="Template Download" id="template" onclick="templateDownload()"/>
-			&nbsp;&nbsp;&nbsp;&nbsp;<label for="data_issue  ">Select File</label> 
-			<input  type="file" name="rcaFile" id="rcaFile"  /> 
-				
-			<input type="submit" value="Upload RCA" onclick="upload()" /> </td>
-			 -->
-				</tr> 
-				
-			  <tr align="center">
-				<td colspan="5" style="padding-top:30px;">
-				
-				<s:if test="hasActionErrors()">
-				   <div class="errors" style="color: red;">
-				      <s:actionerror/>
-				   </div>
-				</s:if>
-				<s:if test="hasActionMessages()">
-				   <div class="success"  style="color: yellow;">
-				      <b><s:actionmessage/></b>
-				   </div>
-				</s:if>				
-				
-				</td>
-				<td colspan="3"></td>
-				</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+
+					<tr>
+						<td style="float: right;"><label for="project-name">Project
+								Name</label></td>
+						<td colspan="2"><select name="project_id" id="project_id"
+							style="width: 120px;">
+								<option value="0">Select Project</option>
+								<s:iterator value="projectNameWithId" var="data">
+									<option value='<s:property value="value"/>'
+										<s:if test="project_id==#data.value"> selected </s:if>>
+										<s:property value="key" />
+									</option>
+								</s:iterator>
+
+						</select></td>
+						<td colspan="2"></td>
+
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td style="float: right;"><label for="week">Week</label></td>
+						<td colspan="2"><select name="week" id="week_id"
+							style="width: 120px;" onchange="disableSubmit();">
+								<s:if
+									test="sprintReport.week != null && !sprintReport.week.equals('') && !sprintReport.week.equals('Select Week')">
+									<option value="<s:property value="sprintReport.week" />">
+										<s:property value="weekStr" />
+									</option>
+								</s:if>
+
+						</select></td>
+						<td><input type="submit" value="Search" id="searchId"
+							onclick="serchRcaData()" /></td>
+					</tr>
+
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+
+					<tr>
+						<td></td>
+						<td style="text-align: center;">Sprint Name</td>
+						<td style="text-align: center;">User Story</td>
+						<td style="text-align: center;">Bug Count</td>
+					</tr>
+					<tr>
+						<td style="float: right;">Sprint 1</td>
+						<td><input
+							value="<s:property value="sprintReport.sprint1Name" />"
+							name="sprint1Name" id="sprint1Name" type="text" size="12"
+							maxlength="20" /></td>
+						<td><input
+							value="<s:property value="sprintReport.sprint1UserStory" />"
+							name="sprint1UserStory" id="sprint1UserStory" type="text"
+							size="12" maxlength="4" onkeypress="return isNumberKey(event);" /></td>
+						<td><input
+							value="<s:property value="sprintReport.sprint1BugCount" />"
+							name="sprint1BugCount" id="sprint1BugCount" type="text" size="12"
+							maxlength="4" onkeypress="return isNumberKey(event);" /></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>Sprint Name</td>
+						<td>User Story</td>
+						<td>Bug Count</td>
+					</tr>
+					<tr>
+						<td style="float: right;">Sprint 2</td>
+						<td><input
+							value="<s:property value="sprintReport.sprint2Name" />"
+							name="sprint2Name" id="sprint2Name" type="text" size="12"
+							maxlength="20" /></td>
+						<td><input
+							value="<s:property value="sprintReport.sprint2UserStory" />"
+							name="sprint2UserStory" id="sprint2UserStory" type="text"
+							size="12" maxlength="4" onkeypress="return isNumberKey(event);" /></td>
+						<td><input
+							value="<s:property value="sprintReport.sprint2BugCount" />"
+							name="sprint2BugCount" id="sprint2BugCount" type="text" size="12"
+							maxlength="4" onkeypress="return isNumberKey(event);" /></td>
+					</tr>
+
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+
+					<tr>
+						<td style="float: right;"><label for="project-name">Dev
+								Members</label></td>
+						<td colspan="2"><input
+							value="<s:property value="sprintReport.devMembers" />"
+							name="devMembers" id="devMembers" type="text" size="12"
+							maxlength="4" onkeypress="return isNumberKey(event);" /></td>
+						<td colspan="2"></td>
+
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td style="float: right;"><label for="week">QA
+								Members</label></td>
+						<td colspan="2"><input
+							value="<s:property value="sprintReport.qaMembers" />"
+							name="qaMembers" id="qaMembers" type="text" size="12"
+							maxlength="4" onkeypress="return isNumberKey(event);" /></td>
+						<td colspan="2"></td>
+					</tr>
+
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+
+					<tr>
+						<td colspan="1"></td>
+						<td><input type="submit" value="Submit" id="submitRcaId"
+							onclick="submitForm()"
+							<s:if test="isdisabled==true"> disabled </s:if> /></td>
+						<!-- <td><input type=button value="Update" id="updateId" onclick="updateRca()" <s:if test="isdisabled==true"> disabled </s:if> /></td> -->
+						<td><input type=button value="Reset" id="resetId"
+							onclick="submitReset()"
+							<s:if test="isdisabled==true"> disabled </s:if> /></td>
+					</tr>
+
+
 				</table>
+
+				<table cellspacing="12" class="content-table">
 				
+
+					<tr align="center">
+						<td colspan="5" style="padding-top: 30px;"><s:if
+								test="hasActionErrors()">
+								<div class="errors" style="color: red;">
+									<s:actionerror />
+								</div>
+							</s:if> <s:if test="hasActionMessages()">
+								<div class="success" style="color: yellow;">
+									<b><s:actionmessage /></b>
+								</div>
+							</s:if></td>
+						<td colspan="3"></td>
+					</tr>
+				</table>
+
 			</form>
 		</div>
 	</div>

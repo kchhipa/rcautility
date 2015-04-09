@@ -62,6 +62,11 @@ public class SprintReportAction extends ActionSupport implements ModelDriven<Spr
 		
 		weekStr=sprintReport.getWeek();
 		sprintReport= sprintReportManager.findWeeklySprintReportByProjectId(weekStr, project_id);
+		if(sprintReport==null){
+			sprintReport=new SprintReport();
+			sprintReport.setWeek(weekStr);
+		}
+		
 		getWeekDates(weekStr);
 		return SUCCESS;
 		
