@@ -60,7 +60,7 @@ public class GenerateGraph
     JFreeChart jFreeChart = graphCreationObject.createGraph();
     
     if(graphHeader.equalsIgnoreCase("Cumulative Open")|| graphHeader.equalsIgnoreCase("Weekly PROD")||graphHeader.equalsIgnoreCase("Weekly UAT")|| graphHeader.equalsIgnoreCase("Weekly QA"))
-        jFreeChart.setTitle(new org.jfree.chart.title.TextTitle(graphHeader,new java.awt.Font("Calibri", java.awt.Font.BOLD, 45)));
+        jFreeChart.setTitle(new org.jfree.chart.title.TextTitle(graphHeader,new java.awt.Font("Calibri", java.awt.Font.BOLD, 48)));
     
     // set the background color for the chart...
     jFreeChart.setBackgroundPaint(Color.WHITE);

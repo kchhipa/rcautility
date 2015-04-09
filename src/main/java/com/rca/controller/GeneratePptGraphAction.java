@@ -696,16 +696,16 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		
 		//Adding 4 RCA slide
 		Picture pict2 = new Picture(idx1);
-		pict2.setAnchor(new java.awt.Rectangle(0, pageheight+180, pageWidth-5, pageheight-30));
+		pict2.setAnchor(new java.awt.Rectangle(0, pageheight+160, pageWidth-5, pageheight-10));
 		slide.addShape(pict2);
 		Picture pict3 = new Picture(idx2);
-		pict3.setAnchor(new java.awt.Rectangle(180, pageheight+180, pageWidth-5, pageheight-30));
+		pict3.setAnchor(new java.awt.Rectangle(180, pageheight+160, pageWidth-5, pageheight-10));
 		slide.addShape(pict3);
 		Picture pict4 = new Picture(idx3);
-		pict4.setAnchor(new java.awt.Rectangle(360, pageheight+180, pageWidth-5, pageheight-30));
+		pict4.setAnchor(new java.awt.Rectangle(360, pageheight+160, pageWidth-5, pageheight-10));
 		slide.addShape(pict4);
 		Picture pict5 = new Picture(idx4);
-		pict5.setAnchor(new java.awt.Rectangle(540, pageheight+180, pageWidth-5, pageheight-30));
+		pict5.setAnchor(new java.awt.Rectangle(540, pageheight+160, pageWidth-5, pageheight-10));
 		slide.addShape(pict5);
 		if(idx5!=0){
 			Picture pict6 = new Picture(idx5);
@@ -719,10 +719,10 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		// adding the image to the presentation
 		int imgx = ppt.addPicture(picture, XSLFPictureData.PICTURE_TYPE_JPEG);
 		Picture pictImage = new Picture(imgx);
-		pictImage.setAnchor(new java.awt.Rectangle(0, pageheight+320,
+		pictImage.setAnchor(new java.awt.Rectangle(0, pageheight+335,
 				pageWidth * 4, pageheight / 7));
 		slide.addShape(pictImage);
-		Log.debug("Eixt createGraphIndividualPpt");
+		Log.debug("Exit createGraphIndividualPpt");
 	}
 	
 	
