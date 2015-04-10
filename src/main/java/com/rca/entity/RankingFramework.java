@@ -544,7 +544,13 @@ public class RankingFramework {
 	 * @return the teamName
 	 */
 	public String getTeamName() {
-		teamName = "TestTeamName";
 		return teamName;
+	}
+
+	/**
+	 * @param teamName the teamName to set
+	 */
+	public void setTeamName(String teamName) {
+		this.teamName = teamName;
 	}
 }

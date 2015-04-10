@@ -100,6 +100,12 @@ public class GenerateSummaryAction extends ActionSupport{
 		{
 			RcaCount prevRCACount = rcaManager.findWeeklyRCAReportByProjectId(prevTwoWeek.get(1), rca.getProjectDetails().getProjectId());
 			RankingFramework rankingRow = new RankingFramework();
+			
+			String actionTeams = rca.getProjectDetails().getActionTeam();
+			if (null != actionTeams && !"".equalsIgnoreCase(actionTeams))
+			{
+				rankingRow.setTeamName(actionTeams);
+			}
 			rankingRow.setAbsoluteChange("L"+rowCount+"-K"+rowCount);
 			rankingRow.setAgileComplianceScore("IF(C"+rowCount+"=100%,10,IF(C"+rowCount+"=75%,5,IF(C"+rowCount+"=50%,2,IF(C"+rowCount+"=25%,0,0))))");
 			rankingRow.setCcb(rca.getCcbUat()+rca.getCcbProd());
@@ -140,7 +146,7 @@ public class GenerateSummaryAction extends ActionSupport{
 	void buildColumn(RankingFramework rankingRow, XSSFRow row, XSSFSheet rankingFrameworkSheet)
 	{
 		rankingFrameworkSheet.setFitToPage(true);
-		boolean hideColumn = false;
+		boolean hideColumn = true;
 
 		int cellCounter=0;
 		//	A
@@ -217,6 +223,7 @@ public class GenerateSummaryAction extends ActionSupport{
 		//		M
 		rankingFrameworkSheet.setColumnHidden(cellCounter, hideColumn);
 		cell = createCell(row, cellCounter, rankingFrameworkSheet);
+		rankingFrameworkSheet.setColumnWidth(cellCounter, 6);
 		cellCounter++;
 		cell.setCellStyle(style);
 		cell.setCellType(Cell.CELL_TYPE_NUMERIC);

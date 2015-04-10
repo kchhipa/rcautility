@@ -24,6 +24,7 @@ public class ProjectDetails implements java.io.Serializable {
 	private int projectId;
 	private String projectName;
 	private Set<RcaCount> rcaCounts = new HashSet<RcaCount>(0);
+	private String actionTeam;
 
 	public ProjectDetails() {
 	}
@@ -68,4 +69,18 @@ public class ProjectDetails implements java.io.Serializable {
 		this.rcaCounts = rcaCounts;
 	}
 
+	/**
+	 * @return the actionTeam
+	 */
+	@Column(name = "action_team", nullable = true)
+	public String getActionTeam() {
+		return actionTeam;
+	}
+
+	/**
+	 * @param actionTeam the actionTeam to set
+	 */
+	public void setActionTeam(String actionTeam) {
+		this.actionTeam = actionTeam;
+	}
 }
