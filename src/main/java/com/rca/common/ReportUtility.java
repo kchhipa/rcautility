@@ -12,8 +12,14 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.rca.dao.RcaCountDAOImpl;
+import com.rca.entity.RankingFramework;
 import com.rca.entity.RcaCount;
 import com.rca.entity.SprintReport;
 
@@ -1232,5 +1238,220 @@ public class ReportUtility {
 		String y1=dates[0].substring(0,dates[0].lastIndexOf('/'));
 	    String y2=dates[1].substring(0,dates[1].lastIndexOf('/'));
 		return y1+" - "+y2;
+	}
+	
+	
+	// Below methods are utility methods to generate Summary & Ranking Framework excel sheet
+	
+	
+	public void buildRFColumns(RankingFramework rankingRow, XSSFRow row, XSSFSheet rankingFrameworkSheet, XSSFCellStyle percStyle)
+	{
+		rankingFrameworkSheet.setFitToPage(true);
+		boolean hideColumn = false;
+
+		int cellCounter=0;
+		//	A
+		Cell cell = createCell(row, cellCounter, rankingFrameworkSheet);
+		cellCounter++;
+		cell.setCellValue(rankingRow.getTeamName());
+
+		//	B
+		cell = createCell(row, cellCounter, rankingFrameworkSheet);
+		cellCounter++;
+		cell.setCellValue(rankingRow.getClient());
+
+		//		C
+		rankingFrameworkSheet.setColumnHidden(cellCounter, hideColumn);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet);
+		cellCounter++;
+		cell.setCellStyle(percStyle);
+		cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+		cell.setCellValue(rankingRow.getAgileCompliance()/100);
+
+		//		D
+		cell = createCell(row, cellCounter, rankingFrameworkSheet);
+		cellCounter++;
+		cell.setCellFormula(rankingRow.getAgileComplianceScore());
+
+		//		E
+		cell = createCell(row, cellCounter, rankingFrameworkSheet);
+		cellCounter++;
+		cell.setCellValue(rankingRow.getCcb());
+
+		//		F
+		cell = createCell(row, cellCounter, rankingFrameworkSheet);
+		cellCounter++;
+		cell.setCellFormula(rankingRow.getCcbScore());
+
+		//		G
+		rankingFrameworkSheet.setColumnHidden(cellCounter, hideColumn);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet);
+		cellCounter++;
+		cell.setCellStyle(percStyle);
+		cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+		cell.setCellValue(rankingRow.getToolCompliance()/100);
+
+		//		H
+		rankingFrameworkSheet.setColumnHidden(cellCounter, hideColumn);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet);
+		cellCounter++;
+		cell.setCellFormula(rankingRow.getToolComplianceScore());
+
+		//		I
+		rankingFrameworkSheet.setColumnHidden(cellCounter, hideColumn);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet);
+		cellCounter++;
+		cell.setCellStyle(percStyle);
+		cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+		cell.setCellValue(rankingRow.getjUnitCov()/100);
+
+		//		J
+		rankingFrameworkSheet.setColumnHidden(cellCounter, hideColumn);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet);
+		cellCounter++;
+		cell.setCellFormula(rankingRow.getjUnitCovScore());
+
+		//		K
+		cell = createCell(row, cellCounter, rankingFrameworkSheet);
+		cellCounter++;
+		cell.setCellValue(rankingRow.getPrevWeek());
+
+		//		L
+		cell = createCell(row, cellCounter, rankingFrameworkSheet);
+		cellCounter++;
+		cell.setCellValue(rankingRow.getCurrWeek());
+
+		//		M
+		rankingFrameworkSheet.setColumnHidden(cellCounter, hideColumn);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet);
+		rankingFrameworkSheet.setColumnWidth(cellCounter, 6);
+		cellCounter++;
+		cell.setCellStyle(percStyle);
+		cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+		cell.setCellFormula(rankingRow.getPerChange());
+
+		//		N
+		rankingFrameworkSheet.setColumnHidden(cellCounter, hideColumn);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet);
+		cellCounter++;
+		cell.setCellFormula(rankingRow.getAbsoluteChange());
+
+		//		O
+		cell = createCell(row, cellCounter, rankingFrameworkSheet);
+		cellCounter++;
+		cell.setCellFormula(rankingRow.getQaDefectScore());
+
+		//		P
+		cell = createCell(row, cellCounter, rankingFrameworkSheet);
+		cellCounter++;
+		cell.setCellValue(rankingRow.getReopen());
+
+		//		Q
+		cell = createCell(row, cellCounter, rankingFrameworkSheet);
+		cellCounter++;
+		cell.setCellFormula(rankingRow.getReopenScore());
+
+		//		R
+		cell = createCell(row, cellCounter, rankingFrameworkSheet);
+		cellCounter++;
+		cell.setCellValue(rankingRow.getCollaboration());
+
+		//		S
+		cell = createCell(row, cellCounter, rankingFrameworkSheet);
+		cellCounter++;
+		cell.setCellFormula(rankingRow.getCollaborationScore());
+
+		//		T
+		cell = createCell(row, cellCounter, rankingFrameworkSheet);
+		cellCounter++;
+		cell.setCellValue(rankingRow.getCumulativeBacklog());
+
+		//		U
+		cell = createCell(row, cellCounter, rankingFrameworkSheet);
+		cellCounter++;
+		cell.setCellFormula(rankingRow.getCumulativeBacklogScore());
+
+		//		V
+		cell = createCell(row, cellCounter, rankingFrameworkSheet);
+		cellCounter++;
+		cell.setCellValue(rankingRow.getMissReq());
+
+		//		W
+		cell = createCell(row, cellCounter, rankingFrameworkSheet);
+		cellCounter++;
+		cell.setCellFormula(rankingRow.getMissReqScore());
+
+		//		X
+		cell = createCell(row, cellCounter, rankingFrameworkSheet);
+		cellCounter++;
+		cell.setCellValue(rankingRow.getRisk());
+
+		//		Y
+		cell = createCell(row, cellCounter, rankingFrameworkSheet);
+		cellCounter++;
+		cell.setCellFormula(rankingRow.getRiskScore());
+
+		//		Z
+		cell = createCell(row, cellCounter, rankingFrameworkSheet);
+		cellCounter++;
+		cell.setCellFormula(rankingRow.getTotalScore());
+
+		//		AA
+		cell = createCell(row, cellCounter, rankingFrameworkSheet);
+		cellCounter++;
+		cell.setCellFormula(rankingRow.getRanking());
+
+		//		AB
+		cell = createCell(row, cellCounter, rankingFrameworkSheet);
+		cellCounter++;
+		cell.setCellValue(rankingRow.getActualUsed());
+
+		//		AC
+		cell = createCell(row, cellCounter, rankingFrameworkSheet);
+		cell.setCellValue(rankingRow.getRankingComment());
+	}
+
+	public List<String> findPreviousTwoWeek() {
+		List<String> weeks = new ArrayList<String>();
+		SimpleDateFormat formatter = new SimpleDateFormat("M/d/yyyy");
+
+		Calendar c1 = Calendar.getInstance();
+		c1.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+		c1.add(Calendar.WEEK_OF_MONTH, -1);
+		for (int i = 0; i < 2; i++) {
+			String startDate = formatter.format(c1.getTime());
+			c1.add(Calendar.DAY_OF_WEEK, +6);
+			String endDate = formatter.format(c1.getTime());
+			String finalRange = startDate + "-" + endDate;
+			weeks.add(finalRange);
+			c1.add(Calendar.DAY_OF_WEEK, -14);
+			c1.add(Calendar.DAY_OF_WEEK, 1);
+		}
+		return weeks;
+	}
+	
+	public void createRFHeaderRows(XSSFSheet rankingFrameworkSheet, XSSFWorkbook toolSetMatrix)
+	{
+		XSSFRow headerRow = rankingFrameworkSheet.createRow(0);
+		String header = "Action Team Name, Client, Agile Compliance, Score,	Client code defects(PROD+UAT), Score, Tool Compliance, Score, Junit Test coverage, Score, Previous Week, Current Week, % Change, Absolute Change, Score, Re-open, Score, Collaboration, Score, Cumulative Backlog, Score, Missed requirements, Score, Risk, Score, Total score, Ranking, Actual Used, Ranking Comment";
+		String[] headerCells = header.split(",");
+		int columnIndex = 0;
+		XSSFCellStyle headerStyle = toolSetMatrix.createCellStyle();;
+		headerStyle.setRotation((short) 90);
+		headerStyle.setShrinkToFit(true);
+		headerStyle.setWrapText(true);
+		for (String headerCell : headerCells)
+		{
+			Cell cell = headerRow.createCell(columnIndex++);
+			cell.setCellValue(headerCell);
+			cell.setCellStyle(headerStyle);
+		}
+	}
+
+	private Cell createCell(XSSFRow row, int cellCounter, XSSFSheet rankingFrameworkSheet)
+	{
+		rankingFrameworkSheet.autoSizeColumn(cellCounter);
+		Cell cell = row.createCell(cellCounter);
+		return cell;
 	}
 }
