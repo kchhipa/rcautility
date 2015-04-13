@@ -106,7 +106,7 @@ public class GenerateSummaryAction extends ActionSupport{
 			rankingRow.setPrevWeek((prevRCACount == null)? 0:rU.weeklyBugCountForAllProjectsInQA(prevRCACount));
 			rankingRow.setQaDefectScore("IF(AND(M"+rowCount+">20%,N"+rowCount+">5),0,IF(AND(0%<M"+rowCount+"<20%,N"+rowCount+"<5),10,IF(AND(-20%<M"+rowCount+"<0%,N"+rowCount+"<5),10,IF(AND(M"+rowCount+"<-20%,N"+rowCount+"<5),20,10))))");
 			rankingRow.setRanking("IF(Z"+rowCount+">=85,\"A\",IF(Z"+rowCount+">=75,\"B\",IF(Z"+rowCount+">=60,\"C\",\"D\")))");
-			rankingRow.setRankingComment("Tesst");
+			rankingRow.setRankingComment("Dummy Comment");
 
 			rankingRow.setReopen(rca.getRoProd()+rca.getRoQa()+rca.getRoUat());
 			rankingRow.setReopenScore("IF(P"+rowCount+"=0,10,IF(P"+rowCount+"=1,5,IF(P"+rowCount+" > 1,0,0)))");
