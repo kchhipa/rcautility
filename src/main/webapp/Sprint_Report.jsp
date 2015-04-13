@@ -348,7 +348,7 @@ function calculateWeek()
 						<td><input
 							value="<s:property value="sprintReport.sprint1Name" />"
 							name="sprint1Name" id="sprint1Name" type="text" size="12"
-							maxlength="20" /></td>
+							maxlength="50" /></td>
 						<td><input
 							value="<s:property value="sprintReport.sprint1UserStory" />"
 							name="sprint1UserStory" id="sprint1UserStory" type="text"
@@ -372,7 +372,7 @@ function calculateWeek()
 						<td><input
 							value="<s:property value="sprintReport.sprint2Name" />"
 							name="sprint2Name" id="sprint2Name" type="text" size="12"
-							maxlength="20" /></td>
+							maxlength="50" /></td>
 						<td><input
 							value="<s:property value="sprintReport.sprint2UserStory" />"
 							name="sprint2UserStory" id="sprint2UserStory" type="text"

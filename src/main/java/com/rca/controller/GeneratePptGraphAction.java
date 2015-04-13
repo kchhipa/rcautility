@@ -331,7 +331,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		}
 		
 		idx = ppt.addPicture(generateGraph.createGraph( rU.reportedQARCAForAllProjects(rcaCounts), "", "", "", 
-				PlotOrientation.VERTICAL, false, 450, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
+				PlotOrientation.VERTICAL, true, 450, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
 		
 		lCx = ppt.addPicture(generateGraph.createLineGraph(rU.reportedAllWeeksCCBGraphForAllProject(allWeeksrcaCounts, allWeeks, QA), "Client Code Trend", "", "",
 				PlotOrientation.VERTICAL, true, 650, 450,RCAConstants.LINE) , XSLFPictureData.PICTURE_TYPE_PNG);
@@ -364,7 +364,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		}
 				
 		idx = ppt.addPicture(generateGraph.createGraph( rU.reportedProdRCAForAllProjects(rcaCounts), "", "", "", 
-				PlotOrientation.VERTICAL, false, 450, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
+				PlotOrientation.VERTICAL, true, 450, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
 		
 		lCx = ppt.addPicture(generateGraph.createLineGraph(rU.reportedAllWeeksCCBGraphForAllProject(allWeeksrcaCounts, allWeeks, PRODUCTION), "Client Code Trend", "", "",
 				PlotOrientation.VERTICAL, true, 650, 450,RCAConstants.LINE) , XSLFPictureData.PICTURE_TYPE_PNG);
@@ -397,7 +397,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		}
 		
 		idx = ppt.addPicture(generateGraph.createGraph( rU.reportedUATRCAForAllProjects(rcaCounts), "", "", "", 
-				PlotOrientation.VERTICAL, false, 450, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
+				PlotOrientation.VERTICAL, true, 450, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
 		
 		lCx = ppt.addPicture(generateGraph.createLineGraph(rU.reportedAllWeeksCCBGraphForAllProject(allWeeksrcaCounts, allWeeks, UAT), "Client Code Trend", "", "",
 				PlotOrientation.VERTICAL, true, 650, 450,RCAConstants.LINE) , XSLFPictureData.PICTURE_TYPE_PNG);

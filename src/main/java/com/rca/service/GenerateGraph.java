@@ -193,6 +193,12 @@ public class GenerateGraph
 	  	domainAxis.setTickLabelFont(font);
 	  	domainAxis.setTickLabelInsets(new RectangleInsets(2, 2, 12, 30));
 	  	plot.getRangeAxis().setTickLabelFont(font);
+	  	
+	  	if(rotatedLabel)
+		  {
+			  domainAxis.setCategoryLabelPositions(
+					  CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 6.0));
+		  }
 		
 	    
 	    plot.setRenderer(createBarRender());

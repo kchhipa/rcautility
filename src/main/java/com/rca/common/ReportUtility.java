@@ -110,11 +110,11 @@ public class ReportUtility {
 		if(sprintReport!=null){
 			differentRootCause.put("User Story Points", sprintReport.getSprint1UserStory());
 			differentRootCause.put("No. of Defects", sprintReport.getSprint1BugCount());
-			diffCategory.put(sprintReport.getSprint1Name()+"("+sprintReport.getWeek()+")", differentRootCause);
+			diffCategory.put(sprintReport.getSprint1Name(), differentRootCause);
 
 			differentRootCause1.put("User Story Points", sprintReport.getSprint2UserStory());
 			differentRootCause1.put("No. of Defects", sprintReport.getSprint2BugCount());
-			diffCategory.put(sprintReport.getSprint2Name()+"("+sprintReport.getWeek()+")", differentRootCause1);
+			diffCategory.put(sprintReport.getSprint2Name(), differentRootCause1);
 		}
 		return diffCategory;
 
