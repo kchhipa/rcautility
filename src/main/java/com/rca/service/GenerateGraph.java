@@ -189,7 +189,7 @@ public class GenerateGraph
 	    
 	    CategoryPlot plot = createPlot(jFreeChart);
 		CategoryAxis domainAxis = plot.getDomainAxis();
-		Font font = new Font("Arial", Font.BOLD, 15);
+		Font font = new Font("Arial", Font.PLAIN, 11);
 	  	domainAxis.setTickLabelFont(font);
 	  	domainAxis.setTickLabelInsets(new RectangleInsets(2, 2, 12, 30));
 	  	plot.getRangeAxis().setTickLabelFont(font);

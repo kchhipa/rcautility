@@ -42,7 +42,7 @@ public class ReportUtility {
           
           //diffCategory = new HashMap<String, Map<String, Integer>>();
           
-          Map<String, Integer> differentRootCause = new HashMap<String, Integer>();
+          Map<String, Integer> differentRootCause = new LinkedHashMap<String, Integer>();
           differentRootCause.put("Duplicate/ Not a Defect/ Unable to reproduce/ Browse/ As designed", 
         		  mixCategoryWeeklyCountForAllProjectsInOpen(rcaCount));
           differentRootCause.put("Data Issue", weeklyDataIssueForAllIssuesInOpen(rcaCount));
