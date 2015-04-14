@@ -417,7 +417,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		ReportUtility rU = new ReportUtility();
 		List<String> allWeeks = rU.findWeeks(rca.getWeek());
 				
-		idx = ppt.addPicture(generateGraph.createGraph( rU.rcaCountForLastWeekForAllProjects(allWeeksrcaCounts), "", "", "", 
+		idx = ppt.addPicture(generateGraph.createGraph( rU.rcaCountForLastWeekForAllProjects(rcaCounts), "", "", "", 
 				PlotOrientation.VERTICAL, true, 950, 550,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
 		
 		lCx = ppt.addPicture(generateGraph.createLineGraph(rU.reportedAllWeeksCCBGraphForAllProject(allWeeksrcaCounts, allWeeks, CUMULATIVE_OPEN), "Client Code Trend", "", "",
