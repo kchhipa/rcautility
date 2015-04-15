@@ -15,6 +15,7 @@ import org.apache.poi.hslf.model.Picture;
 import org.apache.poi.hslf.model.Slide;
 import org.apache.poi.hslf.model.TextBox;
 import org.apache.poi.hslf.model.TextRun;
+import org.apache.poi.hslf.usermodel.RichTextRun;
 import org.apache.poi.hslf.usermodel.SlideShow;
 import org.apache.poi.util.IOUtils;
 import org.apache.poi.xslf.usermodel.XSLFPictureData;
@@ -163,7 +164,11 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			fillQADataInSlide(allWeeksrcaCounts, rcaCounts);
 			TextBox txt1 = new TextBox();
 			txt1.setText("Reported QA");
-			txt1.setAnchor(new java.awt.Rectangle(0, 0, pageWidth/2, pageheight/10));
+			txt1.setAnchor(new java.awt.Rectangle(0, 0, pageWidth+30, pageheight/10));
+			RichTextRun rt1 = txt1.getTextRun().getRichTextRuns()[0];
+			rt1.setFontSize(18);
+			rt1.setFontName("Franklin Gothic Medium");
+			rt1.setAlignment(TextBox.AlignLeft);
 			slide.addShape(txt1);
 			
 			TextBox txt2 = new TextBox();
@@ -193,6 +198,12 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			}
 			
 			txt2.setAnchor(new java.awt.Rectangle(pageWidth+20, 20, pageWidth-50, pageheight-50));
+			for(int i=0; i<tr.getRichTextRuns().length;i++){
+				RichTextRun rt2 = tr.getRichTextRuns()[i];
+				rt2.setFontSize(18);
+				rt2.setFontName("Franklin Gothic Medium");
+				rt2.setAlignment(TextBox.AlignLeft);
+			}
 			slide.addShape(txt2);
 
 		}
@@ -203,7 +214,11 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			fillProdDataInSlide(allWeeksrcaCounts, rcaCounts);
 			TextBox txt1 = new TextBox();
 			txt1.setText("Reported Prod");
-			txt1.setAnchor(new java.awt.Rectangle(0, 0, pageWidth/2, pageheight/10));
+			txt1.setAnchor(new java.awt.Rectangle(0, 0, pageWidth+30, pageheight/10));
+			RichTextRun rt1 = txt1.getTextRun().getRichTextRuns()[0];
+			rt1.setFontSize(18);
+			rt1.setFontName("Franklin Gothic Medium");
+			rt1.setAlignment(TextBox.AlignLeft);
 			slide.addShape(txt1);
 			    
 			TextBox txt2 = new TextBox();
@@ -233,6 +248,12 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			}
 
 			txt2.setAnchor(new java.awt.Rectangle(pageWidth+20, 20, pageWidth-50, pageheight-50));
+			for(int i=0; i<tr.getRichTextRuns().length;i++){
+				RichTextRun rt2 = tr.getRichTextRuns()[i];
+				rt2.setFontSize(18);
+				rt2.setFontName("Franklin Gothic Medium");
+				rt2.setAlignment(TextBox.AlignLeft);
+			}
 			slide.addShape(txt2);
 		}
 		
@@ -242,7 +263,11 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			fillUATDataInSlide(allWeeksrcaCounts, rcaCounts);
 			TextBox txt1 = new TextBox();
 			txt1.setText("Reported UAT");
-			txt1.setAnchor(new java.awt.Rectangle(0, 0, pageWidth/2, pageheight/10));
+			txt1.setAnchor(new java.awt.Rectangle(0, 0, pageWidth+30, pageheight/10));
+			RichTextRun rt1 = txt1.getTextRun().getRichTextRuns()[0];
+			rt1.setFontSize(18);
+			rt1.setFontName("Franklin Gothic Medium");
+			rt1.setAlignment(TextBox.AlignLeft);
 			slide.addShape(txt1);
 			
 			TextBox txt2 = new TextBox();
@@ -272,6 +297,12 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			}
 									
 			txt2.setAnchor(new java.awt.Rectangle(pageWidth+20, 20, pageWidth-50, pageheight-50));
+			for(int i=0; i<tr.getRichTextRuns().length;i++){
+				RichTextRun rt2 = tr.getRichTextRuns()[i];
+				rt2.setFontSize(18);
+				rt2.setFontName("Franklin Gothic Medium");
+				rt2.setAlignment(TextBox.AlignLeft);
+			}
 			slide.addShape(txt2);
 		}
 		
@@ -281,13 +312,21 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			fillCumulativeOpenDataInSlide(allWeeksrcaCounts, rcaCounts);
 			TextBox txt1 = new TextBox();
 			txt1.setText("Cumulative Open");
-			txt1.setAnchor(new java.awt.Rectangle(0, 0, pageWidth/2, pageheight/10));
+			txt1.setAnchor(new java.awt.Rectangle(0, 0, pageWidth+30, pageheight/10));
+			RichTextRun rt1 = txt1.getTextRun().getRichTextRuns()[0];
+			rt1.setFontSize(18);
+			rt1.setFontName("Franklin Gothic Medium");
+			rt1.setAlignment(TextBox.AlignLeft);
 			slide.addShape(txt1);
 
 			TextBox txt2 = new TextBox();
 			txt2.setText("Backlog prioritized as per the business direction");
 
 			txt2.setAnchor(new java.awt.Rectangle(pageWidth+20, 20, pageWidth-50, pageheight-50));
+			RichTextRun rt2 = txt2.getTextRun().getRichTextRuns()[0];
+			rt2.setFontSize(18);
+			rt2.setFontName("Franklin Gothic Medium");
+			rt2.setAlignment(TextBox.AlignLeft);
 			slide.addShape(txt2);
 		}
 		
@@ -555,6 +594,10 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		txt1.setText("Reopen");
 		txt1.setAnchor(new java.awt.Rectangle(0, 0, pageWidth / 2,
 				pageheight / 10));
+		RichTextRun rt1 = txt1.getTextRun().getRichTextRuns()[0];
+		rt1.setFontSize(18);
+		rt1.setFontName("Franklin Gothic Medium");
+		rt1.setAlignment(TextBox.AlignLeft);
 		reopenSlide.addShape(txt1);
 		// Generating Graph and adding the graph in picture format to slide
 		GenerateGraph generateGraph = new GenerateGraph();
@@ -571,12 +614,19 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		x = 50;
 		TextBox txt2 = new TextBox();
 		TextRun tr = txt2.createTextRun();
+		tr.setText("\n");
 		addDetailReopenCount(rcaCounts, tr, PRODUCTION);
 		addDetailReopenCount(rcaCounts, tr, UAT);
 		addDetailReopenCount(rcaCounts, tr, QA);
 
 		txt2.setAnchor(new java.awt.Rectangle(x, y, pageWidth * 2 - 50,
 				pageheight - 80));
+		for(int i=0; i<tr.getRichTextRuns().length;i++){
+			RichTextRun rt2 = tr.getRichTextRuns()[i];
+			rt2.setFontSize(18);
+			rt2.setFontName("Franklin Gothic Medium");
+			rt2.setAlignment(TextBox.AlignLeft);
+		}
 		reopenSlide.addShape(txt2);
 	}
 
@@ -648,7 +698,11 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		/* Correcting the Project Dashboard name location & Adding Overview/Risk Issues section in Individual Project PPTs - Begins */
 		TextBox txt1 = new TextBox();
 		txt1.setText(rcaCount.get(0).getProjectDetails().getProjectName() + " Dashboard");
-		txt1.setAnchor(new java.awt.Rectangle(0, 0, (ppt.getPageSize().width/2)/2, (ppt.getPageSize().height/2)/10));
+		txt1.setAnchor(new java.awt.Rectangle(0, 0, (ppt.getPageSize().width/2)+30, (ppt.getPageSize().height/2)/10));
+		RichTextRun rt1 = txt1.getTextRun().getRichTextRuns()[0];
+		rt1.setFontSize(18);
+		rt1.setFontName("Franklin Gothic Medium");
+		rt1.setAlignment(TextBox.AlignLeft);
 		slide.addShape(txt1);
 		
 		TextBox txt2 = new TextBox();
@@ -691,6 +745,12 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			
 		}
 		txt2.setAnchor(new java.awt.Rectangle(ppt.getPageSize().width/2+20, 20, ppt.getPageSize().width/2-50, ppt.getPageSize().height/2-50));
+		for(int i=0; i<tr.getRichTextRuns().length;i++){
+			RichTextRun rt2 = tr.getRichTextRuns()[i];
+			rt2.setFontSize(18);
+			rt2.setFontName("Franklin Gothic Medium");
+			rt2.setAlignment(TextBox.AlignLeft);
+		}
 		slide.addShape(txt2);
 		/* Adding Overview/Risk Issues section in Individual Project PPTs - Ends */
 		
@@ -772,5 +832,6 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	public void setSprintReportManager(SprintReportManager sprintReportManager) {
 		this.sprintReportManager = sprintReportManager;
 	}
+	
 	
 }
