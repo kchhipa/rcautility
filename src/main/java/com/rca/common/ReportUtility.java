@@ -134,7 +134,7 @@ public class ReportUtility {
 		LinkedHashMap<String, RcaCount> rcaCountMap = getRcaCountMap(rcaCounts);
 		
 		for(int x=0; x < allWeeks.size(); x++){
-			
+			String week = removeYearFromWeek(allWeeks.get(x));
 			RcaCount rcaCount = rcaCountMap.get(allWeeks.get(x));
 			Map<String, Integer> differentRootCause = new LinkedHashMap<String, Integer>();
 			if(rcaCount !=null )
@@ -146,7 +146,7 @@ public class ReportUtility {
 	            differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssuesInQA(rcaCount));
 	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInQA(rcaCount));
 	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInQA(rcaCount));
-	            diffCategory.put(allWeeks.get(x), differentRootCause);
+	            diffCategory.put(week, differentRootCause);
 			}
 			else
 			{
@@ -157,7 +157,7 @@ public class ReportUtility {
 	            differentRootCause.put("Missed/ Change Requirement", 0);
 	            differentRootCause.put("Client Code Bug", 0);
 	            differentRootCause.put("Product Defect", 0);
-				diffCategory.put(allWeeks.get(x), differentRootCause);
+				diffCategory.put(week, differentRootCause);
 			}
 		}			
 		
@@ -179,7 +179,7 @@ public class ReportUtility {
 		LinkedHashMap<String, RcaCount> rcaCountMap = getRcaCountMap(rcaCounts);
 		
 		for(int x=0; x < allWeeks.size(); x++){
-			
+			String week = removeYearFromWeek(allWeeks.get(x));
 			RcaCount rcaCount = rcaCountMap.get(allWeeks.get(x));
 			Map<String, Integer> differentRootCause = new LinkedHashMap<String, Integer>();
 			if(rcaCount !=null )
@@ -191,7 +191,7 @@ public class ReportUtility {
 	            differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssuesInUAT(rcaCount));
 	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInUAT(rcaCount));
 	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInUAT(rcaCount));
-	            diffCategory.put(allWeeks.get(x), differentRootCause);
+	            diffCategory.put(week, differentRootCause);
 			}
 			else
 			{
@@ -202,7 +202,7 @@ public class ReportUtility {
 	            differentRootCause.put("Missed/ Change Requirement", 0);
 	            differentRootCause.put("Client Code Bug", 0);
 	            differentRootCause.put("Product Defect", 0);
-				diffCategory.put(allWeeks.get(x), differentRootCause);
+				diffCategory.put(week, differentRootCause);
 			}
 		}			
 		
@@ -222,7 +222,7 @@ public class ReportUtility {
 		LinkedHashMap<String, RcaCount> rcaCountMap = getRcaCountMap(rcaCounts);
 		
 		for(int x=0; x < allWeeks.size(); x++){
-			
+			String week = removeYearFromWeek(allWeeks.get(x));
 			RcaCount rcaCount = rcaCountMap.get(allWeeks.get(x));
 			Map<String, Integer> differentRootCause = new LinkedHashMap<String, Integer>();
 			if(rcaCount !=null )
@@ -234,7 +234,7 @@ public class ReportUtility {
 	            differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssuesInProd(rcaCount));
 	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInProd(rcaCount));
 	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInProd(rcaCount));
-	            diffCategory.put(allWeeks.get(x), differentRootCause);
+	            diffCategory.put(week, differentRootCause);
 			}
 			else
 			{
@@ -245,7 +245,7 @@ public class ReportUtility {
 	            differentRootCause.put("Missed/ Change Requirement", 0);
 	            differentRootCause.put("Client Code Bug", 0);
 	            differentRootCause.put("Product Defect", 0);
-				diffCategory.put(allWeeks.get(x), differentRootCause);
+				diffCategory.put(week, differentRootCause);
 			}
 		}		
 		
@@ -265,7 +265,7 @@ public class ReportUtility {
 		LinkedHashMap<String, RcaCount> rcaCountMap = getRcaCountMap(rcaCounts);
 		
 		for(int x=0; x < allWeeks.size(); x++){
-			
+			String week = removeYearFromWeek(allWeeks.get(x));
 			RcaCount rcaCount = rcaCountMap.get(allWeeks.get(x));
 			Map<String, Integer> differentRootCause = new LinkedHashMap<String, Integer>();
 			if(rcaCount !=null )
@@ -277,7 +277,7 @@ public class ReportUtility {
 	            differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssuesInOpen(rcaCount));
 	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInOpen(rcaCount));
 	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInOpen(rcaCount));
-	            diffCategory.put(allWeeks.get(x), differentRootCause);
+	            diffCategory.put(week, differentRootCause);
 			}
 			else
 			{
@@ -288,7 +288,7 @@ public class ReportUtility {
 	            differentRootCause.put("Missed/ Change Requirement", 0);
 	            differentRootCause.put("Client Code Bug", 0);
 	            differentRootCause.put("Product Defect", 0);
-				diffCategory.put(allWeeks.get(x), differentRootCause);
+				diffCategory.put(week, differentRootCause);
 			}
 		}
 		
@@ -895,6 +895,7 @@ public class ReportUtility {
 			int total =0;
 			Map<String, Integer> week_count = new LinkedHashMap<String, Integer>();
 			String week = allWeeks.get(i);
+			week = removeYearFromWeek(week);
 			for(int x=0; x < rcaCount.size(); x++)
 			{
 				if(rcaCount.get(x).getWeek().equalsIgnoreCase(allWeeks.get(i)))
@@ -956,6 +957,7 @@ public class ReportUtility {
 			int total = 0;
 			Map<String, Integer> week_count = new LinkedHashMap<String, Integer>();
 			String week = allWeeks.get(i);
+			week = removeYearFromWeek(week);
 			for (int x = 0; x < rcaCount.size(); x++) {
 				if (rcaCount.get(x).getWeek().equalsIgnoreCase(allWeeks.get(i))) {
 					if(PRODUCTION.equals(env))
@@ -991,6 +993,7 @@ public class ReportUtility {
 
 			Map<String, Integer> week_count = new LinkedHashMap<String, Integer>();
 			String week = allWeeks.get(i);
+			week = removeYearFromWeek(week);
 			for(int x=0; x < rcaCount.size(); x++)
 			{
 				if(rcaCount.get(x).getWeek().equalsIgnoreCase(allWeeks.get(i)))
@@ -1044,6 +1047,7 @@ public class ReportUtility {
 
 			Map<String, Integer> week_count = new LinkedHashMap<String, Integer>();
 			String week = allWeeks.get(i);
+			week = removeYearFromWeek(week);
 			for(int x=0; x < rcaCount.size(); x++)
 			{
 				
@@ -1104,6 +1108,7 @@ public class ReportUtility {
 
 			Map<String, Integer> week_count = new LinkedHashMap<String, Integer>();
 			String week = allWeeks.get(i);
+			week = removeYearFromWeek(week);
 			for(int x=0; x < rcaCount.size(); x++)
 			{
 				if(null != rcaCount.get(x))
@@ -1239,7 +1244,6 @@ public class ReportUtility {
 	    String y2=dates[1].substring(0,dates[1].lastIndexOf('/'));
 		return y1+" - "+y2;
 	}
-	
 	
 	// Below methods are utility methods to generate Summary & Ranking Framework excel sheet
 	

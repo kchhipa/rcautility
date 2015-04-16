@@ -1,5 +1,6 @@
 package com.rca.controller;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -197,7 +198,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 				tr.appendText(calculateTotalBugTypeCountForQA(rcaCounts, PRODUCT_DEFECT) + " Product Defect ");
 			}
 			
-			txt2.setAnchor(new java.awt.Rectangle(pageWidth+20, 20, pageWidth-50, pageheight-50));
+			txt2.setAnchor(new java.awt.Rectangle(pageWidth+40, 20, pageWidth-50, pageheight-50));
 			for(int i=0; i<tr.getRichTextRuns().length;i++){
 				RichTextRun rt2 = tr.getRichTextRuns()[i];
 				rt2.setFontSize(18);
@@ -247,7 +248,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 				tr.appendText(calculateTotalBugTypeCountForProd(rcaCounts, PRODUCT_DEFECT) + " Product Defect ");
 			}
 
-			txt2.setAnchor(new java.awt.Rectangle(pageWidth+20, 20, pageWidth-50, pageheight-50));
+			txt2.setAnchor(new java.awt.Rectangle(pageWidth+40, 20, pageWidth-50, pageheight-50));
 			for(int i=0; i<tr.getRichTextRuns().length;i++){
 				RichTextRun rt2 = tr.getRichTextRuns()[i];
 				rt2.setFontSize(18);
@@ -296,7 +297,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 				tr.appendText(calculateTotalBugTypeCountForUAT(rcaCounts, PRODUCT_DEFECT) + " Product Defect ");
 			}
 									
-			txt2.setAnchor(new java.awt.Rectangle(pageWidth+20, 20, pageWidth-50, pageheight-50));
+			txt2.setAnchor(new java.awt.Rectangle(pageWidth+40, 20, pageWidth-50, pageheight-50));
 			for(int i=0; i<tr.getRichTextRuns().length;i++){
 				RichTextRun rt2 = tr.getRichTextRuns()[i];
 				rt2.setFontSize(18);
@@ -322,7 +323,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			TextBox txt2 = new TextBox();
 			txt2.setText("Backlog prioritized as per the business direction");
 
-			txt2.setAnchor(new java.awt.Rectangle(pageWidth+20, 20, pageWidth-50, pageheight-50));
+			txt2.setAnchor(new java.awt.Rectangle(pageWidth+40, 20, pageWidth-50, pageheight-50));
 			RichTextRun rt2 = txt2.getTextRun().getRichTextRuns()[0];
 			rt2.setFontSize(18);
 			rt2.setFontName("Franklin Gothic Medium");
@@ -332,7 +333,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		
 		Picture pict = new Picture(idx);
 		//set image position in the slide
-		pict.setAnchor(new java.awt.Rectangle(20, 30, pageWidth-50, pageheight-50));
+		pict.setAnchor(new java.awt.Rectangle(5, 30, pageWidth+30, pageheight-50));
 		slide.addShape(pict);
 
 		Picture pict1 = new Picture(bWCx);
@@ -370,7 +371,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		}
 		
 		idx = ppt.addPicture(generateGraph.createGraph( rU.reportedQARCAForAllProjects(rcaCounts), "", "", "", 
-				PlotOrientation.VERTICAL, true, 450, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
+				PlotOrientation.VERTICAL, false, 850, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
 		
 		lCx = ppt.addPicture(generateGraph.createLineGraph(rU.reportedAllWeeksCCBGraphForAllProject(allWeeksrcaCounts, allWeeks, QA), "Client Code Trend", "", "",
 				PlotOrientation.VERTICAL, true, 650, 450,RCAConstants.LINE) , XSLFPictureData.PICTURE_TYPE_PNG);
@@ -403,7 +404,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		}
 				
 		idx = ppt.addPicture(generateGraph.createGraph( rU.reportedProdRCAForAllProjects(rcaCounts), "", "", "", 
-				PlotOrientation.VERTICAL, true, 450, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
+				PlotOrientation.VERTICAL, true, 850, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
 		
 		lCx = ppt.addPicture(generateGraph.createLineGraph(rU.reportedAllWeeksCCBGraphForAllProject(allWeeksrcaCounts, allWeeks, PRODUCTION), "Client Code Trend", "", "",
 				PlotOrientation.VERTICAL, true, 650, 450,RCAConstants.LINE) , XSLFPictureData.PICTURE_TYPE_PNG);
@@ -436,7 +437,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		}
 		
 		idx = ppt.addPicture(generateGraph.createGraph( rU.reportedUATRCAForAllProjects(rcaCounts), "", "", "", 
-				PlotOrientation.VERTICAL, true, 450, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
+				PlotOrientation.VERTICAL, true, 850, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
 		
 		lCx = ppt.addPicture(generateGraph.createLineGraph(rU.reportedAllWeeksCCBGraphForAllProject(allWeeksrcaCounts, allWeeks, UAT), "Client Code Trend", "", "",
 				PlotOrientation.VERTICAL, true, 650, 450,RCAConstants.LINE) , XSLFPictureData.PICTURE_TYPE_PNG);
@@ -457,7 +458,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		List<String> allWeeks = rU.findWeeks(rca.getWeek());
 				
 		idx = ppt.addPicture(generateGraph.createGraph( rU.rcaCountForLastWeekForAllProjects(rcaCounts), "", "", "", 
-				PlotOrientation.VERTICAL, true, 950, 550,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
+				PlotOrientation.VERTICAL, true, 850, 550,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
 		
 		lCx = ppt.addPicture(generateGraph.createLineGraph(rU.reportedAllWeeksCCBGraphForAllProject(allWeeksrcaCounts, allWeeks, CUMULATIVE_OPEN), "Client Code Trend", "", "",
 				PlotOrientation.VERTICAL, true, 650, 450,RCAConstants.LINE) , XSLFPictureData.PICTURE_TYPE_PNG);
@@ -592,7 +593,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 
 		TextBox txt1 = new TextBox();
 		txt1.setText("Reopen");
-		txt1.setAnchor(new java.awt.Rectangle(0, 0, pageWidth / 2,
+		txt1.setAnchor(new java.awt.Rectangle(0, 0, pageWidth+30,
 				pageheight / 10));
 		RichTextRun rt1 = txt1.getTextRun().getRichTextRuns()[0];
 		rt1.setFontSize(18);

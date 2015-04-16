@@ -1,9 +1,11 @@
 package com.rca.service;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Paint;
+import java.awt.Stroke;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -74,23 +76,36 @@ public class GenerateGraph
     
     CategoryPlot plot = createPlot(jFreeChart);
 	CategoryAxis domainAxis = plot.getDomainAxis();
+	ValueAxis rangeAxis = plot.getRangeAxis();	
+	Stroke s = new BasicStroke(1.0f);
+	Stroke s1 = new BasicStroke(1.5f);
+	plot.setRangeGridlineStroke(s);
+	plot.setRangeZeroBaselineVisible(true);
+	plot.setOutlineVisible(false);
+	domainAxis.setAxisLineVisible(true);
+	domainAxis.setAxisLineStroke(s1);
+	domainAxis.setAxisLinePaint(Color.BLACK);
+	domainAxis.setTickMarksVisible(false);
+	rangeAxis.setAxisLineStroke(s1);
+	rangeAxis.setAxisLinePaint(Color.BLACK);
 	
-	/* If inclined label is required on domain axis */
-	if(rotatedLabel)
-	{
-		if(projectFontSize){
-		  	Font font = new Font("Calibri", Font.BOLD, 26);
-		  	jFreeChart.getLegend().setItemFont(font);
-		  	domainAxis.setTickLabelFont(font);
-		  	plot.getRangeAxis().setTickLabelFont(font);
-		  	domainAxis.setCategoryLabelPositions(
-					CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 2.0));
-		}else{
-			domainAxis.setCategoryLabelPositions(
-					CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 6.0));
-		}
-
+	if(projectFontSize){
+	  	Font font = new Font("Franklin Gothic Book Heavy", Font.BOLD, 35);
+	  	jFreeChart.getLegend().setItemFont(font);
+	  	domainAxis.setTickLabelFont(font);
+	  	plot.getRangeAxis().setTickLabelFont(font);
+	  	domainAxis.setCategoryLabelPositions(
+				CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 2.0));
+	}else{
+		Font font = new Font("Franklin Gothic Book Heavy", Font.BOLD, 17);
+		Font lfont = new Font("Franklin Gothic Book", Font.BOLD, 15);
+		jFreeChart.getLegend().setItemFont(lfont);
+		domainAxis.setTickLabelFont(font);
+		plot.getRangeAxis().setTickLabelFont(font);
+		domainAxis.setCategoryLabelPositions(CategoryLabelPositions
+					.createUpRotationLabelPositions(Math.PI / 7.0));
 	}
+		
     
     plot.setRenderer(createRender());
     
@@ -110,13 +125,25 @@ public class GenerateGraph
 	  jFreeChart.setBackgroundPaint(Color.white);
 	  CategoryPlot plot = createPlot(jFreeChart);
 	  CategoryAxis domainAxis = plot.getDomainAxis();
+	  ValueAxis rangeAxis = plot.getRangeAxis();	
+	  Stroke s = new BasicStroke(1.0f);
+	  Stroke s1 = new BasicStroke(1.5f);
+	  plot.setRangeGridlineStroke(s);
+	  plot.setRangeZeroBaselineVisible(true);
+	  plot.setOutlineVisible(false);
+	  domainAxis.setAxisLineVisible(true);
+	  domainAxis.setAxisLineStroke(s1);
+	  domainAxis.setAxisLinePaint(Color.BLACK);
+	  domainAxis.setTickMarksVisible(false);
+	  rangeAxis.setAxisLineStroke(s1);
+	  rangeAxis.setAxisLinePaint(Color.BLACK);
 
-	  /* If inclined label is required on domain axis */
-	  if(rotatedLabel)
-	  {
-		  domainAxis.setCategoryLabelPositions(
-				  CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 6.0));
-	  }
+	  Font font = new Font("Franklin Gothic Book Heavy", Font.BOLD, 17);
+
+	  domainAxis.setTickLabelFont(font);
+	  plot.getRangeAxis().setTickLabelFont(font);
+	  domainAxis.setCategoryLabelPositions(CategoryLabelPositions
+			  .createUpRotationLabelPositions(Math.PI / 7.0));
 
 	  CategoryItemRenderer renderer = new CustomRenderer();
 	  
@@ -154,6 +181,18 @@ public class GenerateGraph
 	    legend.setVisible(false);
 	    CategoryPlot plot = createPlot(jFreeChart);
 	    CategoryAxis domainAxis = plot.getDomainAxis();
+		ValueAxis rangeAxis = plot.getRangeAxis();	
+		Stroke s = new BasicStroke(1.0f);
+		Stroke s1 = new BasicStroke(1.5f);
+		plot.setRangeGridlineStroke(s);
+		plot.setRangeZeroBaselineVisible(true);
+		plot.setOutlineVisible(false);
+		domainAxis.setAxisLineVisible(true);
+		domainAxis.setAxisLineStroke(s1);
+		domainAxis.setAxisLinePaint(Color.BLACK);
+		domainAxis.setTickMarksVisible(false);
+		rangeAxis.setAxisLineStroke(s1);
+		rangeAxis.setAxisLinePaint(Color.BLACK);
 	    if(rotatedLabel)
 		  {
 			  domainAxis.setCategoryLabelPositions(
@@ -188,9 +227,23 @@ public class GenerateGraph
 	    
 	    
 	    CategoryPlot plot = createPlot(jFreeChart);
-		CategoryAxis domainAxis = plot.getDomainAxis();
-		Font font = new Font("Arial", Font.PLAIN, 11);
+	    CategoryAxis domainAxis = plot.getDomainAxis();
+		ValueAxis rangeAxis = plot.getRangeAxis();	
+		Stroke s = new BasicStroke(1.0f);
+		Stroke s1 = new BasicStroke(1.5f);
+		plot.setRangeGridlineStroke(s);
+		plot.setRangeZeroBaselineVisible(true);
+		plot.setOutlineVisible(false);
+		domainAxis.setAxisLineVisible(true);
+		domainAxis.setAxisLineStroke(s1);
+		domainAxis.setAxisLinePaint(Color.BLACK);
+		domainAxis.setTickMarksVisible(false);
+		rangeAxis.setAxisLineStroke(s1);
+		rangeAxis.setAxisLinePaint(Color.BLACK);
+		Font font = new Font("Franklin Gothic Book Heavy", Font.BOLD, 17);
+	  	jFreeChart.getLegend().setItemFont(font);
 	  	domainAxis.setTickLabelFont(font);
+	  	plot.getRangeAxis().setTickLabelFont(font);
 	  	domainAxis.setTickLabelInsets(new RectangleInsets(2, 2, 12, 30));
 	  	plot.getRangeAxis().setTickLabelFont(font);
 	  	
@@ -236,6 +289,22 @@ public class GenerateGraph
 		jFreeChart.setBackgroundPaint(Color.white);
 		CategoryPlot plot = createPlot(jFreeChart);
 		CategoryAxis domainAxis = plot.getDomainAxis();
+		ValueAxis rangeAxis = plot.getRangeAxis();	
+		Stroke s = new BasicStroke(1.0f);
+		Stroke s1 = new BasicStroke(1.5f);
+		plot.setRangeGridlineStroke(s);
+		plot.setRangeZeroBaselineVisible(true);
+		plot.setOutlineVisible(false);
+		domainAxis.setAxisLineVisible(true);
+		domainAxis.setAxisLineStroke(s1);
+		domainAxis.setAxisLinePaint(Color.BLACK);
+		domainAxis.setTickMarksVisible(false);
+		rangeAxis.setAxisLineStroke(s1);
+		rangeAxis.setAxisLinePaint(Color.BLACK);
+		
+		Font font = new Font("Franklin Gothic Book Heavy", Font.BOLD, 17);
+	  	domainAxis.setTickLabelFont(font);
+	  	plot.getRangeAxis().setTickLabelFont(font);
 
 		/* If inclined label is required on domain axis */
 		if (rotatedLabel) {
@@ -418,7 +487,11 @@ public class GenerateGraph
     // set the range axis to display integers only...
     final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
     ValueAxis yAxis = plot.getRangeAxis();
-    yAxis.setUpperMargin(0.15);
+    double x = yAxis.getUpperBound();
+    if(x<25)
+    	yAxis.setUpperBound(x+1);
+    else 
+    	yAxis.setUpperMargin(0.15);
     rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
     
     /*CategoryAxis domainAxis = plot.getDomainAxis();
