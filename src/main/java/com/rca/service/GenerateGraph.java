@@ -94,8 +94,7 @@ public class GenerateGraph
 	  	jFreeChart.getLegend().setItemFont(font);
 	  	domainAxis.setTickLabelFont(font);
 	  	plot.getRangeAxis().setTickLabelFont(font);
-	  	domainAxis.setCategoryLabelPositions(
-				CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 2.0));
+	  	domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_90);
 	}else{
 		Font font = new Font("Franklin Gothic Book Heavy", Font.BOLD, 17);
 		Font lfont = new Font("Franklin Gothic Book", Font.BOLD, 15);

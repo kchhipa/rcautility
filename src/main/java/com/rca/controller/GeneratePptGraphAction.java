@@ -199,10 +199,13 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			}
 			
 			txt2.setAnchor(new java.awt.Rectangle(pageWidth+40, 20, pageWidth-50, pageheight-50));
-			for(int i=0; i<tr.getRichTextRuns().length;i++){
+			RichTextRun rt2Heading = tr.getRichTextRuns()[0];
+			rt2Heading.setFontSize(18);
+			rt2Heading.setFontName("Franklin Gothic Medium");
+			for(int i=1; i<tr.getRichTextRuns().length;i++){
 				RichTextRun rt2 = tr.getRichTextRuns()[i];
-				rt2.setFontSize(18);
-				rt2.setFontName("Franklin Gothic Medium");
+				rt2.setFontSize(14);
+				rt2.setFontName("Franklin Gothic Body");
 				rt2.setAlignment(TextBox.AlignLeft);
 			}
 			slide.addShape(txt2);
@@ -249,10 +252,13 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			}
 
 			txt2.setAnchor(new java.awt.Rectangle(pageWidth+40, 20, pageWidth-50, pageheight-50));
-			for(int i=0; i<tr.getRichTextRuns().length;i++){
+			RichTextRun rt2Heading = tr.getRichTextRuns()[0];
+			rt2Heading.setFontSize(18);
+			rt2Heading.setFontName("Franklin Gothic Medium");
+			for(int i=1; i<tr.getRichTextRuns().length;i++){
 				RichTextRun rt2 = tr.getRichTextRuns()[i];
-				rt2.setFontSize(18);
-				rt2.setFontName("Franklin Gothic Medium");
+				rt2.setFontSize(14);
+				rt2.setFontName("Franklin Gothic Body");
 				rt2.setAlignment(TextBox.AlignLeft);
 			}
 			slide.addShape(txt2);
@@ -298,10 +304,13 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			}
 									
 			txt2.setAnchor(new java.awt.Rectangle(pageWidth+40, 20, pageWidth-50, pageheight-50));
-			for(int i=0; i<tr.getRichTextRuns().length;i++){
+			RichTextRun rt2Heading = tr.getRichTextRuns()[0];
+			rt2Heading.setFontSize(18);
+			rt2Heading.setFontName("Franklin Gothic Medium");
+			for(int i=1; i<tr.getRichTextRuns().length;i++){
 				RichTextRun rt2 = tr.getRichTextRuns()[i];
-				rt2.setFontSize(18);
-				rt2.setFontName("Franklin Gothic Medium");
+				rt2.setFontSize(14);
+				rt2.setFontName("Franklin Gothic Body");
 				rt2.setAlignment(TextBox.AlignLeft);
 			}
 			slide.addShape(txt2);
@@ -338,13 +347,13 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 
 		Picture pict1 = new Picture(bWCx);
 		//set image position in the slide
-		pict1.setAnchor(new java.awt.Rectangle(20, pageheight+30, pageWidth-50, pageheight-50));
+		pict1.setAnchor(new java.awt.Rectangle(20, pageheight+30, pageWidth-40, pageheight-50));
 		slide.addShape(pict1);
 
 		Picture ccbLineGraph = new Picture(lCx);
 		// set image position in the slide
 		ccbLineGraph.setAnchor(new java.awt.Rectangle(pageWidth + 20,
-				pageheight + 20, pageWidth - 50, pageheight - 50));
+				pageheight + 30, pageWidth - 40, pageheight - 50));
 		slide.addShape(ccbLineGraph);
 	}
 	
@@ -735,7 +744,9 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 				rcaList = itRI.next();
 				if(rcaList.getWeek().equals(rca.getWeek()))
 				{
-					tr.appendText("\n" + "Risks/Issues: " + "\n");
+					tr.appendText("\n");
+					tr.appendText("Risks/Issues:");
+					tr.appendText("\n");
 
 					if(rcaList.getRisksIssues() != null && !rcaList.getRisksIssues().isEmpty())
 						tr.appendText(rcaList.getRisksIssues() + "\n");
@@ -746,11 +757,19 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			
 		}
 		txt2.setAnchor(new java.awt.Rectangle(ppt.getPageSize().width/2+20, 20, ppt.getPageSize().width/2-50, ppt.getPageSize().height/2-50));
-		for(int i=0; i<tr.getRichTextRuns().length;i++){
+		RichTextRun rt2Heading = tr.getRichTextRuns()[0];
+		rt2Heading.setFontSize(18);
+		rt2Heading.setFontName("Franklin Gothic Medium");
+		for(int i=1; i<tr.getRichTextRuns().length;i++){
 			RichTextRun rt2 = tr.getRichTextRuns()[i];
-			rt2.setFontSize(18);
-			rt2.setFontName("Franklin Gothic Medium");
-			rt2.setAlignment(TextBox.AlignLeft);
+			if(rt2.getText().equalsIgnoreCase("Risks/Issues:")){
+				rt2.setFontSize(18);
+				rt2.setFontName("Franklin Gothic Medium");
+			}else{
+				rt2.setFontSize(14);
+				rt2.setFontName("Franklin Gothic Body");
+				rt2.setAlignment(TextBox.AlignLeft);
+			}
 		}
 		slide.addShape(txt2);
 		/* Adding Overview/Risk Issues section in Individual Project PPTs - Ends */

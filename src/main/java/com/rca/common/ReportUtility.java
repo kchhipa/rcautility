@@ -134,7 +134,7 @@ public class ReportUtility {
 		LinkedHashMap<String, RcaCount> rcaCountMap = getRcaCountMap(rcaCounts);
 		
 		for(int x=0; x < allWeeks.size(); x++){
-			String week = removeYearFromWeek(allWeeks.get(x));
+			String week = removeYearFromWeek(allWeeks.get(x))+"  ";
 			RcaCount rcaCount = rcaCountMap.get(allWeeks.get(x));
 			Map<String, Integer> differentRootCause = new LinkedHashMap<String, Integer>();
 			if(rcaCount !=null )
@@ -179,7 +179,7 @@ public class ReportUtility {
 		LinkedHashMap<String, RcaCount> rcaCountMap = getRcaCountMap(rcaCounts);
 		
 		for(int x=0; x < allWeeks.size(); x++){
-			String week = removeYearFromWeek(allWeeks.get(x));
+			String week = removeYearFromWeek(allWeeks.get(x))+"  ";
 			RcaCount rcaCount = rcaCountMap.get(allWeeks.get(x));
 			Map<String, Integer> differentRootCause = new LinkedHashMap<String, Integer>();
 			if(rcaCount !=null )
@@ -222,7 +222,7 @@ public class ReportUtility {
 		LinkedHashMap<String, RcaCount> rcaCountMap = getRcaCountMap(rcaCounts);
 		
 		for(int x=0; x < allWeeks.size(); x++){
-			String week = removeYearFromWeek(allWeeks.get(x));
+			String week = removeYearFromWeek(allWeeks.get(x))+"  ";
 			RcaCount rcaCount = rcaCountMap.get(allWeeks.get(x));
 			Map<String, Integer> differentRootCause = new LinkedHashMap<String, Integer>();
 			if(rcaCount !=null )
@@ -265,7 +265,7 @@ public class ReportUtility {
 		LinkedHashMap<String, RcaCount> rcaCountMap = getRcaCountMap(rcaCounts);
 		
 		for(int x=0; x < allWeeks.size(); x++){
-			String week = removeYearFromWeek(allWeeks.get(x));
+			String week = removeYearFromWeek(allWeeks.get(x))+"  ";
 			RcaCount rcaCount = rcaCountMap.get(allWeeks.get(x));
 			Map<String, Integer> differentRootCause = new LinkedHashMap<String, Integer>();
 			if(rcaCount !=null )
@@ -1239,10 +1239,28 @@ public class ReportUtility {
 	
 	public String removeYearFromWeek(String week){
 		String dates[] = null;
+		String dayMonths1[] = null;
+		String dayMonths2[] = null;
 		dates = week.split("-");	
 		String y1=dates[0].substring(0,dates[0].lastIndexOf('/'));
+		dayMonths1=y1.split("/");
+		if(dayMonths1[0].length()==1){
+			dayMonths1[0]="0"+dayMonths1[0];
+		}
+		if(dayMonths1[1].length()==1){
+			dayMonths1[1]="0"+dayMonths1[1];
+		}
+		y1=dayMonths1[0]+"/"+dayMonths1[1];
 	    String y2=dates[1].substring(0,dates[1].lastIndexOf('/'));
-		return y1+" - "+y2;
+	    dayMonths2=y2.split("/");
+		if(dayMonths2[0].length()==1){
+			dayMonths2[0]="0"+dayMonths2[0];
+		}
+		if(dayMonths2[1].length()==1){
+			dayMonths2[1]="0"+dayMonths2[1];
+		}
+		y2=dayMonths2[0]+"/"+dayMonths2[1];
+		return y1+"-"+y2;
 	}
 	
 	// Below methods are utility methods to generate Summary & Ranking Framework excel sheet
