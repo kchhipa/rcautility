@@ -209,7 +209,7 @@ public class GenerateGraph
 	    DifferentTypeGraphAbstractCreation graphCreationObject = DifferentTypeGraphCreationFactory.createGraphCreationObject(graphType, graphHeader, xAxis, yAxis, plotOrientation, chartDataSet, true, true);
 	    JFreeChart jFreeChart = graphCreationObject.createGraph();
 	    
-	    jFreeChart.setTitle(new org.jfree.chart.title.TextTitle(graphHeader,new java.awt.Font("Calibri", Font.PLAIN, 20)));
+	    jFreeChart.setTitle(new org.jfree.chart.title.TextTitle(graphHeader,new java.awt.Font("Calibri", java.awt.Font.BOLD, 20)));
 	    
 	    // set the background color for the chart...
 	    jFreeChart.setBackgroundPaint(Color.white);
@@ -239,7 +239,7 @@ public class GenerateGraph
 		domainAxis.setTickMarksVisible(false);
 		rangeAxis.setAxisLineStroke(s1);
 		rangeAxis.setAxisLinePaint(Color.BLACK);
-		Font font = new Font("Franklin Gothic Book Heavy", Font.BOLD, 17);
+		Font font = new Font("Calibri", Font.BOLD, 12);
 	  	jFreeChart.getLegend().setItemFont(font);
 	  	domainAxis.setTickLabelFont(font);
 	  	plot.getRangeAxis().setTickLabelFont(font);

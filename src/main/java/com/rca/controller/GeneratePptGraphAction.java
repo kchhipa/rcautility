@@ -789,7 +789,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		slide.addShape(pict5);
 		if(idx5!=0){
 			Picture pict6 = new Picture(idx5);
-			pict6.setAnchor(new java.awt.Rectangle(2, 25, pageWidth+160, pageheight-30));
+			pict6.setAnchor(new java.awt.Rectangle(2, 30, pageWidth+160, pageheight-30));
 			slide.addShape(pict6);
 		}
 		// reading an image
