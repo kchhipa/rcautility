@@ -152,11 +152,14 @@ public class GenerateGraph
 	  /* This Generator enables the labels to be placed on top of bars */
 	  CategoryItemLabelGenerator itemLabelGenerator = new StandardCategoryItemLabelGenerator();
 	  renderer.setBaseItemLabelGenerator(itemLabelGenerator);
+	  renderer.setBaseItemLabelFont(font);
 	  renderer.setPositiveItemLabelPosition(new ItemLabelPosition(ItemLabelAnchor.OUTSIDE12,TextAnchor.BASELINE_CENTER));
 	  renderer.setBaseItemLabelsVisible(true);
-	  
+
 	  ((BarRenderer) renderer).setBarPainter(new StandardBarPainter());
 	  ((BarRenderer) renderer).setShadowVisible(false);
+	  ((BarRenderer) renderer).setItemMargin(0.50);
+	  ((BarRenderer) renderer).setMaximumBarWidth(0.03);
 
 	  plot.setRenderer(renderer);
 	  	  
@@ -209,14 +212,14 @@ public class GenerateGraph
 	    DifferentTypeGraphAbstractCreation graphCreationObject = DifferentTypeGraphCreationFactory.createGraphCreationObject(graphType, graphHeader, xAxis, yAxis, plotOrientation, chartDataSet, true, true);
 	    JFreeChart jFreeChart = graphCreationObject.createGraph();
 	    
-	    jFreeChart.setTitle(new org.jfree.chart.title.TextTitle(graphHeader,new java.awt.Font("Calibri", java.awt.Font.BOLD, 20)));
+	    jFreeChart.setTitle(new org.jfree.chart.title.TextTitle(graphHeader,new java.awt.Font("Franklin Gothic Book Heavy", java.awt.Font.BOLD, 17)));
 	    
 	    // set the background color for the chart...
 	    jFreeChart.setBackgroundPaint(Color.white);
 	    
 	    LegendTitle legend = (LegendTitle) jFreeChart.getSubtitle(0);
 	    legend.setItemLabelPadding(new RectangleInsets(2, 2, 12, 30));
-	    Font legendFont = new Font("Arial", Font.BOLD, 15);
+	    Font legendFont = new Font("Franklin Gothic Book Heavy", Font.BOLD, 15);
 	    legend.setItemFont(legendFont);
 	    //legend.setPosition(RectangleEdge.RIGHT);
 	    legend.setLegendItemGraphicLocation(RectangleAnchor.CENTER);
@@ -319,6 +322,7 @@ public class GenerateGraph
 
 		// Item label generator
 		CategoryItemLabelGenerator itemLabelGenerator = new StandardCategoryItemLabelGenerator();
+		lineandshaperenderer.setBaseItemLabelFont(font);
 		lineandshaperenderer.setBaseItemLabelGenerator(itemLabelGenerator);
 		lineandshaperenderer
 				.setPositiveItemLabelPosition(new ItemLabelPosition(
@@ -458,6 +462,8 @@ public class GenerateGraph
     
       CategoryItemLabelGenerator itemLabelGenerator = new StandardCategoryItemLabelGenerator();
 	  renderer.setBaseItemLabelGenerator(itemLabelGenerator);
+	  Font font1 = new Font("Franklin Gothic Book Heavy", Font.BOLD, 17);
+	  renderer.setBaseItemLabelFont(font1);
 	  renderer.setPositiveItemLabelPosition(new ItemLabelPosition(ItemLabelAnchor.OUTSIDE12,TextAnchor.BASELINE_CENTER));
 	  renderer.setBaseItemLabelsVisible(true);
 	  
@@ -514,7 +520,7 @@ public class GenerateGraph
 
 	  public Paint getItemPaint(final int row, final int column)
 	  {
-		  Paint p1 = new GradientPaint(0.0f, 0.0f, new Color(57, 126, 186), 0.0f, 0.0f, new Color(57, 126, 186));
+		  Paint p1 = new GradientPaint(0.0f, 0.0f, new Color(78, 115, 168), 0.0f, 0.0f, new Color(78, 115, 168));
 		  // returns color depending on y coordinate.
 		  return (row > 0) ? p1 : p1 ;
 	  }
