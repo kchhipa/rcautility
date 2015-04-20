@@ -702,7 +702,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		int idx5 = 0;
 		if(sprintReport!= null){
 		    idx5 = ppt.addPicture(generateGraph.createWeeklyBarGraph( rU.reportedSprintGraph(sprintReport), rcaCount.get(0).getProjectDetails().getProjectName()+"( Dev: "+sprintReport.getDevMembers()+", QA: "+sprintReport.getQaMembers()+")", "", "",
-				PlotOrientation.VERTICAL, false, 450, 450,RCAConstants.NORMAL_BAR,true,false) , XSLFPictureData.PICTURE_TYPE_PNG);
+				PlotOrientation.VERTICAL, false, 700, 450,RCAConstants.NORMAL_BAR,true,false) , XSLFPictureData.PICTURE_TYPE_PNG);
 		}
 		
 		/* Correcting the Project Dashboard name location & Adding Overview/Risk Issues section in Individual Project PPTs - Begins */
@@ -789,7 +789,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		slide.addShape(pict5);
 		if(idx5!=0){
 			Picture pict6 = new Picture(idx5);
-			pict6.setAnchor(new java.awt.Rectangle(2, 30, pageWidth+160, pageheight-30));
+			pict6.setAnchor(new java.awt.Rectangle(2, 30, (pageheight*4)/2, pageheight));
 			slide.addShape(pict6);
 		}
 		// reading an image

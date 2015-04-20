@@ -219,7 +219,7 @@ public class GenerateGraph
 	    
 	    LegendTitle legend = (LegendTitle) jFreeChart.getSubtitle(0);
 	    legend.setItemLabelPadding(new RectangleInsets(2, 2, 12, 30));
-	    Font legendFont = new Font("Franklin Gothic Book Heavy", Font.BOLD, 15);
+	    Font legendFont = new Font("Franklin Gothic Book Heavy", Font.BOLD, 18);
 	    legend.setItemFont(legendFont);
 	    //legend.setPosition(RectangleEdge.RIGHT);
 	    legend.setLegendItemGraphicLocation(RectangleAnchor.CENTER);
@@ -242,7 +242,7 @@ public class GenerateGraph
 		domainAxis.setTickMarksVisible(false);
 		rangeAxis.setAxisLineStroke(s1);
 		rangeAxis.setAxisLinePaint(Color.BLACK);
-		Font font = new Font("Calibri", Font.BOLD, 12);
+		Font font = new Font("Franklin Gothic Book Heavy", Font.BOLD, 15);
 	  	jFreeChart.getLegend().setItemFont(font);
 	  	domainAxis.setTickLabelFont(font);
 	  	plot.getRangeAxis().setTickLabelFont(font);
@@ -433,7 +433,8 @@ public class GenerateGraph
     /* Setting the Bar paint to be plain & not glossy. */
     ((BarRenderer) renderer).setBarPainter(new StandardBarPainter());
     // Set bars maximum width
-    ((BarRenderer) renderer).setMaximumBarWidth(0.15);
+    ((BarRenderer) renderer).setItemMargin(0.50);
+    ((BarRenderer) renderer).setMaximumBarWidth(0.05);
     
     return renderer;
   }
