@@ -7,7 +7,7 @@ package com.rca.entity;
  * @author govind.gupta
  * 
  */
-public class RankingFramework {
+public class RankingFramework implements Comparable<RankingFramework> {
 	/**
 	 * A
 	 */
@@ -552,5 +552,10 @@ public class RankingFramework {
 	 */
 	public void setTeamName(String teamName) {
 		this.teamName = teamName;
+	}
+
+	@Override
+	public int compareTo(RankingFramework o) {
+		return this.client.compareTo(o.client);
 	}
 }

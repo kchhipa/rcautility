@@ -5,9 +5,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -19,6 +22,8 @@ import com.rca.entity.RankingFramework;
 import com.rca.entity.RcaCount;
 import com.rca.service.LoginDetailService;
 import com.rca.service.RcaManager;
+import com.rca.workbookutility.WorkBookCell;
+import com.rca.workbookutility.WorkBookRow;
 
 public class GenerateSummaryAction extends ActionSupport{
 	private RcaManager rcaManager;
@@ -40,6 +45,7 @@ public class GenerateSummaryAction extends ActionSupport{
 		toolSetMatrix = new XSSFWorkbook();
 		rU = new ReportUtility();
 		createRFSheet();
+		createSummarySheet();
 		//Write the workbook in file system
 		FileOutputStream out = new FileOutputStream(new File("D:\\Ranking Framework.xlsx"));
 		toolSetMatrix.write(out);
@@ -47,11 +53,150 @@ public class GenerateSummaryAction extends ActionSupport{
 		toolSetMatrix.close();
 	}
 
+	public static final Comparator<RcaCount> byProjectName = new Comparator<RcaCount>() {
+		@Override
+		public int compare(RcaCount o1, RcaCount o2) {
+			return o1.getProjectDetails().getProjectName().compareTo(o2.getProjectDetails().getProjectName()); 
+		}
+	};
+	
+	private void createSummarySheet() {
+		XSSFSheet summarySheet = toolSetMatrix.createSheet("Summary Sheet");
+		rU.createSummaryHeaderRows(summarySheet, toolSetMatrix);
+		List<WorkBookRow> wbRows = populateSummarySheetData();
+		int counter = summarySheet.getPhysicalNumberOfRows();
+		for(WorkBookRow wbRow : wbRows)
+		{
+			XSSFRow row = summarySheet.createRow(counter);
+			buildSummaryData(wbRow, summarySheet, row);
+			counter++;
+		}
+	}
+	
+	void buildSummaryData(WorkBookRow wbRow, XSSFSheet summarySheet, XSSFRow row)
+	{
+		List<WorkBookCell> wbCells = wbRow.getRowCells();
+		int columnIndex = row.getPhysicalNumberOfCells();
+		for(WorkBookCell wbCell : wbCells)
+		{
+			XSSFCell cell = row.createCell(columnIndex);
+			if (wbCell.isFormula())
+				cell.setCellFormula(wbCell.getValue());
+			else
+				cell.setCellValue(wbCell.getValue());
+			columnIndex++;
+		}
+	}
+	
+	List<WorkBookRow> populateSummarySheetData()
+	{
+		List<String> prevTwoWeek = rU.findPreviousTwoWeek();
+		List<WorkBookRow> wbRows = new ArrayList<WorkBookRow>();
+		WorkBookRow wbRow = null;
+		String headers = "S.No,Action Team Name,Client,Geb/Spock,Prod,UAT,QA,Open,Team Ranking";
+		String[] headerCells = headers.split(",");
+
+		List<RcaCount> rcaCounts = rcaManager.findRCAByWeekPeriod(prevTwoWeek.get(0));
+		Collections.sort(rcaCounts, byProjectName);
+		int rowCount = 1;
+		for (RcaCount rca : rcaCounts)
+		{
+			RcaCount prevRCACount = rcaManager.findWeeklyRCAReportByProjectId(prevTwoWeek.get(1), rca.getProjectDetails().getProjectId());
+			
+			List<RcaCount> prevTwoWeekRCAList = new ArrayList<RcaCount>();
+			prevTwoWeekRCAList.add(rca);
+			prevTwoWeekRCAList.add(prevRCACount);
+			
+			wbRow = new WorkBookRow();
+			wbRow.setRowName(rca.getProjectDetails().getProjectName());
+			List<WorkBookCell> wbCells = new ArrayList<WorkBookCell>();
+			for(String header : headerCells)
+			{
+				WorkBookCell wbCell = new WorkBookCell();
+				wbCell.setName(rca.getProjectDetails().getProjectName());
+				wbCell.setColumnHeader(header);
+//				wbCell.setColor();
+				if ("S.No".equals(header))
+				{
+					wbCell.setValue(String.valueOf(rowCount));
+				}
+				else if ("Action Team Name".equals(header))
+				{
+					wbCell.setValue(rca.getProjectDetails().getActionTeam());
+				}
+				else if ("Client".equals(header))
+				{
+					wbCell.setValue(rca.getProjectDetails().getProjectName());
+				}
+				else if ("Geb/Spock".equals(header))
+				{
+					wbCell.setValue("Geb/Spock Comment");
+				}
+				else if ("Prod".equals(header))
+				{
+					int newCount = rU.weeklyBugCountForAllProjectsInProduction(rca);
+					int oldCount = 0;
+					if (null != prevRCACount)
+						oldCount = rU.weeklyBugCountForAllProjectsInProduction(prevRCACount);
+					String diff = " ";
+					if(newCount-oldCount != 0)
+						diff = (newCount-oldCount) >= 0 ? "(+" + (newCount-oldCount)+")":"(" + (newCount-oldCount)+")";
+					wbCell.setValue(newCount + diff);
+				}
+				else if ("UAT".equals(header))
+				{
+					int newCount = rU.weeklyBugCountForAllProjectsInUAT(rca);
+					int oldCount = 0;
+					if (null != prevRCACount)
+						oldCount = rU.weeklyBugCountForAllProjectsInUAT(prevRCACount);
+					String diff = " ";
+					if(newCount-oldCount != 0)
+						diff = (newCount-oldCount) >= 0 ? "(+" + (newCount-oldCount)+")":"(" + (newCount-oldCount)+")";
+					wbCell.setValue(newCount + diff);
+				}
+				else if ("QA".equals(header))
+				{
+					int newCount = rU.weeklyBugCountForAllProjectsInQA(rca);
+					int oldCount = 0;
+					if (null != prevRCACount)
+						oldCount = rU.weeklyBugCountForAllProjectsInQA(prevRCACount);
+					String diff = " ";
+					if(newCount-oldCount != 0)
+						diff = (newCount-oldCount) >= 0 ? "(+" + (newCount-oldCount)+")":"(" + (newCount-oldCount)+")";
+					wbCell.setValue(newCount + diff);
+				}
+				else if ("Open".equals(header))
+				{
+					List<Map<String, Integer>> prevTwoWeekCumu = rU.reportedCumulativeOpenAllWeeksGraphForAllProject(prevTwoWeekRCAList, prevTwoWeek);
+					int newCount = prevTwoWeekCumu.get(0).get(rU.removeYearFromWeek(prevTwoWeek.get(0)));
+					int oldCount = 0;
+					if (null != prevRCACount)
+						oldCount = prevTwoWeekCumu.get(1).get(rU.removeYearFromWeek(prevTwoWeek.get(1)));
+					String diff = " ";
+					if(newCount-oldCount != 0)
+						diff = (newCount-oldCount) >= 0 ? "(+" + (newCount-oldCount)+")":"(" + (newCount-oldCount)+")";
+					wbCell.setValue(newCount + diff);
+				}
+				else if ("Team Ranking".equals(header))
+				{
+					wbCell.setValue("\'Ranking Framework\'!AA" + (rowCount + 1));
+					wbCell.setFormula(true);
+				}
+				wbCells.add(wbCell);
+			}
+			wbRow.setRowCells(wbCells);
+			wbRows.add(wbRow);
+			rowCount++;
+		}
+		return wbRows;
+	}
+	
 	void createRFSheet()
 	{
 		XSSFSheet rankingFrameworkSheet = toolSetMatrix.createSheet("Ranking Framework");
 		rU.createRFHeaderRows(rankingFrameworkSheet, toolSetMatrix);
 		List<RankingFramework> rankingRows = populateRFData();
+		Collections.sort(rankingRows);
 		percStyle = toolSetMatrix.createCellStyle();
 		percStyle.setDataFormat(toolSetMatrix.createDataFormat().getFormat("0%"));
 
@@ -93,7 +238,7 @@ public class GenerateSummaryAction extends ActionSupport{
 			prevTwoWeekRCAList.add(rca);
 			prevTwoWeekRCAList.add(prevRCACount);
 			List<Map<String, Integer>> prevTwoWeekCumu = rU.reportedCumulativeOpenAllWeeksGraphForAllProject(prevTwoWeekRCAList, prevTwoWeek);
-			rankingRow.setCumulativeBacklog(prevTwoWeekCumu.get(1).get(prevTwoWeek.get(1)) - prevTwoWeekCumu.get(0).get(prevTwoWeek.get(0)));
+			rankingRow.setCumulativeBacklog(prevTwoWeekCumu.get(1).get(rU.removeYearFromWeek(prevTwoWeek.get(1))) - prevTwoWeekCumu.get(0).get(rU.removeYearFromWeek(prevTwoWeek.get(0))));
 			rankingRow.setCumulativeBacklogScore("IF(T"+rowCount+"<=-5,10,IF(T"+rowCount+"<=0,5,IF(T"+rowCount+"<=5,3,0)))");
 
 			rankingRow.setCurrWeek(rU.weeklyBugCountForAllProjectsInQA(rca));
