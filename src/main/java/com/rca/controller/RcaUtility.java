@@ -463,9 +463,9 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 		if(result.equals("success"))
 			addActionMessage("Rca data submitted successfully");
 		else if(result.equals("updated"))
-			addActionMessage("Rca data udpated successfully");
+			addActionMessage("Rca data updated successfully");
 		else if(result.equals("udpateFailure"))
-			addActionMessage("Problem in udpating Rca data");
+			addActionMessage("Problem in updating Rca data");
 		else
 			addActionMessage("Problem in submitting Rca data");
 		
