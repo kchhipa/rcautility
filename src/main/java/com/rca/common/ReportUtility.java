@@ -1470,6 +1470,19 @@ public class ReportUtility {
 		}
 	}
 
+	public void createSummaryHeaderRows(XSSFSheet rankingFrameworkSheet, XSSFWorkbook toolSetMatrix)
+	{
+		XSSFRow headerRow = rankingFrameworkSheet.createRow(0);
+		String header = "S.No, Action Team Name, Client, Geb/Spock, Prod, UAT, QA, Open, Team Ranking";
+		String[] headerCells = header.split(",");
+		int columnIndex = 0;
+		for (String headerCell : headerCells)
+		{
+			Cell cell = headerRow.createCell(columnIndex++);
+			cell.setCellValue(headerCell);
+		}
+	}
+	
 	private Cell createCell(XSSFRow row, int cellCounter, XSSFSheet rankingFrameworkSheet)
 	{
 		rankingFrameworkSheet.autoSizeColumn(cellCounter);
