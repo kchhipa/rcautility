@@ -74,7 +74,8 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	public static String DATA_ISSUE = "dataIssue";
 	public static String INTEGRATION_ISSUE = "integrationIssue";
 	public static String CONFIGURATION_ISSUE = "configurationIssue";
-	public static String MISSED_CHANGE_REQUIREMENT = "MorCR";
+	public static String MISSED_REQUIREMENT = "MorR";
+	public static String CHANGE_REQUIREMENT = "CR";
 	public static String CLIENT_CODE_BUG = "cCB";
 	public static String PRODUCT_DEFECT = "productDefect";
 	
@@ -179,8 +180,11 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			if(calculateTotalBugTypeCountForQA(rcaCounts, CLIENT_CODE_BUG) != 0){
 				tr.appendText(calculateTotalBugTypeCountForQA(rcaCounts, CLIENT_CODE_BUG) +" Client Code Defect" + "\n");
 			}
-			if(calculateTotalBugTypeCountForQA(rcaCounts, MISSED_CHANGE_REQUIREMENT) != 0){
-				tr.appendText(calculateTotalBugTypeCountForQA(rcaCounts, MISSED_CHANGE_REQUIREMENT) + " Missed/ Change Requirement" +  "\n");
+			if(calculateTotalBugTypeCountForQA(rcaCounts, MISSED_REQUIREMENT) != 0){
+				tr.appendText(calculateTotalBugTypeCountForQA(rcaCounts, MISSED_REQUIREMENT) + " Missed Requirement" +  "\n");
+			}
+			if(calculateTotalBugTypeCountForQA(rcaCounts, CHANGE_REQUIREMENT) != 0){
+				tr.appendText(calculateTotalBugTypeCountForQA(rcaCounts, CHANGE_REQUIREMENT) + " Change Requirement" +  "\n");
 			}
 			if(calculateTotalBugTypeCountForQA(rcaCounts, INTEGRATION_ISSUE) != 0){
 				tr.appendText(calculateTotalBugTypeCountForQA(rcaCounts, INTEGRATION_ISSUE) + " Integration Issue" + "\n");
@@ -232,8 +236,11 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			if(calculateTotalBugTypeCountForProd(rcaCounts, CLIENT_CODE_BUG) != 0){
 				tr.appendText(calculateTotalBugTypeCountForProd(rcaCounts, CLIENT_CODE_BUG) +" Client Code Defect" + "\n");
 			}
-			if(calculateTotalBugTypeCountForProd(rcaCounts, MISSED_CHANGE_REQUIREMENT) != 0){
-				tr.appendText(calculateTotalBugTypeCountForProd(rcaCounts, MISSED_CHANGE_REQUIREMENT) + " Missed/ Change Requirement" +  "\n");
+			if(calculateTotalBugTypeCountForProd(rcaCounts, MISSED_REQUIREMENT) != 0){
+				tr.appendText(calculateTotalBugTypeCountForProd(rcaCounts, MISSED_REQUIREMENT) + " Missed Requirement" +  "\n");
+			}
+			if(calculateTotalBugTypeCountForProd(rcaCounts, CHANGE_REQUIREMENT) != 0){
+				tr.appendText(calculateTotalBugTypeCountForProd(rcaCounts, CHANGE_REQUIREMENT) + " Changed Requirement" +  "\n");
 			}
 			if(calculateTotalBugTypeCountForProd(rcaCounts, INTEGRATION_ISSUE) != 0){
 				tr.appendText(calculateTotalBugTypeCountForProd(rcaCounts, INTEGRATION_ISSUE) + " Integration Issue" + "\n");
@@ -284,8 +291,11 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			if(calculateTotalBugTypeCountForUAT(rcaCounts, CLIENT_CODE_BUG) != 0){
 				tr.appendText(calculateTotalBugTypeCountForUAT(rcaCounts, CLIENT_CODE_BUG) +" Client Code Defect" + "\n");
 			}
-			if(calculateTotalBugTypeCountForUAT(rcaCounts, MISSED_CHANGE_REQUIREMENT) != 0){
-				tr.appendText(calculateTotalBugTypeCountForUAT(rcaCounts, MISSED_CHANGE_REQUIREMENT) + " Missed/ Change Requirement" +  "\n");
+			if(calculateTotalBugTypeCountForUAT(rcaCounts, MISSED_REQUIREMENT) != 0){
+				tr.appendText(calculateTotalBugTypeCountForUAT(rcaCounts, MISSED_REQUIREMENT) + " Missed Requirement" +  "\n");
+			}
+			if(calculateTotalBugTypeCountForUAT(rcaCounts, CHANGE_REQUIREMENT) != 0){
+				tr.appendText(calculateTotalBugTypeCountForUAT(rcaCounts, CHANGE_REQUIREMENT) + " Change Requirement" +  "\n");
 			}
 			if(calculateTotalBugTypeCountForUAT(rcaCounts, INTEGRATION_ISSUE) != 0){
 				tr.appendText(calculateTotalBugTypeCountForUAT(rcaCounts, INTEGRATION_ISSUE) + " Integration Issue" + "\n");
@@ -500,8 +510,10 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyIntegrationIssueForAllIssuesInProd(rcaCount);
 			else if(bugType.equals(CONFIGURATION_ISSUE))
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyConfigurationIssueForAllIssuesInProd(rcaCount);
-			else if(bugType.equals(MISSED_CHANGE_REQUIREMENT))
-				totalBugTypeCount = totalBugTypeCount + rU.weeklyMissedAndCRCountForAllIssuesInProd(rcaCount);
+			else if(bugType.equals(MISSED_REQUIREMENT))
+				totalBugTypeCount = totalBugTypeCount + rU.weeklyMissedCountForAllIssuesInProd(rcaCount);
+			else if(bugType.equals(CHANGE_REQUIREMENT))
+				totalBugTypeCount = totalBugTypeCount + rU.weeklyCRCountForAllIssuesInProd(rcaCount);
 			else if(bugType.equals(CLIENT_CODE_BUG))
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyClientCodeBugForAllIssuesInProd(rcaCount);
 			else if(bugType.equals(PRODUCT_DEFECT))
@@ -536,8 +548,10 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyIntegrationIssueForAllIssuesInQA(rcaCount);
 			else if(bugType.equals(CONFIGURATION_ISSUE))
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyConfigurationIssueForAllIssuesInQA(rcaCount);
-			else if(bugType.equals(MISSED_CHANGE_REQUIREMENT))
-				totalBugTypeCount = totalBugTypeCount + rU.weeklyMissedAndCRCountForAllIssuesInQA(rcaCount);
+			else if(bugType.equals(MISSED_REQUIREMENT))
+				totalBugTypeCount = totalBugTypeCount + rU.weeklyMissedCountForAllIssuesInQA(rcaCount);
+			else if(bugType.equals(CHANGE_REQUIREMENT))
+				totalBugTypeCount = totalBugTypeCount + rU.weeklyCRCountForAllIssuesInQA(rcaCount);
 			else if(bugType.equals(CLIENT_CODE_BUG))
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyClientCodeBugForAllIssuesInQA(rcaCount);
 			else if(bugType.equals(PRODUCT_DEFECT))
@@ -572,8 +586,10 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyIntegrationIssueForAllIssuesInUAT(rcaCount);
 			else if(bugType.equals(CONFIGURATION_ISSUE))
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyConfigurationIssueForAllIssuesInUAT(rcaCount);
-			else if(bugType.equals(MISSED_CHANGE_REQUIREMENT))
-				totalBugTypeCount = totalBugTypeCount + rU.weeklyMissedAndCRCountForAllIssuesInUAT(rcaCount);
+			else if(bugType.equals(MISSED_REQUIREMENT))
+				totalBugTypeCount = totalBugTypeCount + rU.weeklyMissedCountForAllIssuesInUAT(rcaCount);
+			else if(bugType.equals(CHANGE_REQUIREMENT))
+				totalBugTypeCount = totalBugTypeCount + rU.weeklyCRCountForAllIssuesInUAT(rcaCount);
 			else if(bugType.equals(CLIENT_CODE_BUG))
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyClientCodeBugForAllIssuesInUAT(rcaCount);
 			else if(bugType.equals(PRODUCT_DEFECT))
