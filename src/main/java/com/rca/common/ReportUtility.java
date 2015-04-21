@@ -674,6 +674,58 @@ public class ReportUtility {
 		return total;
 	}
 	
+public int weeklyMissedCountForAllIssuesInQA(RcaCount rcaWeeks){
+		
+		int total =0;
+		
+			total = total + (rcaWeeks.getMrQa());
+		return total;
+	}
+
+public int weeklyMissedCountForAllIssuesInUAT(RcaCount rcaWeeks){
+	
+	int total =0;
+	
+		total = total + (rcaWeeks.getMrUat());
+	return total;
+}
+
+public int weeklyMissedCountForAllIssuesInProd(RcaCount rcaWeeks){
+	
+	int total =0;
+	
+		total = total + (rcaWeeks.getMrProd());
+	return total;
+}
+
+
+public int weeklyCRCountForAllIssuesInQA(RcaCount rcaWeeks){
+	
+	int total =0;
+	
+		total = total + (rcaWeeks.getCrQa());
+	return total;
+}
+
+public int weeklyCRCountForAllIssuesInUAT(RcaCount rcaWeeks){
+
+int total =0;
+
+	total = total + ( rcaWeeks.getCrUat());
+return total;
+}
+
+public int weeklyCRCountForAllIssuesInProd(RcaCount rcaWeeks){
+
+int total =0;
+
+	total = total + ( rcaWeeks.getCrProd());
+return total;
+}
+	
+	
+	
+	
 	/**
 	 * This function sum all changed and missed require for a project and a week
 	 * @param rcaWeeks
