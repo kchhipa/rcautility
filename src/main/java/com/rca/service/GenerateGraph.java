@@ -73,13 +73,17 @@ public class GenerateGraph
     legend.setLegendItemGraphicLocation(RectangleAnchor.CENTER);
     legend.setFrame(BlockBorder.NONE);
     legend.setVisible(showLegend);
+    Font legendFont = new Font("Franklin Gothic Book Medium", Font.BOLD, 14);
+    legend.setItemFont(legendFont);
+    legend.setItemPaint(Color.BLACK);
     
     CategoryPlot plot = createPlot(jFreeChart);
 	CategoryAxis domainAxis = plot.getDomainAxis();
 	ValueAxis rangeAxis = plot.getRangeAxis();	
 	Stroke s = new BasicStroke(1.0f);
-	Stroke s1 = new BasicStroke(1.5f);
+	Stroke s1 = new BasicStroke(1.0f);
 	plot.setRangeGridlineStroke(s);
+	plot.setRangeGridlinePaint(Color.BLACK);
 	plot.setRangeZeroBaselineVisible(true);
 	plot.setOutlineVisible(false);
 	domainAxis.setAxisLineVisible(true);
@@ -91,16 +95,17 @@ public class GenerateGraph
 	
 	if(projectFontSize){
 	  	Font font = new Font("Franklin Gothic Book Heavy", Font.BOLD, 35);
-	  	jFreeChart.getLegend().setItemFont(font);
 	  	domainAxis.setTickLabelFont(font);
 	  	plot.getRangeAxis().setTickLabelFont(font);
+	  	domainAxis.setTickLabelPaint(Color.BLACK);
+		plot.getRangeAxis().setTickLabelPaint(Color.BLACK);
 	  	domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_90);
 	}else{
 		Font font = new Font("Franklin Gothic Book Heavy", Font.BOLD, 17);
-		Font lfont = new Font("Franklin Gothic Book", Font.BOLD, 15);
-		jFreeChart.getLegend().setItemFont(lfont);
 		domainAxis.setTickLabelFont(font);
 		plot.getRangeAxis().setTickLabelFont(font);
+		domainAxis.setTickLabelPaint(Color.BLACK);
+		plot.getRangeAxis().setTickLabelPaint(Color.BLACK);
 		domainAxis.setCategoryLabelPositions(CategoryLabelPositions
 					.createUpRotationLabelPositions(Math.PI / 7.0));
 	}
@@ -126,7 +131,8 @@ public class GenerateGraph
 	  CategoryAxis domainAxis = plot.getDomainAxis();
 	  ValueAxis rangeAxis = plot.getRangeAxis();	
 	  Stroke s = new BasicStroke(1.0f);
-	  Stroke s1 = new BasicStroke(1.5f);
+	  Stroke s1 = new BasicStroke(1.0f);
+	  plot.setRangeGridlinePaint(Color.BLACK);
 	  plot.setRangeGridlineStroke(s);
 	  plot.setRangeZeroBaselineVisible(true);
 	  plot.setOutlineVisible(false);
@@ -141,6 +147,8 @@ public class GenerateGraph
 
 	  domainAxis.setTickLabelFont(font);
 	  plot.getRangeAxis().setTickLabelFont(font);
+	  domainAxis.setTickLabelPaint(Color.BLACK);
+	  plot.getRangeAxis().setTickLabelPaint(Color.BLACK);
 	  domainAxis.setCategoryLabelPositions(CategoryLabelPositions
 			  .createUpRotationLabelPositions(Math.PI / 7.0));
 
@@ -181,11 +189,15 @@ public class GenerateGraph
 	    legend.setLegendItemGraphicLocation(RectangleAnchor.CENTER);
 	    legend.setFrame(BlockBorder.NONE);
 	    legend.setVisible(false);
+	    Font legendFont = new Font("Franklin Gothic Book Heavy", Font.BOLD, 18);
+	    legend.setItemFont(legendFont);
+	    legend.setItemPaint(Color.BLACK);
 	    CategoryPlot plot = createPlot(jFreeChart);
 	    CategoryAxis domainAxis = plot.getDomainAxis();
 		ValueAxis rangeAxis = plot.getRangeAxis();	
 		Stroke s = new BasicStroke(1.0f);
-		Stroke s1 = new BasicStroke(1.5f);
+		Stroke s1 = new BasicStroke(1.0f);
+		plot.setRangeGridlinePaint(Color.BLACK);
 		plot.setRangeGridlineStroke(s);
 		plot.setRangeZeroBaselineVisible(true);
 		plot.setOutlineVisible(false);
@@ -195,6 +207,12 @@ public class GenerateGraph
 		domainAxis.setTickMarksVisible(false);
 		rangeAxis.setAxisLineStroke(s1);
 		rangeAxis.setAxisLinePaint(Color.BLACK);
+		Font font = new Font("Franklin Gothic Book Heavy", Font.BOLD, 17);
+		domainAxis.setTickLabelFont(font);
+		plot.getRangeAxis().setTickLabelFont(font);
+		domainAxis.setTickLabelPaint(Color.BLACK);
+		jFreeChart.getLegend().setItemPaint(Color.BLACK);
+		plot.getRangeAxis().setTickLabelPaint(Color.BLACK);
 	    if(rotatedLabel)
 		  {
 			  domainAxis.setCategoryLabelPositions(
@@ -221,6 +239,8 @@ public class GenerateGraph
 	    legend.setItemLabelPadding(new RectangleInsets(2, 2, 12, 30));
 	    Font legendFont = new Font("Franklin Gothic Book Heavy", Font.BOLD, 18);
 	    legend.setItemFont(legendFont);
+	    legend.setItemPaint(Color.BLACK);
+	    jFreeChart.getLegend().setItemPaint(Color.BLACK);
 	    //legend.setPosition(RectangleEdge.RIGHT);
 	    legend.setLegendItemGraphicLocation(RectangleAnchor.CENTER);
 	    legend.setFrame(BlockBorder.NONE);
@@ -232,7 +252,8 @@ public class GenerateGraph
 	    CategoryAxis domainAxis = plot.getDomainAxis();
 		ValueAxis rangeAxis = plot.getRangeAxis();	
 		Stroke s = new BasicStroke(1.0f);
-		Stroke s1 = new BasicStroke(1.5f);
+		Stroke s1 = new BasicStroke(1.0f);
+		plot.setRangeGridlinePaint(Color.BLACK);
 		plot.setRangeGridlineStroke(s);
 		plot.setRangeZeroBaselineVisible(true);
 		plot.setOutlineVisible(false);
@@ -248,6 +269,8 @@ public class GenerateGraph
 	  	plot.getRangeAxis().setTickLabelFont(font);
 	  	domainAxis.setTickLabelInsets(new RectangleInsets(2, 2, 12, 30));
 	  	plot.getRangeAxis().setTickLabelFont(font);
+	  	domainAxis.setTickLabelPaint(Color.BLACK);
+		plot.getRangeAxis().setTickLabelPaint(Color.BLACK);
 	  	
 	  	if(rotatedLabel)
 		  {
@@ -293,8 +316,9 @@ public class GenerateGraph
 		CategoryAxis domainAxis = plot.getDomainAxis();
 		ValueAxis rangeAxis = plot.getRangeAxis();	
 		Stroke s = new BasicStroke(1.0f);
-		Stroke s1 = new BasicStroke(1.5f);
+		Stroke s1 = new BasicStroke(1.0f);
 		plot.setRangeGridlineStroke(s);
+		plot.setRangeGridlinePaint(Color.BLACK);
 		plot.setRangeZeroBaselineVisible(true);
 		plot.setOutlineVisible(false);
 		domainAxis.setAxisLineVisible(true);
@@ -305,6 +329,8 @@ public class GenerateGraph
 		rangeAxis.setAxisLinePaint(Color.BLACK);
 		
 		Font font = new Font("Franklin Gothic Book Heavy", Font.BOLD, 17);
+		domainAxis.setTickLabelPaint(Color.BLACK);
+		plot.getRangeAxis().setTickLabelPaint(Color.BLACK);
 	  	domainAxis.setTickLabelFont(font);
 	  	plot.getRangeAxis().setTickLabelFont(font);
 
