@@ -235,10 +235,21 @@ public class GenerateSummaryAction extends ActionSupport{
 		percStyle = toolSetMatrix.createCellStyle();
 		percStyle.setDataFormat(toolSetMatrix.createDataFormat()
 				.getFormat("0%"));
+		XSSFCellStyle styleYellow = toolSetMatrix.createCellStyle();
+		XSSFCellStyle styleGreen = toolSetMatrix.createCellStyle();
+		XSSFColor lightYellow = new XSSFColor(new java.awt.Color(255,255,0));
+		XSSFColor lightGreen = new XSSFColor(new java.awt.Color(146,208,80));
+		styleYellow.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
+		styleYellow.setFillForegroundColor(lightYellow);
+		styleGreen.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
+		styleGreen.setFillForegroundColor(lightGreen);
+		
+
 		int counter = rankingFrameworkSheet.getPhysicalNumberOfRows();
-		for (RankingFramework rankingRow : rankingRows) {
+		for (RankingFramework rankingRow : rankingRows)
+		{
 			XSSFRow row = rankingFrameworkSheet.createRow(counter);
-			rU.buildRFColumns(rankingRow, row, rankingFrameworkSheet, percStyle);
+			rU.buildRFColumns(rankingRow, row, rankingFrameworkSheet, percStyle, styleYellow, styleGreen);
 			counter++;
 		}
 	}

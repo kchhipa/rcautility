@@ -13,7 +13,9 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -1318,16 +1320,19 @@ return total;
 	// Below methods are utility methods to generate Summary & Ranking Framework excel sheet
 	
 	
-	public void buildRFColumns(RankingFramework rankingRow, XSSFRow row, XSSFSheet rankingFrameworkSheet, XSSFCellStyle percStyle)
+	public void buildRFColumns(RankingFramework rankingRow, XSSFRow row, XSSFSheet rankingFrameworkSheet, XSSFCellStyle percStyle, XSSFCellStyle styleYellow, XSSFCellStyle styleGreen)
 	{
 		rankingFrameworkSheet.setFitToPage(true);
 		boolean hideColumn = false;
 
 		int cellCounter=0;
+		
+		
 		//	A
 		Cell cell = createCell(row, cellCounter, rankingFrameworkSheet);
 		cellCounter++;
 		cell.setCellValue(rankingRow.getTeamName());
+		cell.setCellStyle(styleGreen);
 
 		//	B
 		cell = createCell(row, cellCounter, rankingFrameworkSheet);
@@ -1346,6 +1351,7 @@ return total;
 		cell = createCell(row, cellCounter, rankingFrameworkSheet);
 		cellCounter++;
 		cell.setCellFormula(rankingRow.getAgileComplianceScore());
+		cell.setCellStyle(styleYellow);
 
 		//		E
 		cell = createCell(row, cellCounter, rankingFrameworkSheet);
@@ -1356,6 +1362,7 @@ return total;
 		cell = createCell(row, cellCounter, rankingFrameworkSheet);
 		cellCounter++;
 		cell.setCellFormula(rankingRow.getCcbScore());
+		cell.setCellStyle(styleYellow);
 
 		//		G
 		rankingFrameworkSheet.setColumnHidden(cellCounter, hideColumn);
@@ -1414,6 +1421,7 @@ return total;
 		cell = createCell(row, cellCounter, rankingFrameworkSheet);
 		cellCounter++;
 		cell.setCellFormula(rankingRow.getQaDefectScore());
+		cell.setCellStyle(styleYellow);
 
 		//		P
 		cell = createCell(row, cellCounter, rankingFrameworkSheet);
@@ -1424,6 +1432,7 @@ return total;
 		cell = createCell(row, cellCounter, rankingFrameworkSheet);
 		cellCounter++;
 		cell.setCellFormula(rankingRow.getReopenScore());
+		cell.setCellStyle(styleYellow);
 
 		//		R
 		cell = createCell(row, cellCounter, rankingFrameworkSheet);
@@ -1434,6 +1443,7 @@ return total;
 		cell = createCell(row, cellCounter, rankingFrameworkSheet);
 		cellCounter++;
 		cell.setCellFormula(rankingRow.getCollaborationScore());
+		cell.setCellStyle(styleYellow);
 
 		//		T
 		cell = createCell(row, cellCounter, rankingFrameworkSheet);
@@ -1444,6 +1454,7 @@ return total;
 		cell = createCell(row, cellCounter, rankingFrameworkSheet);
 		cellCounter++;
 		cell.setCellFormula(rankingRow.getCumulativeBacklogScore());
+		cell.setCellStyle(styleYellow);
 
 		//		V
 		cell = createCell(row, cellCounter, rankingFrameworkSheet);
@@ -1454,6 +1465,7 @@ return total;
 		cell = createCell(row, cellCounter, rankingFrameworkSheet);
 		cellCounter++;
 		cell.setCellFormula(rankingRow.getMissReqScore());
+		cell.setCellStyle(styleYellow);
 
 		//		X
 		cell = createCell(row, cellCounter, rankingFrameworkSheet);
@@ -1464,6 +1476,7 @@ return total;
 		cell = createCell(row, cellCounter, rankingFrameworkSheet);
 		cellCounter++;
 		cell.setCellFormula(rankingRow.getRiskScore());
+		cell.setCellStyle(styleYellow);
 
 		//		Z
 		cell = createCell(row, cellCounter, rankingFrameworkSheet);
@@ -1474,11 +1487,13 @@ return total;
 		cell = createCell(row, cellCounter, rankingFrameworkSheet);
 		cellCounter++;
 		cell.setCellFormula(rankingRow.getRanking());
+		cell.setCellStyle(styleGreen);
 
 		//		AB
 		cell = createCell(row, cellCounter, rankingFrameworkSheet);
 		cellCounter++;
 		cell.setCellValue(rankingRow.getActualUsed());
+		cell.setCellStyle(styleGreen);
 
 		//		AC
 		cell = createCell(row, cellCounter, rankingFrameworkSheet);
@@ -1510,15 +1525,49 @@ return total;
 		String header = "Action Team Name, Client, Agile Compliance, Score,	Client code defects(PROD+UAT), Score, Tool Compliance, Score, Junit Test coverage, Score, Previous Week, Current Week, % Change, Absolute Change, Score, Re-open, Score, Collaboration, Score, Cumulative Backlog, Score, Missed requirements, Score, Risk, Score, Total score, Ranking, Actual Used, Ranking Comment";
 		String[] headerCells = header.split(",");
 		int columnIndex = 0;
-		XSSFCellStyle headerStyle = toolSetMatrix.createCellStyle();;
-		headerStyle.setRotation((short) 90);
-		headerStyle.setShrinkToFit(true);
-		headerStyle.setWrapText(true);
+		XSSFCellStyle headerStyleBlue = toolSetMatrix.createCellStyle();
+		XSSFCellStyle headerStyleYellow = toolSetMatrix.createCellStyle();
+		XSSFColor lightBlue = new XSSFColor(new java.awt.Color(197,217,241));
+		XSSFColor lightYellow = new XSSFColor(new java.awt.Color(255,255,0));
+		XSSFColor COLOR_GREY = new XSSFColor(new java.awt.Color(191, 190, 154));
+		headerStyleBlue.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
+		headerStyleBlue.setFillForegroundColor(lightBlue);
+		headerStyleBlue.setRotation((short) 90);
+		headerStyleBlue.setShrinkToFit(true);
+		headerStyleBlue.setWrapText(true);
+		headerStyleBlue.setBorderBottom(CellStyle.BORDER_THIN);
+        headerStyleBlue.setBottomBorderColor(COLOR_GREY);
+        headerStyleBlue.setBorderLeft(CellStyle.BORDER_THIN);
+        headerStyleBlue.setLeftBorderColor(COLOR_GREY);
+        headerStyleBlue.setBorderRight(CellStyle.BORDER_THIN);
+        headerStyleBlue.setRightBorderColor(COLOR_GREY);
+        headerStyleBlue.setBorderTop(CellStyle.BORDER_THIN);
+        headerStyleBlue.setTopBorderColor(COLOR_GREY);
+        
+		headerStyleYellow.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
+		headerStyleYellow.setFillForegroundColor(lightYellow);
+		headerStyleYellow.setRotation((short) 90);
+		headerStyleYellow.setShrinkToFit(true);
+		headerStyleYellow.setWrapText(true);
+		headerStyleYellow.setBorderBottom(CellStyle.BORDER_THIN);
+		headerStyleYellow.setBottomBorderColor(COLOR_GREY);
+		headerStyleYellow.setBorderLeft(CellStyle.BORDER_THIN);
+		headerStyleYellow.setLeftBorderColor(COLOR_GREY);
+		headerStyleYellow.setBorderRight(CellStyle.BORDER_THIN);
+		headerStyleYellow.setRightBorderColor(COLOR_GREY);
+		headerStyleYellow.setBorderTop(CellStyle.BORDER_THIN);
+		headerStyleYellow.setTopBorderColor(COLOR_GREY);
+		
+		
 		for (String headerCell : headerCells)
 		{
 			Cell cell = headerRow.createCell(columnIndex++);
 			cell.setCellValue(headerCell);
-			cell.setCellStyle(headerStyle);
+			if(headerCell.equalsIgnoreCase(" Collaboration") || headerCell.equalsIgnoreCase(" Risk")){
+				cell.setCellStyle(headerStyleYellow);
+			}else{
+				cell.setCellStyle(headerStyleBlue);
+			}
 		}
 	}
 
