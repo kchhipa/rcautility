@@ -3,6 +3,8 @@
  */
 package com.rca.workbookutility;
 
+import java.awt.Color;
+
 /**
  * @author govind.gupta
  *
@@ -11,7 +13,7 @@ public class WorkBookCell {
 	private String value;
 	private boolean formula;
 	private String name;
-	private String color;
+	private Color color;
 	private String columnHeader;
 	
 	/**
@@ -41,13 +43,13 @@ public class WorkBookCell {
 	/**
 	 * @return the color
 	 */
-	public String getColor() {
+	public Color getColor() {
 		return color;
 	}
 	/**
 	 * @param color the color to set
 	 */
-	public void setColor(String color) {
+	public void setColor(Color color) {
 		this.color = color;
 	}
 	/**

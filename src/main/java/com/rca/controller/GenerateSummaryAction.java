@@ -1,5 +1,6 @@
 package com.rca.controller;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -10,8 +11,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.xssf.usermodel.XSSFBorderFormatting;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -32,6 +35,11 @@ public class GenerateSummaryAction extends ActionSupport{
 	private XSSFCellStyle percStyle;
 	private XSSFWorkbook toolSetMatrix;
 	private ReportUtility rU;
+	
+	private static final Color GREEN = new Color(145, 208, 80);
+	private static final Color RED = new Color(255, 0, 0);
+	private static final Color YELLOW = new Color(255, 255, 0);
+	private static final Color WHITE = new Color(255, 255, 255);
 
 
 	public String execute() throws Exception {
@@ -40,14 +48,14 @@ public class GenerateSummaryAction extends ActionSupport{
 		return SUCCESS;
 	}
 
-	void createWorkBook() throws IOException
-	{
+	void createWorkBook() throws IOException {
 		toolSetMatrix = new XSSFWorkbook();
 		rU = new ReportUtility();
 		createRFSheet();
 		createSummarySheet();
-		//Write the workbook in file system
-		FileOutputStream out = new FileOutputStream(new File("D:\\Ranking Framework.xlsx"));
+		// Write the workbook in file system
+		FileOutputStream out = new FileOutputStream(new File(
+				"D:\\Ranking Framework.xlsx"));
 		toolSetMatrix.write(out);
 		out.close();
 		toolSetMatrix.close();
@@ -56,39 +64,52 @@ public class GenerateSummaryAction extends ActionSupport{
 	public static final Comparator<RcaCount> byProjectName = new Comparator<RcaCount>() {
 		@Override
 		public int compare(RcaCount o1, RcaCount o2) {
-			return o1.getProjectDetails().getProjectName().compareTo(o2.getProjectDetails().getProjectName()); 
+			return o1.getProjectDetails().getProjectName()
+					.compareTo(o2.getProjectDetails().getProjectName());
 		}
 	};
-	
+
 	private void createSummarySheet() {
 		XSSFSheet summarySheet = toolSetMatrix.createSheet("Summary Sheet");
 		rU.createSummaryHeaderRows(summarySheet, toolSetMatrix);
 		List<WorkBookRow> wbRows = populateSummarySheetData();
 		int counter = summarySheet.getPhysicalNumberOfRows();
-		for(WorkBookRow wbRow : wbRows)
-		{
+		for (WorkBookRow wbRow : wbRows) {
 			XSSFRow row = summarySheet.createRow(counter);
 			buildSummaryData(wbRow, summarySheet, row);
 			counter++;
 		}
 	}
-	
-	void buildSummaryData(WorkBookRow wbRow, XSSFSheet summarySheet, XSSFRow row)
-	{
+
+	private void buildSummaryData(WorkBookRow wbRow, XSSFSheet summarySheet, XSSFRow row) {
 		List<WorkBookCell> wbCells = wbRow.getRowCells();
 		int columnIndex = row.getPhysicalNumberOfCells();
-		for(WorkBookCell wbCell : wbCells)
-		{
+		// Aqua background
+		XSSFCellStyle style = toolSetMatrix.createCellStyle();
+		for (WorkBookCell wbCell : wbCells) {
 			XSSFCell cell = row.createCell(columnIndex);
+			style = (XSSFCellStyle) cell.getCellStyle().clone();
+			style.setFillForegroundColor(new XSSFColor(wbCell.getColor()));
+			style.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
+			setBorderStyle(XSSFBorderFormatting.BORDER_THIN, style);
 			if (wbCell.isFormula())
 				cell.setCellFormula(wbCell.getValue());
 			else
 				cell.setCellValue(wbCell.getValue());
+			cell.setCellStyle(style);
 			columnIndex++;
 		}
 	}
-	
-	List<WorkBookRow> populateSummarySheetData()
+
+	// This method set the border style
+	private static void setBorderStyle(short borderStyle, XSSFCellStyle style) {
+		style.setBorderBottom(borderStyle);
+		style.setBorderLeft(borderStyle);
+		style.setBorderRight(borderStyle);
+		style.setBorderTop(borderStyle);
+	}
+
+	private List<WorkBookRow> populateSummarySheetData()
 	{
 		List<String> prevTwoWeek = rU.findPreviousTwoWeek();
 		List<WorkBookRow> wbRows = new ArrayList<WorkBookRow>();
@@ -115,7 +136,7 @@ public class GenerateSummaryAction extends ActionSupport{
 				WorkBookCell wbCell = new WorkBookCell();
 				wbCell.setName(rca.getProjectDetails().getProjectName());
 				wbCell.setColumnHeader(header);
-//				wbCell.setColor();
+				wbCell.setColor(WHITE);
 				if ("S.No".equals(header))
 				{
 					wbCell.setValue(String.valueOf(rowCount));
@@ -142,6 +163,7 @@ public class GenerateSummaryAction extends ActionSupport{
 					if(newCount-oldCount != 0)
 						diff = (newCount-oldCount) >= 0 ? "(+" + (newCount-oldCount)+")":"(" + (newCount-oldCount)+")";
 					wbCell.setValue(newCount + diff);
+					doColor(wbCell, oldCount, newCount);
 				}
 				else if ("UAT".equals(header))
 				{
@@ -153,6 +175,7 @@ public class GenerateSummaryAction extends ActionSupport{
 					if(newCount-oldCount != 0)
 						diff = (newCount-oldCount) >= 0 ? "(+" + (newCount-oldCount)+")":"(" + (newCount-oldCount)+")";
 					wbCell.setValue(newCount + diff);
+					doColor(wbCell, oldCount, newCount);
 				}
 				else if ("QA".equals(header))
 				{
@@ -164,6 +187,7 @@ public class GenerateSummaryAction extends ActionSupport{
 					if(newCount-oldCount != 0)
 						diff = (newCount-oldCount) >= 0 ? "(+" + (newCount-oldCount)+")":"(" + (newCount-oldCount)+")";
 					wbCell.setValue(newCount + diff);
+					doColor(wbCell, oldCount, newCount);
 				}
 				else if ("Open".equals(header))
 				{
@@ -176,6 +200,7 @@ public class GenerateSummaryAction extends ActionSupport{
 					if(newCount-oldCount != 0)
 						diff = (newCount-oldCount) >= 0 ? "(+" + (newCount-oldCount)+")":"(" + (newCount-oldCount)+")";
 					wbCell.setValue(newCount + diff);
+					doColor(wbCell, oldCount, newCount);
 				}
 				else if ("Team Ranking".equals(header))
 				{
@@ -190,19 +215,29 @@ public class GenerateSummaryAction extends ActionSupport{
 		}
 		return wbRows;
 	}
-	
-	void createRFSheet()
-	{
-		XSSFSheet rankingFrameworkSheet = toolSetMatrix.createSheet("Ranking Framework");
+
+	private void doColor(WorkBookCell wbCell, int oldCount, int newCount) {
+		int divisionFact = oldCount > 0 ? oldCount : 1;
+		int percIncrease = (newCount - oldCount) * 100 / divisionFact;
+		if (percIncrease < -20)
+			wbCell.setColor(GREEN);
+		else if (percIncrease > 20)
+			wbCell.setColor(RED);
+		else
+			wbCell.setColor(YELLOW);
+	}
+
+	void createRFSheet() {
+		XSSFSheet rankingFrameworkSheet = toolSetMatrix
+				.createSheet("Ranking Framework");
 		rU.createRFHeaderRows(rankingFrameworkSheet, toolSetMatrix);
 		List<RankingFramework> rankingRows = populateRFData();
 		Collections.sort(rankingRows);
 		percStyle = toolSetMatrix.createCellStyle();
-		percStyle.setDataFormat(toolSetMatrix.createDataFormat().getFormat("0%"));
-
+		percStyle.setDataFormat(toolSetMatrix.createDataFormat()
+				.getFormat("0%"));
 		int counter = rankingFrameworkSheet.getPhysicalNumberOfRows();
-		for (RankingFramework rankingRow : rankingRows)
-		{
+		for (RankingFramework rankingRow : rankingRows) {
 			XSSFRow row = rankingFrameworkSheet.createRow(counter);
 			rU.buildRFColumns(rankingRow, row, rankingFrameworkSheet, percStyle);
 			counter++;
