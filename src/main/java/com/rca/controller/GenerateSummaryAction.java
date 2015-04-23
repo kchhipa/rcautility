@@ -232,7 +232,6 @@ public class GenerateSummaryAction extends ActionSupport{
 				.createSheet("Ranking Framework");
 		rU.createRFHeaderRows(rankingFrameworkSheet, toolSetMatrix);
 		List<RankingFramework> rankingRows = populateRFData();
-		Collections.sort(rankingRows);
 		percStyle = toolSetMatrix.createCellStyle();
 		percStyle.setDataFormat(toolSetMatrix.createDataFormat()
 				.getFormat("0%"));
@@ -251,6 +250,7 @@ public class GenerateSummaryAction extends ActionSupport{
 		List<String> prevTwoWeek = rU.findPreviousTwoWeek();
 
 		List<RcaCount> rcaCounts = rcaManager.findRCAByWeekPeriod(prevTwoWeek.get(0));
+		Collections.sort(rcaCounts, byProjectName);
 		int rowCount = 2;
 		for (RcaCount rca : rcaCounts)
 		{
