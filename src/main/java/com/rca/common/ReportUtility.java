@@ -1,5 +1,6 @@
 package com.rca.common;
 
+import java.awt.Color;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,6 +33,9 @@ public class ReportUtility {
 	public static final String QA = "QA";
 	private static String CUMULATIVE_OPEN = "Cumulative Open";
 	private static final Log log = LogFactory.getLog(RcaCountDAOImpl.class);
+	private static final XSSFColor BLUE = new XSSFColor(new Color(197,217,241));
+	private static final XSSFColor YELLOW = new XSSFColor(new Color(255,255,0));
+	private static final XSSFColor GREY = new XSSFColor(new Color(191, 190, 154));
 
 	public Map<String, Map<String, Integer>> rcaCountForLastWeekForAllProjects(List<RcaCount> rcaWeeks){
 	  Map<String, Map<String, Integer>> diffCategory = new HashMap<String, Map<String, Integer>>();;
@@ -1527,38 +1531,8 @@ return total;
 		int columnIndex = 0;
 		XSSFCellStyle headerStyleBlue = toolSetMatrix.createCellStyle();
 		XSSFCellStyle headerStyleYellow = toolSetMatrix.createCellStyle();
-		XSSFColor lightBlue = new XSSFColor(new java.awt.Color(197,217,241));
-		XSSFColor lightYellow = new XSSFColor(new java.awt.Color(255,255,0));
-		XSSFColor COLOR_GREY = new XSSFColor(new java.awt.Color(191, 190, 154));
-		headerStyleBlue.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
-		headerStyleBlue.setFillForegroundColor(lightBlue);
-		headerStyleBlue.setRotation((short) 90);
-		headerStyleBlue.setShrinkToFit(true);
-		headerStyleBlue.setWrapText(true);
-		headerStyleBlue.setBorderBottom(CellStyle.BORDER_THIN);
-        headerStyleBlue.setBottomBorderColor(COLOR_GREY);
-        headerStyleBlue.setBorderLeft(CellStyle.BORDER_THIN);
-        headerStyleBlue.setLeftBorderColor(COLOR_GREY);
-        headerStyleBlue.setBorderRight(CellStyle.BORDER_THIN);
-        headerStyleBlue.setRightBorderColor(COLOR_GREY);
-        headerStyleBlue.setBorderTop(CellStyle.BORDER_THIN);
-        headerStyleBlue.setTopBorderColor(COLOR_GREY);
-        
-		headerStyleYellow.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
-		headerStyleYellow.setFillForegroundColor(lightYellow);
-		headerStyleYellow.setRotation((short) 90);
-		headerStyleYellow.setShrinkToFit(true);
-		headerStyleYellow.setWrapText(true);
-		headerStyleYellow.setBorderBottom(CellStyle.BORDER_THIN);
-		headerStyleYellow.setBottomBorderColor(COLOR_GREY);
-		headerStyleYellow.setBorderLeft(CellStyle.BORDER_THIN);
-		headerStyleYellow.setLeftBorderColor(COLOR_GREY);
-		headerStyleYellow.setBorderRight(CellStyle.BORDER_THIN);
-		headerStyleYellow.setRightBorderColor(COLOR_GREY);
-		headerStyleYellow.setBorderTop(CellStyle.BORDER_THIN);
-		headerStyleYellow.setTopBorderColor(COLOR_GREY);
-		
-		
+		buildHeaderStyle(headerStyleBlue, CellStyle.BORDER_THIN, GREY, BLUE, (short) 90);
+		buildHeaderStyle(headerStyleYellow, CellStyle.BORDER_THIN, GREY, YELLOW, (short) 90);
 		for (String headerCell : headerCells)
 		{
 			Cell cell = headerRow.createCell(columnIndex++);
@@ -1571,19 +1545,38 @@ return total;
 		}
 	}
 
+	private void buildHeaderStyle(XSSFCellStyle headerStyle, short borderThickness, XSSFColor borderColor, XSSFColor foreGroundColor, short rotation){
+		headerStyle.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
+		headerStyle.setFillForegroundColor(foreGroundColor);
+		headerStyle.setRotation(rotation);
+		headerStyle.setShrinkToFit(true);
+		headerStyle.setWrapText(true);
+		headerStyle.setBorderBottom(borderThickness);
+        headerStyle.setBottomBorderColor(borderColor);
+        headerStyle.setBorderLeft(borderThickness);
+        headerStyle.setLeftBorderColor(borderColor);
+        headerStyle.setBorderRight(borderThickness);
+        headerStyle.setRightBorderColor(borderColor);
+        headerStyle.setBorderTop(borderThickness);
+        headerStyle.setTopBorderColor(borderColor);
+	}
+	
 	public void createSummaryHeaderRows(XSSFSheet rankingFrameworkSheet, XSSFWorkbook toolSetMatrix)
 	{
 		XSSFRow headerRow = rankingFrameworkSheet.createRow(0);
 		String header = "S.No, Action Team Name, Client, Geb/Spock, Prod, UAT, QA, Open, Team Ranking";
 		String[] headerCells = header.split(",");
+		XSSFCellStyle headerStyle = toolSetMatrix.createCellStyle();
+		buildHeaderStyle(headerStyle, CellStyle.BORDER_THIN, GREY, BLUE, (short) 0);
 		int columnIndex = 0;
 		for (String headerCell : headerCells)
 		{
 			Cell cell = headerRow.createCell(columnIndex++);
 			cell.setCellValue(headerCell);
+			cell.setCellStyle(headerStyle);
 		}
 	}
-	
+
 	private Cell createCell(XSSFRow row, int cellCounter, XSSFSheet rankingFrameworkSheet)
 	{
 		rankingFrameworkSheet.autoSizeColumn(cellCounter);
