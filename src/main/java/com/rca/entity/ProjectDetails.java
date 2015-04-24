@@ -25,6 +25,7 @@ public class ProjectDetails implements java.io.Serializable {
 	private String projectName;
 	private Set<RcaCount> rcaCounts = new HashSet<RcaCount>(0);
 	private String actionTeam;
+	private String automation;
 
 	public ProjectDetails() {
 	}
@@ -82,5 +83,20 @@ public class ProjectDetails implements java.io.Serializable {
 	 */
 	public void setActionTeam(String actionTeam) {
 		this.actionTeam = actionTeam;
+	}
+
+	/**
+	 * @return the automation
+	 */
+	@Column(name = "automation", nullable = true)
+	public String getAutomation() {
+		return automation;
+	}
+
+	/**
+	 * @param automation the automation to set
+	 */
+	public void setAutomation(String automation) {
+		this.automation = automation;
 	}
 }

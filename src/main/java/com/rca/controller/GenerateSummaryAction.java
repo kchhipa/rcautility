@@ -84,7 +84,6 @@ public class GenerateSummaryAction extends ActionSupport{
 	private void buildSummaryData(WorkBookRow wbRow, XSSFSheet summarySheet, XSSFRow row) {
 		List<WorkBookCell> wbCells = wbRow.getRowCells();
 		int columnIndex = row.getPhysicalNumberOfCells();
-		// Aqua background
 		XSSFCellStyle style = toolSetMatrix.createCellStyle();
 		for (WorkBookCell wbCell : wbCells) {
 			XSSFCell cell = row.createCell(columnIndex);
@@ -102,11 +101,11 @@ public class GenerateSummaryAction extends ActionSupport{
 	}
 
 	// This method set the border style
-	private static void setBorderStyle(short borderStyle, XSSFCellStyle style) {
-		style.setBorderBottom(borderStyle);
-		style.setBorderLeft(borderStyle);
-		style.setBorderRight(borderStyle);
-		style.setBorderTop(borderStyle);
+	private static void setBorderStyle(short borderThickness, XSSFCellStyle style) {
+		style.setBorderBottom(borderThickness);
+		style.setBorderLeft(borderThickness);
+		style.setBorderRight(borderThickness);
+		style.setBorderTop(borderThickness);
 	}
 
 	private List<WorkBookRow> populateSummarySheetData()
@@ -151,7 +150,11 @@ public class GenerateSummaryAction extends ActionSupport{
 				}
 				else if ("Geb/Spock".equals(header))
 				{
-					wbCell.setValue("Geb/Spock Comment");
+					wbCell.setValue(rca.getProjectDetails().getAutomation());
+					if ("Automation in progress".equalsIgnoreCase(rca.getProjectDetails().getAutomation()))
+					{
+						wbCell.setColor(GREEN);
+					}
 				}
 				else if ("Prod".equals(header))
 				{
@@ -219,9 +222,9 @@ public class GenerateSummaryAction extends ActionSupport{
 	private void doColor(WorkBookCell wbCell, int oldCount, int newCount) {
 		int divisionFact = oldCount > 0 ? oldCount : 1;
 		int percIncrease = (newCount - oldCount) * 100 / divisionFact;
-		if (percIncrease < -20)
+		if (percIncrease <= -20)
 			wbCell.setColor(GREEN);
-		else if (percIncrease > 20)
+		else if (percIncrease >= 20)
 			wbCell.setColor(RED);
 		else
 			wbCell.setColor(YELLOW);
@@ -237,8 +240,8 @@ public class GenerateSummaryAction extends ActionSupport{
 				.getFormat("0%"));
 		XSSFCellStyle styleYellow = toolSetMatrix.createCellStyle();
 		XSSFCellStyle styleGreen = toolSetMatrix.createCellStyle();
-		XSSFColor lightYellow = new XSSFColor(new java.awt.Color(255,255,0));
-		XSSFColor lightGreen = new XSSFColor(new java.awt.Color(146,208,80));
+		XSSFColor lightYellow = new XSSFColor(YELLOW);
+		XSSFColor lightGreen = new XSSFColor(GREEN);
 		styleYellow.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
 		styleYellow.setFillForegroundColor(lightYellow);
 		styleGreen.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);

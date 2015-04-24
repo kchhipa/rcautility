@@ -15,6 +15,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -1563,11 +1564,17 @@ return total;
 	
 	public void createSummaryHeaderRows(XSSFSheet rankingFrameworkSheet, XSSFWorkbook toolSetMatrix)
 	{
-		XSSFRow headerRow = rankingFrameworkSheet.createRow(0);
-		String header = "S.No, Action Team Name, Client, Geb/Spock, Prod, UAT, QA, Open, Team Ranking";
-		String[] headerCells = header.split(",");
 		XSSFCellStyle headerStyle = toolSetMatrix.createCellStyle();
 		buildHeaderStyle(headerStyle, CellStyle.BORDER_THIN, GREY, BLUE, (short) 0);
+		headerStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER);
+		XSSFRow topHeaderRow = rankingFrameworkSheet.createRow((short)0);
+		Cell defect = topHeaderRow.createCell((short)4);
+		defect.setCellValue("Defects");
+		defect.setCellStyle(headerStyle);
+		rankingFrameworkSheet.addMergedRegion(new CellRangeAddress(0, 0, 4, 7));
+		XSSFRow headerRow = rankingFrameworkSheet.createRow((short)1);
+		String header = "S.No, Action Team Name, Client, Geb/Spock, Prod, UAT, QA, Open, Team Ranking";
+		String[] headerCells = header.split(",");
 		int columnIndex = 0;
 		for (String headerCell : headerCells)
 		{
