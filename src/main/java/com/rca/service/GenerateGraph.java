@@ -58,6 +58,7 @@ public class GenerateGraph
   {
 	
     DefaultCategoryDataset chartDataSet = dataSetObjectCreation(data);
+	Set<String> keyset=data.keySet();
     DifferentTypeGraphAbstractCreation graphCreationObject = DifferentTypeGraphCreationFactory.createGraphCreationObject(graphType, graphHeader, xAxis, yAxis, plotOrientation, chartDataSet, true, true);
     JFreeChart jFreeChart = graphCreationObject.createGraph();
     
@@ -111,7 +112,7 @@ public class GenerateGraph
 	}
 		
     
-    plot.setRenderer(createRender());
+    plot.setRenderer(createRender(keyset.size()));
     
     return createGraphImage(jFreeChart, graphWidth, graphHeight);
   }
@@ -179,6 +180,7 @@ public class GenerateGraph
   public File createIndividualWeeklyGraph(Map<String, Map<String,Integer>> data, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, boolean rotatedLabel, int graphWidth, int graphHeight, String graphType)
   {
 	    DefaultCategoryDataset chartDataSet = dataSetObjectCreation(data);
+		Set<String> keyset=data.keySet();
 	    DifferentTypeGraphAbstractCreation graphCreationObject = DifferentTypeGraphCreationFactory.createGraphCreationObject(graphType, graphHeader, xAxis, yAxis, plotOrientation, chartDataSet, true, true);
 	    JFreeChart jFreeChart = graphCreationObject.createGraph();
 	 // set the background color for the chart...
@@ -218,7 +220,7 @@ public class GenerateGraph
 			  domainAxis.setCategoryLabelPositions(
 					  CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 2.0));
 		  }
-	    plot.setRenderer(createRender());
+	    plot.setRenderer(createRender(keyset.size()));
 	    return createGraphImage(jFreeChart, graphWidth, graphHeight);
   }
 
@@ -415,7 +417,7 @@ public class GenerateGraph
 	return chartDataSet;
   }
   
-  public GroupedStackedBarRenderer createRender()
+  public GroupedStackedBarRenderer createRender(int keySetSize)
   {
     GroupedStackedBarRenderer renderer = new GroupedStackedBarRenderer();
     
@@ -458,9 +460,17 @@ public class GenerateGraph
     
     /* Setting the Bar paint to be plain & not glossy. */
     ((BarRenderer) renderer).setBarPainter(new StandardBarPainter());
-    // Set bars maximum width
-    ((BarRenderer) renderer).setItemMargin(0.50);
-    ((BarRenderer) renderer).setMaximumBarWidth(0.05);
+	
+	// Set bars maximum width
+    if(keySetSize<6){
+    	
+    	((BarRenderer) renderer).setItemMargin(0.40);
+    	((BarRenderer) renderer).setMaximumBarWidth(0.10);
+    	
+    }else{
+    	((BarRenderer) renderer).setItemMargin(0.50);
+    	((BarRenderer) renderer).setMaximumBarWidth(0.05);
+    }
     
     return renderer;
   }
