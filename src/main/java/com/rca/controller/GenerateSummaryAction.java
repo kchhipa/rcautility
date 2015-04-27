@@ -164,7 +164,7 @@ public class GenerateSummaryAction extends ActionSupport{
 						oldCount = rU.weeklyBugCountForAllProjectsInProduction(prevRCACount);
 					String diff = " ";
 					if(newCount-oldCount != 0)
-						diff = (newCount-oldCount) >= 0 ? "(+" + (newCount-oldCount)+")":"(" + (newCount-oldCount)+")";
+						diff = (newCount-oldCount) >= 0 ? " (+" + (newCount-oldCount)+")":" (" + (newCount-oldCount)+")";
 					wbCell.setValue(newCount + diff);
 					doColor(wbCell, oldCount, newCount);
 				}
@@ -176,7 +176,7 @@ public class GenerateSummaryAction extends ActionSupport{
 						oldCount = rU.weeklyBugCountForAllProjectsInUAT(prevRCACount);
 					String diff = " ";
 					if(newCount-oldCount != 0)
-						diff = (newCount-oldCount) >= 0 ? "(+" + (newCount-oldCount)+")":"(" + (newCount-oldCount)+")";
+						diff = (newCount-oldCount) >= 0 ? " (+" + (newCount-oldCount)+")":" (" + (newCount-oldCount)+")";
 					wbCell.setValue(newCount + diff);
 					doColor(wbCell, oldCount, newCount);
 				}
@@ -188,7 +188,7 @@ public class GenerateSummaryAction extends ActionSupport{
 						oldCount = rU.weeklyBugCountForAllProjectsInQA(prevRCACount);
 					String diff = " ";
 					if(newCount-oldCount != 0)
-						diff = (newCount-oldCount) >= 0 ? "(+" + (newCount-oldCount)+")":"(" + (newCount-oldCount)+")";
+						diff = (newCount-oldCount) >= 0 ? " (+" + (newCount-oldCount)+")":" (" + (newCount-oldCount)+")";
 					wbCell.setValue(newCount + diff);
 					doColor(wbCell, oldCount, newCount);
 				}
@@ -201,7 +201,7 @@ public class GenerateSummaryAction extends ActionSupport{
 						oldCount = prevTwoWeekCumu.get(1).get(rU.removeYearFromWeek(prevTwoWeek.get(1)));
 					String diff = " ";
 					if(newCount-oldCount != 0)
-						diff = (newCount-oldCount) >= 0 ? "(+" + (newCount-oldCount)+")":"(" + (newCount-oldCount)+")";
+						diff = (newCount-oldCount) >= 0 ? " (+" + (newCount-oldCount)+")":" (" + (newCount-oldCount)+")";
 					wbCell.setValue(newCount + diff);
 					doColor(wbCell, oldCount, newCount);
 				}
