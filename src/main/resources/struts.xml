@@ -50,6 +50,13 @@
 			<result name="success">Sprint_Report.jsp</result>
 		</action>
 	
+		<action name="getSprintDevQAMembers" class="com.rca.controller.SprintReportAction" method="getSprintDevQAMembers">
+			<result type="stream">
+                <param name="contentType">text/html</param>
+                <param name="inputName">inputStream</param>
+			</result>  
+		</action>
+		
 		<action name="saveRcaDetail" class="com.rca.controller.RcaUtility"
 			method="saveRcaDetail">
 			<result name="success">RCA.jsp</result>

@@ -218,14 +218,16 @@ function calculateWeek()
 	   var dayDiff = null;
 	   var weekValue = document.getElementById("week_id").value;
 	   var weeks = new Array();
-	   var role = "<%=(String) session.getAttribute("role")%>";
+	   var role = "<%=(String) session.getAttribute("role")%>";	  
 	   //alert("Role is: " + role);
 	   if(weekValue != "Select Week")
 		   {
 		 	  weeks = weekValue.split("-");		   
 			  if(weeks[1] != "" || weeks[1] != null)  
 			 	lastWeekDay = new Date(weeks[1]);
-		
+			  
+			  getDevQAMember();
+			 
 			  dayDiff = (todaysDate.getTime() - lastWeekDay.getTime())/(1000*60*60*24);
 		   }
 	   if(dayDiff != null && dayDiff>2 && role != "manager")
@@ -246,6 +248,46 @@ function calculateWeek()
 			   submitReset();
 		   }
    }
+   
+   var xmlhttp;
+   function  getDevQAMember()
+   {
+	   var projectId = document.getElementById("project_id").value;
+	   if(projectId=="0")
+		   return false;
+	   var weekObj = document.getElementById("week_id");
+	   if(weekObj.value=="Select Week")
+		   return false;
+	   var preWeek = weekObj.options[weekObj.selectedIndex-1].value;	 
+	   var URL = "getSprintDevQAMembers?weekStr="+preWeek+"&project_id="+projectId;
+	   if (window.XMLHttpRequest)
+	     {// code for IE7+, Firefox, Chrome, Opera, Safari
+	     	xmlhttp=new XMLHttpRequest();
+	     }
+	   else
+	     {// code for IE6, IE5
+	    	 xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	     }
+	   xmlhttp.onreadystatechange = setDevQAMember;     
+       xmlhttp.open("GET", URL, true);
+       xmlhttp.send(null);	  	
+   }
+   
+   function setDevQAMember() {       
+       if(xmlhttp.readyState==4)
+       {                 
+           var response = xmlhttp.responseText;
+           var devQa = response.split("_");
+           if(devQa[0] |= "null")
+           		document.getElementById("devMembers").value = devQa[0];
+           else
+        	   document.getElementById("devMembers").value = "";
+           if(devQa[1] |= "null")
+           		document.getElementById("qaMembers").value = devQa[1];
+           else
+        	   document.getElementById("qaMembers").value = "";
+       }
+   }  
    function disableTextFields(isDisabled)
    {
 	   var elementIdArray = getElementIdArray();
@@ -301,7 +343,7 @@ function calculateWeek()
 						<td style="float: right;"><label for="project-name">Project
 								Name</label></td>
 						<td colspan="2"><select name="project_id" id="project_id"
-							style="width: 120px;">
+							style="width: 120px;" onchange="getDevQAMember();">
 								<option value="0">Select Project</option>
 								<s:iterator value="projectNameWithId" var="data">
 									<option value='<s:property value="value"/>'
@@ -444,8 +486,7 @@ function calculateWeek()
 							</s:if></td>
 						<td colspan="3"></td>
 					</tr>
-				</table>
-
+				</table>               
 			</form>
 		</div>
 	</div>

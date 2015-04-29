@@ -461,13 +461,13 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 		String result = RcaUtilityDao.saveRcaDetails(rca);
 		
 		if(result.equals("success"))
-			addActionMessage("Rca data submitted successfully");
+			addActionMessage("Rca data submitted successfully.");
 		else if(result.equals("updated"))
-			addActionMessage("Rca data updated successfully");
+			addActionMessage("Rca data updated successfully.");
 		else if(result.equals("udpateFailure"))
-			addActionMessage("Problem in updating Rca data");
+			addActionMessage("Problem in updating Rca data.");
 		else
-			addActionMessage("Problem in submitting Rca data");
+			addActionMessage("Problem in submitting Rca data.");
 		
 		getWeekDates(rca.week);
 		

@@ -1,6 +1,8 @@
 package com.rca.controller;
 
 import java.io.File;
+import java.io.InputStream;
+import java.io.StringBufferInputStream;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,6 +33,7 @@ public class SprintReportAction extends ActionSupport implements ModelDriven<Spr
 	boolean isdisabled = false;
 	private String weekStr = null;
 	private static Map projectNameWithId;
+	private InputStream inputStream;
 	
 	private SprintReportManager sprintReportManager;
 	private ProjectDetailsManager projectDetailsManager;
@@ -68,6 +71,17 @@ public class SprintReportAction extends ActionSupport implements ModelDriven<Spr
 		}
 		
 		getWeekDates(weekStr);
+		return SUCCESS;
+		
+	}
+	
+	public String getSprintDevQAMembers() throws SQLException{
+			
+		sprintReport= sprintReportManager.findWeeklySprintReportByProjectId(weekStr, project_id);
+		if(sprintReport==null){
+			sprintReport=new SprintReport();
+		}			
+	    inputStream = new StringBufferInputStream(sprintReport.getDevMembers()+"_"+ sprintReport.getQaMembers());
 		return SUCCESS;
 		
 	}
@@ -192,14 +206,15 @@ public class SprintReportAction extends ActionSupport implements ModelDriven<Spr
 	public void setProjectNameWithId(Map projectNameWithId) {
 		this.projectNameWithId = projectNameWithId;
 	}
-	
-
+		
 	@Override
 	public SprintReport getModel() {
 		// TODO Auto-generated method stub
 		return sprintReport;
 	}
-	
+	public InputStream getInputStream() {
+	    return inputStream;
+	} 
 	
 
 }

@@ -431,6 +431,16 @@ function calculateWeek()
 
 				</select></td> --%>
 				<!-- <td ><input type="submit" value="Search" id="searchId" onclick="serchRcaData()"/></td> -->
+				 <s:if test="hasActionErrors()">
+                  <td style="color: red; font-size: 13px;">                				 
+				      <s:actionerror/>	
+				      </td>			  
+				</s:if>
+				<s:if test="hasActionMessages()">
+				 <td style="color: blue; font-size: 13px;">
+				      <b><s:actionmessage/></b>	
+				 </td>			   
+				</s:if>	
 				</tr>
 				</table>
 				<table cellspacing="12" class="content-table">
@@ -639,19 +649,7 @@ function calculateWeek()
 				</tr> 
 				
 			  <tr align="center">
-				<td colspan="5" style="padding-top:30px;">
-				
-				<s:if test="hasActionErrors()">
-				   <div class="errors" style="color: red;">
-				      <s:actionerror/>
-				   </div>
-				</s:if>
-				<s:if test="hasActionMessages()">
-				   <div class="success"  style="color: yellow;">
-				      <b><s:actionmessage/></b>
-				   </div>
-				</s:if>				
-				
+				<td colspan="5" style="padding-top:30px;">													
 				</td>
 				<td colspan="3"></td>
 				</tr>
