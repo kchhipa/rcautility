@@ -11,10 +11,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFBorderFormatting;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -35,6 +37,7 @@ public class GenerateSummaryAction extends ActionSupport{
 	private XSSFCellStyle percStyle;
 	private XSSFWorkbook toolSetMatrix;
 	private ReportUtility rU;
+	private XSSFFont defaultFont;
 	
 	private static final Color GREEN = new Color(145, 208, 80);
 	private static final Color RED = new Color(255, 0, 0);
@@ -50,6 +53,8 @@ public class GenerateSummaryAction extends ActionSupport{
 
 	void createWorkBook() throws IOException {
 		toolSetMatrix = new XSSFWorkbook();
+		defaultFont = toolSetMatrix.createFont();
+		defaultFont.setFontName(HSSFFont.FONT_ARIAL);
 		rU = new ReportUtility();
 		createRFSheet();
 		createSummarySheet();
@@ -71,7 +76,7 @@ public class GenerateSummaryAction extends ActionSupport{
 
 	private void createSummarySheet() {
 		XSSFSheet summarySheet = toolSetMatrix.createSheet("Summary Sheet");
-		rU.createSummaryHeaderRows(summarySheet, toolSetMatrix);
+		rU.createSummaryHeaderRows(summarySheet, toolSetMatrix, defaultFont);
 		List<WorkBookRow> wbRows = populateSummarySheetData();
 		int counter = summarySheet.getPhysicalNumberOfRows();
 		for (WorkBookRow wbRow : wbRows) {
@@ -90,6 +95,7 @@ public class GenerateSummaryAction extends ActionSupport{
 			style = (XSSFCellStyle) cell.getCellStyle().clone();
 			style.setFillForegroundColor(new XSSFColor(wbCell.getColor()));
 			style.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
+			style.setFont(defaultFont);
 			setBorderStyle(XSSFBorderFormatting.BORDER_THIN, style);
 			if (wbCell.isFormula())
 				cell.setCellFormula(wbCell.getValue());
@@ -233,13 +239,14 @@ public class GenerateSummaryAction extends ActionSupport{
 	void createRFSheet() {
 		XSSFSheet rankingFrameworkSheet = toolSetMatrix
 				.createSheet("Ranking Framework");
-		rU.createRFHeaderRows(rankingFrameworkSheet, toolSetMatrix);
+		rU.createRFHeaderRows(rankingFrameworkSheet, toolSetMatrix, defaultFont);
 		List<RankingFramework> rankingRows = populateRFData();
 		percStyle = toolSetMatrix.createCellStyle();
 		percStyle.setDataFormat(toolSetMatrix.createDataFormat()
 				.getFormat("0%"));
 		XSSFCellStyle styleYellow = toolSetMatrix.createCellStyle();
 		XSSFCellStyle styleGreen = toolSetMatrix.createCellStyle();
+		XSSFCellStyle defaultStyle = toolSetMatrix.createCellStyle();
 		XSSFColor lightYellow = new XSSFColor(YELLOW);
 		XSSFColor lightGreen = new XSSFColor(GREEN);
 		styleYellow.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
@@ -252,7 +259,7 @@ public class GenerateSummaryAction extends ActionSupport{
 		for (RankingFramework rankingRow : rankingRows)
 		{
 			XSSFRow row = rankingFrameworkSheet.createRow(counter);
-			rU.buildRFColumns(rankingRow, row, rankingFrameworkSheet, percStyle, styleYellow, styleGreen);
+			rU.buildRFColumns(rankingRow, row, rankingFrameworkSheet, percStyle, styleYellow, styleGreen, defaultStyle, defaultFont);
 			counter++;
 		}
 	}
@@ -300,7 +307,7 @@ public class GenerateSummaryAction extends ActionSupport{
 			rankingRow.setPrevWeek((prevRCACount == null)? 0:rU.weeklyBugCountForAllProjectsInQA(prevRCACount));
 			rankingRow.setQaDefectScore("IF(AND(M"+rowCount+">20%,N"+rowCount+">5),0,IF(AND(0%<M"+rowCount+"<20%,N"+rowCount+"<5),10,IF(AND(-20%<M"+rowCount+"<0%,N"+rowCount+"<5),10,IF(AND(M"+rowCount+"<-20%,N"+rowCount+"<5),20,10))))");
 			rankingRow.setRanking("IF(Z"+rowCount+">=85,\"A\",IF(Z"+rowCount+">=75,\"B\",IF(Z"+rowCount+">=60,\"C\",\"D\")))");
-			rankingRow.setRankingComment("Dummy Comment");
+			rankingRow.setRankingComment(" ");
 
 			rankingRow.setReopen(rca.getRoProd()+rca.getRoQa()+rca.getRoUat());
 			rankingRow.setReopenScore("IF(P"+rowCount+"=0,10,IF(P"+rowCount+"=1,5,IF(P"+rowCount+" > 1,0,0)))");

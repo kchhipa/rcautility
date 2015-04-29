@@ -372,7 +372,7 @@ public class RankingFramework implements Comparable<RankingFramework> {
 	 * @return the collaboration
 	 */
 	public int getCollaboration() {
-		this.collaboration = 1;
+		this.collaboration = 0;
 		return collaboration;
 	}
 
