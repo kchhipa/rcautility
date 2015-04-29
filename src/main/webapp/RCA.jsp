@@ -433,18 +433,6 @@ function calculateWeek()
 				<!-- <td ><input type="submit" value="Search" id="searchId" onclick="serchRcaData()"/></td> -->
 				</tr>
 				</table>
-				<div id="manager_sections">
-				<table cellspacing="12" class="content-table">
-				<tr>
-				<td style="float:right;"><label for="data_issue" id="overview_label">Overview Message: </label>
-				<textarea rows="2" cols="60" name="overview_message" id="overview_message" <s:if test="isdisabled==true"> disabled </s:if> ><s:property value="rca.overview_message" /></textarea></td>
-				</tr>
-				<tr>
-				<td style="float:right;"><label for="data_issue" id="risks_label">Risks/Issues: </label>
-				<textarea rows="2" cols="60" name="risks_issues" id="risks_issues" <s:if test="isdisabled==true"> disabled </s:if> ><s:property value="rca.risks_issues" /></textarea></td>
-				</tr>
-				</table>
-				</div>
 				<table cellspacing="12" class="content-table">
 				<tr>
 			    <td style="padding-top: 20px;"></td>			   
@@ -607,6 +595,19 @@ function calculateWeek()
 				<td><input type="text" value="<s:property value="rca.ro_prod" />" name="ro_prod" id="ro_prod" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 				<td></td>
 			</tr>
+			
+			<tr><td colspan="6" style="text-align: left;"><div id="manager_sections">
+				<table cellspacing="12">
+				<tr>
+				<td style="float:left;"><label for="data_issue" id="overview_label">Overview Message: </label>
+				<textarea rows="2" cols="66" name="overview_message" maxlength="1500" id="overview_message" <s:if test="isdisabled==true"> disabled </s:if> ><s:property value="rca.overview_message" /></textarea></td>
+				</tr>
+				<tr>
+				<td style="float:left;"><label for="data_issue" id="risks_label">Risks/Issues: </label>
+				<textarea rows="2" cols="66" name="risks_issues" maxlength="1500" id="risks_issues" <s:if test="isdisabled==true"> disabled </s:if> ><s:property value="rca.risks_issues" /></textarea></td>
+				</tr>
+				</table>
+				</div></td></tr>
 			<%-- </table>
 			
 			<table cellspacing="12" class="content-table">

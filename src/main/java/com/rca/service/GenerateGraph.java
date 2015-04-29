@@ -107,6 +107,10 @@ public class GenerateGraph
 		plot.getRangeAxis().setTickLabelFont(font);
 		domainAxis.setTickLabelPaint(Color.BLACK);
 		plot.getRangeAxis().setTickLabelPaint(Color.BLACK);
+		domainAxis.setLabelFont(font);
+		domainAxis.setLabelPaint(Color.BLACK);
+		plot.getRangeAxis().setLabelFont(font);
+		plot.getRangeAxis().setLabelPaint(Color.BLACK);
 		domainAxis.setCategoryLabelPositions(CategoryLabelPositions
 					.createUpRotationLabelPositions(Math.PI / 7.0));
 	}

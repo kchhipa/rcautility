@@ -726,7 +726,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		txt1.setText(rcaCount.get(0).getProjectDetails().getProjectName() + " Dashboard");
 		txt1.setAnchor(new java.awt.Rectangle(0, 0, (ppt.getPageSize().width/2)+30, (ppt.getPageSize().height/2)/10));
 		RichTextRun rt1 = txt1.getTextRun().getRichTextRuns()[0];
-		rt1.setFontSize(18);
+		rt1.setFontSize(30);
 		rt1.setFontName("Franklin Gothic Medium");
 		rt1.setAlignment(TextBox.AlignLeft);
 		slide.addShape(txt1);
@@ -772,7 +772,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			}
 			
 		}
-		txt2.setAnchor(new java.awt.Rectangle(ppt.getPageSize().width/2+20, 20, ppt.getPageSize().width/2-50, ppt.getPageSize().height/2-50));
+		txt2.setAnchor(new java.awt.Rectangle(ppt.getPageSize().width/2+50, 20, ppt.getPageSize().width/2-50, ppt.getPageSize().height/2-50));
 		RichTextRun rt2Heading = tr.getRichTextRuns()[0];
 		rt2Heading.setFontSize(18);
 		rt2Heading.setFontName("Franklin Gothic Medium");
@@ -805,7 +805,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		slide.addShape(pict5);
 		if(idx5!=0){
 			Picture pict6 = new Picture(idx5);
-			pict6.setAnchor(new java.awt.Rectangle(2, 30, (pageheight*4)/2, pageheight));
+			pict6.setAnchor(new java.awt.Rectangle(2, 40, (pageheight*4)/2, pageheight));
 			slide.addShape(pict6);
 		}
 		// reading an image
