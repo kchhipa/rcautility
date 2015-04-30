@@ -40,11 +40,11 @@ function displayRcaPage()
 	document.RCA_Form.action="getRcaDetail";
 	document.RCA_Form.submit(); 
 }
-function generateReportForSprint()
+/* function generateReportForSprint()
 {
 	document.RCA_Form.action="sprintReportView";
 	document.RCA_Form.submit(); 
-}
+} */
 function generateSummary()
 {
 	document.RCA_Form.action="generateSummarySlide";
@@ -58,7 +58,7 @@ function generateSummary()
 		    <li><a href="javascript:displayRcaPage()">Enter Last Week Data </a></li>
 	    	<li><a href="javascript:importData();">Import Last Week Data</a></li>
 			<li><a href="javascript:templateDownload();">Download Template</a></li>
-			<li><a href="javascript:generateReportForSprint();" >Enter Sprint Data</a></li>
+			<li><a href="sprintReportView" >Enter Sprint Data</a></li>
 			  <s:if test="#session.role != null && #session.role.equals('manager')">
 				   <li><a href="exportWeeklyData.jsp">Export Weekly Data</a></li>
 				   <li><a href="javascript:generateReport()">Generate Reports</a></li>	
