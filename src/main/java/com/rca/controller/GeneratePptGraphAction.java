@@ -722,11 +722,20 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		}
 		
 		/* Correcting the Project Dashboard name location & Adding Overview/Risk Issues section in Individual Project PPTs - Begins */
+		/*TextBox txt1 = new TextBox();
+		txt1.setText(rcaCount.get(0).getProjectDetails().getProjectName() + " Dashboard");*/
 		TextBox txt1 = new TextBox();
-		txt1.setText(rcaCount.get(0).getProjectDetails().getProjectName() + " Dashboard");
-		txt1.setAnchor(new java.awt.Rectangle(0, 0, (ppt.getPageSize().width/2)+30, (ppt.getPageSize().height/2)/10));
+		//if (null != rcaCount.get(0).getProjectDetails() && null != rcaCount.get(0).getProjectDetails().getActionTeam()){
+		StringBuilder actionTeam = new StringBuilder();
+		actionTeam.append(rcaCount.get(0).getProjectDetails().getProjectName())
+		.append(null != rcaCount.get(0).getProjectDetails().getActionTeam()? '('+rcaCount.get(0).getProjectDetails().getActionTeam().replaceAll("\\s", "").replace('+', '/')+')':"")
+		.append(" Dashboard");
+		//}
+		txt1.setText(actionTeam.toString());
+		
+		txt1.setAnchor(new java.awt.Rectangle(0, 0, (ppt.getPageSize().width)+30, (ppt.getPageSize().height/2)/10));
 		RichTextRun rt1 = txt1.getTextRun().getRichTextRuns()[0];
-		rt1.setFontSize(30);
+		rt1.setFontSize(25);
 		rt1.setFontName("Franklin Gothic Medium");
 		rt1.setAlignment(TextBox.AlignLeft);
 		slide.addShape(txt1);
