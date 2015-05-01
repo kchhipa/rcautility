@@ -168,7 +168,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			txt1.setText("Reported QA");
 			txt1.setAnchor(new java.awt.Rectangle(0, 0, pageWidth+30, pageheight/10));
 			RichTextRun rt1 = txt1.getTextRun().getRichTextRuns()[0];
-			rt1.setFontSize(18);
+			rt1.setFontSize(25);
 			rt1.setFontName("Franklin Gothic Medium");
 			rt1.setAlignment(TextBox.AlignLeft);
 			slide.addShape(txt1);
@@ -224,7 +224,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			txt1.setText("Reported Prod");
 			txt1.setAnchor(new java.awt.Rectangle(0, 0, pageWidth+30, pageheight/10));
 			RichTextRun rt1 = txt1.getTextRun().getRichTextRuns()[0];
-			rt1.setFontSize(18);
+			rt1.setFontSize(25);
 			rt1.setFontName("Franklin Gothic Medium");
 			rt1.setAlignment(TextBox.AlignLeft);
 			slide.addShape(txt1);
@@ -279,7 +279,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			txt1.setText("Reported UAT");
 			txt1.setAnchor(new java.awt.Rectangle(0, 0, pageWidth+30, pageheight/10));
 			RichTextRun rt1 = txt1.getTextRun().getRichTextRuns()[0];
-			rt1.setFontSize(18);
+			rt1.setFontSize(25);
 			rt1.setFontName("Franklin Gothic Medium");
 			rt1.setAlignment(TextBox.AlignLeft);
 			slide.addShape(txt1);
@@ -334,7 +334,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			txt1.setText("Cumulative Open");
 			txt1.setAnchor(new java.awt.Rectangle(0, 0, pageWidth+30, pageheight/10));
 			RichTextRun rt1 = txt1.getTextRun().getRichTextRuns()[0];
-			rt1.setFontSize(18);
+			rt1.setFontSize(25);
 			rt1.setFontName("Franklin Gothic Medium");
 			rt1.setAlignment(TextBox.AlignLeft);
 			slide.addShape(txt1);
@@ -621,7 +621,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		txt1.setAnchor(new java.awt.Rectangle(0, 0, pageWidth+30,
 				pageheight / 10));
 		RichTextRun rt1 = txt1.getTextRun().getRichTextRuns()[0];
-		rt1.setFontSize(18);
+		rt1.setFontSize(25);
 		rt1.setFontName("Franklin Gothic Medium");
 		rt1.setAlignment(TextBox.AlignLeft);
 		reopenSlide.addShape(txt1);
