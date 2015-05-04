@@ -1538,7 +1538,7 @@ return total;
 	public void createRFHeaderRows(XSSFSheet rankingFrameworkSheet, XSSFWorkbook toolSetMatrix, XSSFFont defaultFont)
 	{
 		XSSFRow headerRow = rankingFrameworkSheet.createRow(0);
-		String header = "Action Team Name, Client, Agile Compliance, Score,	Client code defects(PROD+UAT), Score, Tool Compliance, Score, Junit Test coverage, Score, Previous Week, Current Week, % Change, Absolute Change, Score, Re-open, Score, Collaboration, Score, Cumulative Backlog, Score, Missed requirements, Score, Risk, Score, Total score, Ranking, Actual Used, Ranking Comment";
+		String header = "Action Team Name, Client, Agile Compliance, Score,	Client code defects(PROD+UAT), Score, Tool Compliance, Score, Junit Test coverage, Score, Previous Week(QA), Current Week(QA), % Change(QA), Absolute Change(QA), Score, Re-open, Score, Collaboration, Score, Cumulative Backlog, Score, Missed requirements, Score, Risk, Score, Total score, Ranking, Actual Used, Ranking Comment";
 		String[] headerCells = header.split(",");
 		int columnIndex = 0;
 		XSSFCellStyle headerStyleBlue = toolSetMatrix.createCellStyle();

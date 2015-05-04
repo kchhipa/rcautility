@@ -294,7 +294,7 @@ public class GenerateSummaryAction extends ActionSupport{
 			prevTwoWeekRCAList.add(rca);
 			prevTwoWeekRCAList.add(prevRCACount);
 			List<Map<String, Integer>> prevTwoWeekCumu = rU.reportedCumulativeOpenAllWeeksGraphForAllProject(prevTwoWeekRCAList, prevTwoWeek);
-			rankingRow.setCumulativeBacklog(prevTwoWeekCumu.get(1).get(rU.removeYearFromWeek(prevTwoWeek.get(1))) - prevTwoWeekCumu.get(0).get(rU.removeYearFromWeek(prevTwoWeek.get(0))));
+			rankingRow.setCumulativeBacklog(prevTwoWeekCumu.get(0).get(rU.removeYearFromWeek(prevTwoWeek.get(0))) - prevTwoWeekCumu.get(1).get(rU.removeYearFromWeek(prevTwoWeek.get(1))));
 			rankingRow.setCumulativeBacklogScore("IF(T"+rowCount+"<=-5,10,IF(T"+rowCount+"<=0,5,IF(T"+rowCount+"<=5,3,0)))");
 
 			rankingRow.setCurrWeek(rU.weeklyBugCountForAllProjectsInQA(rca));
