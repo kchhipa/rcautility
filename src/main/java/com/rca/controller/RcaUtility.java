@@ -58,8 +58,20 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 	private static Map projectNameWithId;
 	private static Map session;
 	ArrayList<RCA> projectList;
+	String week2;
+	String weekInterval;
+	
 	
 		
+
+	public String getWeekInterval() {
+		return weekInterval;
+	}
+
+	public void setWeekInterval(String weekInterval) {
+		this.weekInterval = weekInterval;
+	}
+
 	public String execute()
 	{		
 		RcaUtilityDao.getRcaDetail(rca);
@@ -152,6 +164,9 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 	    return weeks;
 	}
 
+	public static void main(String s[]){
+		System.out.println(findWeeks());
+	}
 	
 	public String templateDownload() throws IOException, WriteException
 	{
@@ -515,56 +530,46 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 		}
 	}
 
-public String exportData() throws IOException, RowsExceededException, WriteException, BiffException 
-{
-	 List<RCA> rcaList=null;;
-	if(rca.week==null)
-	{
-		addActionMessage("Week is Mandatory");
+	public String exportData() throws IOException, RowsExceededException,
+			WriteException, BiffException {
+		List<RCA> rcaList = null;
+		if (rca.week == null) {
+			addActionMessage("Week is Mandatory");
+		} else {
+			File file = new File("RCA.xlsx");
+			WorkbookSettings wbSettings = new WorkbookSettings();
+			wbSettings.setLocale(new Locale("en", "EN"));
+			WritableWorkbook workbook = Workbook.createWorkbook(file,wbSettings);
+			WritableSheet sheet = workbook.createSheet("RCA", 0);
+			WritableCellFormat cellFormatProject = getCellFormatRcaType(Colour.GRAY_25, Pattern.GRAY_75);
+			WritableCellFormat cellFormatRcaType = getCellFormatRcaType(Colour.GRAY_25, Pattern.GRAY_75);
+
+			String[] weekIntervals = this.weekInterval!= null ? this.weekInterval.split(","): new String[]{rca.week};
+			int rowNumber = 2;
+			for (String string : weekIntervals) {
+				rca.setWeek(string);
+				getProjectLabels(sheet, cellFormatProject, rowNumber);
+				getRcaTypeLabelsForExport(sheet, cellFormatRcaType, rowNumber-1, 1);
+				rcaList = RcaUtilityDao.getRcaDetailList(rca);
+				if (rcaList != null && rcaList.size() > 0) {
+					writeRcaData(sheet, rcaList, rowNumber);
+				}
+				rowNumber = rowNumber+28;
+			}
+			workbook.write();
+			fileInputStream = new FileInputStream(new File("RCA.xlsx"));
+			workbook.close();
+		}
+		return "success";
+
 	}
-	else
-	{
-		 rcaList=RcaUtilityDao.getRcaDetailList(rca);	
-		 
-	}	
-	
-	Label label=null;
-	File file=new File("RCA.xlsx");
-	WorkbookSettings wbSettings = new WorkbookSettings();
 
-    wbSettings.setLocale(new Locale("en", "EN"));
-
-    WritableWorkbook workbook = Workbook.createWorkbook(file, wbSettings);
-    WritableSheet sheet= workbook.createSheet("RCA", 0);
-    WritableCellFormat cellFormatProject=getCellFormatRcaType(Colour.GRAY_25, Pattern.GRAY_75); 
-    WritableCellFormat cellFormatRcaType=getCellFormatRcaType(Colour.GRAY_25, Pattern.GRAY_75); 
-    
-    getProjectLabels(sheet, cellFormatProject);
-    
-    getRcaTypeLabelsForExport(sheet, cellFormatRcaType,1,1);
-    
-    if(rcaList !=null && rcaList.size()>0)
-    {
-     writeRcaData(sheet,rcaList);
-    }
-  
-    
-    
-    workbook.write();
-    fileInputStream = new FileInputStream(new File("RCA.xlsx")); 
-    
-    workbook.close();
-	return "success";
-	
-}
-
-
-private void writeRcaData(WritableSheet sheet, List<RCA> rcaList) throws RowsExceededException, WriteException {
+private void writeRcaData(WritableSheet sheet, List<RCA> rcaList, int rowNumber) throws RowsExceededException, WriteException {
 	
 	
 	for (RCA rca :rcaList)
 	{
-		int row=2;
+		int row=rowNumber;
 		int col=0;
 		
 				
@@ -1286,10 +1291,10 @@ private void getRcaTypeLabelsForTemplateDownload(WritableSheet sheet, WritableCe
 }
 
 
-private void getProjectLabels(WritableSheet sheet, WritableCellFormat cellFormat)
+private void getProjectLabels(WritableSheet sheet, WritableCellFormat cellFormat, int rowNumber)
 		throws WriteException, RowsExceededException {
 	Label label;
-	int i=1;
+	int i=rowNumber-1;
 	int mergeColStart=1;
 	int mergeColEnd=1;
 	
@@ -1300,8 +1305,8 @@ private void getProjectLabels(WritableSheet sheet, WritableCellFormat cellFormat
 	 cellFormatDate.setBorder(Border.ALL,BorderLineStyle.MEDIUM);
 	 cellFormatDate.setAlignment(Alignment.CENTRE);
 	    
-	sheet.mergeCells(0, 1, 0, 14);
-	label = new Label(0,1, rca.week,cellFormatDate);
+	sheet.mergeCells(0, rowNumber, 0, rowNumber+25);
+	label = new Label(0, rowNumber, rca.week,cellFormatDate);
     sheet.addCell(label);
 	
     mergeColStart=mergeColEnd+1;
@@ -1879,6 +1884,14 @@ private static WritableCellFormat getCellFormatRcaType(Colour colour, Pattern pa
 
 	public void setSession(Map session) {
 		RcaUtility.session = session;
+	}
+
+	public String getWeek2() {
+		return week2;
+	}
+
+	public void setWeek2(String week2) {
+		this.week2 = week2;
 	}
 
 
