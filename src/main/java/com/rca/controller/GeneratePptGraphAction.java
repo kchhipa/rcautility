@@ -760,7 +760,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		//if (null != rcaCount.get(0).getProjectDetails() && null != rcaCount.get(0).getProjectDetails().getActionTeam()){
 		StringBuilder actionTeam = new StringBuilder();
 		actionTeam.append(rcaCount.get(0).getProjectDetails().getProjectName())
-		.append(null != rcaCount.get(0).getProjectDetails().getActionTeam()? '('+rcaCount.get(0).getProjectDetails().getActionTeam().replaceAll("\\s", "").replace('+', '/')+')':"")
+		.append(null != rcaCount.get(0).getProjectDetails().getActionTeam()? " ("+rcaCount.get(0).getProjectDetails().getActionTeam().replaceAll("\\s", "").replace('+', '/')+')':"")
 		.append(" Dashboard");
 		//}
 		txt1.setText(actionTeam.toString());
