@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +60,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	SlideShow ppt = null;
 	GenerateGraph generateGraph = new GenerateGraph();
 	ReportUtility rU = new ReportUtility();
+	Map<String, Integer> projectNameWithCcbCount;
 	
 	
 	int idx = 0;
@@ -177,8 +179,13 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			txt2.setText("Total " + totalWeeklyBugCount + "\n" + "\n");
 			
 			TextRun tr = txt2.createTextRun();
-			if(calculateTotalBugTypeCountForQA(rcaCounts, CLIENT_CODE_BUG) != 0){
+			if(calculateTotalBugTypeCountForQA(rcaCounts, CLIENT_CODE_BUG) == 0){
+				tr.appendText(0 +" Client Code Defect" + "\n");
+			}
+			else
+			{
 				tr.appendText(calculateTotalBugTypeCountForQA(rcaCounts, CLIENT_CODE_BUG) +" Client Code Defect" + "\n");
+				fillProjectNameWithCcbCount(projectNameWithCcbCount,tr);		
 			}
 			if(calculateTotalBugTypeCountForQA(rcaCounts, MISSED_REQUIREMENT) != 0){
 				tr.appendText(calculateTotalBugTypeCountForQA(rcaCounts, MISSED_REQUIREMENT) + " Missed Requirement" +  "\n");
@@ -208,7 +215,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			rt2Heading.setFontName("Franklin Gothic Medium");
 			for(int i=1; i<tr.getRichTextRuns().length;i++){
 				RichTextRun rt2 = tr.getRichTextRuns()[i];
-				rt2.setFontSize(14);
+				rt2.setFontSize(12);
 				rt2.setFontName("Franklin Gothic Body");
 				rt2.setAlignment(TextBox.AlignLeft);
 			}
@@ -233,8 +240,13 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			txt2.setText("Total " + totalWeeklyBugCount + "\n" + "\n");
 			
 			TextRun tr = txt2.createTextRun();
-			if(calculateTotalBugTypeCountForProd(rcaCounts, CLIENT_CODE_BUG) != 0){
+			if(calculateTotalBugTypeCountForProd(rcaCounts, CLIENT_CODE_BUG) == 0){
+				tr.appendText(0 +" Client Code Defect" + "\n");
+			}
+			else
+			{
 				tr.appendText(calculateTotalBugTypeCountForProd(rcaCounts, CLIENT_CODE_BUG) +" Client Code Defect" + "\n");
+				fillProjectNameWithCcbCount(projectNameWithCcbCount, tr);
 			}
 			if(calculateTotalBugTypeCountForProd(rcaCounts, MISSED_REQUIREMENT) != 0){
 				tr.appendText(calculateTotalBugTypeCountForProd(rcaCounts, MISSED_REQUIREMENT) + " Missed Requirement" +  "\n");
@@ -288,8 +300,13 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			txt2.setText("Total " + totalWeeklyBugCount + "\n" + "\n");
 			
 			TextRun tr = txt2.createTextRun();
-			if(calculateTotalBugTypeCountForUAT(rcaCounts, CLIENT_CODE_BUG) != 0){
+			if(calculateTotalBugTypeCountForUAT(rcaCounts, CLIENT_CODE_BUG) == 0){
+				tr.appendText(0 +" Client Code Defect" + "\n");
+			}
+			else
+			{
 				tr.appendText(calculateTotalBugTypeCountForUAT(rcaCounts, CLIENT_CODE_BUG) +" Client Code Defect" + "\n");
+				fillProjectNameWithCcbCount(projectNameWithCcbCount, tr);
 			}
 			if(calculateTotalBugTypeCountForUAT(rcaCounts, MISSED_REQUIREMENT) != 0){
 				tr.appendText(calculateTotalBugTypeCountForUAT(rcaCounts, MISSED_REQUIREMENT) + " Missed Requirement" +  "\n");
@@ -497,6 +514,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		int totalBugTypeCount = 0;
 		
 		RcaCount rcaCount = null;
+		projectNameWithCcbCount = new HashMap<String, Integer>();
 		
 		Iterator<RcaCount> it = rcaCounts.iterator();
 		while(it.hasNext()){
@@ -515,7 +533,11 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			else if(bugType.equals(CHANGE_REQUIREMENT))
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyCRCountForAllIssuesInProd(rcaCount);
 			else if(bugType.equals(CLIENT_CODE_BUG))
+			{
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyClientCodeBugForAllIssuesInProd(rcaCount);
+				if(projectNameWithCcbCount!=null && rcaCount.getCcbProd()!=0)
+					projectNameWithCcbCount.put(rcaCount.getProjectDetails().getProjectName(), rcaCount.getCcbProd());
+			}
 			else if(bugType.equals(PRODUCT_DEFECT))
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyProductDefectForAllIssuesInProd(rcaCount);
 
@@ -535,6 +557,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		int totalBugTypeCount = 0;
 		
 		RcaCount rcaCount = null;
+		projectNameWithCcbCount = new HashMap<String, Integer>();
 		
 		Iterator<RcaCount> it = rcaCounts.iterator();
 		while(it.hasNext()){
@@ -553,7 +576,11 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			else if(bugType.equals(CHANGE_REQUIREMENT))
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyCRCountForAllIssuesInQA(rcaCount);
 			else if(bugType.equals(CLIENT_CODE_BUG))
+			{
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyClientCodeBugForAllIssuesInQA(rcaCount);
+				if(projectNameWithCcbCount!=null && rcaCount.getCcbQa() !=0)
+					projectNameWithCcbCount.put(rcaCount.getProjectDetails().getProjectName(), rcaCount.getCcbQa());
+			}			
 			else if(bugType.equals(PRODUCT_DEFECT))
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyProductDefectForAllIssuesInQA(rcaCount);
 
@@ -573,6 +600,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		int totalBugTypeCount = 0;
 		
 		RcaCount rcaCount = null;
+		projectNameWithCcbCount = new HashMap<String, Integer>();
 		
 		Iterator<RcaCount> it = rcaCounts.iterator();
 		while(it.hasNext()){
@@ -591,7 +619,11 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			else if(bugType.equals(CHANGE_REQUIREMENT))
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyCRCountForAllIssuesInUAT(rcaCount);
 			else if(bugType.equals(CLIENT_CODE_BUG))
+			{
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyClientCodeBugForAllIssuesInUAT(rcaCount);
+				if(projectNameWithCcbCount!=null && rcaCount.getCcbUat()!=0)
+					projectNameWithCcbCount.put(rcaCount.getProjectDetails().getProjectName(), rcaCount.getCcbUat());
+			}
 			else if(bugType.equals(PRODUCT_DEFECT))
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyProductDefectForAllIssuesInUAT(rcaCount);
 
@@ -830,6 +862,16 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		Log.debug("Exit createGraphIndividualPpt");
 	}
 	
+	private void fillProjectNameWithCcbCount(Map<String, Integer> projectNameWithCCb , TextRun tr)
+	{
+		if(projectNameWithCCb!=null && projectNameWithCCb.size()!=0)
+		{
+			for(Map.Entry<String, Integer> entry : projectNameWithCCb.entrySet())
+			{
+				tr.appendText("       "+entry.getKey() + " (" +entry.getValue()+"):\n");
+			}
+		}
+	}
 	
 	public Map getSession() {
 		return session;
@@ -876,6 +918,15 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 
 	public void setSprintReportManager(SprintReportManager sprintReportManager) {
 		this.sprintReportManager = sprintReportManager;
+	}
+
+	public Map<String, Integer> getProjectNameWithCcbCount() {
+		return projectNameWithCcbCount;
+	}
+
+	public void setProjectNameWithCcbCount(
+			Map<String, Integer> projectNameWithCcbCount) {
+		this.projectNameWithCcbCount = projectNameWithCcbCount;
 	}
 	
 	
