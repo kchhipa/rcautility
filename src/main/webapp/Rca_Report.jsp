@@ -171,7 +171,7 @@
 		
 		
 		<div id="weeklyDiv" style="display: block;"> 
-		<form method="post" name="RCA_Form1" id="RCA_Form" onsubmit="return false" enctype="multipart/form-data" >
+		<form method="post" name="RCA_Form" id="RCA_Form" onsubmit="return false" enctype="multipart/form-data" >
 		
 		  <table cellspacing="30" class="content-table">
 
