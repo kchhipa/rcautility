@@ -116,10 +116,477 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		//Adding Project 
 		createProjectSpecificGraphs(week);
 		
+		//Adding Comments Slide 
+		addPptSlidesComments(rcaCounts);
+		
 		FileOutputStream out = new FileOutputStream(
 				"D:\\Weekly review.ppt");
 		ppt.write(out);
 		out.close();
+	}
+	
+	
+	
+	
+	/**
+	 * Generic Method to add comments slide in PPT as per requirements.
+	 * @param rcaCounts
+	 * @throws IOException
+	 */
+	public void addPptSlidesComments(List<RcaCount> rcaCounts)
+			throws IOException {
+
+		Slide slide = ppt.createSlide();
+		int pageWidth = ppt.getPageSize().width;
+		int pageheight = ppt.getPageSize().height;
+		// add a new picture to this slideshow and insert it in a new slide
+		List<RcaCount> allWeeksrcaCounts = rcaManager
+				.findRCAReportForMultipleWeek(rca.getWeek());
+
+		TextBox txt2 = new TextBox();
+		txt2.setText("UAT");
+
+		TextRun tr = txt2.createTextRun();
+		
+		tr.appendText(addUatComments(rcaCounts));
+		
+		tr.appendText("\n\n");
+		
+		tr.appendText("PROD");
+		
+		tr.appendText(addProdComments(rcaCounts));
+		
+		tr.appendText("\n\n");
+		
+		tr.appendText("QA");
+		
+		tr.appendText(addQAComments(rcaCounts));
+		
+		tr.appendText("\n\n");
+		
+		tr.appendText("OPEN");
+		
+		tr.appendText(addOpenComments(rcaCounts));
+		
+		txt2.setAnchor(new java.awt.Rectangle(0, 0, pageWidth,
+				pageheight));
+		RichTextRun rt2Heading = tr.getRichTextRuns()[0];
+		rt2Heading.setFontSize(12);
+		rt2Heading.setFontName("Franklin Gothic Medium");
+		for(int i=1; i<tr.getRichTextRuns().length;i++){
+			RichTextRun rt2 = tr.getRichTextRuns()[i];
+			if(rt2.getText().equalsIgnoreCase("PROD")||rt2.getText().equalsIgnoreCase("QA")||rt2.getText().equalsIgnoreCase("OPEN")){
+				rt2.setFontSize(12);
+				rt2.setFontName("Franklin Gothic Medium");
+			}else{
+				rt2.setFontSize(11);
+				rt2.setFontName("Franklin Gothic Body");
+				rt2.setAlignment(TextBox.AlignLeft);
+			}
+		}
+		slide.addShape(txt2);
+
+	}
+	
+public String addUatComments(List<RcaCount> rcaCounts){
+		
+		String uatText="";
+		RcaCount rcaCount = null;
+
+		Iterator<RcaCount> it = rcaCounts.iterator();
+		while (it.hasNext()) {
+
+			rcaCount = (RcaCount) it.next();
+			int total = calculateBugTypeCountForUATPerProject(rcaCount,
+					CLIENT_CODE_BUG)
+					+ calculateBugTypeCountForUATPerProject(rcaCount,
+							MISSED_REQUIREMENT)
+					+ calculateBugTypeCountForUATPerProject(rcaCount,
+							CHANGE_REQUIREMENT)
+					+ calculateBugTypeCountForUATPerProject(rcaCount,
+							INTEGRATION_ISSUE)
+					+ calculateBugTypeCountForUATPerProject(rcaCount,
+							CONFIGURATION_ISSUE)
+					+ calculateBugTypeCountForUATPerProject(rcaCount,
+							DATA_ISSUE)
+					+ calculateBugTypeCountForUATPerProject(rcaCount,
+							MIX_CATEGORY)
+					+ calculateBugTypeCountForUATPerProject(rcaCount,
+							PRODUCT_DEFECT);
+			if (total > 0) {
+				uatText+="\n"
+						+ rcaCount.getProjectDetails().getProjectName() + "("+total+") : ";
+				if (calculateBugTypeCountForUATPerProject(rcaCount,
+						CLIENT_CODE_BUG) != 0) {
+					uatText+=calculateBugTypeCountForUATPerProject(
+							rcaCount, CLIENT_CODE_BUG) + " Client Code Defect, ";
+				}
+				if (calculateBugTypeCountForUATPerProject(rcaCount,
+						MISSED_REQUIREMENT) != 0) {
+					uatText+=calculateBugTypeCountForUATPerProject(
+							rcaCount, MISSED_REQUIREMENT)
+							+ " Missed Requirement, ";
+				}
+				if (calculateBugTypeCountForUATPerProject(rcaCount,
+						CHANGE_REQUIREMENT) != 0) {
+					uatText+=calculateBugTypeCountForUATPerProject(
+							rcaCount, CHANGE_REQUIREMENT)
+							+ " Change Requirement, ";
+				}
+				if (calculateBugTypeCountForUATPerProject(rcaCount,
+						INTEGRATION_ISSUE) != 0) {
+					uatText+=calculateBugTypeCountForUATPerProject(
+							rcaCount, INTEGRATION_ISSUE) + " Integration Issue, ";
+				}
+				if (calculateBugTypeCountForUATPerProject(rcaCount,
+						CONFIGURATION_ISSUE) != 0) {
+					uatText+=calculateBugTypeCountForUATPerProject(
+							rcaCount, CONFIGURATION_ISSUE)
+							+ " Configuration Issue, ";
+				}
+				if (calculateBugTypeCountForUATPerProject(rcaCount, DATA_ISSUE) != 0) {
+					uatText+=calculateBugTypeCountForUATPerProject(
+							rcaCount, DATA_ISSUE) + " Data Issue, ";
+				}
+				if (calculateBugTypeCountForUATPerProject(rcaCount,
+						MIX_CATEGORY) != 0) {
+					uatText+=calculateBugTypeCountForUATPerProject(
+							rcaCount, MIX_CATEGORY) + " Others, ";
+				}
+				if (calculateBugTypeCountForUATPerProject(rcaCount,
+						PRODUCT_DEFECT) != 0) {
+					uatText+=calculateBugTypeCountForUATPerProject(
+							rcaCount, PRODUCT_DEFECT) + " Product Defect";
+				}
+			}
+
+		}
+		return uatText;
+		
+	}
+	
+public String addProdComments(List<RcaCount> rcaCounts){
+		
+		String prodText="";
+		RcaCount rcaCount = null;
+
+		Iterator<RcaCount> it = rcaCounts.iterator();
+		while (it.hasNext()) {
+
+			rcaCount = (RcaCount) it.next();
+			int total = calculateBugTypeCountForProdPerProject(rcaCount,
+					CLIENT_CODE_BUG)
+					+ calculateBugTypeCountForProdPerProject(rcaCount,
+							MISSED_REQUIREMENT)
+					+ calculateBugTypeCountForProdPerProject(rcaCount,
+							CHANGE_REQUIREMENT)
+					+ calculateBugTypeCountForProdPerProject(rcaCount,
+							INTEGRATION_ISSUE)
+					+ calculateBugTypeCountForProdPerProject(rcaCount,
+							CONFIGURATION_ISSUE)
+					+ calculateBugTypeCountForProdPerProject(rcaCount,
+							DATA_ISSUE)
+					+ calculateBugTypeCountForProdPerProject(rcaCount,
+							MIX_CATEGORY)
+					+ calculateBugTypeCountForProdPerProject(rcaCount,
+							PRODUCT_DEFECT);
+			if (total > 0) {
+				prodText+="\n"
+						+ rcaCount.getProjectDetails().getProjectName() + "("+total+") : ";
+				if (calculateBugTypeCountForProdPerProject(rcaCount,
+						CLIENT_CODE_BUG) != 0) {
+					prodText+=calculateBugTypeCountForProdPerProject(
+							rcaCount, CLIENT_CODE_BUG) + " Client Code Defect";
+				}
+				if (calculateBugTypeCountForProdPerProject(rcaCount,
+						MISSED_REQUIREMENT) != 0) {
+					prodText+=calculateBugTypeCountForProdPerProject(
+							rcaCount, MISSED_REQUIREMENT)
+							+ " Missed Requirement, ";
+				}
+				if (calculateBugTypeCountForProdPerProject(rcaCount,
+						CHANGE_REQUIREMENT) != 0) {
+					prodText+=(calculateBugTypeCountForProdPerProject(
+							rcaCount, CHANGE_REQUIREMENT)
+							+ " Change Requirement, ");
+				}
+				if (calculateBugTypeCountForProdPerProject(rcaCount,
+						INTEGRATION_ISSUE) != 0) {
+					prodText+=calculateBugTypeCountForProdPerProject(
+							rcaCount, INTEGRATION_ISSUE) + " Integration Issue, ";
+				}
+				if (calculateBugTypeCountForProdPerProject(rcaCount,
+						CONFIGURATION_ISSUE) != 0) {
+					prodText+=calculateBugTypeCountForProdPerProject(
+							rcaCount, CONFIGURATION_ISSUE)
+							+ " Configuration Issue, ";
+				}
+				if (calculateBugTypeCountForProdPerProject(rcaCount, DATA_ISSUE) != 0) {
+					prodText+=calculateBugTypeCountForProdPerProject(
+							rcaCount, DATA_ISSUE) + " Data Issue, ";
+				}
+				if (calculateBugTypeCountForProdPerProject(rcaCount,
+						MIX_CATEGORY) != 0) {
+					prodText+=calculateBugTypeCountForProdPerProject(
+							rcaCount, MIX_CATEGORY) + " Others, ";
+				}
+				if (calculateBugTypeCountForProdPerProject(rcaCount,
+						PRODUCT_DEFECT) != 0) {
+					prodText+=calculateBugTypeCountForProdPerProject(
+							rcaCount, PRODUCT_DEFECT) + " Product Defect";
+				}
+			}
+
+		}
+		return prodText;
+		
+	}
+
+public String addQAComments(List<RcaCount> rcaCounts){
+	
+	String qaText="";
+	RcaCount rcaCount = null;
+
+	Iterator<RcaCount> it = rcaCounts.iterator();
+	while (it.hasNext()) {
+
+		rcaCount = (RcaCount) it.next();
+		int total = calculateBugTypeCountForQAPerProject(rcaCount,
+				CLIENT_CODE_BUG)
+				+ calculateBugTypeCountForQAPerProject(rcaCount,
+						MISSED_REQUIREMENT)
+				+ calculateBugTypeCountForQAPerProject(rcaCount,
+						CHANGE_REQUIREMENT)
+				+ calculateBugTypeCountForQAPerProject(rcaCount,
+						INTEGRATION_ISSUE)
+				+ calculateBugTypeCountForQAPerProject(rcaCount,
+						CONFIGURATION_ISSUE)
+				+ calculateBugTypeCountForQAPerProject(rcaCount,
+						DATA_ISSUE)
+				+ calculateBugTypeCountForQAPerProject(rcaCount,
+						MIX_CATEGORY)
+				+ calculateBugTypeCountForQAPerProject(rcaCount,
+						PRODUCT_DEFECT);
+		if (total > 0) {
+			qaText+="\n"
+					+ rcaCount.getProjectDetails().getProjectName() + "("+total+") : ";
+			if (calculateBugTypeCountForQAPerProject(rcaCount,
+					CLIENT_CODE_BUG) != 0) {
+				qaText+=calculateBugTypeCountForQAPerProject(
+						rcaCount, CLIENT_CODE_BUG) + " Client Code Defect";
+			}
+			if (calculateBugTypeCountForQAPerProject(rcaCount,
+					MISSED_REQUIREMENT) != 0) {
+				qaText+=calculateBugTypeCountForQAPerProject(
+						rcaCount, MISSED_REQUIREMENT)
+						+ " Missed Requirement, ";
+			}
+			if (calculateBugTypeCountForQAPerProject(rcaCount,
+					CHANGE_REQUIREMENT) != 0) {
+				qaText+=calculateBugTypeCountForQAPerProject(
+						rcaCount, CHANGE_REQUIREMENT)
+						+ " Change Requirement, ";
+			}
+			if (calculateBugTypeCountForQAPerProject(rcaCount,
+					INTEGRATION_ISSUE) != 0) {
+				qaText+=calculateBugTypeCountForQAPerProject(
+						rcaCount, INTEGRATION_ISSUE) + " Integration Issue, ";
+			}
+			if (calculateBugTypeCountForQAPerProject(rcaCount,
+					CONFIGURATION_ISSUE) != 0) {
+				qaText+=calculateBugTypeCountForQAPerProject(
+						rcaCount, CONFIGURATION_ISSUE)
+						+ " Configuration Issue, ";
+			}
+			if (calculateBugTypeCountForQAPerProject(rcaCount, DATA_ISSUE) != 0) {
+				qaText+=calculateBugTypeCountForQAPerProject(
+						rcaCount, DATA_ISSUE) + " Data Issue, ";
+			}
+			if (calculateBugTypeCountForQAPerProject(rcaCount,
+					MIX_CATEGORY) != 0) {
+				qaText+=calculateBugTypeCountForQAPerProject(
+						rcaCount, MIX_CATEGORY) + " Others, ";
+			}
+			if (calculateBugTypeCountForQAPerProject(rcaCount,
+					PRODUCT_DEFECT) != 0) {
+				qaText+=calculateBugTypeCountForQAPerProject(
+						rcaCount, PRODUCT_DEFECT) + " Product Defect";
+			}
+		}
+
+	}
+	return qaText;
+	
+}
+
+public String addOpenComments(List<RcaCount> rcaCounts){
+	
+	String openText="";
+	RcaCount rcaCount = null;
+
+	Iterator<RcaCount> it = rcaCounts.iterator();
+	while (it.hasNext()) {
+
+		rcaCount = (RcaCount) it.next();
+		int total = calculateBugTypeCountForOpenPerProject(rcaCount,
+				CLIENT_CODE_BUG)
+				+ calculateBugTypeCountForOpenPerProject(rcaCount,
+						MISSED_REQUIREMENT)
+				+ calculateBugTypeCountForOpenPerProject(rcaCount,
+						CHANGE_REQUIREMENT)
+				+ calculateBugTypeCountForOpenPerProject(rcaCount,
+						INTEGRATION_ISSUE)
+				+ calculateBugTypeCountForOpenPerProject(rcaCount,
+						CONFIGURATION_ISSUE)
+				+ calculateBugTypeCountForOpenPerProject(rcaCount,
+						DATA_ISSUE)
+				+ calculateBugTypeCountForOpenPerProject(rcaCount,
+						MIX_CATEGORY)
+				+ calculateBugTypeCountForOpenPerProject(rcaCount,
+						PRODUCT_DEFECT);
+		if (total > 0) {
+			openText+="\n"
+					+ rcaCount.getProjectDetails().getProjectName() + "("+total+") : ";
+			if (calculateBugTypeCountForOpenPerProject(rcaCount,
+					CLIENT_CODE_BUG) != 0) {
+				openText+=calculateBugTypeCountForOpenPerProject(
+						rcaCount, CLIENT_CODE_BUG) + " Client Code Defect, ";
+			}
+			if (calculateBugTypeCountForOpenPerProject(rcaCount,
+					INTEGRATION_ISSUE) != 0) {
+				openText+=calculateBugTypeCountForOpenPerProject(
+						rcaCount, INTEGRATION_ISSUE) + " Integration Issue, ";
+			}
+			if (calculateBugTypeCountForOpenPerProject(rcaCount,
+					CONFIGURATION_ISSUE) != 0) {
+				openText+=calculateBugTypeCountForOpenPerProject(
+						rcaCount, CONFIGURATION_ISSUE)
+						+ " Configuration Issue, ";
+			}
+			if (calculateBugTypeCountForOpenPerProject(rcaCount, DATA_ISSUE) != 0) {
+				openText+=calculateBugTypeCountForOpenPerProject(
+						rcaCount, DATA_ISSUE) + " Data Issue, ";
+			}
+			if (calculateBugTypeCountForOpenPerProject(rcaCount,
+					MIX_CATEGORY) != 0) {
+				openText+=calculateBugTypeCountForOpenPerProject(
+						rcaCount, MIX_CATEGORY) + " Others, ";
+			}
+			if (calculateBugTypeCountForOpenPerProject(rcaCount,
+					PRODUCT_DEFECT) != 0) {
+				openText+=calculateBugTypeCountForOpenPerProject(
+						rcaCount, PRODUCT_DEFECT) + " Product Defect";
+			}
+		}
+
+	}
+	return openText;
+	
+}
+
+
+private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugType)
+	{
+		int totalBugTypeCount = 0;
+		
+			
+			if(bugType.equals(MIX_CATEGORY))
+				totalBugTypeCount = rU.mixCategoryWeeklyCountForAllProjectsInUAT(rcaCount);
+			else if(bugType.equals(DATA_ISSUE))
+				totalBugTypeCount = rU.weeklyDataIssueForAllIssuesInUAT(rcaCount);
+			else if(bugType.equals(INTEGRATION_ISSUE))
+				totalBugTypeCount = rU.weeklyIntegrationIssueForAllIssuesInUAT(rcaCount);
+			else if(bugType.equals(CONFIGURATION_ISSUE))
+				totalBugTypeCount = rU.weeklyConfigurationIssueForAllIssuesInUAT(rcaCount);
+			else if(bugType.equals(MISSED_REQUIREMENT))
+				totalBugTypeCount = rU.weeklyMissedCountForAllIssuesInUAT(rcaCount);
+			else if(bugType.equals(CHANGE_REQUIREMENT))
+				totalBugTypeCount = rU.weeklyCRCountForAllIssuesInUAT(rcaCount);
+			else if(bugType.equals(CLIENT_CODE_BUG))
+				totalBugTypeCount = rU.weeklyClientCodeBugForAllIssuesInUAT(rcaCount);
+			else if(bugType.equals(PRODUCT_DEFECT))
+				totalBugTypeCount = rU.weeklyProductDefectForAllIssuesInUAT(rcaCount);
+
+	
+		
+		return totalBugTypeCount;
+	}
+	
+	private int calculateBugTypeCountForProdPerProject(RcaCount rcaCount, String bugType)
+	{
+		int totalBugTypeCount = 0;
+		
+			
+			if(bugType.equals(MIX_CATEGORY))
+				totalBugTypeCount = rU.mixCategoryWeeklyCountForAllProjectsInProd(rcaCount);
+			else if(bugType.equals(DATA_ISSUE))
+				totalBugTypeCount = rU.weeklyDataIssueForAllIssuesInProd(rcaCount);
+			else if(bugType.equals(INTEGRATION_ISSUE))
+				totalBugTypeCount = rU.weeklyIntegrationIssueForAllIssuesInProd(rcaCount);
+			else if(bugType.equals(CONFIGURATION_ISSUE))
+				totalBugTypeCount = rU.weeklyConfigurationIssueForAllIssuesInProd(rcaCount);
+			else if(bugType.equals(MISSED_REQUIREMENT))
+				totalBugTypeCount = rU.weeklyMissedCountForAllIssuesInProd(rcaCount);
+			else if(bugType.equals(CHANGE_REQUIREMENT))
+				totalBugTypeCount = rU.weeklyCRCountForAllIssuesInProd(rcaCount);
+			else if(bugType.equals(CLIENT_CODE_BUG))
+				totalBugTypeCount = rU.weeklyClientCodeBugForAllIssuesInProd(rcaCount);
+			else if(bugType.equals(PRODUCT_DEFECT))
+				totalBugTypeCount = rU.weeklyProductDefectForAllIssuesInProd(rcaCount);
+
+	
+		
+		return totalBugTypeCount;
+	}
+	
+	private int calculateBugTypeCountForQAPerProject(RcaCount rcaCount, String bugType)
+	{
+		int totalBugTypeCount = 0;
+		
+			
+			if(bugType.equals(MIX_CATEGORY))
+				totalBugTypeCount = rU.mixCategoryWeeklyCountForAllProjectsInQA(rcaCount);
+			else if(bugType.equals(DATA_ISSUE))
+				totalBugTypeCount = rU.weeklyDataIssueForAllIssuesInQA(rcaCount);
+			else if(bugType.equals(INTEGRATION_ISSUE))
+				totalBugTypeCount = rU.weeklyIntegrationIssueForAllIssuesInQA(rcaCount);
+			else if(bugType.equals(CONFIGURATION_ISSUE))
+				totalBugTypeCount = rU.weeklyConfigurationIssueForAllIssuesInQA(rcaCount);
+			else if(bugType.equals(MISSED_REQUIREMENT))
+				totalBugTypeCount = rU.weeklyMissedCountForAllIssuesInQA(rcaCount);
+			else if(bugType.equals(CHANGE_REQUIREMENT))
+				totalBugTypeCount = rU.weeklyCRCountForAllIssuesInQA(rcaCount);
+			else if(bugType.equals(CLIENT_CODE_BUG))
+				totalBugTypeCount = rU.weeklyClientCodeBugForAllIssuesInQA(rcaCount);
+			else if(bugType.equals(PRODUCT_DEFECT))
+				totalBugTypeCount = rU.weeklyProductDefectForAllIssuesInQA(rcaCount);
+
+	
+		
+		return totalBugTypeCount;
+	}
+	
+	private int calculateBugTypeCountForOpenPerProject(RcaCount rcaCount, String bugType)
+	{
+		int totalBugTypeCount = 0;
+		
+			
+			if(bugType.equals(MIX_CATEGORY))
+				totalBugTypeCount = rU.mixCategoryWeeklyCountForAllProjectsInOpen(rcaCount);
+			else if(bugType.equals(DATA_ISSUE))
+				totalBugTypeCount = rU.weeklyDataIssueForAllIssuesInOpen(rcaCount);
+			else if(bugType.equals(INTEGRATION_ISSUE))
+				totalBugTypeCount = rU.weeklyIntegrationIssueForAllIssuesInOpen(rcaCount);
+			else if(bugType.equals(CONFIGURATION_ISSUE))
+				totalBugTypeCount = rU.weeklyConfigurationIssueForAllIssuesInOpen(rcaCount);
+			else if(bugType.equals(CLIENT_CODE_BUG))
+				totalBugTypeCount = rU.weeklyClientCodeBugForAllIssuesInOpen(rcaCount);
+			else if(bugType.equals(PRODUCT_DEFECT))
+				totalBugTypeCount = rU.weeklyProductDefectForAllIssuesInOpen(rcaCount);
+
+	
+		
+		return totalBugTypeCount;
 	}
 	
 	/**
