@@ -73,6 +73,19 @@ public class GenerateSummaryAction extends ActionSupport{
 					.compareTo(o2.getProjectDetails().getProjectName());
 		}
 	};
+	
+	public static final Comparator<RcaCount> byTeamName = new Comparator<RcaCount>() {
+		@Override
+		public int compare(RcaCount o1, RcaCount o2) {
+			String s1 = o1.getProjectDetails().getActionTeam();
+			String s2 = o2.getProjectDetails().getActionTeam();
+			if(null == s1)
+				s1="";
+			if(null == s2)
+				s2="";
+			return s1.compareTo(s2);
+		}
+	};
 
 	private void createSummarySheet() {
 		XSSFSheet summarySheet = toolSetMatrix.createSheet("Summary Sheet");
@@ -123,7 +136,7 @@ public class GenerateSummaryAction extends ActionSupport{
 		String[] headerCells = headers.split(",");
 
 		List<RcaCount> rcaCounts = rcaManager.findRCAByWeekPeriod(prevTwoWeek.get(0));
-		Collections.sort(rcaCounts, byProjectName);
+		Collections.sort(rcaCounts, byTeamName);
 		int rowCount = 1;
 		for (RcaCount rca : rcaCounts)
 		{
@@ -271,7 +284,7 @@ public class GenerateSummaryAction extends ActionSupport{
 		List<String> prevTwoWeek = rU.findPreviousTwoWeek();
 
 		List<RcaCount> rcaCounts = rcaManager.findRCAByWeekPeriod(prevTwoWeek.get(0));
-		Collections.sort(rcaCounts, byProjectName);
+		Collections.sort(rcaCounts, byTeamName);
 		int rowCount = 2;
 		for (RcaCount rca : rcaCounts)
 		{
