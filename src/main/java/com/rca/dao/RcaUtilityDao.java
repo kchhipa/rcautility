@@ -213,27 +213,28 @@ public class RcaUtilityDao {
 	}
 	
 	
-	public static List<RCA> getRcaDetailList(RCA rca)
+	public static List<RCA> getRcaDetailList(String week, List<ProjectDetails>projectList)
 	{
 		Connection conn  = null;
 		List<RCA> rcaList=new ArrayList<RCA>();
-		String week=rca.week;
+		//String week=rca.week;
 	    try
 	    {
 	    	conn = ConnectionProvider.getConnection();	 
-	    	String sql1;
+	    	//String sql1;
 	    	String sql2;	    	 	
-	    	sql1 = "select * from project_details";
+	    	//sql1 = "select * from project_details";
 	    	
-	    	PreparedStatement  stmt = conn.prepareStatement(sql1);	    	    		    	
-	    	ResultSet rs1 = stmt.executeQuery();
-            while(rs1.next())
-            {
-            	int projectId=rs1.getInt("project_id");	    	    	
+	    	//PreparedStatement  stmt = conn.prepareStatement(sql1);	    	    		    	
+	    	//ResultSet rs1 = stmt.executeQuery();
+           // while(rs1.next())
+           // {
+	    		for (ProjectDetails rca2 : projectList) {
+            	int projectId=rca2.getProjectId();	    	    	
             	sql2 ="select * from rca_count where project_id=? and week=?";	
-	    		stmt=null;
-	    		stmt = conn.prepareStatement(sql2);
-		    	stmt.setInt(1, rs1.getInt("project_id"));
+	    		//stmt=null;
+            	PreparedStatement  stmt = conn.prepareStatement(sql2);
+		    	stmt.setInt(1,projectId);
 		    	stmt.setString(2, week);    		    	
 		    	ResultSet rs = stmt.executeQuery();
 	            while(rs.next())

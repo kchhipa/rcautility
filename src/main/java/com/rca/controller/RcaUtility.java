@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Map;
 import java.io.File;
 import java.io.FileInputStream;
@@ -44,7 +45,9 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.rca.dao.RcaUtilityDao;
+import com.rca.entity.ProjectDetails;
 import com.rca.entity.RCA;
+import com.rca.service.ProjectDetailsManager;
 
 
 
@@ -60,9 +63,18 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 	ArrayList<RCA> projectList;
 	String week2;
 	String weekInterval;
+	private ProjectDetailsManager projectDetailsManager;
 	
 	
 		
+
+	public ProjectDetailsManager getProjectDetailsManager() {
+		return projectDetailsManager;
+	}
+
+	public void setProjectDetailsManager(ProjectDetailsManager projectDetailsManager) {
+		this.projectDetailsManager = projectDetailsManager;
+	}
 
 	public String getWeekInterval() {
 		return weekInterval;
@@ -543,16 +555,18 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 			WritableSheet sheet = workbook.createSheet("RCA", 0);
 			WritableCellFormat cellFormatProject = getCellFormatRcaType(Colour.GRAY_25, Pattern.GRAY_75);
 			WritableCellFormat cellFormatRcaType = getCellFormatRcaType(Colour.GRAY_25, Pattern.GRAY_75);
+			
+			List<ProjectDetails>projectList=projectDetailsManager.getAllProjects();
 
 			String[] weekIntervals = this.weekInterval!= null ? this.weekInterval.split(","): new String[]{rca.week};
 			int rowNumber = 2;
 			for (String string : weekIntervals) {
-				rca.setWeek(string);
-				getProjectLabels(sheet, cellFormatProject, rowNumber);
+				//rca.setWeek(string);
+				getProjectLabels(sheet, cellFormatProject, rowNumber, projectList);
 				getRcaTypeLabelsForExport(sheet, cellFormatRcaType, rowNumber-1, 1);
-				rcaList = RcaUtilityDao.getRcaDetailList(rca);
+				rcaList = RcaUtilityDao.getRcaDetailList(string,projectList);
 				if (rcaList != null && rcaList.size() > 0) {
-					writeRcaData(sheet, rcaList, rowNumber);
+					writeRcaData(sheet, rcaList, rowNumber, projectList);
 				}
 				rowNumber = rowNumber+28;
 			}
@@ -564,157 +578,265 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 
 	}
 
-private void writeRcaData(WritableSheet sheet, List<RCA> rcaList, int rowNumber) throws RowsExceededException, WriteException {
-	
-	
-	for (RCA rca :rcaList)
-	{
+	private void writeRcaData(WritableSheet sheet, List<RCA> rcaList, int rowNumber, List<ProjectDetails> projectList) throws RowsExceededException, WriteException {
 		int row=rowNumber;
-		int col=0;
+		int col=1;
+		boolean flag = true;
 		
+		int total_qa[] = new int[26];
+		int total_uat[] = new int[26];
+		int total_prod[] = new int[26];
+		int total_product_backlog[] = new int[26];
+			int i = 0;
+			for (RCA rca : rcaList) {
+				total_qa[0] = total_qa[0] +rca.mr_qa;
+				total_qa[1] = total_qa[1] +rca.cr_qa;
+				total_qa[2] = total_qa[2] ;
+				total_qa[3] = total_qa[3] +rca.plan_qa;
+				total_qa[4] = total_qa[4] +rca.rate_qa;
+				total_qa[5] = total_qa[5] +rca.rpa_qa;
+				total_qa[6] = total_qa[6] +rca.ac_qa;
+				total_qa[7] = total_qa[7] +rca.ti_qa;
+				total_qa[8] = total_qa[8] +rca.dp_qa;
+				total_qa[9] = total_qa[9] +rca.env_qa;
+				total_qa[10] = total_qa[10] +rca.co_qa;
+				total_qa[11] = total_qa[11] +rca.ccb_qa;
+				total_qa[12] = total_qa[12] +rca.ad_qa;
+				total_qa[13] = total_qa[13] +rca.dup_qa;
+				total_qa[14] = total_qa[14] +rca.nad_qa;
+				total_qa[15] = total_qa[15] +rca.bsi_qa;
+				total_qa[16] = total_qa[16] +rca.utr_qa;
+				total_qa[17] = total_qa[17] +rca.pd_qa;
+				total_qa[18] = total_qa[18];
+				total_qa[19] = total_qa[19] +rca.ffm_qa;
+				total_qa[20] = total_qa[20] +rca.crmesb_qa;
+				total_qa[21] = total_qa[21] +rca.otp_qa;
+				total_qa[22] = total_qa[22] +rca.pmuu_qa;
+				total_qa[23] = total_qa[23] +rca.io_qa;
+				total_qa[24] = total_qa[24] +rca.di_qa;
+				total_qa[25] = total_qa[25] +rca.ro_qa;
 				
-		//SHP
-		if(rca.project_id==16)
-		{
-			col=1;
-			writeExceldata(col,row,sheet,rca);
-		}
-		else if(rca.project_id==6) // CENTENE
-		{
-			col=6;
-			writeExceldata(col,row,sheet,rca);
-		}
-		else if(rca.project_id==11) // IBC	
-		{
-			col=11;
-			writeExceldata(col,row,sheet,rca);
-		}
-		else if(rca.project_id==20) // WPS
-		{
-			col=16;
-			writeExceldata(col,row,sheet,rca);
-		}
-		else if(rca.project_id==8) // HFHP
-		{
-			col=21;
-			writeExceldata(col,row,sheet,rca);
-		}
-		else if(rca.project_id==9) // HP
-		{
-			col=26;
-			writeExceldata(col,row,sheet,rca);
-		}
-		else if(rca.project_id==12) //Kaiser
-		{
-			col=31;
-			writeExceldata(col,row,sheet,rca);
-		}
-		else if(rca.project_id==7) //Federated	
-		{
-			col=36;
-			writeExceldata(col,row,sheet,rca);
-		}
-		else if(rca.project_id==13) //MI-IFP
-		{
-			col=41;
-			writeExceldata(col,row,sheet,rca);
-		}
-		else if(rca.project_id==14) //MI-SG	
-		{
-			col=46;
-			writeExceldata(col,row,sheet,rca);
-		}
-		else if(rca.project_id==1) //BCBSAL
-		{
-			col=51;
-			writeExceldata(col,row,sheet,rca);
-		}
-		else if(rca.project_id==3) //BCBSMN
-		{
-			col=56;
-			writeExceldata(col,row,sheet,rca);
-		}
-		else if(rca.project_id==2) //BCBSMA	
-		{
-			col=61;
-			writeExceldata(col,row,sheet,rca);
-		}
-		else if(rca.project_id==4) //BCBSNE
-		{
-			col=66;
-			writeExceldata(col,row,sheet,rca);
-		}
-		else if(rca.project_id==5) //BCSBTN	
-		{
-			col=71;
-			writeExceldata(col,row,sheet,rca);
-		}
-		else if(rca.project_id==18)//Topaz
-		{
-			col=76;
-			writeExceldata(col,row,sheet,rca);
-		}
-		else if(rca.project_id==19) //WM	
-		{
-			col=81;
-			writeExceldata(col,row,sheet,rca);
-		}
-		else if(rca.project_id==17) //TN-PX		
-		{
-			col=86;
-			writeExceldata(col,row,sheet,rca);
-		}
-		else if(rca.project_id==10) //HP-SG	
-		{
-			col=91;
-			writeExceldata(col,row,sheet,rca);
-		}
-		else if(rca.project_id==21) //UCD	
-		{
-			col=96;
-			writeExceldata(col,row,sheet,rca);
-		}
-		else if(rca.project_id==22)//UHG	
-		{
-			col=101;
-			writeExceldata(col,row,sheet,rca);
-		}
-		else if(rca.project_id==15)//Shopping
-		{
-			col=106;
-			writeExceldata(col,row,sheet,rca);
-		}	
-		else if(rca.project_id==23)//Shopping
-		{
-			col=111;
-			writeExceldata(col,row,sheet,rca);
-		}	
-		else if(rca.project_id==24)//DHP
-		{
-			col=116;
-			writeExceldata(col,row,sheet,rca);
-		}
-		else if(rca.project_id==25)//CRM
-		{
-			col=116;
-			writeExceldata(col,row,sheet,rca);
-		}
-		else if(rca.project_id==26)//Rating
-		{
-			col=116;
-			writeExceldata(col,row,sheet,rca);
-		}
-		else if(rca.project_id==27)//AppConfig
-		{
-			col=116;
-			writeExceldata(col,row,sheet,rca);
-		}
-
-	}
+				total_uat[0] = total_uat[0] +rca.mr_uat;
+				total_uat[1] = total_uat[1] +rca.cr_uat;
+				total_uat[2] = total_uat[2] ;
+				total_uat[3] = total_uat[3] +rca.plan_uat;
+				total_uat[4] = total_uat[4] +rca.rate_uat;
+				total_uat[5] = total_uat[5] +rca.rpa_uat;
+				total_uat[6] = total_uat[6] +rca.ac_uat;
+				total_uat[7] = total_uat[7] +rca.ti_uat;
+				total_uat[8] = total_uat[8] +rca.dp_uat;
+				total_uat[9] = total_uat[9] +rca.env_uat;
+				total_uat[10] = total_uat[10] +rca.co_uat;
+				total_uat[11] = total_uat[11] +rca.ccb_uat;
+				total_uat[12] = total_uat[12] +rca.ad_uat;
+				total_uat[14] = total_uat[13] +rca.dup_uat;
+				total_uat[15] = total_uat[14] +rca.nad_uat;
+				total_uat[16] = total_uat[15] +rca.bsi_uat;
+				total_uat[17] = total_uat[16] +rca.utr_uat;
+				total_uat[18] = total_uat[17] +rca.pd_uat;
+				total_uat[19] = total_uat[18];
+				total_uat[20] = total_uat[19] +rca.ffm_uat;
+				total_uat[21] = total_uat[20] +rca.crmesb_uat;
+				total_uat[22] = total_uat[22] +rca.pmuu_uat;
+				total_uat[23] = total_uat[23] +rca.io_uat;
+				total_uat[24] = total_uat[24] +rca.di_uat;
+				total_uat[25] = total_uat[25] +rca.ro_uat;
+				
+				total_prod[0] = total_prod[0] +rca.mr_prod;
+				total_prod[1] = total_prod[1] +rca.cr_prod;
+				total_prod[2] = total_prod[2] ;
+				total_prod[3] = total_prod[3] +rca.plan_prod;
+				total_prod[4] = total_prod[4] +rca.rate_prod;
+				total_prod[5] = total_prod[5] +rca.rpa_prod;
+				total_prod[6] = total_prod[6] +rca.ac_prod;
+				total_prod[7] = total_prod[7] +rca.ti_prod;
+				total_prod[8] = total_prod[8] +rca.dp_prod;
+				total_prod[9] = total_prod[9] +rca.env_prod;
+				total_prod[10] = total_prod[10] +rca.co_prod;
+				total_prod[11] = total_prod[11] +rca.ccb_prod;
+				total_prod[12] = total_prod[12] +rca.ad_prod;
+				total_prod[13] = total_prod[13] +rca.dup_prod;
+				total_prod[14] = total_prod[14] +rca.nad_prod;
+				total_prod[15] = total_prod[15] +rca.bsi_prod;
+				total_prod[16] = total_prod[16] +rca.utr_prod;
+				total_prod[17] = total_prod[17] +rca.pd_prod;
+				total_prod[18] = total_prod[18];
+				total_prod[19] = total_prod[19] +rca.ffm_prod;
+				total_prod[20] = total_prod[20] +rca.crmesb_prod;
+				total_prod[21] = total_prod[21] +rca.otp_prod;
+				total_prod[22] = total_prod[22] +rca.pmuu_prod;
+				total_prod[23] = total_prod[23] +rca.io_prod;
+				total_prod[24] = total_prod[24] +rca.di_prod;
+				total_prod[25] = total_prod[25] +rca.ro_prod;
+				
+				total_product_backlog[0] = total_product_backlog[0] +rca.mr_product_backlog;
+				total_product_backlog[1] = total_product_backlog[1] +rca.cr_product_backlog;
+				total_product_backlog[2] = total_product_backlog[2] ;
+				total_product_backlog[3] = total_product_backlog[3] +rca.plan_product_backlog;
+				total_product_backlog[4] = total_product_backlog[4] +rca.rate_product_backlog;
+				total_product_backlog[5] = total_product_backlog[5] +rca.rpa_product_backlog;
+				total_product_backlog[6] = total_product_backlog[6] +rca.ac_product_backlog;
+				total_product_backlog[7] = total_product_backlog[7] +rca.ti_product_backlog;
+				total_product_backlog[8] = total_product_backlog[8] +rca.dp_product_backlog;
+				total_product_backlog[9] = total_product_backlog[9] +rca.env_product_backlog;
+				total_product_backlog[10] = total_product_backlog[10] +rca.co_product_backlog;
+				total_product_backlog[11] = total_product_backlog[11] +rca.ccb_product_backlog;
+				total_product_backlog[12] = total_product_backlog[12] +rca.ad_product_backlog;
+				total_product_backlog[13] = total_product_backlog[13] +rca.dup_product_backlog;
+				total_product_backlog[14] = total_product_backlog[14] +rca.nad_product_backlog;
+				total_product_backlog[15] = total_product_backlog[15] +rca.bsi_product_backlog;
+				total_product_backlog[16] = total_product_backlog[16] +rca.utr_product_backlog;
+				total_product_backlog[17] = total_product_backlog[17] +rca.pd_product_backlog;
+				total_product_backlog[18] = total_product_backlog[18];
+				total_product_backlog[19] = total_product_backlog[19] +rca.ffm_product_backlog;
+				total_product_backlog[20] = total_product_backlog[20] +rca.crmesb_product_backlog;
+				total_product_backlog[21] = total_product_backlog[21] +rca.otp_product_backlog;
+				total_product_backlog[22] = total_product_backlog[22] +rca.pmuu_product_backlog;
+				total_product_backlog[23] = total_product_backlog[23] +rca.io_product_backlog;
+				total_product_backlog[24] = total_product_backlog[24] +rca.di_product_backlog;
+				//total_product_backlog[25] = total_product_backlog[25] ;
+			}
 		
-}
+			RCA totalList = new RCA();
+			totalList.mr_qa = total_qa[0]; 
+			totalList.cr_qa = total_qa[1];
+			totalList.plan_qa = total_qa[3];
+			totalList.rate_qa = total_qa[4];
+			totalList.rpa_qa = total_qa[5];
+			totalList.ac_qa = total_qa[6];
+			totalList.ti_qa = total_qa[7]; 
+			totalList.dp_qa = total_qa[8];
+			totalList.env_qa = total_qa[9];
+			totalList.co_qa = total_qa[10];
+			totalList.ccb_qa = total_qa[11];
+			totalList.ad_qa = total_qa[12];
+			totalList.dup_qa = total_qa[13]; 
+			totalList.nad_qa = total_qa[14];
+			totalList.bsi_qa = total_qa[15];
+			totalList.utr_qa = total_qa[16];
+			totalList.pd_qa = total_qa[17];
+			//totalList.ac_qa = total_qa[18];
+			totalList.ffm_qa = total_qa[19]; 
+			totalList.crmesb_qa = total_qa[20];
+			totalList.otp_qa = total_qa[21];
+			totalList.pmuu_qa = total_qa[22];
+			totalList.io_qa = total_qa[23];
+			totalList.di_qa = total_qa[24];
+			totalList.ro_qa = total_qa[25];
+			
+			totalList.mr_uat = total_uat[0]; 
+			totalList.cr_uat = total_uat[1];
+			totalList.plan_uat = total_uat[3];
+			totalList.rate_uat = total_uat[4];
+			totalList.rpa_uat = total_uat[5];
+			totalList.ac_uat = total_uat[6];
+			totalList.ti_uat = total_uat[7]; 
+			totalList.dp_uat = total_uat[8];
+			totalList.env_uat = total_uat[9];
+			totalList.co_uat = total_uat[10];
+			totalList.ccb_uat = total_uat[11];
+			totalList.ad_uat = total_uat[12];
+			totalList.dup_uat = total_uat[13]; 
+			totalList.nad_uat = total_uat[14];
+			totalList.bsi_uat = total_uat[15];
+			totalList.utr_uat = total_uat[16];
+			totalList.pd_uat = total_uat[17];
+			//totalList.ac_uat = total_uat[18];
+			totalList.ffm_uat = total_uat[19]; 
+			totalList.crmesb_uat = total_uat[20];
+			totalList.otp_uat = total_uat[21];
+			totalList.pmuu_uat = total_uat[22];
+			totalList.io_uat = total_uat[23];
+			totalList.di_uat = total_uat[24];
+			totalList.ro_uat = total_uat[25];
+			
+			totalList.mr_prod = total_prod[0]; 
+			totalList.cr_prod = total_prod[1];
+			totalList.plan_prod = total_prod[3];
+			totalList.rate_prod = total_prod[4];
+			totalList.rpa_prod = total_prod[5];
+			totalList.ac_prod = total_prod[6];
+			totalList.ti_prod = total_prod[7]; 
+			totalList.dp_prod = total_prod[8];
+			totalList.env_prod = total_prod[9];
+			totalList.co_prod = total_prod[10];
+			totalList.ccb_prod = total_prod[11];
+			totalList.ad_prod = total_prod[12];
+			totalList.dup_prod = total_prod[13]; 
+			totalList.nad_prod = total_prod[14];
+			totalList.bsi_prod = total_prod[15];
+			totalList.utr_prod = total_prod[16];
+			totalList.pd_prod = total_prod[17];
+			//totalList.ac_prod = total_prod[18];
+			totalList.ffm_prod = total_prod[19]; 
+			totalList.crmesb_prod = total_prod[20];
+			totalList.otp_prod = total_prod[21];
+			totalList.pmuu_prod = total_prod[22];
+			totalList.io_prod = total_prod[23];
+			totalList.di_prod = total_prod[24];
+			totalList.ro_prod = total_prod[25];
+			
+			totalList.mr_product_backlog = total_product_backlog[0]; 
+			totalList.cr_product_backlog = total_product_backlog[1];
+			totalList.plan_product_backlog = total_product_backlog[3];
+			totalList.rate_product_backlog = total_product_backlog[4];
+			totalList.rpa_product_backlog = total_product_backlog[5];
+			totalList.ac_product_backlog = total_product_backlog[6];
+			totalList.ti_product_backlog = total_product_backlog[7]; 
+			totalList.dp_product_backlog = total_product_backlog[8];
+			totalList.env_product_backlog = total_product_backlog[9];
+			totalList.co_product_backlog = total_product_backlog[10];
+			totalList.ccb_product_backlog = total_product_backlog[11];
+			totalList.ad_product_backlog = total_product_backlog[12];
+			totalList.dup_product_backlog = total_product_backlog[13]; 
+			totalList.nad_product_backlog = total_product_backlog[14];
+			totalList.bsi_product_backlog = total_product_backlog[15];
+			totalList.utr_product_backlog = total_product_backlog[16];
+			totalList.pd_product_backlog = total_product_backlog[17];
+			//totalList.ac_product_backlog = total_product_backlog[18];
+			totalList.ffm_product_backlog = total_product_backlog[19]; 
+			totalList.crmesb_product_backlog = total_product_backlog[20];
+			totalList.otp_product_backlog = total_product_backlog[21];
+			totalList.pmuu_product_backlog = total_product_backlog[22];
+			totalList.io_product_backlog = total_product_backlog[23];
+			totalList.di_product_backlog = total_product_backlog[24];
+			//totalList.ro_product_backlog = total_product_backlog[25];
+			
+			List<RCA> newList = new ArrayList<RCA>();
+			newList.add(totalList);
+			newList.addAll(1,rcaList);
+		
+			Iterator<ProjectDetails> projectIterator=projectList.iterator();
+			
+			 while(projectIterator.hasNext()){
+				 int id=projectIterator.next().getProjectId();
+				 for (RCA rca :newList)
+				 {
+					 if(flag){
+						 
+						 writeExceldata(col,row,sheet,rca);
+						 flag = false;
+						 col=col+4;
+						 
+					 }
+					 if(rca.project_id==id){
+						 writeExceldata(col,row,sheet,rca);
+						 flag = false;
+					 }
+				 
+			 }
+			 
+			 col=col+4;
+
+
+		}
+			
+	}
 
 private void writeExceldata(int col, int row,WritableSheet sheet,RCA rca) throws RowsExceededException, WriteException{
+	
+	
+	int misregQa=0;
 	
 	writeMissedReq(col,row,sheet,rca);
 	writeChangeReq(col,++row,sheet,rca);
@@ -753,7 +875,7 @@ private void writeReOpen(int col, int row,WritableSheet sheet,RCA rca) throws Ro
     
     label = new Label(++col,row, String.valueOf(rca.ro_uat));
     sheet.addCell(label);
-    ++col;
+    
     label = new Label(++col,row, String.valueOf(rca.ro_prod));
     sheet.addCell(label);    
 
@@ -767,7 +889,7 @@ private void writeDataIssue(int col, int row,WritableSheet sheet,RCA rca) throws
     
     label = new Label(++col,row, String.valueOf(rca.di_uat));
     sheet.addCell(label);
-    ++col;
+    
     label = new Label(++col,row, String.valueOf(rca.di_prod));
     sheet.addCell(label);
     
@@ -783,7 +905,7 @@ private void writeIntegrationSum(int col, int row,WritableSheet sheet,RCA rca) t
     
     label = new Label(++col,row, String.valueOf(rca.ffm_uat+rca.crmesb_uat+rca.otp_uat+rca.pmuu_uat+rca.io_uat));
     sheet.addCell(label);
-    ++col;
+    
     label = new Label(++col,row, String.valueOf(rca.ffm_prod+rca.crmesb_prod+rca.otp_prod+rca.pmuu_prod+rca.io_prod));
     sheet.addCell(label);
     
@@ -800,7 +922,7 @@ private void writeFfmIssue(int col, int row,WritableSheet sheet,RCA rca) throws 
     
     label = new Label(++col,row, String.valueOf(rca.ffm_uat));
     sheet.addCell(label);
-    ++col;
+   
     label = new Label(++col,row, String.valueOf(rca.ffm_prod));
     sheet.addCell(label);	
     
@@ -816,7 +938,7 @@ private void writeCrmEsbIssue(int col, int row,WritableSheet sheet,RCA rca) thro
     
     label = new Label(++col,row, String.valueOf(rca.crmesb_uat));
     sheet.addCell(label);
-    ++col;
+    
     label = new Label(++col,row, String.valueOf(rca.crmesb_prod));
     sheet.addCell(label);	
     
@@ -832,7 +954,7 @@ private void writeOtherThirdPartyIssue(int col, int row,WritableSheet sheet,RCA 
     
     label = new Label(++col,row, String.valueOf(rca.otp_uat));
     sheet.addCell(label);
-    ++col;
+    
     label = new Label(++col,row, String.valueOf(rca.otp_prod));
     sheet.addCell(label);	
     
@@ -848,7 +970,7 @@ private void writeProductMergeUpdateUpgradeIssue(int col, int row,WritableSheet 
     
     label = new Label(++col,row, String.valueOf(rca.pmuu_uat));
     sheet.addCell(label);
-    ++col;
+    
     label = new Label(++col,row, String.valueOf(rca.pmuu_prod));
     sheet.addCell(label);	
     
@@ -864,7 +986,7 @@ private void writeIntegrationOthers(int col, int row,WritableSheet sheet,RCA rca
     
     label = new Label(++col,row, String.valueOf(rca.io_uat));
     sheet.addCell(label);
-    ++col;
+    
     label = new Label(++col,row, String.valueOf(rca.io_prod));
     sheet.addCell(label);	
     
@@ -881,7 +1003,7 @@ private void writeProductDefect(int col, int row,WritableSheet sheet,RCA rca) th
     
     label = new Label(++col,row, String.valueOf(rca.pd_uat));
     sheet.addCell(label);
-    ++col;
+    
     label = new Label(++col,row, String.valueOf(rca.pd_prod));
     sheet.addCell(label);	
     
@@ -897,7 +1019,7 @@ private void writeUnableToRep(int col, int row,WritableSheet sheet,RCA rca) thro
     
     label = new Label(++col,row, String.valueOf(rca.utr_uat));
     sheet.addCell(label);
-    ++col;
+    
     label = new Label(++col,row, String.valueOf(rca.utr_prod));
     sheet.addCell(label);	
     
@@ -913,7 +1035,7 @@ private void writeBrowserSpecific(int col, int row,WritableSheet sheet,RCA rca) 
     
     label = new Label(++col,row, String.valueOf(rca.bsi_uat));
     sheet.addCell(label);
-    ++col;
+    
     label = new Label(++col,row, String.valueOf(rca.bsi_prod));
     sheet.addCell(label);
     
@@ -929,7 +1051,7 @@ private void writeNotDefect(int col, int row,WritableSheet sheet,RCA rca) throws
     
     label = new Label(++col,row, String.valueOf(rca.nad_uat));
     sheet.addCell(label);
-    ++col;
+  
     label = new Label(++col,row, String.valueOf(rca.nad_prod));
     sheet.addCell(label);
     
@@ -945,7 +1067,7 @@ private void writeDuplicate(int col, int row,WritableSheet sheet,RCA rca) throws
     
     label = new Label(++col,row, String.valueOf(rca.dup_uat));
     sheet.addCell(label);
-    ++col;
+    
     label = new Label(++col,row, String.valueOf(rca.dup_prod));
     sheet.addCell(label);
     
@@ -961,7 +1083,7 @@ private void writeAsDesigned(int col, int row,WritableSheet sheet,RCA rca) throw
     
     label = new Label(++col,row, String.valueOf(rca.ad_uat));
     sheet.addCell(label);
-    ++col;
+    
     label = new Label(++col,row, String.valueOf(rca.ad_prod));
     sheet.addCell(label);
     
@@ -978,7 +1100,7 @@ private void writeClientCodeBug(int col, int row,WritableSheet sheet,RCA rca) th
     
     label = new Label(++col,row, String.valueOf(rca.ccb_uat));
     sheet.addCell(label);
-    ++col;
+    
     label = new Label(++col,row, String.valueOf(rca.ccb_prod));
     sheet.addCell(label);
     
@@ -995,7 +1117,7 @@ private void writeConfigrationSum(int col, int row,WritableSheet sheet,RCA rca) 
     
     label = new Label(++col,row, String.valueOf(rca.plan_uat+rca.rate_uat+rca.rpa_uat+rca.ac_uat+rca.ti_uat+rca.dp_uat+rca.env_uat+rca.co_uat));
     sheet.addCell(label);
-    ++col;
+    
     label = new Label(++col,row, String.valueOf(rca.plan_prod+rca.rate_prod+rca.rpa_prod+rca.ac_prod+rca.ti_prod+rca.dp_prod+rca.env_prod+rca.co_prod));
     sheet.addCell(label);
     
@@ -1012,7 +1134,7 @@ private void writePlanPackage(int col, int row,WritableSheet sheet,RCA rca) thro
     
     label = new Label(++col,row, String.valueOf(rca.plan_uat));
     sheet.addCell(label);
-    ++col;
+    
     label = new Label(++col,row, String.valueOf(rca.plan_prod));
     sheet.addCell(label);
     
@@ -1029,7 +1151,7 @@ private void writeRatePackage(int col, int row,WritableSheet sheet,RCA rca) thro
     
     label = new Label(++col,row, String.valueOf(rca.rate_uat));
     sheet.addCell(label);
-    ++col;
+    
     label = new Label(++col,row, String.valueOf(rca.rate_prod));
     sheet.addCell(label);
     
@@ -1046,7 +1168,7 @@ private void writeRulesPlanAdvisor(int col, int row,WritableSheet sheet,RCA rca)
     
     label = new Label(++col,row, String.valueOf(rca.rpa_uat));
     sheet.addCell(label);
-    ++col;
+    
     label = new Label(++col,row, String.valueOf(rca.rpa_prod));
     sheet.addCell(label);
     
@@ -1063,7 +1185,7 @@ private void writeAppConfig(int col, int row,WritableSheet sheet,RCA rca) throws
     
     label = new Label(++col,row, String.valueOf(rca.ac_uat));
     sheet.addCell(label);
-    ++col;
+    
     label = new Label(++col,row, String.valueOf(rca.ac_prod));
     sheet.addCell(label);
     
@@ -1080,7 +1202,7 @@ private void writeTemplateIssue(int col, int row,WritableSheet sheet,RCA rca) th
     
     label = new Label(++col,row, String.valueOf(rca.ti_uat));
     sheet.addCell(label);
-    ++col;
+    
     label = new Label(++col,row, String.valueOf(rca.ti_prod));
     sheet.addCell(label);
     
@@ -1097,7 +1219,7 @@ private void writeDeploymentProperties(int col, int row,WritableSheet sheet,RCA 
     
     label = new Label(++col,row, String.valueOf(rca.dp_uat));
     sheet.addCell(label);
-    ++col;
+    
     label = new Label(++col,row, String.valueOf(rca.dp_prod));
     sheet.addCell(label);
     
@@ -1114,7 +1236,7 @@ private void writeEnvironment(int col, int row,WritableSheet sheet,RCA rca) thro
     
     label = new Label(++col,row, String.valueOf(rca.env_uat));
     sheet.addCell(label);
-    ++col;
+    
     label = new Label(++col,row, String.valueOf(rca.env_prod));
     sheet.addCell(label);
     
@@ -1131,7 +1253,7 @@ private void writeConfigOthers(int col, int row,WritableSheet sheet,RCA rca) thr
     
     label = new Label(++col,row, String.valueOf(rca.co_uat));
     sheet.addCell(label);
-    ++col;
+    
     label = new Label(++col,row, String.valueOf(rca.co_prod));
     sheet.addCell(label);
     
@@ -1148,7 +1270,7 @@ private void writeChangeReq(int col, int row,WritableSheet sheet,RCA rca) throws
     
     label = new Label(++col,row, String.valueOf(rca.cr_uat));
     sheet.addCell(label);
-    ++col;
+    
     label = new Label(++col,row, String.valueOf(rca.cr_prod));
     sheet.addCell(label);
     
@@ -1160,13 +1282,14 @@ private void writeChangeReq(int col, int row,WritableSheet sheet,RCA rca) throws
 
 private void writeMissedReq(int col, int row,WritableSheet sheet,RCA rca) throws RowsExceededException, WriteException {
 	Label label;
+	
 	    
     label = new Label(++col,row, String.valueOf(rca.mr_qa));
     sheet.addCell(label);
     
     label = new Label(++col,row, String.valueOf(rca.mr_uat));
     sheet.addCell(label);
-    ++col;
+
     label = new Label(++col,row, String.valueOf(rca.mr_prod));
     sheet.addCell(label);
     
@@ -1291,12 +1414,14 @@ private void getRcaTypeLabelsForTemplateDownload(WritableSheet sheet, WritableCe
 }
 
 
-private void getProjectLabels(WritableSheet sheet, WritableCellFormat cellFormat, int rowNumber)
+private void getProjectLabels(WritableSheet sheet, WritableCellFormat cellFormat, int rowNumber, List<ProjectDetails> projectList)
 		throws WriteException, RowsExceededException {
 	Label label;
 	int i=rowNumber-1;
 	int mergeColStart=1;
 	int mergeColEnd=1;
+	
+	
 	
 	 WritableFont cellFont = new WritableFont(WritableFont.ARIAL, 10);	    
 	 WritableCellFormat cellFormatDate = new WritableCellFormat(cellFont);
@@ -1304,499 +1429,526 @@ private void getProjectLabels(WritableSheet sheet, WritableCellFormat cellFormat
 	 cellFormatDate.setVerticalAlignment(VerticalAlignment.CENTRE);
 	 cellFormatDate.setBorder(Border.ALL,BorderLineStyle.MEDIUM);
 	 cellFormatDate.setAlignment(Alignment.CENTRE);
+	 
+	 Iterator<ProjectDetails> projectIterator=projectList.iterator();
+	 
+	 	sheet.mergeCells(0, rowNumber, 0, rowNumber+25);
+		label = new Label(0, rowNumber, rca.week,cellFormatDate);
+	    sheet.addCell(label);
+		
+	    mergeColStart=mergeColEnd+1;
+	    mergeColEnd=mergeColStart+3;
+		sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
+		label = new Label(mergeColStart,0, "TOTAL",cellFormat);
+	    sheet.addCell(label);
+
 	    
-	sheet.mergeCells(0, rowNumber, 0, rowNumber+25);
-	label = new Label(0, rowNumber, rca.week,cellFormatDate);
-    sheet.addCell(label);
+	    label = new Label(++i,1, "QA");
+	    sheet.addCell(label);
+	    label = new Label(++i,1, "UAT");
+	    sheet.addCell(label);
+//	    label = new Label(++i,1, "STAGE");
+//	    sheet.addCell(label);
+	    label = new Label(++i,1, "PROD");
+	    sheet.addCell(label);
+	    label = new Label(++i,1, "OPEN");
+	    sheet.addCell(label);
+	 
+	 while(projectIterator.hasNext()){
+		 
+			
+		    mergeColStart=mergeColEnd+1;
+		    mergeColEnd=mergeColStart+3;
+			sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
+			label = new Label(mergeColStart,0, projectIterator.next().getProjectName()+projectList.size(),cellFormat);
+		    sheet.addCell(label);
+
+		    
+		    label = new Label(++i,1, "QA");
+		    sheet.addCell(label);
+		    label = new Label(++i,1, "UAT");
+		    sheet.addCell(label);
+//		    label = new Label(++i,1, "STAGE");
+//		    sheet.addCell(label);
+		    label = new Label(++i,1, "PROD");
+		    sheet.addCell(label);
+		    label = new Label(++i,1, "OPEN");
+		    sheet.addCell(label);
+		 
+	 }
+	    
 	
-    mergeColStart=mergeColEnd+1;
-    mergeColEnd=mergeColStart+4;
-	sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
-	label = new Label(mergeColStart,0, "SHP",cellFormat);
-    sheet.addCell(label);
 
-    
-    label = new Label(++i,1, "QA");
-    sheet.addCell(label);
-    label = new Label(++i,1, "UAT");
-    sheet.addCell(label);
-    label = new Label(++i,1, "STAGE");
-    sheet.addCell(label);
-    label = new Label(++i,1, "PROD");
-    sheet.addCell(label);
-    label = new Label(++i,1, "OPEN");
-    sheet.addCell(label);
-
-    mergeColStart=mergeColEnd+1;
-    mergeColEnd=mergeColStart+4;
-    
-    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
-    label = new Label(mergeColStart,0, "Centene",cellFormat);
-    sheet.addCell(label);
-    
-    label = new Label(++i,1, "QA");
-    sheet.addCell(label);
-    label = new Label(++i,1, "UAT");
-    sheet.addCell(label);
-    label = new Label(++i,1, "STAGE");
-    sheet.addCell(label);
-    label = new Label(++i,1, "PROD");
-    sheet.addCell(label);
-    label = new Label(++i,1, "OPEN");
-    sheet.addCell(label);
-    
-    
-    mergeColStart=mergeColEnd+1;
-    mergeColEnd=mergeColStart+4;
-    
-    sheet.mergeCells(mergeColStart, 0,mergeColEnd, 0);
-    label = new Label(mergeColStart,0, "IBC",cellFormat);
-    sheet.addCell(label);
-    
-    label = new Label(++i,1, "QA");
-    sheet.addCell(label);
-    label = new Label(++i,1, "UAT");
-    sheet.addCell(label);
-    label = new Label(++i,1, "STAGE");
-    sheet.addCell(label);
-    label = new Label(++i,1, "PROD");
-    sheet.addCell(label);
-    label = new Label(++i,1, "OPEN");
-    sheet.addCell(label);
-    
-    mergeColStart=mergeColEnd+1;
-    mergeColEnd=mergeColStart+4;
-    
-    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
-    label = new Label(mergeColStart,0, "WPS",cellFormat);
-    sheet.addCell(label);
-    
-    label = new Label(++i,1, "QA");
-    sheet.addCell(label);
-    label = new Label(++i,1, "UAT");
-    sheet.addCell(label);
-    label = new Label(++i,1, "STAGE");
-    sheet.addCell(label);
-    label = new Label(++i,1, "PROD");
-    sheet.addCell(label);
-    label = new Label(++i,1, "OPEN");
-    sheet.addCell(label);
-    
-    
-    mergeColStart=mergeColEnd+1;
-    mergeColEnd=mergeColStart+4;
-    
-    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
-    label = new Label(mergeColStart,0, "HFHP",cellFormat);
-    sheet.addCell(label);
-    
-    label = new Label(++i,1, "QA");
-    sheet.addCell(label);
-    label = new Label(++i,1, "UAT");
-    sheet.addCell(label);
-    label = new Label(++i,1, "STAGE");
-    sheet.addCell(label);
-    label = new Label(++i,1, "PROD");
-    sheet.addCell(label);
-    label = new Label(++i,1, "OPEN");
-    sheet.addCell(label);
-    
-    mergeColStart=mergeColEnd+1;
-    mergeColEnd=mergeColStart+4;
-    
-    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
-    label = new Label(mergeColStart,0, "HP",cellFormat);
-    sheet.addCell(label);
-    
-    label = new Label(++i,1, "QA");
-    sheet.addCell(label);
-    label = new Label(++i,1, "UAT");
-    sheet.addCell(label);
-    label = new Label(++i,1, "STAGE");
-    sheet.addCell(label);
-    label = new Label(++i,1, "PROD");
-    sheet.addCell(label);
-    label = new Label(++i,1, "OPEN");
-    sheet.addCell(label);
-    
-    mergeColStart=mergeColEnd+1;
-    mergeColEnd=mergeColStart+4;
-    
-    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
-    label = new Label(mergeColStart,0, "Kaiser",cellFormat);
-    sheet.addCell(label);
-    
-    label = new Label(++i,1, "QA");
-    sheet.addCell(label);
-    label = new Label(++i,1, "UAT");
-    sheet.addCell(label);
-    label = new Label(++i,1, "STAGE");
-    sheet.addCell(label);
-    label = new Label(++i,1, "PROD");
-    sheet.addCell(label);
-    label = new Label(++i,1, "OPEN");
-    sheet.addCell(label);
-    
-    mergeColStart=mergeColEnd+1;
-    mergeColEnd=mergeColStart+4;
-    
-    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
-    label = new Label(mergeColStart,0, "Federated",cellFormat);
-    sheet.addCell(label);
-    
-    label = new Label(++i,1, "QA");
-    sheet.addCell(label);
-    label = new Label(++i,1, "UAT");
-    sheet.addCell(label);
-    label = new Label(++i,1, "STAGE");
-    sheet.addCell(label);
-    label = new Label(++i,1, "PROD");
-    sheet.addCell(label);
-    label = new Label(++i,1, "OPEN");
-    sheet.addCell(label);
-    
-    mergeColStart=mergeColEnd+1;
-    mergeColEnd=mergeColStart+4;
-    
-    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
-    label = new Label(mergeColStart,0, "MI-IFP",cellFormat);
-    sheet.addCell(label);
-    
-    label = new Label(++i,1, "QA");
-    sheet.addCell(label);
-    label = new Label(++i,1, "UAT");
-    sheet.addCell(label);
-    label = new Label(++i,1, "STAGE");
-    sheet.addCell(label);
-    label = new Label(++i,1, "PROD");
-    sheet.addCell(label);
-    label = new Label(++i,1, "OPEN");
-    sheet.addCell(label);
-    
-    mergeColStart=mergeColEnd+1;
-    mergeColEnd=mergeColStart+4;
-    
-    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
-    label = new Label(mergeColStart,0, "MI-SG",cellFormat);
-    sheet.addCell(label);
-    
-    label = new Label(++i,1, "QA");
-    sheet.addCell(label);
-    label = new Label(++i,1, "UAT");
-    sheet.addCell(label);
-    label = new Label(++i,1, "STAGE");
-    sheet.addCell(label);
-    label = new Label(++i,1, "PROD");
-    sheet.addCell(label);
-    label = new Label(++i,1, "OPEN");
-    sheet.addCell(label);
-    
-    
-    mergeColStart=mergeColEnd+1;
-    mergeColEnd=mergeColStart+4;
-    
-    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
-    label = new Label(mergeColStart,0, "BCBSAL",cellFormat);
-    sheet.addCell(label);
-    
-    label = new Label(++i,1, "QA");
-    sheet.addCell(label);
-    label = new Label(++i,1, "UAT");
-    sheet.addCell(label);
-    label = new Label(++i,1, "STAGE");
-    sheet.addCell(label);
-    label = new Label(++i,1, "PROD");
-    sheet.addCell(label);
-    label = new Label(++i,1, "OPEN");
-    sheet.addCell(label);
-    
-    mergeColStart=mergeColEnd+1;
-    mergeColEnd=mergeColStart+4;
-    
-    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
-    label = new Label(mergeColStart,0, "BCBSMN",cellFormat);
-    sheet.addCell(label);
-    
-    label = new Label(++i,1, "QA");
-    sheet.addCell(label);
-    label = new Label(++i,1, "UAT");
-    sheet.addCell(label);
-    label = new Label(++i,1, "STAGE");
-    sheet.addCell(label);
-    label = new Label(++i,1, "PROD");
-    sheet.addCell(label);
-    label = new Label(++i,1, "OPEN");
-    sheet.addCell(label);
-    
-    mergeColStart=mergeColEnd+1;
-    mergeColEnd=mergeColStart+4;
-    
-    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
-    label = new Label(mergeColStart,0, "BCBSMA",cellFormat);
-    sheet.addCell(label);
-    
-    label = new Label(++i,1, "QA");
-    sheet.addCell(label);
-    label = new Label(++i,1, "UAT");
-    sheet.addCell(label);
-    label = new Label(++i,1, "STAGE");
-    sheet.addCell(label);
-    label = new Label(++i,1, "PROD");
-    sheet.addCell(label);
-    label = new Label(++i,1, "OPEN");
-    sheet.addCell(label);
-    
-    mergeColStart=mergeColEnd+1;
-    mergeColEnd=mergeColStart+4;
-    
-    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
-    label = new Label(mergeColStart,0, "BCBSNE",cellFormat);
-    sheet.addCell(label);
-    
-    label = new Label(++i,1, "QA");
-    sheet.addCell(label);
-    label = new Label(++i,1, "UAT");
-    sheet.addCell(label);
-    label = new Label(++i,1, "STAGE");
-    sheet.addCell(label);
-    label = new Label(++i,1, "PROD");
-    sheet.addCell(label);
-    label = new Label(++i,1, "OPEN");
-    sheet.addCell(label);
-    
-    mergeColStart=mergeColEnd+1;
-    mergeColEnd=mergeColStart+4;
-    
-    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
-    label = new Label(mergeColStart,0, "BCSBTN",cellFormat);
-    sheet.addCell(label);
-    
-    label = new Label(++i,1, "QA");
-    sheet.addCell(label);
-    label = new Label(++i,1, "UAT");
-    sheet.addCell(label);
-    label = new Label(++i,1, "STAGE");
-    sheet.addCell(label);
-    label = new Label(++i,1, "PROD");
-    sheet.addCell(label);
-    label = new Label(++i,1, "OPEN");
-    sheet.addCell(label);
-    
-    mergeColStart=mergeColEnd+1;
-    mergeColEnd=mergeColStart+4;
-    
-    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
-    label = new Label(mergeColStart,0, "Topaz",cellFormat);
-    sheet.addCell(label);
-    
-    label = new Label(++i,1, "QA");
-    sheet.addCell(label);
-    label = new Label(++i,1, "UAT");
-    sheet.addCell(label);
-    label = new Label(++i,1, "STAGE");
-    sheet.addCell(label);
-    label = new Label(++i,1, "PROD");
-    sheet.addCell(label);
-    label = new Label(++i,1, "OPEN");
-    sheet.addCell(label);
-    
-    mergeColStart=mergeColEnd+1;
-    mergeColEnd=mergeColStart+4;
-    
-    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
-    label = new Label(mergeColStart,0, "WM",cellFormat);
-    sheet.addCell(label);
-    
-    label = new Label(++i,1, "QA");
-    sheet.addCell(label);
-    label = new Label(++i,1, "UAT");
-    sheet.addCell(label);
-    label = new Label(++i,1, "STAGE");
-    sheet.addCell(label);
-    label = new Label(++i,1, "PROD");
-    sheet.addCell(label);
-    label = new Label(++i,1, "OPEN");
-    sheet.addCell(label);
-    
-    mergeColStart=mergeColEnd+1;
-    mergeColEnd=mergeColStart+4;
-    
-    sheet.mergeCells(mergeColStart, 0,mergeColEnd, 0);
-    label = new Label(mergeColStart,0, "TN-PX",cellFormat);
-    sheet.addCell(label);
-    
-    label = new Label(++i,1, "QA");
-    sheet.addCell(label);
-    label = new Label(++i,1, "UAT");
-    sheet.addCell(label);
-    label = new Label(++i,1, "STAGE");
-    sheet.addCell(label);
-    label = new Label(++i,1, "PROD");
-    sheet.addCell(label);
-    label = new Label(++i,1, "OPEN");
-    sheet.addCell(label);
-    
-    mergeColStart=mergeColEnd+1;
-    mergeColEnd=mergeColStart+4;
-    
-    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
-    label = new Label(mergeColStart,0, "HP-SG",cellFormat);
-    sheet.addCell(label);
-    
-    label = new Label(++i,1, "QA");
-    sheet.addCell(label);
-    label = new Label(++i,1, "UAT");
-    sheet.addCell(label);
-    label = new Label(++i,1, "STAGE");
-    sheet.addCell(label);
-    label = new Label(++i,1, "PROD");
-    sheet.addCell(label);
-    label = new Label(++i,1, "OPEN");
-    sheet.addCell(label);
-    
-    mergeColStart=mergeColEnd+1;
-    mergeColEnd=mergeColStart+4;
-    
-    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
-    label = new Label(mergeColStart,0, "UCD",cellFormat);
-    sheet.addCell(label);
-    
-    label = new Label(++i,1, "QA");
-    sheet.addCell(label);
-    label = new Label(++i,1, "UAT");
-    sheet.addCell(label);
-    label = new Label(++i,1, "STAGE");
-    sheet.addCell(label);
-    label = new Label(++i,1, "PROD");
-    sheet.addCell(label);
-    label = new Label(++i,1, "OPEN");
-    sheet.addCell(label);
-        
-    mergeColStart=mergeColEnd+1;
-    mergeColEnd=mergeColStart+4;
-    
-    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
-    label = new Label(mergeColStart,0, "UHG",cellFormat);
-    sheet.addCell(label);
-    
-    label = new Label(++i,1, "QA");
-    sheet.addCell(label);
-    label = new Label(++i,1, "UAT");
-    sheet.addCell(label);
-    label = new Label(++i,1, "STAGE");
-    sheet.addCell(label);
-    label = new Label(++i,1, "PROD");
-    sheet.addCell(label);
-    label = new Label(++i,1, "OPEN");
-    sheet.addCell(label);
-    
-    mergeColStart=mergeColEnd+1;
-    mergeColEnd=mergeColStart+4;
-    
-    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
-    label = new Label(mergeColStart,0, "Shopping",cellFormat);
-    sheet.addCell(label);
-    
-    label = new Label(++i,1, "QA");
-    sheet.addCell(label);
-    label = new Label(++i,1, "UAT");
-    sheet.addCell(label);
-    label = new Label(++i,1, "STAGE");
-    sheet.addCell(label);
-    label = new Label(++i,1, "PROD");
-    sheet.addCell(label);
-    label = new Label(++i,1, "OPEN");
-    sheet.addCell(label);
-    
-    mergeColStart=mergeColEnd+1;
-    mergeColEnd=mergeColStart+4;
-    
-    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
-    label = new Label(mergeColStart,0, "IA-PX",cellFormat);
-    sheet.addCell(label);    
-    
-    label = new Label(++i,1, "QA");
-    sheet.addCell(label);
-    label = new Label(++i,1, "UAT");
-    sheet.addCell(label);
-    label = new Label(++i,1, "STAGE");
-    sheet.addCell(label);
-    label = new Label(++i,1, "PROD");
-    sheet.addCell(label);
-    label = new Label(++i,1, "OPEN");
-    sheet.addCell(label);
-    
-    mergeColStart=mergeColEnd+1;
-    mergeColEnd=mergeColStart+4;
-    
-    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
-    label = new Label(mergeColStart,0, "DHP",cellFormat);
-    sheet.addCell(label);    
-    
-    label = new Label(++i,1, "QA");
-    sheet.addCell(label);
-    label = new Label(++i,1, "UAT");
-    sheet.addCell(label);
-    label = new Label(++i,1, "STAGE");
-    sheet.addCell(label);
-    label = new Label(++i,1, "PROD");
-    sheet.addCell(label);
-    label = new Label(++i,1, "OPEN");
-    sheet.addCell(label);
-    
-    mergeColStart=mergeColEnd+1;
-    mergeColEnd=mergeColStart+4;
-    
-    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
-    label = new Label(mergeColStart,0, "CRM",cellFormat);
-    sheet.addCell(label);    
-    
-    label = new Label(++i,1, "QA");
-    sheet.addCell(label);
-    label = new Label(++i,1, "UAT");
-    sheet.addCell(label);
-    label = new Label(++i,1, "STAGE");
-    sheet.addCell(label);
-    label = new Label(++i,1, "PROD");
-    sheet.addCell(label);
-    label = new Label(++i,1, "OPEN");
-    sheet.addCell(label);
-    
-    mergeColStart=mergeColEnd+1;
-    mergeColEnd=mergeColStart+4;
-    
-    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
-    label = new Label(mergeColStart,0, "Rating",cellFormat);
-    sheet.addCell(label);    
-    
-    label = new Label(++i,1, "QA");
-    sheet.addCell(label);
-    label = new Label(++i,1, "UAT");
-    sheet.addCell(label);
-    label = new Label(++i,1, "STAGE");
-    sheet.addCell(label);
-    label = new Label(++i,1, "PROD");
-    sheet.addCell(label);
-    label = new Label(++i,1, "OPEN");
-    sheet.addCell(label);
-    
-    mergeColStart=mergeColEnd+1;
-    mergeColEnd=mergeColStart+4;
-    
-    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
-    label = new Label(mergeColStart,0, "AppConfig",cellFormat);
-    sheet.addCell(label);    
-    
-    label = new Label(++i,1, "QA");
-    sheet.addCell(label);
-    label = new Label(++i,1, "UAT");
-    sheet.addCell(label);
-    label = new Label(++i,1, "STAGE");
-    sheet.addCell(label);
-    label = new Label(++i,1, "PROD");
-    sheet.addCell(label);
-    label = new Label(++i,1, "OPEN");
-    sheet.addCell(label);
+//    mergeColStart=mergeColEnd+1;
+//    mergeColEnd=mergeColStart+4;
+//    
+//    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
+//    label = new Label(mergeColStart,0, "Centene",cellFormat);
+//    sheet.addCell(label);
+//    
+//    label = new Label(++i,1, "QA");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "UAT");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "STAGE");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "PROD");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "OPEN");
+//    sheet.addCell(label);
+//    
+//    
+//    mergeColStart=mergeColEnd+1;
+//    mergeColEnd=mergeColStart+4;
+//    
+//    sheet.mergeCells(mergeColStart, 0,mergeColEnd, 0);
+//    label = new Label(mergeColStart,0, "IBC",cellFormat);
+//    sheet.addCell(label);
+//    
+//    label = new Label(++i,1, "QA");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "UAT");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "STAGE");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "PROD");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "OPEN");
+//    sheet.addCell(label);
+//    
+//    mergeColStart=mergeColEnd+1;
+//    mergeColEnd=mergeColStart+4;
+//    
+//    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
+//    label = new Label(mergeColStart,0, "WPS",cellFormat);
+//    sheet.addCell(label);
+//    
+//    label = new Label(++i,1, "QA");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "UAT");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "STAGE");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "PROD");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "OPEN");
+//    sheet.addCell(label);
+//    
+//    
+//    mergeColStart=mergeColEnd+1;
+//    mergeColEnd=mergeColStart+4;
+//    
+//    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
+//    label = new Label(mergeColStart,0, "HFHP",cellFormat);
+//    sheet.addCell(label);
+//    
+//    label = new Label(++i,1, "QA");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "UAT");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "STAGE");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "PROD");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "OPEN");
+//    sheet.addCell(label);
+//    
+//    mergeColStart=mergeColEnd+1;
+//    mergeColEnd=mergeColStart+4;
+//    
+//    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
+//    label = new Label(mergeColStart,0, "HP",cellFormat);
+//    sheet.addCell(label);
+//    
+//    label = new Label(++i,1, "QA");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "UAT");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "STAGE");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "PROD");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "OPEN");
+//    sheet.addCell(label);
+//    
+//    mergeColStart=mergeColEnd+1;
+//    mergeColEnd=mergeColStart+4;
+//    
+//    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
+//    label = new Label(mergeColStart,0, "Kaiser",cellFormat);
+//    sheet.addCell(label);
+//    
+//    label = new Label(++i,1, "QA");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "UAT");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "STAGE");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "PROD");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "OPEN");
+//    sheet.addCell(label);
+//    
+//    mergeColStart=mergeColEnd+1;
+//    mergeColEnd=mergeColStart+4;
+//    
+//    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
+//    label = new Label(mergeColStart,0, "Federated",cellFormat);
+//    sheet.addCell(label);
+//    
+//    label = new Label(++i,1, "QA");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "UAT");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "STAGE");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "PROD");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "OPEN");
+//    sheet.addCell(label);
+//    
+//    mergeColStart=mergeColEnd+1;
+//    mergeColEnd=mergeColStart+4;
+//    
+//    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
+//    label = new Label(mergeColStart,0, "MI-IFP",cellFormat);
+//    sheet.addCell(label);
+//    
+//    label = new Label(++i,1, "QA");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "UAT");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "STAGE");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "PROD");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "OPEN");
+//    sheet.addCell(label);
+//    
+//    mergeColStart=mergeColEnd+1;
+//    mergeColEnd=mergeColStart+4;
+//    
+//    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
+//    label = new Label(mergeColStart,0, "MI-SG",cellFormat);
+//    sheet.addCell(label);
+//    
+//    label = new Label(++i,1, "QA");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "UAT");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "STAGE");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "PROD");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "OPEN");
+//    sheet.addCell(label);
+//    
+//    
+//    mergeColStart=mergeColEnd+1;
+//    mergeColEnd=mergeColStart+4;
+//    
+//    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
+//    label = new Label(mergeColStart,0, "BCBSAL",cellFormat);
+//    sheet.addCell(label);
+//    
+//    label = new Label(++i,1, "QA");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "UAT");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "STAGE");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "PROD");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "OPEN");
+//    sheet.addCell(label);
+//    
+//    mergeColStart=mergeColEnd+1;
+//    mergeColEnd=mergeColStart+4;
+//    
+//    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
+//    label = new Label(mergeColStart,0, "BCBSMN",cellFormat);
+//    sheet.addCell(label);
+//    
+//    label = new Label(++i,1, "QA");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "UAT");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "STAGE");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "PROD");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "OPEN");
+//    sheet.addCell(label);
+//    
+//    mergeColStart=mergeColEnd+1;
+//    mergeColEnd=mergeColStart+4;
+//    
+//    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
+//    label = new Label(mergeColStart,0, "BCBSMA",cellFormat);
+//    sheet.addCell(label);
+//    
+//    label = new Label(++i,1, "QA");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "UAT");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "STAGE");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "PROD");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "OPEN");
+//    sheet.addCell(label);
+//    
+//    mergeColStart=mergeColEnd+1;
+//    mergeColEnd=mergeColStart+4;
+//    
+//    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
+//    label = new Label(mergeColStart,0, "BCBSNE",cellFormat);
+//    sheet.addCell(label);
+//    
+//    label = new Label(++i,1, "QA");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "UAT");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "STAGE");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "PROD");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "OPEN");
+//    sheet.addCell(label);
+//    
+//    mergeColStart=mergeColEnd+1;
+//    mergeColEnd=mergeColStart+4;
+//    
+//    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
+//    label = new Label(mergeColStart,0, "BCSBTN",cellFormat);
+//    sheet.addCell(label);
+//    
+//    label = new Label(++i,1, "QA");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "UAT");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "STAGE");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "PROD");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "OPEN");
+//    sheet.addCell(label);
+//    
+//    mergeColStart=mergeColEnd+1;
+//    mergeColEnd=mergeColStart+4;
+//    
+//    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
+//    label = new Label(mergeColStart,0, "Topaz",cellFormat);
+//    sheet.addCell(label);
+//    
+//    label = new Label(++i,1, "QA");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "UAT");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "STAGE");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "PROD");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "OPEN");
+//    sheet.addCell(label);
+//    
+//    mergeColStart=mergeColEnd+1;
+//    mergeColEnd=mergeColStart+4;
+//    
+//    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
+//    label = new Label(mergeColStart,0, "WM",cellFormat);
+//    sheet.addCell(label);
+//    
+//    label = new Label(++i,1, "QA");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "UAT");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "STAGE");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "PROD");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "OPEN");
+//    sheet.addCell(label);
+//    
+//    mergeColStart=mergeColEnd+1;
+//    mergeColEnd=mergeColStart+4;
+//    
+//    sheet.mergeCells(mergeColStart, 0,mergeColEnd, 0);
+//    label = new Label(mergeColStart,0, "TN-PX",cellFormat);
+//    sheet.addCell(label);
+//    
+//    label = new Label(++i,1, "QA");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "UAT");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "STAGE");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "PROD");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "OPEN");
+//    sheet.addCell(label);
+//    
+//    mergeColStart=mergeColEnd+1;
+//    mergeColEnd=mergeColStart+4;
+//    
+//    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
+//    label = new Label(mergeColStart,0, "HP-SG",cellFormat);
+//    sheet.addCell(label);
+//    
+//    label = new Label(++i,1, "QA");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "UAT");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "STAGE");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "PROD");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "OPEN");
+//    sheet.addCell(label);
+//    
+//    mergeColStart=mergeColEnd+1;
+//    mergeColEnd=mergeColStart+4;
+//    
+//    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
+//    label = new Label(mergeColStart,0, "UCD",cellFormat);
+//    sheet.addCell(label);
+//    
+//    label = new Label(++i,1, "QA");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "UAT");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "STAGE");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "PROD");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "OPEN");
+//    sheet.addCell(label);
+//        
+//    mergeColStart=mergeColEnd+1;
+//    mergeColEnd=mergeColStart+4;
+//    
+//    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
+//    label = new Label(mergeColStart,0, "UHG",cellFormat);
+//    sheet.addCell(label);
+//    
+//    label = new Label(++i,1, "QA");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "UAT");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "STAGE");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "PROD");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "OPEN");
+//    sheet.addCell(label);
+//    
+//    mergeColStart=mergeColEnd+1;
+//    mergeColEnd=mergeColStart+4;
+//    
+//    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
+//    label = new Label(mergeColStart,0, "Shopping",cellFormat);
+//    sheet.addCell(label);
+//    
+//    label = new Label(++i,1, "QA");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "UAT");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "STAGE");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "PROD");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "OPEN");
+//    sheet.addCell(label);
+//    
+//    mergeColStart=mergeColEnd+1;
+//    mergeColEnd=mergeColStart+4;
+//    
+//    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
+//    label = new Label(mergeColStart,0, "IA-PX",cellFormat);
+//    sheet.addCell(label);    
+//    
+//    label = new Label(++i,1, "QA");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "UAT");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "STAGE");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "PROD");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "OPEN");
+//    sheet.addCell(label);
+//    
+//    mergeColStart=mergeColEnd+1;
+//    mergeColEnd=mergeColStart+4;
+//    
+//    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
+//    label = new Label(mergeColStart,0, "DHP",cellFormat);
+//    sheet.addCell(label);    
+//    
+//    label = new Label(++i,1, "QA");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "UAT");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "STAGE");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "PROD");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "OPEN");
+//    sheet.addCell(label);
+//    
+//    mergeColStart=mergeColEnd+1;
+//    mergeColEnd=mergeColStart+4;
+//    
+//    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
+//    label = new Label(mergeColStart,0, "CRM",cellFormat);
+//    sheet.addCell(label);    
+//    
+//    label = new Label(++i,1, "QA");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "UAT");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "STAGE");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "PROD");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "OPEN");
+//    sheet.addCell(label);
+//    
+//    mergeColStart=mergeColEnd+1;
+//    mergeColEnd=mergeColStart+4;
+//    
+//    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
+//    label = new Label(mergeColStart,0, "Rating",cellFormat);
+//    sheet.addCell(label);    
+//    
+//    label = new Label(++i,1, "QA");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "UAT");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "STAGE");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "PROD");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "OPEN");
+//    sheet.addCell(label);
+//    
+//    mergeColStart=mergeColEnd+1;
+//    mergeColEnd=mergeColStart+4;
+//    
+//    sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
+//    label = new Label(mergeColStart,0, "AppConfig",cellFormat);
+//    sheet.addCell(label);    
+//    
+//    label = new Label(++i,1, "QA");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "UAT");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "STAGE");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "PROD");
+//    sheet.addCell(label);
+//    label = new Label(++i,1, "OPEN");
+//    sheet.addCell(label);
 
 }
 

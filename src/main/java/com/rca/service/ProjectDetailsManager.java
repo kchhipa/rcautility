@@ -11,5 +11,7 @@ public interface ProjectDetailsManager {
 	public abstract ProjectDetails findProjectDetailsByIdWithRcaCount(int id);
 	
 	public abstract List<ProjectDetails> getAllActiveProjects();
+	
+	public abstract List<ProjectDetails> getAllProjects();
 
 }

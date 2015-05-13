@@ -28,5 +28,7 @@ public interface ProjectDetailsDAO {
 	public abstract void setSessionFactory(SessionFactory sessionFactory);
 	
 	public abstract List<ProjectDetails> getAllActiveProjects();
+	
+	public abstract List<ProjectDetails> getAllProjects();
 
 }

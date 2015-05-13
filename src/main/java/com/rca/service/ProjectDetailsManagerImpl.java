@@ -38,4 +38,11 @@ public class ProjectDetailsManagerImpl implements ProjectDetailsManager {
 		// TODO Auto-generated method stub
 		return projectDetailsDAO.getAllActiveProjects();
 	}
+	
+	@Override
+	@Transactional
+	public List<ProjectDetails> getAllProjects() {
+		// TODO Auto-generated method stub
+		return projectDetailsDAO.getAllProjects();
+	}
 }

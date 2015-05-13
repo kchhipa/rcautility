@@ -168,4 +168,18 @@ public class ProjectDetailsDAOImpl  implements ProjectDetailsDAO{
 		}
 		return null;
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ProjectDetails> getAllProjects() {
+
+		String query = "from ProjectDetails";
+		List<ProjectDetails> results = (List<ProjectDetails>) template.find(query);
+		log.debug("getAllActiveProjects, result size: "
+				+ results.size());
+		if(results.size()>0){
+			return results;
+		}
+		return null;
+	}
 }
