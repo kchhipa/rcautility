@@ -1460,7 +1460,7 @@ private void getProjectLabels(WritableSheet sheet, WritableCellFormat cellFormat
 		    mergeColStart=mergeColEnd+1;
 		    mergeColEnd=mergeColStart+3;
 			sheet.mergeCells(mergeColStart, 0, mergeColEnd, 0);
-			label = new Label(mergeColStart,0, projectIterator.next().getProjectName()+projectList.size(),cellFormat);
+			label = new Label(mergeColStart,0, projectIterator.next().getProjectName(),cellFormat);
 		    sheet.addCell(label);
 
 		    
