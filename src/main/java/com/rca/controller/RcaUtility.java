@@ -560,11 +560,11 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 
 			String[] weekIntervals = this.weekInterval!= null ? this.weekInterval.split(","): new String[]{rca.week};
 			int rowNumber = 2;
-			for (String string : weekIntervals) {
+			for (String week : weekIntervals) {
 				//rca.setWeek(string);
-				getProjectLabels(sheet, cellFormatProject, rowNumber, projectList);
+				getProjectLabels(sheet, cellFormatProject, rowNumber, projectList, week);
 				getRcaTypeLabelsForExport(sheet, cellFormatRcaType, rowNumber-1, 1);
-				rcaList = RcaUtilityDao.getRcaDetailList(string,projectList);
+				rcaList = RcaUtilityDao.getRcaDetailList(week,projectList);
 				if (rcaList != null && rcaList.size() > 0) {
 					writeRcaData(sheet, rcaList, rowNumber, projectList);
 				}
@@ -629,14 +629,15 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 				total_uat[10] = total_uat[10] +rca.co_uat;
 				total_uat[11] = total_uat[11] +rca.ccb_uat;
 				total_uat[12] = total_uat[12] +rca.ad_uat;
-				total_uat[14] = total_uat[13] +rca.dup_uat;
-				total_uat[15] = total_uat[14] +rca.nad_uat;
-				total_uat[16] = total_uat[15] +rca.bsi_uat;
-				total_uat[17] = total_uat[16] +rca.utr_uat;
-				total_uat[18] = total_uat[17] +rca.pd_uat;
-				total_uat[19] = total_uat[18];
-				total_uat[20] = total_uat[19] +rca.ffm_uat;
-				total_uat[21] = total_uat[20] +rca.crmesb_uat;
+				total_uat[13] = total_uat[13] +rca.dup_uat;
+				total_uat[14] = total_uat[14] +rca.nad_uat;
+				total_uat[15] = total_uat[15] +rca.bsi_uat;
+				total_uat[16] = total_uat[16] +rca.utr_uat;
+				total_uat[17] = total_uat[17] +rca.pd_uat;
+				total_uat[18] = total_uat[18];
+				total_uat[19] = total_uat[19] +rca.ffm_uat;
+				total_uat[20] = total_uat[20] +rca.crmesb_uat;
+				total_uat[21] = total_uat[21] +rca.otp_uat;
 				total_uat[22] = total_uat[22] +rca.pmuu_uat;
 				total_uat[23] = total_uat[23] +rca.io_uat;
 				total_uat[24] = total_uat[24] +rca.di_uat;
@@ -1414,7 +1415,7 @@ private void getRcaTypeLabelsForTemplateDownload(WritableSheet sheet, WritableCe
 }
 
 
-private void getProjectLabels(WritableSheet sheet, WritableCellFormat cellFormat, int rowNumber, List<ProjectDetails> projectList)
+private void getProjectLabels(WritableSheet sheet, WritableCellFormat cellFormat, int rowNumber, List<ProjectDetails> projectList, String week)
 		throws WriteException, RowsExceededException {
 	Label label;
 	int i=rowNumber-1;
@@ -1433,7 +1434,7 @@ private void getProjectLabels(WritableSheet sheet, WritableCellFormat cellFormat
 	 Iterator<ProjectDetails> projectIterator=projectList.iterator();
 	 
 	 	sheet.mergeCells(0, rowNumber, 0, rowNumber+25);
-		label = new Label(0, rowNumber, rca.week,cellFormatDate);
+		label = new Label(0, rowNumber, week,cellFormatDate);
 	    sheet.addCell(label);
 		
 	    mergeColStart=mergeColEnd+1;
