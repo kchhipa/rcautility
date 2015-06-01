@@ -49,6 +49,7 @@ function calculateWeek()
 		var sundays = new Array();
 		var months = new Array();
 		var years = new Array();
+		var sundaysMonth = new Array();
 		
 		var d2 = new Date();
 		// d2.setDate(d2.getDate()+3);
@@ -62,7 +63,8 @@ function calculateWeek()
 			}
 		for(var i=0;date2<=d2;i++)
 			{
-			 sundays[i]= date2.getDate();		
+			 sundays[i]= date2.getDate();
+			 sundaysMonth[i]= date2.getMonth()+1;
 			 date2.setDate(date2.getDate()+7);
 			}
 		
@@ -76,8 +78,8 @@ function calculateWeek()
 		   
 		   for(var i = 0; i < mondays.length-1; i++) {
 			   var option = document.createElement("option");
-			   var text = months[i]+"/"+mondays[i]+"-"+months[i+1]+"/"+sundays[i];
-			   var value = months[i]+"/"+mondays[i]+"/"+years[i]+"-"+months[i+1]+"/"+sundays[i]+"/"+years[i+1];
+			   var text = months[i]+"/"+mondays[i]+"-"+sundaysMonth[i]+"/"+sundays[i];
+			   var value = months[i]+"/"+mondays[i]+"/"+years[i]+"-"+sundaysMonth[i]+"/"+sundays[i]+"/"+years[i+1];
 			   if(weekValue==value)
 				   continue;
 			   option.text = text;
