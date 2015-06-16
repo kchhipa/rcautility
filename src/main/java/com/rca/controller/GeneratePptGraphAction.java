@@ -192,10 +192,11 @@ public String addUatComments(List<RcaCount> rcaCounts){
 		
 		String uatText="";
 		RcaCount rcaCount = null;
+		int count=0;
 
 		Iterator<RcaCount> it = rcaCounts.iterator();
 		while (it.hasNext()) {
-
+			count=0;
 			rcaCount = (RcaCount) it.next();
 			int total = calculateBugTypeCountForUATPerProject(rcaCount,
 					CLIENT_CODE_BUG)
@@ -218,46 +219,63 @@ public String addUatComments(List<RcaCount> rcaCounts){
 						+ rcaCount.getProjectDetails().getProjectName() + "("+total+") : ";
 				if (calculateBugTypeCountForUATPerProject(rcaCount,
 						CLIENT_CODE_BUG) != 0) {
-					uatText+=calculateBugTypeCountForUATPerProject(
-							rcaCount, CLIENT_CODE_BUG) + " Client Code Defect, ";
+					uatText+=" "+calculateBugTypeCountForUATPerProject(
+							rcaCount, CLIENT_CODE_BUG) + " Client Code Defect#";
+					count++;
 				}
 				if (calculateBugTypeCountForUATPerProject(rcaCount,
 						MISSED_REQUIREMENT) != 0) {
-					uatText+=calculateBugTypeCountForUATPerProject(
+					uatText+=" "+calculateBugTypeCountForUATPerProject(
 							rcaCount, MISSED_REQUIREMENT)
-							+ " Missed Requirement, ";
+							+ " Missed Requirement#";
+					count++;
 				}
 				if (calculateBugTypeCountForUATPerProject(rcaCount,
 						CHANGE_REQUIREMENT) != 0) {
-					uatText+=calculateBugTypeCountForUATPerProject(
+					uatText+=" "+calculateBugTypeCountForUATPerProject(
 							rcaCount, CHANGE_REQUIREMENT)
-							+ " Change Requirement, ";
+							+ " Change Requirement#";
+					count++;
 				}
 				if (calculateBugTypeCountForUATPerProject(rcaCount,
 						INTEGRATION_ISSUE) != 0) {
-					uatText+=calculateBugTypeCountForUATPerProject(
-							rcaCount, INTEGRATION_ISSUE) + " Integration Issue, ";
+					uatText+=" "+calculateBugTypeCountForUATPerProject(
+							rcaCount, INTEGRATION_ISSUE) + " Integration Issue#";
+					count++;
 				}
 				if (calculateBugTypeCountForUATPerProject(rcaCount,
 						CONFIGURATION_ISSUE) != 0) {
-					uatText+=calculateBugTypeCountForUATPerProject(
+					uatText+=" "+calculateBugTypeCountForUATPerProject(
 							rcaCount, CONFIGURATION_ISSUE)
-							+ " Configuration Issue, ";
+							+ " Configuration Issue#";
+					count++;
 				}
 				if (calculateBugTypeCountForUATPerProject(rcaCount, DATA_ISSUE) != 0) {
-					uatText+=calculateBugTypeCountForUATPerProject(
-							rcaCount, DATA_ISSUE) + " Data Issue, ";
+					uatText+=" "+calculateBugTypeCountForUATPerProject(
+							rcaCount, DATA_ISSUE) + " Data Issue#";
+					count++;
 				}
 				if (calculateBugTypeCountForUATPerProject(rcaCount,
 						MIX_CATEGORY) != 0) {
-					uatText+=calculateBugTypeCountForUATPerProject(
-							rcaCount, MIX_CATEGORY) + " Others, ";
+					uatText+=" "+calculateBugTypeCountForUATPerProject(
+							rcaCount, MIX_CATEGORY) + " Others#";
+					count++;
 				}
 				if (calculateBugTypeCountForUATPerProject(rcaCount,
 						PRODUCT_DEFECT) != 0) {
-					uatText+=calculateBugTypeCountForUATPerProject(
-							rcaCount, PRODUCT_DEFECT) + " Product Defect";
+					uatText+=" "+calculateBugTypeCountForUATPerProject(
+							rcaCount, PRODUCT_DEFECT) + " Product Defect#";
+					count++;
 				}
+			}
+			if(count==1){
+				uatText=uatText.replace("#", "");
+			}
+			if(count>1){
+				uatText=uatText.replaceAll("#", ",");
+			}
+			if(uatText.endsWith(",")){
+				uatText = uatText.substring(0,uatText.length() - 1);
 			}
 
 		}
@@ -269,10 +287,11 @@ public String addProdComments(List<RcaCount> rcaCounts){
 		
 		String prodText="";
 		RcaCount rcaCount = null;
+		int count=0;
 
 		Iterator<RcaCount> it = rcaCounts.iterator();
 		while (it.hasNext()) {
-
+			count=0;
 			rcaCount = (RcaCount) it.next();
 			int total = calculateBugTypeCountForProdPerProject(rcaCount,
 					CLIENT_CODE_BUG)
@@ -295,46 +314,64 @@ public String addProdComments(List<RcaCount> rcaCounts){
 						+ rcaCount.getProjectDetails().getProjectName() + "("+total+") : ";
 				if (calculateBugTypeCountForProdPerProject(rcaCount,
 						CLIENT_CODE_BUG) != 0) {
-					prodText+=calculateBugTypeCountForProdPerProject(
-							rcaCount, CLIENT_CODE_BUG) + " Client Code Defect";
+					prodText+=" "+calculateBugTypeCountForProdPerProject(
+							rcaCount, CLIENT_CODE_BUG) + " Client Code Defect#";
+					count++;
 				}
 				if (calculateBugTypeCountForProdPerProject(rcaCount,
 						MISSED_REQUIREMENT) != 0) {
-					prodText+=calculateBugTypeCountForProdPerProject(
+					prodText+=" "+calculateBugTypeCountForProdPerProject(
 							rcaCount, MISSED_REQUIREMENT)
-							+ " Missed Requirement, ";
+							+ " Missed Requirement#";
+					count++;
 				}
 				if (calculateBugTypeCountForProdPerProject(rcaCount,
 						CHANGE_REQUIREMENT) != 0) {
-					prodText+=(calculateBugTypeCountForProdPerProject(
+					prodText+=" "+calculateBugTypeCountForProdPerProject(
 							rcaCount, CHANGE_REQUIREMENT)
-							+ " Change Requirement, ");
+							+ " Change Requirement#";
+					count++;
 				}
 				if (calculateBugTypeCountForProdPerProject(rcaCount,
 						INTEGRATION_ISSUE) != 0) {
-					prodText+=calculateBugTypeCountForProdPerProject(
-							rcaCount, INTEGRATION_ISSUE) + " Integration Issue, ";
+					prodText+=" "+calculateBugTypeCountForProdPerProject(
+							rcaCount, INTEGRATION_ISSUE) + " Integration Issue#";
+					count++;
 				}
 				if (calculateBugTypeCountForProdPerProject(rcaCount,
 						CONFIGURATION_ISSUE) != 0) {
-					prodText+=calculateBugTypeCountForProdPerProject(
+					prodText+=" "+calculateBugTypeCountForProdPerProject(
 							rcaCount, CONFIGURATION_ISSUE)
-							+ " Configuration Issue, ";
+							+ " Configuration Issue#";
+					count++;
 				}
 				if (calculateBugTypeCountForProdPerProject(rcaCount, DATA_ISSUE) != 0) {
-					prodText+=calculateBugTypeCountForProdPerProject(
-							rcaCount, DATA_ISSUE) + " Data Issue, ";
+					prodText+=" "+calculateBugTypeCountForProdPerProject(
+							rcaCount, DATA_ISSUE) + " Data Issue#";
+					count++;
 				}
 				if (calculateBugTypeCountForProdPerProject(rcaCount,
 						MIX_CATEGORY) != 0) {
-					prodText+=calculateBugTypeCountForProdPerProject(
-							rcaCount, MIX_CATEGORY) + " Others, ";
+					prodText+=" "+calculateBugTypeCountForProdPerProject(
+							rcaCount, MIX_CATEGORY) + " Others#";
+					count++;
 				}
 				if (calculateBugTypeCountForProdPerProject(rcaCount,
 						PRODUCT_DEFECT) != 0) {
-					prodText+=calculateBugTypeCountForProdPerProject(
-							rcaCount, PRODUCT_DEFECT) + " Product Defect";
+					prodText+=" "+calculateBugTypeCountForProdPerProject(
+							rcaCount, PRODUCT_DEFECT) + " Product Defect#";
+					count++;
 				}
+			}
+			
+			if(count==1){
+				prodText=prodText.replace("#", "");
+			}
+			if(count>1){
+				prodText=prodText.replaceAll("#", ",");
+			}
+			if(prodText.endsWith(",")){
+				prodText = prodText.substring(0,prodText.length() - 1);
 			}
 
 		}
@@ -346,10 +383,11 @@ public String addQAComments(List<RcaCount> rcaCounts){
 	
 	String qaText="";
 	RcaCount rcaCount = null;
+	int count=0;
 
 	Iterator<RcaCount> it = rcaCounts.iterator();
 	while (it.hasNext()) {
-
+		count=0;
 		rcaCount = (RcaCount) it.next();
 		int total = calculateBugTypeCountForQAPerProject(rcaCount,
 				CLIENT_CODE_BUG)
@@ -372,46 +410,64 @@ public String addQAComments(List<RcaCount> rcaCounts){
 					+ rcaCount.getProjectDetails().getProjectName() + "("+total+") : ";
 			if (calculateBugTypeCountForQAPerProject(rcaCount,
 					CLIENT_CODE_BUG) != 0) {
-				qaText+=calculateBugTypeCountForQAPerProject(
-						rcaCount, CLIENT_CODE_BUG) + " Client Code Defect";
+				qaText+=" "+calculateBugTypeCountForQAPerProject(
+						rcaCount, CLIENT_CODE_BUG) + " Client Code Defect#";
+				count++;
 			}
 			if (calculateBugTypeCountForQAPerProject(rcaCount,
 					MISSED_REQUIREMENT) != 0) {
-				qaText+=calculateBugTypeCountForQAPerProject(
+				qaText+=" "+calculateBugTypeCountForQAPerProject(
 						rcaCount, MISSED_REQUIREMENT)
-						+ " Missed Requirement, ";
+						+ " Missed Requirement#";
+				count++;
 			}
 			if (calculateBugTypeCountForQAPerProject(rcaCount,
 					CHANGE_REQUIREMENT) != 0) {
-				qaText+=calculateBugTypeCountForQAPerProject(
+				qaText+=" "+calculateBugTypeCountForQAPerProject(
 						rcaCount, CHANGE_REQUIREMENT)
-						+ " Change Requirement, ";
+						+ " Change Requirement#";
+				count++;
 			}
 			if (calculateBugTypeCountForQAPerProject(rcaCount,
 					INTEGRATION_ISSUE) != 0) {
-				qaText+=calculateBugTypeCountForQAPerProject(
-						rcaCount, INTEGRATION_ISSUE) + " Integration Issue, ";
+				qaText+=" "+calculateBugTypeCountForQAPerProject(
+						rcaCount, INTEGRATION_ISSUE) + " Integration Issue#";
+				count++;
 			}
 			if (calculateBugTypeCountForQAPerProject(rcaCount,
 					CONFIGURATION_ISSUE) != 0) {
-				qaText+=calculateBugTypeCountForQAPerProject(
+				qaText+=" "+calculateBugTypeCountForQAPerProject(
 						rcaCount, CONFIGURATION_ISSUE)
-						+ " Configuration Issue, ";
+						+ " Configuration Issue#";
+				count++;
 			}
 			if (calculateBugTypeCountForQAPerProject(rcaCount, DATA_ISSUE) != 0) {
-				qaText+=calculateBugTypeCountForQAPerProject(
-						rcaCount, DATA_ISSUE) + " Data Issue, ";
+				qaText+=" "+calculateBugTypeCountForQAPerProject(
+						rcaCount, DATA_ISSUE) + " Data Issue#";
+				count++;
 			}
 			if (calculateBugTypeCountForQAPerProject(rcaCount,
 					MIX_CATEGORY) != 0) {
-				qaText+=calculateBugTypeCountForQAPerProject(
-						rcaCount, MIX_CATEGORY) + " Others, ";
+				qaText+=" "+calculateBugTypeCountForQAPerProject(
+						rcaCount, MIX_CATEGORY) + " Others#";
+				count++;
 			}
 			if (calculateBugTypeCountForQAPerProject(rcaCount,
 					PRODUCT_DEFECT) != 0) {
-				qaText+=calculateBugTypeCountForQAPerProject(
-						rcaCount, PRODUCT_DEFECT) + " Product Defect";
+				qaText+=" "+calculateBugTypeCountForQAPerProject(
+						rcaCount, PRODUCT_DEFECT) + " Product Defect#";
+				count++;
 			}
+			
+		}
+		if(count==1){
+			qaText=qaText.replace("#", "");
+		}
+		if(count>1){
+			qaText=qaText.replaceAll("#", ",");
+		}
+		if(qaText.endsWith(",")){
+			qaText = qaText.substring(0,qaText.length() - 1);
 		}
 
 	}
@@ -423,10 +479,11 @@ public String addOpenComments(List<RcaCount> rcaCounts){
 	
 	String openText="";
 	RcaCount rcaCount = null;
+	int count=0;
 
 	Iterator<RcaCount> it = rcaCounts.iterator();
 	while (it.hasNext()) {
-
+		count=0;
 		rcaCount = (RcaCount) it.next();
 		int total = calculateBugTypeCountForOpenPerProject(rcaCount,
 				CLIENT_CODE_BUG)
@@ -449,34 +506,49 @@ public String addOpenComments(List<RcaCount> rcaCounts){
 					+ rcaCount.getProjectDetails().getProjectName() + "("+total+") : ";
 			if (calculateBugTypeCountForOpenPerProject(rcaCount,
 					CLIENT_CODE_BUG) != 0) {
-				openText+=calculateBugTypeCountForOpenPerProject(
-						rcaCount, CLIENT_CODE_BUG) + " Client Code Defect, ";
+				openText+=" "+calculateBugTypeCountForOpenPerProject(
+						rcaCount, CLIENT_CODE_BUG) + " Client Code Defect#";
+				count++;
 			}
 			if (calculateBugTypeCountForOpenPerProject(rcaCount,
 					INTEGRATION_ISSUE) != 0) {
-				openText+=calculateBugTypeCountForOpenPerProject(
-						rcaCount, INTEGRATION_ISSUE) + " Integration Issue, ";
+				openText+=" "+calculateBugTypeCountForOpenPerProject(
+						rcaCount, INTEGRATION_ISSUE) + " Integration Issue#";
+				count++;
 			}
 			if (calculateBugTypeCountForOpenPerProject(rcaCount,
 					CONFIGURATION_ISSUE) != 0) {
-				openText+=calculateBugTypeCountForOpenPerProject(
+				openText+=" "+calculateBugTypeCountForOpenPerProject(
 						rcaCount, CONFIGURATION_ISSUE)
-						+ " Configuration Issue, ";
+						+ " Configuration Issue#";
+				count++;
 			}
 			if (calculateBugTypeCountForOpenPerProject(rcaCount, DATA_ISSUE) != 0) {
-				openText+=calculateBugTypeCountForOpenPerProject(
-						rcaCount, DATA_ISSUE) + " Data Issue, ";
+				openText+=" "+calculateBugTypeCountForOpenPerProject(
+						rcaCount, DATA_ISSUE) + " Data Issue#";
+				count++;
 			}
 			if (calculateBugTypeCountForOpenPerProject(rcaCount,
 					MIX_CATEGORY) != 0) {
-				openText+=calculateBugTypeCountForOpenPerProject(
-						rcaCount, MIX_CATEGORY) + " Others, ";
+				openText+=" "+calculateBugTypeCountForOpenPerProject(
+						rcaCount, MIX_CATEGORY) + " Others#";
+				count++;
 			}
 			if (calculateBugTypeCountForOpenPerProject(rcaCount,
 					PRODUCT_DEFECT) != 0) {
-				openText+=calculateBugTypeCountForOpenPerProject(
-						rcaCount, PRODUCT_DEFECT) + " Product Defect";
+				openText+=" "+calculateBugTypeCountForOpenPerProject(
+						rcaCount, PRODUCT_DEFECT) + " Product Defect#";
+				count++;
 			}
+		}
+		if(count==1){
+			openText=openText.replace("#", "");
+		}
+		if(count>1){
+			openText=openText.replaceAll("#", ",");
+		}
+		if(openText.endsWith(",")){
+			openText = openText.substring(0,openText.length() - 1);
 		}
 
 	}
