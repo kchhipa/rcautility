@@ -16,12 +16,15 @@ import org.apache.struts2.interceptor.SessionAware;
 import org.jfree.util.Log;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.rca.common.RCAConstants;
 import com.rca.dao.LoginDAO;
 import com.rca.dao.ProjectDAO;
 import com.rca.entity.LoginDetails;
 import com.rca.entity.RcaCount;
+import com.rca.entity.UserProjects;
 import com.rca.service.LoginDetailService;
 import com.rca.service.RcaManager;
+import com.rca.service.UserProjectsServiceImpl;
 
 public class RcaLoginAction extends ActionSupport implements SessionAware {
 
@@ -29,7 +32,7 @@ public class RcaLoginAction extends ActionSupport implements SessionAware {
 	private String passWord;
 	private List projectList;
 	private Map projectNameWithId;
-	private List<LoginDetails> loginDetailsList;
+	private List<LoginDetails> loginDetailsList;	
 	public SessionMap session;
 	public String role; 
 
@@ -82,11 +85,14 @@ public class RcaLoginAction extends ActionSupport implements SessionAware {
 	
 	public void getProjectDetails()
 	{
-		try {			
-				Properties properties = new Properties();
+		try {	
+			// Removing dependency from rca.properties. Fetching projects from database //
+			
+				/*Properties properties = new Properties();
 				properties.load(getClass().getResourceAsStream("rca.properties"));
-				userName = userName.toUpperCase();
-				String projects = properties.getProperty(userName);
+				userName = userName.toUpperCase();*/
+			    String projects = loginDetailsService.getProjectsOfUserById(userName);
+				//String projects = properties.getProperty(userName);
 				if(projects!=null && projects.length()!=0)
 				{
 					String projectArray[] = projects.split(",");
@@ -96,7 +102,7 @@ public class RcaLoginAction extends ActionSupport implements SessionAware {
 				}
 				session.put("projectNameWithId", projectNameWithId);
 			
-		} catch (IOException e) {
+		} catch (RuntimeException e) {
 			 
 			e.printStackTrace();
 		}
@@ -130,14 +136,24 @@ public class RcaLoginAction extends ActionSupport implements SessionAware {
 			loginDetail.setLoginId(userName);
 			loginDetail.setPassword(passWord);
 			loginDetail.setRole(role);
-			loginDetailsService.saveOrUpdateLoginDetails(loginDetail);
-			addActionMessage("Save or updated successfully");
+			UserProjects userProjects = new UserProjects();
+			userProjects.setLogin_id(userName);
+			loginDetail.setUserProjects(userProjects);
+			String result = loginDetailsService.saveOrUpdateLoginDetails(loginDetail);
+			if(result.equals(RCAConstants.SUCCESS))
+			{
+				addActionMessage("User added successfully");
+			}
+			else
+			{
+				addActionMessage("User already exist");
+			}
 			return SUCCESS;
 		}
 		catch(Exception e)
 		{
-			 Log.info("Problem in adding user " +e);
-			 addActionError("Problem in adding user " +e.getMessage());
+			 Log.info("Exception in adding user " +e);
+			 addActionError("Exception in adding user " +e.getMessage());
 			 return ERROR;
 		}
 	}
@@ -242,5 +258,6 @@ public class RcaLoginAction extends ActionSupport implements SessionAware {
 	public void setLoginDetailsList(List<LoginDetails> loginDetailsList) {
 		this.loginDetailsList = loginDetailsList;
 	}
-	
+
+
 }

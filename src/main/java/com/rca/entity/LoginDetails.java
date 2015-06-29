@@ -3,9 +3,13 @@ package com.rca.entity;
 // default package
 // Generated Mar 10, 2015 7:18:09 AM by Hibernate Tools 3.4.0.CR1
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -18,6 +22,7 @@ public class LoginDetails implements java.io.Serializable {
 	private String loginId;
 	private String password;
 	private String role;
+	private UserProjects userProjects;
 
 	public LoginDetails() {
 	}
@@ -54,5 +59,16 @@ public class LoginDetails implements java.io.Serializable {
 	public void setRole(String role) {
 		this.role = role;
 	}
+
+	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)	
+	@JoinColumn(name="login_id")
+	public UserProjects getUserProjects() {
+		return userProjects;
+	}
+
+	public void setUserProjects(UserProjects userProjects) {
+		this.userProjects = userProjects;
+	}
+	
 
 }

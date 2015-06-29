@@ -83,6 +83,28 @@
 			<result name="error">showUsers.jsp</result>
 		</action>
 		
+		<action name="manageUsers">
+			<result name="success">manageUsers.jsp</result>		
+		</action>
+		<action name="assignProjectView" class="com.rca.controller.UserProjectsAction" method="projectView">
+			<result name="success">assignProjectToUser.jsp</result>		
+		</action>
+		<action name="assignProject" class="com.rca.controller.UserProjectsAction" method="assignProject">
+			<result name="success">assignProjectToUser.jsp</result>		
+		</action>
+		<action name="deleteUserView">
+			<result name="success">deleteUser.jsp</result>		
+		</action>
+		<action name="deleteUser" class="com.rca.controller.UserProjectsAction" method="deleteUser">
+			<result name="success">deleteUser.jsp</result>		
+		</action>
+			<action name="deleteProjectFromUserView"  class="com.rca.controller.UserProjectsAction" method="projectView">
+			<result name="success">deleteProjectFromUser.jsp</result>		
+		</action>
+		<action name="deleteProject" class="com.rca.controller.UserProjectsAction" method="deleteProject">
+			<result name="success">deleteProjectFromUser.jsp</result>		
+		</action>
+		
 		<action name="addUserView" class="com.rca.controller.RcaLoginAction"
 			method="userView">
 			<result name="success">addUser.jsp</result>

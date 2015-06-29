@@ -31,6 +31,7 @@ public class LoginDetailsDAO {
 	//Session factory injected by spring context
     private SessionFactory sessionFactory;
 
+    @Transactional
 	public void persist(LoginDetails transientInstance) {
 		log.debug("persisting LoginDetails instance");
 		try {
@@ -41,7 +42,7 @@ public class LoginDetailsDAO {
 			throw re;
 		}
 	}
-@Transactional
+    @Transactional
 	public void attachDirty(LoginDetails instance) throws HibernateException {
 		log.debug("attaching dirty LoginDetails instance");
 		try {
@@ -88,11 +89,12 @@ public class LoginDetailsDAO {
 		}
 	}
 
+	@Transactional
 	public LoginDetails findById(java.lang.String id) {
 		log.debug("getting LoginDetails instance with id: " + id);
 		try {
 			LoginDetails instance = (LoginDetails) sessionFactory
-					.getCurrentSession().get("LoginDetails", id);
+					.getCurrentSession().get(LoginDetails.class, id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");
 			} else {

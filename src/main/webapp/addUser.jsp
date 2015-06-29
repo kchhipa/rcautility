@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>RCA Report</title>
+<title>Add User</title>
 <link href="css/style.css" rel="stylesheet"/>
 <script type="text/javascript">
 
@@ -74,18 +74,18 @@ function changeToUpperCase() {
 		  <table cellspacing="30" class="content-table">
 		   <%@ include file="leftMenu.jsp"%>
 		  <tr>
-			  <td colspan="2"><h1>Manage User</h1> </td>
+			  <td colspan="2"><h1>Add New User</h1> </td>
 		  </tr>
 		 
 		  <tr>
 				<td>
 					<s:textfield name="userName" label="User ID" id="userName" placeholder="IIIPL-0000" onblur="changeToUpperCase()" />
-					<s:label cssStyle="color:blue; font-size:10px; padding-top:0px;" value="Please use employee id as your user Id" />	
+					<s:label cssStyle="color:blue; font-size:11px; padding-top:0px;" value="Please use employee id as your user Id" />	
 				</td>
 		  </tr><tr>
 		  	<td>
 		  		<s:password name="passWord" label="Password" id="passWord" />
-		  		<s:label cssStyle="color:blue; font-size:10px; padding-top:0px;" value="Please use first name as your password" />
+		  		<s:label cssStyle="color:blue; font-size:11px; padding-top:0px;" value="Please use first name as your password" />
 			</td>
 		  </tr>
 		  <tr>

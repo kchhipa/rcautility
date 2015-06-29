@@ -38,7 +38,7 @@ function manageProject()
 
 function manageUsers()
 {
-	document.RCA_Form.action="showUsers";
+	document.RCA_Form.action="manageUsers";  // previously it was showUsers
 	document.RCA_Form.method="get";
 	document.RCA_Form.submit(); 
 }
@@ -83,7 +83,7 @@ function generateSummary()
 		  <tr>  <td style="padding-top: 20px;"><a href="exportWeeklyData.jsp" style="color:black; padding-left:30px;">Export Weekly Data</a> </td></tr>
 		 <!--  <tr>  <td style="padding-top: 20px;"><a href="javascript:addProject();" style="color:black; padding-left:30px;">Manage Project</a> </td></tr> -->
 		  <tr>  <td style="padding-top: 20px;"><a href="javascript:manageProject();" style="color:black; padding-left:30px;">Manage Project</a> </td></tr>
-		  <!-- <tr>  <td style="padding-top: 20px;"><a href="javascript:manageUsers();" style="color:black; padding-left:30px;">Manage Users</a> </td></tr> -->
+		  <tr>  <td style="padding-top: 20px;"><a href="javascript:manageUsers();" style="color:black; padding-left:30px;">Manage Users</a> </td></tr> 
 		  
 		  </s:if>
 		 <tr>  <td style="padding-top: 20px;"><a href="javascript:generateSummary();" style="color:black; padding-left:30px;">Generate Summary Slide</a> </td></tr>

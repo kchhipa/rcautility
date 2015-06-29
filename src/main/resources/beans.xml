@@ -41,6 +41,7 @@
     
      <bean id="loginDetailsService" class="com.rca.service.LoginDetailServiceImpl">
         <property name="loginDetailsDao" ref="loginDetailsDao"/>
+        <property name="userProjectsDao" ref="userProjectsDAOImpl" />
     </bean>
     
      <bean id="loginDetailsDao" class="com.rca.dao.LoginDetailsDAO">  
@@ -62,9 +63,13 @@
     <bean id="sprintReportDAO" class="com.rca.dao.SprintReportDAOImpl">
       <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
-    
-    
-    
+     
+    <bean id="userProjectsServiceImpl" class="com.rca.service.UserProjectsServiceImpl">
+      <property name="userProjectsDAOImpl" ref="userProjectsDAOImpl"/>
+    </bean>
+     <bean id="userProjectsDAOImpl" class="com.rca.dao.UserProjectsDAOImpl">
+      <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
     
     
     <!-- Configure jdbc.properties -->

@@ -6,6 +6,8 @@ public final class RCAConstants
   public static final String BAR = "Bar";
   public static final String NORMAL_BAR = "Normal_Bar";
   public static final String LINE = "Line";
+  public static final String ALLREADY_EXIST = "already exist";
+  public static final String SUCCESS = "success";
   
   
   public final class DefectSource
@@ -69,5 +71,15 @@ public final class RCAConstants
     private static final String CLIENT_CODE = "Client Code Bug";
     private static final String CONFIGURATION = "Configuration";
     private static final String MISSED_REQUIREMENT = "Missed Requirement/Change Request";
+  }
+  public final class UserProjectsMessage
+  {	
+	public static final String ADD_SUCCESS = "Project successfully added to user";
+	public static final String DELETE_SUCCESS = "Project successfully deleted from user";
+	public static final String DELETE_USER_SUCCESS = "User successfully deleted";
+    public static final String ALLREADY_ASSIGNED = "Selected project is already assigned to user";
+    public static final String NOT_ASSIGNED = "Selected project is already not assigned to user";
+    public static final String NO_USER = "No user exist corresponding to this user id";
+   
   }
 }

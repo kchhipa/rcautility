@@ -11,5 +11,6 @@
   <mapping class="com.rca.entity.ProjectDetails"/>
   <mapping class="com.rca.entity.LoginDetails"/>
   <mapping class="com.rca.entity.SprintReport"/>
+  <mapping class="com.rca.entity.UserProjects"/>
  </session-factory>
 </hibernate-configuration>
