@@ -31,6 +31,11 @@ function deleteProject()
 	document.RCA_Form.action = "deleteProject";
 	document.RCA_Form.submit();	
 }
+
+function changeToUpperCase() {
+	 var userId = document.getElementById("userName").value;
+  	 document.getElementById("userName").value = userId.toUpperCase();
+}
 </script>
 </head>
 <body>

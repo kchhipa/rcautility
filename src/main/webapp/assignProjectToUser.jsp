@@ -31,6 +31,11 @@ function assignProject()
 	document.RCA_Form.action = "assignProject";
 	document.RCA_Form.submit();	
 }
+
+function changeToUpperCase() {
+	 var userId = document.getElementById("userName").value;
+  	 document.getElementById("userName").value = userId.toUpperCase();
+}
 </script>
 </head>
 <body>

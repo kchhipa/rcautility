@@ -28,6 +28,11 @@ function deleteUser()
 		}
  	return false;
 }
+
+function changeToUpperCase() {
+	 var userId = document.getElementById("userName").value;
+  	 document.getElementById("userName").value = userId.toUpperCase();
+}
 </script>
 </head>
 <body>
