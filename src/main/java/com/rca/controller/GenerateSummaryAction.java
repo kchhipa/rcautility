@@ -141,6 +141,118 @@ public class GenerateSummaryAction extends ActionSupport{
 		List<RcaCount> rcaCounts = rcaManager.findRCAByWeekPeriod(prevTwoWeek.get(0));
 		Collections.sort(rcaCounts, byTeamName);
 		int rowCount = 1;
+		boolean found = false;
+		List<ProjectDetails> projectDetailsList=projectDetailsManager.getAllActiveProjects();
+        
+		for (ProjectDetails projectDetails : projectDetailsList) {
+			found = false;
+			for (RcaCount rca : rcaCounts) {
+				if (null != rca.getProjectDetails().getActionTeam()
+						&& !"".equalsIgnoreCase(rca.getProjectDetails()
+								.getActionTeam())
+						&& null != projectDetails.getActionTeam()
+						&& !"".equalsIgnoreCase(projectDetails.getActionTeam())) {
+					if (projectDetails.getActionTeam().equals(
+							rca.getProjectDetails().getActionTeam())) {
+						found = true;
+						break;
+					}
+				}
+			}
+			if (!found) {
+
+				//RankingFramework rankingRow = new RankingFramework();
+
+				String actionTeams = projectDetails.getActionTeam();
+				if (null != actionTeams && !"".equalsIgnoreCase(actionTeams)) {
+					wbRow = new WorkBookRow();
+					wbRow.setRowName(projectDetails.getProjectName());
+					List<WorkBookCell> wbCells = new ArrayList<WorkBookCell>();
+					for(String header : headerCells)
+					{
+						WorkBookCell wbCell = new WorkBookCell();
+						wbCell.setName(projectDetails.getProjectName());
+						wbCell.setColumnHeader(header);
+						wbCell.setColor(WHITE);
+						if ("S.No".equals(header))
+						{
+							wbCell.setValue(String.valueOf(rowCount));
+						}
+						else if ("Action Team Name".equals(header))
+						{
+							wbCell.setValue(projectDetails.getActionTeam());
+						}
+						else if ("Client".equals(header))
+						{
+							wbCell.setValue(projectDetails.getProjectName());
+						}
+						else if ("Geb/Spock".equals(header))
+						{
+							wbCell.setValue(projectDetails.getAutomation());
+							if ("Automation in progress".equalsIgnoreCase(projectDetails.getAutomation()))
+							{
+								wbCell.setColor(GREEN);
+							}
+						}
+						else if ("Prod".equals(header))
+						{
+							int newCount = 0;
+							int oldCount = 0;
+							
+							String diff = " ";
+							if(newCount-oldCount != 0)
+								diff = (newCount-oldCount) >= 0 ? " (+" + (newCount-oldCount)+")":" (" + (newCount-oldCount)+")";
+							wbCell.setValue(newCount + diff);
+							doColor(wbCell, oldCount, newCount);
+						}
+						else if ("UAT".equals(header))
+						{
+							int newCount = 0;
+							int oldCount = 0;
+							
+							String diff = " ";
+							if(newCount-oldCount != 0)
+								diff = (newCount-oldCount) >= 0 ? " (+" + (newCount-oldCount)+")":" (" + (newCount-oldCount)+")";
+							wbCell.setValue(newCount + diff);
+							doColor(wbCell, oldCount, newCount);
+						}
+						else if ("QA".equals(header))
+						{
+							int newCount = 0;
+							int oldCount = 0;
+							
+							String diff = " ";
+							if(newCount-oldCount != 0)
+								diff = (newCount-oldCount) >= 0 ? " (+" + (newCount-oldCount)+")":" (" + (newCount-oldCount)+")";
+							wbCell.setValue(newCount + diff);
+							doColor(wbCell, oldCount, newCount);
+						}
+						else if ("Open".equals(header))
+						{
+							//List<Map<String, Integer>> prevTwoWeekCumu = rU.reportedCumulativeOpenAllWeeksGraphForAllProject(prevTwoWeekRCAList, prevTwoWeek);
+							int newCount = 0;
+							int oldCount = 0;
+							
+							String diff = " ";
+							if(newCount-oldCount != 0)
+								diff = (newCount-oldCount) >= 0 ? " (+" + (newCount-oldCount)+")":" (" + (newCount-oldCount)+")";
+							wbCell.setValue(newCount + diff);
+							doColor(wbCell, oldCount, newCount);
+						}
+						else if ("Team Ranking".equals(header))
+						{
+							wbCell.setValue("\'Ranking Framework\'!AA" + (rowCount + 1));
+							wbCell.setFormula(true);
+						}
+						wbCells.add(wbCell);
+					}
+					wbRow.setRowCells(wbCells);
+					wbRows.add(wbRow);					rowCount++;
+				}
+
+			}
+
+		}
 		for (RcaCount rca : rcaCounts)
 		{
 			RcaCount prevRCACount = rcaManager.findWeeklyRCAReportByProjectId(prevTwoWeek.get(1), rca.getProjectDetails().getProjectId());
