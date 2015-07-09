@@ -90,6 +90,18 @@ public class GenerateSummaryAction extends ActionSupport{
 		}
 	};
 
+	public static final Comparator<RankingFramework> byTeamNameWithRankingFramework = new Comparator<RankingFramework>() {
+		@Override
+		public int compare(RankingFramework o1, RankingFramework o2) {
+			String s1 = o1.getTeamName();
+			String s2 = o2.getTeamName();
+			if(null == s1)
+				s1="";
+			if(null == s2)
+				s2="";
+			return s1.compareTo(s2);
+		}
+	};
 	private void createSummarySheet() {
 		XSSFSheet summarySheet = toolSetMatrix.createSheet("Summary Sheet");
 		rU.createSummaryHeaderRows(summarySheet, toolSetMatrix, defaultFont);
@@ -139,7 +151,7 @@ public class GenerateSummaryAction extends ActionSupport{
 		String[] headerCells = headers.split(",");
 
 		List<RcaCount> rcaCounts = rcaManager.findRCAByWeekPeriod(prevTwoWeek.get(0));
-		Collections.sort(rcaCounts, byTeamName);
+		
 		int rowCount = 1;
 		boolean found = false;
 		List<ProjectDetails> projectDetailsList=projectDetailsManager.getAllActiveProjects();
@@ -160,99 +172,16 @@ public class GenerateSummaryAction extends ActionSupport{
 				}
 			}
 			if (!found) {
-
-				//RankingFramework rankingRow = new RankingFramework();
-
-				String actionTeams = projectDetails.getActionTeam();
-				if (null != actionTeams && !"".equalsIgnoreCase(actionTeams)) {
-					wbRow = new WorkBookRow();
-					wbRow.setRowName(projectDetails.getProjectName());
-					List<WorkBookCell> wbCells = new ArrayList<WorkBookCell>();
-					for(String header : headerCells)
-					{
-						WorkBookCell wbCell = new WorkBookCell();
-						wbCell.setName(projectDetails.getProjectName());
-						wbCell.setColumnHeader(header);
-						wbCell.setColor(WHITE);
-						if ("S.No".equals(header))
-						{
-							wbCell.setValue(String.valueOf(rowCount));
-						}
-						else if ("Action Team Name".equals(header))
-						{
-							wbCell.setValue(projectDetails.getActionTeam());
-						}
-						else if ("Client".equals(header))
-						{
-							wbCell.setValue(projectDetails.getProjectName());
-						}
-						else if ("Geb/Spock".equals(header))
-						{
-							wbCell.setValue(projectDetails.getAutomation());
-							if ("Automation in progress".equalsIgnoreCase(projectDetails.getAutomation()))
-							{
-								wbCell.setColor(GREEN);
-							}
-						}
-						else if ("Prod".equals(header))
-						{
-							int newCount = 0;
-							int oldCount = 0;
-							
-							String diff = " ";
-							if(newCount-oldCount != 0)
-								diff = (newCount-oldCount) >= 0 ? " (+" + (newCount-oldCount)+")":" (" + (newCount-oldCount)+")";
-							wbCell.setValue(newCount + diff);
-							doColor(wbCell, oldCount, newCount);
-						}
-						else if ("UAT".equals(header))
-						{
-							int newCount = 0;
-							int oldCount = 0;
-							
-							String diff = " ";
-							if(newCount-oldCount != 0)
-								diff = (newCount-oldCount) >= 0 ? " (+" + (newCount-oldCount)+")":" (" + (newCount-oldCount)+")";
-							wbCell.setValue(newCount + diff);
-							doColor(wbCell, oldCount, newCount);
-						}
-						else if ("QA".equals(header))
-						{
-							int newCount = 0;
-							int oldCount = 0;
-							
-							String diff = " ";
-							if(newCount-oldCount != 0)
-								diff = (newCount-oldCount) >= 0 ? " (+" + (newCount-oldCount)+")":" (" + (newCount-oldCount)+")";
-							wbCell.setValue(newCount + diff);
-							doColor(wbCell, oldCount, newCount);
-						}
-						else if ("Open".equals(header))
-						{
-							//List<Map<String, Integer>> prevTwoWeekCumu = rU.reportedCumulativeOpenAllWeeksGraphForAllProject(prevTwoWeekRCAList, prevTwoWeek);
-							int newCount = 0;
-							int oldCount = 0;
-							
-							String diff = " ";
-							if(newCount-oldCount != 0)
-								diff = (newCount-oldCount) >= 0 ? " (+" + (newCount-oldCount)+")":" (" + (newCount-oldCount)+")";
-							wbCell.setValue(newCount + diff);
-							doColor(wbCell, oldCount, newCount);
-						}
-						else if ("Team Ranking".equals(header))
-						{
-							wbCell.setValue("\'Ranking Framework\'!AA" + (rowCount + 1));
-							wbCell.setFormula(true);
-						}
-						wbCells.add(wbCell);
-					}
-					wbRow.setRowCells(wbCells);
-					wbRows.add(wbRow);					rowCount++;
-				}
-
+				
+				RcaCount rcaCount = new RcaCount();
+				rcaCount.setWeek(prevTwoWeek.get(0));
+				rcaCount.setProjectDetails(projectDetails);
+				rcaCounts.add(rcaCount);
+				
 			}
 
 		}
+		Collections.sort(rcaCounts, byTeamName);
 		for (RcaCount rca : rcaCounts)
 		{
 			RcaCount prevRCACount = rcaManager.findWeeklyRCAReportByProjectId(prevTwoWeek.get(1), rca.getProjectDetails().getProjectId());
@@ -559,6 +488,7 @@ public class GenerateSummaryAction extends ActionSupport{
 			rankingRows.add(rankingRow);
 			rowCount++;
 		}
+		Collections.sort(rankingRows, byTeamNameWithRankingFramework);
 		return rankingRows;
 	}
 

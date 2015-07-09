@@ -508,8 +508,8 @@ public class ReportUtility {
 	public int weeklyDataIssueForAllIssues(RcaCount rcaWeeks){
 		int total =0;
 		
-			total = total + (((rcaWeeks.getDiQa()==null)? 0 : rcaWeeks.getDiQa()) + ((rcaWeeks.getDiUat() == null)? 0 : rcaWeeks.getDiUat()) + 
-					((rcaWeeks.getDiProd()==null)? 0 : rcaWeeks.getDiProd()));
+			total = total + rcaWeeks.getDiQa() + rcaWeeks.getDiUat() + 
+					rcaWeeks.getDiProd();
 		return total;
 		
 	}
@@ -553,7 +553,7 @@ public class ReportUtility {
 	public int weeklyIntegrationIssueForAllIssues(RcaCount rcaWeeks){
 		int total =0;
 		
-			total = total + (((rcaWeeks.getIiQa()==null)? 0 : rcaWeeks.getIiQa()) + ((rcaWeeks.getIiUat() == null)? 0 : rcaWeeks.getIiUat()) + ((rcaWeeks.getIiProd()==null)? 0 : rcaWeeks.getIiProd()));
+			total = total + rcaWeeks.getIiQa() + rcaWeeks.getIiUat() + rcaWeeks.getIiProd();
 		return total;
 		
 	}
@@ -600,8 +600,8 @@ public class ReportUtility {
 	public int weeklyConfigurationIssueForAllIssues(RcaCount rcaWeeks){
 		int total =0;
 		
-			total = total + (((rcaWeeks.getConfigQa()==null)? 0 : rcaWeeks.getConfigQa()) + ((rcaWeeks.getConfigUat() == null)? 0 : rcaWeeks.getConfigUat()) + 
-					((rcaWeeks.getConfigProd()==null)? 0 : rcaWeeks.getConfigProd()));
+			total = total + rcaWeeks.getConfigQa() + rcaWeeks.getConfigUat() + 
+					rcaWeeks.getConfigProd();
 		return total;
 		
 	}
@@ -753,8 +753,8 @@ return total;
        
 		int total =0;
 		
-			total = total + (((rcaWeeks.getCcbQa()==null)? 0 : rcaWeeks.getCcbQa()) + ((rcaWeeks.getCcbUat() == null)? 0 : rcaWeeks.getCcbUat()) + 
-					((rcaWeeks.getCcbProd()==null)? 0 : rcaWeeks.getCcbProd()));
+			total = total + rcaWeeks.getCcbQa() + rcaWeeks.getCcbUat() + 
+					rcaWeeks.getCcbProd();
 		
 		return total;
 	}
@@ -974,7 +974,7 @@ return total;
 							rcaCountData.getPdQa() + //Product defec
 							rcaCountData.getUtrQa()); //Unable to reproduce
 							//Integration Issues
-							if (rcaCountData.getIiQa() != null && rcaCountData.getIiQa() == 0){
+							if (rcaCountData.getIiQa() == 0){
 								total = total + rcaCountData.getCrmesbQa() + rcaCountData.getFfmQa() +
 										rcaCountData.getIoQa() + rcaCountData.getOtpQa() +  rcaCountData.getPmuuQa() ;
 							}
@@ -982,7 +982,7 @@ return total;
 								total = total + rcaCountData.getIiQa();
 							}
 							// Configuration Issues
-							if (rcaCountData.getConfigProd() != null && rcaCountData.getConfigProd() == 0){
+							if (rcaCountData.getConfigProd() == 0){
 								total = total + rcaCountData.getPlanQa() + rcaCountData.getAcQa() +  rcaCountData.getRateQa() +
 										rcaCountData.getRpaQa() + rcaCountData.getEnvQa() + rcaCountData.getDpQa() +
 										rcaCountData.getCoQa() + rcaCountData.getTiQa();
@@ -1067,7 +1067,7 @@ return total;
 					rcaCountData.getUtrProd() ;
 
 					//Integration Issues
-					if (rcaCountData.getIiProd() != null && rcaCountData.getIiProd() == 0){
+					if (rcaCountData.getIiProd() == 0){
 						total = total + rcaCountData.getCrmesbProd() + rcaCountData.getFfmProd() +
 								rcaCountData.getIoProd() + rcaCountData.getOtpProd() +  rcaCountData.getPmuuProd() ;
 					}
@@ -1075,7 +1075,7 @@ return total;
 						total = total + rcaCountData.getIiProd();
 					}
 					// Configuration Issues
-					if (rcaCountData.getConfigProd() != null && rcaCountData.getConfigProd() == 0){
+					if (rcaCountData.getConfigProd() == 0){
 						total = total + rcaCountData.getPlanProd() + rcaCountData.getAcProd() +  rcaCountData.getRateProd() +
 								rcaCountData.getRpaProd() + rcaCountData.getEnvProd() + rcaCountData.getDpProd() +
 								rcaCountData.getCoProd() + rcaCountData.getTiProd();
@@ -1127,7 +1127,7 @@ return total;
 							rcaCountData.getPdUat() + //Product defec
 							rcaCountData.getUtrUat()); //Unable to reproduce
 							//Integration Issues
-							if (rcaCountData.getIiUat() != null && rcaCountData.getIiUat() == 0){
+							if (rcaCountData.getIiUat() == 0){
 								total = total + rcaCountData.getCrmesbUat() + rcaCountData.getFfmUat() +
 										rcaCountData.getIoUat() + rcaCountData.getOtpUat() +  rcaCountData.getPmuuUat() ;
 							}
@@ -1135,7 +1135,7 @@ return total;
 								total = total + rcaCountData.getIiUat();
 							}
 							// Configuration Issues
-							if (rcaCountData.getConfigProd() != null && rcaCountData.getConfigProd() == 0){
+							if (rcaCountData.getConfigProd() == 0){
 								total = total + rcaCountData.getPlanUat() + rcaCountData.getAcUat() +  rcaCountData.getRateUat() +
 										rcaCountData.getRpaUat() + rcaCountData.getEnvUat() + rcaCountData.getDpUat() +
 										rcaCountData.getCoUat() + rcaCountData.getTiUat();
@@ -1189,7 +1189,7 @@ return total;
 								rcaCountData.getPdProductBacklog() + //Product defect
 								rcaCountData.getUtrProductBacklog()); //Unable to reproduce
 								//Integration Issues
-								if (rcaCountData.getIiProductBacklog() != null && rcaCountData.getIiProductBacklog() == 0){
+								if (rcaCountData.getIiProductBacklog() == 0){
 									total = total + rcaCountData.getCrmesbProductBacklog() + rcaCountData.getFfmProductBacklog() +
 											rcaCountData.getIoProductBacklog() + rcaCountData.getOtpProductBacklog() +  rcaCountData.getPmuuProductBacklog() ;
 								}
@@ -1197,7 +1197,7 @@ return total;
 									total = total + rcaCountData.getIiProductBacklog();
 								}
 								// Configuration Issues
-								if (rcaCountData.getConfigProd() != null && rcaCountData.getConfigProd() == 0){
+								if (rcaCountData.getConfigProd() == 0){
 									total = total + rcaCountData.getPlanProductBacklog() + rcaCountData.getAcProductBacklog() +  rcaCountData.getRateProductBacklog() +
 											rcaCountData.getRpaProductBacklog() + rcaCountData.getEnvProductBacklog() + rcaCountData.getDpProductBacklog() +
 											rcaCountData.getCoProductBacklog() + rcaCountData.getTiProductBacklog();

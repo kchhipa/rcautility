@@ -21,153 +21,153 @@ import javax.persistence.Table;
 @Table(name = "rca_count", catalog = "rcautility")
 public class RcaCount implements java.io.Serializable {
 
-	private Integer rcaCountId;
+	private int rcaCountId;
 	private ProjectDetails projectDetails;
-	private Integer mrProductBacklog;
-	private Integer mrQa;
-	private Integer mrUat;
-	private Integer mrProd;
-	private Integer crProductBacklog;
-	private Integer crQa;
-	private Integer crUat;
-	private Integer crProd;
-	private Integer configProductBacklog;
-	private Integer configQa;
-	private Integer configUat;
-	private Integer configProd;
-	private Integer ccbProductBacklog;
-	private Integer ccbQa;
-	private Integer ccbUat;
-	private Integer ccbProd;
-	private Integer adProductBacklog;
-	private Integer adQa;
-	private Integer adUat;
-	private Integer adProd;
-	private Integer dupProductBacklog;
-	private Integer dupQa;
-	private Integer dupUat;
-	private Integer dupProd;
-	private Integer nadProductBacklog;
-	private Integer nadQa;
-	private Integer nadUat;
-	private Integer nadProd;
-	private Integer bsiProductBacklog;
-	private Integer bsiQa;
-	private Integer bsiUat;
-	private Integer bsiProd;
-	private Integer utrProductBacklog;
-	private Integer utrQa;
-	private Integer utrUat;
-	private Integer utrProd;
-	private Integer pdProductBacklog;
-	private Integer pdQa;
-	private Integer pdUat;
-	private Integer pdProd;
-	private Integer iiProductBacklog;
-	private Integer iiQa;
-	private Integer iiUat;
-	private Integer iiProd;
-	private Integer diProductBacklog;
-	private Integer diQa;
-	private Integer diUat;
-	private Integer diProd;
-	private Integer roQa;
-	private Integer roUat;
-	private Integer roProd;
+	private int mrProductBacklog;
+	private int mrQa;
+	private int mrUat;
+	private int mrProd;
+	private int crProductBacklog;
+	private int crQa;
+	private int crUat;
+	private int crProd;
+	private int configProductBacklog;
+	private int configQa;
+	private int configUat;
+	private int configProd;
+	private int ccbProductBacklog;
+	private int ccbQa;
+	private int ccbUat;
+	private int ccbProd;
+	private int adProductBacklog;
+	private int adQa;
+	private int adUat;
+	private int adProd;
+	private int dupProductBacklog;
+	private int dupQa;
+	private int dupUat;
+	private int dupProd;
+	private int nadProductBacklog;
+	private int nadQa;
+	private int nadUat;
+	private int nadProd;
+	private int bsiProductBacklog;
+	private int bsiQa;
+	private int bsiUat;
+	private int bsiProd;
+	private int utrProductBacklog;
+	private int utrQa;
+	private int utrUat;
+	private int utrProd;
+	private int pdProductBacklog;
+	private int pdQa;
+	private int pdUat;
+	private int pdProd;
+	private int iiProductBacklog;
+	private int iiQa;
+	private int iiUat;
+	private int iiProd;
+	private int diProductBacklog;
+	private int diQa;
+	private int diUat;
+	private int diProd;
+	private int roQa;
+	private int roUat;
+	private int roProd;
 	private String week;
-	private Integer planProductBacklog;
-	private Integer planQa;
-	private Integer planUat;
-	private Integer planProd;
-	private Integer rateProductBacklog;
-	private Integer rateQa;
-	private Integer rateUat;
-	private Integer rateProd;
-	private Integer rpaProductBacklog;
-	private Integer rpaQa;
-	private Integer rpaUat;
-	private Integer rpaProd;
-	private Integer acProductBacklog;
-	private Integer acQa;
-	private Integer acUat;
-	private Integer acProd;
-	private Integer tiProductBacklog;
-	private Integer tiQa;
-	private Integer tiUat;
-	private Integer tiProd;
-	private Integer dpProductBacklog;
-	private Integer dpQa;
-	private Integer dpUat;
-	private Integer dpProd;
-	private Integer envProductBacklog;
-	private Integer envQa;
-	private Integer envUat;
-	private Integer envProd;
-	private Integer coProductBacklog;
-	private Integer coQa;
-	private Integer coUat;
-	private Integer coProd;
-	private Integer ffmProductBacklog;
-	private Integer ffmQa;
-	private Integer ffmUat;
-	private Integer ffmProd;
-	private Integer crmesbProductBacklog;
-	private Integer crmesbQa;
-	private Integer crmesbUat;
-	private Integer crmesbProd;
-	private Integer otpProductBacklog;
-	private Integer otpQa;
-	private Integer otpUat;
-	private Integer otpProd;
-	private Integer pmuuProductBacklog;
-	private Integer pmuuQa;
-	private Integer pmuuUat;
-	private Integer pmuuProd;
-	private Integer ioProductBacklog;
-	private Integer ioQa;
-	private Integer ioUat;
-	private Integer ioProd;
+	private int planProductBacklog;
+	private int planQa;
+	private int planUat;
+	private int planProd;
+	private int rateProductBacklog;
+	private int rateQa;
+	private int rateUat;
+	private int rateProd;
+	private int rpaProductBacklog;
+	private int rpaQa;
+	private int rpaUat;
+	private int rpaProd;
+	private int acProductBacklog;
+	private int acQa;
+	private int acUat;
+	private int acProd;
+	private int tiProductBacklog;
+	private int tiQa;
+	private int tiUat;
+	private int tiProd;
+	private int dpProductBacklog;
+	private int dpQa;
+	private int dpUat;
+	private int dpProd;
+	private int envProductBacklog;
+	private int envQa;
+	private int envUat;
+	private int envProd;
+	private int coProductBacklog;
+	private int coQa;
+	private int coUat;
+	private int coProd;
+	private int ffmProductBacklog;
+	private int ffmQa;
+	private int ffmUat;
+	private int ffmProd;
+	private int crmesbProductBacklog;
+	private int crmesbQa;
+	private int crmesbUat;
+	private int crmesbProd;
+	private int otpProductBacklog;
+	private int otpQa;
+	private int otpUat;
+	private int otpProd;
+	private int pmuuProductBacklog;
+	private int pmuuQa;
+	private int pmuuUat;
+	private int pmuuProd;
+	private int ioProductBacklog;
+	private int ioQa;
+	private int ioUat;
+	private int ioProd;
 	private String overviewMessage;
 	private String risksIssues;
 
 	public RcaCount() {
 	}
 
-	public RcaCount(ProjectDetails projectDetails, Integer mrProductBacklog,
-			Integer mrQa, Integer mrUat, Integer mrProd,
-			Integer crProductBacklog, Integer crQa, Integer crUat,
-			Integer crProd, Integer configProductBacklog, Integer configQa,
-			Integer configUat, Integer configProd, Integer ccbProductBacklog,
-			Integer ccbQa, Integer ccbUat, Integer ccbProd,
-			Integer adProductBacklog, Integer adQa, Integer adUat,
-			Integer adProd, Integer dupProductBacklog, Integer dupQa,
-			Integer dupUat, Integer dupProd, Integer nadProductBacklog,
-			Integer nadQa, Integer nadUat, Integer nadProd,
-			Integer bsiProductBacklog, Integer bsiQa, Integer bsiUat,
-			Integer bsiProd, Integer utrProductBacklog, Integer utrQa,
-			Integer utrUat, Integer utrProd, Integer pdProductBacklog,
-			Integer pdQa, Integer pdUat, Integer pdProd,
-			Integer iiProductBacklog, Integer iiQa, Integer iiUat,
-			Integer iiProd, Integer diProductBacklog, Integer diQa,
-			Integer diUat, Integer diProd, Integer roQa, Integer roUat,
-			Integer roProd, String week, Integer planProductBacklog,
-			Integer planQa, Integer planUat, Integer planProd,
-			Integer rateProductBacklog, Integer rateQa, Integer rateUat,
-			Integer rateProd, Integer rpaProductBacklog, Integer rpaQa,
-			Integer rpaUat, Integer rpaProd, Integer acProductBacklog,
-			Integer acQa, Integer acUat, Integer acProd,
-			Integer tiProductBacklog, Integer tiQa, Integer tiUat,
-			Integer tiProd, Integer dpProductBacklog, Integer dpQa,
-			Integer dpUat, Integer dpProd, Integer envProductBacklog,
-			Integer envQa, Integer envUat, Integer envProd,
-			Integer coProductBacklog, Integer coQa, Integer coUat,
-			Integer coProd, Integer ffmProductBacklog, Integer ffmQa,
-			Integer ffmUat, Integer ffmProd, Integer crmesbProductBacklog,
-			Integer crmesbQa, Integer crmesbUat, Integer crmesbProd,
-			Integer otpProductBacklog, Integer otpQa, Integer otpUat,
-			Integer otpProd, Integer pmuuProductBacklog, Integer pmuuQa,
-			Integer pmuuUat, Integer pmuuProd, Integer ioProductBacklog,
-			Integer ioQa, Integer ioUat, Integer ioProd, String overviewMessage, String risksIssues) {
+	public RcaCount(ProjectDetails projectDetails, int mrProductBacklog,
+			int mrQa, int mrUat, int mrProd,
+			int crProductBacklog, int crQa, int crUat,
+			int crProd, int configProductBacklog, int configQa,
+			int configUat, int configProd, int ccbProductBacklog,
+			int ccbQa, int ccbUat, int ccbProd,
+			int adProductBacklog, int adQa, int adUat,
+			int adProd, int dupProductBacklog, int dupQa,
+			int dupUat, int dupProd, int nadProductBacklog,
+			int nadQa, int nadUat, int nadProd,
+			int bsiProductBacklog, int bsiQa, int bsiUat,
+			int bsiProd, int utrProductBacklog, int utrQa,
+			int utrUat, int utrProd, int pdProductBacklog,
+			int pdQa, int pdUat, int pdProd,
+			int iiProductBacklog, int iiQa, int iiUat,
+			int iiProd, int diProductBacklog, int diQa,
+			int diUat, int diProd, int roQa, int roUat,
+			int roProd, String week, int planProductBacklog,
+			int planQa, int planUat, int planProd,
+			int rateProductBacklog, int rateQa, int rateUat,
+			int rateProd, int rpaProductBacklog, int rpaQa,
+			int rpaUat, int rpaProd, int acProductBacklog,
+			int acQa, int acUat, int acProd,
+			int tiProductBacklog, int tiQa, int tiUat,
+			int tiProd, int dpProductBacklog, int dpQa,
+			int dpUat, int dpProd, int envProductBacklog,
+			int envQa, int envUat, int envProd,
+			int coProductBacklog, int coQa, int coUat,
+			int coProd, int ffmProductBacklog, int ffmQa,
+			int ffmUat, int ffmProd, int crmesbProductBacklog,
+			int crmesbQa, int crmesbUat, int crmesbProd,
+			int otpProductBacklog, int otpQa, int otpUat,
+			int otpProd, int pmuuProductBacklog, int pmuuQa,
+			int pmuuUat, int pmuuProd, int ioProductBacklog,
+			int ioQa, int ioUat, int ioProd, String overviewMessage, String risksIssues) {
 		this.projectDetails = projectDetails;
 		this.mrProductBacklog = mrProductBacklog;
 		this.mrQa = mrQa;
@@ -280,11 +280,11 @@ public class RcaCount implements java.io.Serializable {
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "rca_count_id", unique = true, nullable = false)
-	public Integer getRcaCountId() {
+	public int getRcaCountId() {
 		return this.rcaCountId;
 	}
 
-	public void setRcaCountId(Integer rcaCountId) {
+	public void setRcaCountId(int rcaCountId) {
 		this.rcaCountId = rcaCountId;
 	}
 
@@ -299,461 +299,461 @@ public class RcaCount implements java.io.Serializable {
 	}
 
 	@Column(name = "mr_product_backlog")
-	public Integer getMrProductBacklog() {
+	public int getMrProductBacklog() {
 		return this.mrProductBacklog;
 	}
 
-	public void setMrProductBacklog(Integer mrProductBacklog) {
+	public void setMrProductBacklog(int mrProductBacklog) {
 		this.mrProductBacklog = mrProductBacklog;
 	}
 
 	@Column(name = "mr_qa")
-	public Integer getMrQa() {
+	public int getMrQa() {
 		return this.mrQa;
 	}
 
-	public void setMrQa(Integer mrQa) {
+	public void setMrQa(int mrQa) {
 		this.mrQa = mrQa;
 	}
 
 	@Column(name = "mr_uat")
-	public Integer getMrUat() {
+	public int getMrUat() {
 		return this.mrUat;
 	}
 
-	public void setMrUat(Integer mrUat) {
+	public void setMrUat(int mrUat) {
 		this.mrUat = mrUat;
 	}
 
 	@Column(name = "mr_prod")
-	public Integer getMrProd() {
+	public int getMrProd() {
 		return this.mrProd;
 	}
 
-	public void setMrProd(Integer mrProd) {
+	public void setMrProd(int mrProd) {
 		this.mrProd = mrProd;
 	}
 
 	@Column(name = "cr_product_backlog")
-	public Integer getCrProductBacklog() {
+	public int getCrProductBacklog() {
 		return this.crProductBacklog;
 	}
 
-	public void setCrProductBacklog(Integer crProductBacklog) {
+	public void setCrProductBacklog(int crProductBacklog) {
 		this.crProductBacklog = crProductBacklog;
 	}
 
 	@Column(name = "cr_qa")
-	public Integer getCrQa() {
+	public int getCrQa() {
 		return this.crQa;
 	}
 
-	public void setCrQa(Integer crQa) {
+	public void setCrQa(int crQa) {
 		this.crQa = crQa;
 	}
 
 	@Column(name = "cr_uat")
-	public Integer getCrUat() {
+	public int getCrUat() {
 		return this.crUat;
 	}
 
-	public void setCrUat(Integer crUat) {
+	public void setCrUat(int crUat) {
 		this.crUat = crUat;
 	}
 
 	@Column(name = "cr_prod")
-	public Integer getCrProd() {
+	public int getCrProd() {
 		return this.crProd;
 	}
 
-	public void setCrProd(Integer crProd) {
+	public void setCrProd(int crProd) {
 		this.crProd = crProd;
 	}
 
 	@Column(name = "config_product_backlog")
-	public Integer getConfigProductBacklog() {
+	public int getConfigProductBacklog() {
 		return this.configProductBacklog;
 	}
 
-	public void setConfigProductBacklog(Integer configProductBacklog) {
+	public void setConfigProductBacklog(int configProductBacklog) {
 		this.configProductBacklog = configProductBacklog;
 	}
 
 	@Column(name = "config_qa")
-	public Integer getConfigQa() {
+	public int getConfigQa() {
 		return this.configQa;
 	}
 
-	public void setConfigQa(Integer configQa) {
+	public void setConfigQa(int configQa) {
 		this.configQa = configQa;
 	}
 
 	@Column(name = "config_uat")
-	public Integer getConfigUat() {
+	public int getConfigUat() {
 		return this.configUat;
 	}
 
-	public void setConfigUat(Integer configUat) {
+	public void setConfigUat(int configUat) {
 		this.configUat = configUat;
 	}
 
 	@Column(name = "config_prod")
-	public Integer getConfigProd() {
+	public int getConfigProd() {
 		return this.configProd;
 	}
 
-	public void setConfigProd(Integer configProd) {
+	public void setConfigProd(int configProd) {
 		this.configProd = configProd;
 	}
 
 	@Column(name = "ccb_product_backlog")
-	public Integer getCcbProductBacklog() {
+	public int getCcbProductBacklog() {
 		return this.ccbProductBacklog;
 	}
 
-	public void setCcbProductBacklog(Integer ccbProductBacklog) {
+	public void setCcbProductBacklog(int ccbProductBacklog) {
 		this.ccbProductBacklog = ccbProductBacklog;
 	}
 
 	@Column(name = "ccb_qa")
-	public Integer getCcbQa() {
+	public int getCcbQa() {
 		return this.ccbQa;
 	}
 
-	public void setCcbQa(Integer ccbQa) {
+	public void setCcbQa(int ccbQa) {
 		this.ccbQa = ccbQa;
 	}
 
 	@Column(name = "ccb_uat")
-	public Integer getCcbUat() {
+	public int getCcbUat() {
 		return this.ccbUat;
 	}
 
-	public void setCcbUat(Integer ccbUat) {
+	public void setCcbUat(int ccbUat) {
 		this.ccbUat = ccbUat;
 	}
 
 	@Column(name = "ccb_prod")
-	public Integer getCcbProd() {
+	public int getCcbProd() {
 		return this.ccbProd;
 	}
 
-	public void setCcbProd(Integer ccbProd) {
+	public void setCcbProd(int ccbProd) {
 		this.ccbProd = ccbProd;
 	}
 
 	@Column(name = "ad_product_backlog")
-	public Integer getAdProductBacklog() {
+	public int getAdProductBacklog() {
 		return this.adProductBacklog;
 	}
 
-	public void setAdProductBacklog(Integer adProductBacklog) {
+	public void setAdProductBacklog(int adProductBacklog) {
 		this.adProductBacklog = adProductBacklog;
 	}
 
 	@Column(name = "ad_qa")
-	public Integer getAdQa() {
+	public int getAdQa() {
 		return this.adQa;
 	}
 
-	public void setAdQa(Integer adQa) {
+	public void setAdQa(int adQa) {
 		this.adQa = adQa;
 	}
 
 	@Column(name = "ad_uat")
-	public Integer getAdUat() {
+	public int getAdUat() {
 		return this.adUat;
 	}
 
-	public void setAdUat(Integer adUat) {
+	public void setAdUat(int adUat) {
 		this.adUat = adUat;
 	}
 
 	@Column(name = "ad_prod")
-	public Integer getAdProd() {
+	public int getAdProd() {
 		return this.adProd;
 	}
 
-	public void setAdProd(Integer adProd) {
+	public void setAdProd(int adProd) {
 		this.adProd = adProd;
 	}
 
 	@Column(name = "dup_product_backlog")
-	public Integer getDupProductBacklog() {
+	public int getDupProductBacklog() {
 		return this.dupProductBacklog;
 	}
 
-	public void setDupProductBacklog(Integer dupProductBacklog) {
+	public void setDupProductBacklog(int dupProductBacklog) {
 		this.dupProductBacklog = dupProductBacklog;
 	}
 
 	@Column(name = "dup_qa")
-	public Integer getDupQa() {
+	public int getDupQa() {
 		return this.dupQa;
 	}
 
-	public void setDupQa(Integer dupQa) {
+	public void setDupQa(int dupQa) {
 		this.dupQa = dupQa;
 	}
 
 	@Column(name = "dup_uat")
-	public Integer getDupUat() {
+	public int getDupUat() {
 		return this.dupUat;
 	}
 
-	public void setDupUat(Integer dupUat) {
+	public void setDupUat(int dupUat) {
 		this.dupUat = dupUat;
 	}
 
 	@Column(name = "dup_prod")
-	public Integer getDupProd() {
+	public int getDupProd() {
 		return this.dupProd;
 	}
 
-	public void setDupProd(Integer dupProd) {
+	public void setDupProd(int dupProd) {
 		this.dupProd = dupProd;
 	}
 
 	@Column(name = "nad_product_backlog")
-	public Integer getNadProductBacklog() {
+	public int getNadProductBacklog() {
 		return this.nadProductBacklog;
 	}
 
-	public void setNadProductBacklog(Integer nadProductBacklog) {
+	public void setNadProductBacklog(int nadProductBacklog) {
 		this.nadProductBacklog = nadProductBacklog;
 	}
 
 	@Column(name = "nad_qa")
-	public Integer getNadQa() {
+	public int getNadQa() {
 		return this.nadQa;
 	}
 
-	public void setNadQa(Integer nadQa) {
+	public void setNadQa(int nadQa) {
 		this.nadQa = nadQa;
 	}
 
 	@Column(name = "nad_uat")
-	public Integer getNadUat() {
+	public int getNadUat() {
 		return this.nadUat;
 	}
 
-	public void setNadUat(Integer nadUat) {
+	public void setNadUat(int nadUat) {
 		this.nadUat = nadUat;
 	}
 
 	@Column(name = "nad_prod")
-	public Integer getNadProd() {
+	public int getNadProd() {
 		return this.nadProd;
 	}
 
-	public void setNadProd(Integer nadProd) {
+	public void setNadProd(int nadProd) {
 		this.nadProd = nadProd;
 	}
 
 	@Column(name = "bsi_product_backlog")
-	public Integer getBsiProductBacklog() {
+	public int getBsiProductBacklog() {
 		return this.bsiProductBacklog;
 	}
 
-	public void setBsiProductBacklog(Integer bsiProductBacklog) {
+	public void setBsiProductBacklog(int bsiProductBacklog) {
 		this.bsiProductBacklog = bsiProductBacklog;
 	}
 
 	@Column(name = "bsi_qa")
-	public Integer getBsiQa() {
+	public int getBsiQa() {
 		return this.bsiQa;
 	}
 
-	public void setBsiQa(Integer bsiQa) {
+	public void setBsiQa(int bsiQa) {
 		this.bsiQa = bsiQa;
 	}
 
 	@Column(name = "bsi_uat")
-	public Integer getBsiUat() {
+	public int getBsiUat() {
 		return this.bsiUat;
 	}
 
-	public void setBsiUat(Integer bsiUat) {
+	public void setBsiUat(int bsiUat) {
 		this.bsiUat = bsiUat;
 	}
 
 	@Column(name = "bsi_prod")
-	public Integer getBsiProd() {
+	public int getBsiProd() {
 		return this.bsiProd;
 	}
 
-	public void setBsiProd(Integer bsiProd) {
+	public void setBsiProd(int bsiProd) {
 		this.bsiProd = bsiProd;
 	}
 
 	@Column(name = "utr_product_backlog")
-	public Integer getUtrProductBacklog() {
+	public int getUtrProductBacklog() {
 		return this.utrProductBacklog;
 	}
 
-	public void setUtrProductBacklog(Integer utrProductBacklog) {
+	public void setUtrProductBacklog(int utrProductBacklog) {
 		this.utrProductBacklog = utrProductBacklog;
 	}
 
 	@Column(name = "utr_qa")
-	public Integer getUtrQa() {
+	public int getUtrQa() {
 		return this.utrQa;
 	}
 
-	public void setUtrQa(Integer utrQa) {
+	public void setUtrQa(int utrQa) {
 		this.utrQa = utrQa;
 	}
 
 	@Column(name = "utr_uat")
-	public Integer getUtrUat() {
+	public int getUtrUat() {
 		return this.utrUat;
 	}
 
-	public void setUtrUat(Integer utrUat) {
+	public void setUtrUat(int utrUat) {
 		this.utrUat = utrUat;
 	}
 
 	@Column(name = "utr_prod")
-	public Integer getUtrProd() {
+	public int getUtrProd() {
 		return this.utrProd;
 	}
 
-	public void setUtrProd(Integer utrProd) {
+	public void setUtrProd(int utrProd) {
 		this.utrProd = utrProd;
 	}
 
 	@Column(name = "pd_product_backlog")
-	public Integer getPdProductBacklog() {
+	public int getPdProductBacklog() {
 		return this.pdProductBacklog;
 	}
 
-	public void setPdProductBacklog(Integer pdProductBacklog) {
+	public void setPdProductBacklog(int pdProductBacklog) {
 		this.pdProductBacklog = pdProductBacklog;
 	}
 
 	@Column(name = "pd_qa")
-	public Integer getPdQa() {
+	public int getPdQa() {
 		return this.pdQa;
 	}
 
-	public void setPdQa(Integer pdQa) {
+	public void setPdQa(int pdQa) {
 		this.pdQa = pdQa;
 	}
 
 	@Column(name = "pd_uat")
-	public Integer getPdUat() {
+	public int getPdUat() {
 		return this.pdUat;
 	}
 
-	public void setPdUat(Integer pdUat) {
+	public void setPdUat(int pdUat) {
 		this.pdUat = pdUat;
 	}
 
 	@Column(name = "pd_prod")
-	public Integer getPdProd() {
+	public int getPdProd() {
 		return this.pdProd;
 	}
 
-	public void setPdProd(Integer pdProd) {
+	public void setPdProd(int pdProd) {
 		this.pdProd = pdProd;
 	}
 
 	@Column(name = "ii_product_backlog")
-	public Integer getIiProductBacklog() {
+	public int getIiProductBacklog() {
 		return this.iiProductBacklog;
 	}
 
-	public void setIiProductBacklog(Integer iiProductBacklog) {
+	public void setIiProductBacklog(int iiProductBacklog) {
 		this.iiProductBacklog = iiProductBacklog;
 	}
 
 	@Column(name = "ii_qa")
-	public Integer getIiQa() {
+	public int getIiQa() {
 		return this.iiQa;
 	}
 
-	public void setIiQa(Integer iiQa) {
+	public void setIiQa(int iiQa) {
 		this.iiQa = iiQa;
 	}
 
 	@Column(name = "ii_uat")
-	public Integer getIiUat() {
+	public int getIiUat() {
 		return this.iiUat;
 	}
 
-	public void setIiUat(Integer iiUat) {
+	public void setIiUat(int iiUat) {
 		this.iiUat = iiUat;
 	}
 
 	@Column(name = "ii_prod")
-	public Integer getIiProd() {
+	public int getIiProd() {
 		return this.iiProd;
 	}
 
-	public void setIiProd(Integer iiProd) {
+	public void setIiProd(int iiProd) {
 		this.iiProd = iiProd;
 	}
 
 	@Column(name = "di_product_backlog")
-	public Integer getDiProductBacklog() {
+	public int getDiProductBacklog() {
 		return this.diProductBacklog;
 	}
 
-	public void setDiProductBacklog(Integer diProductBacklog) {
+	public void setDiProductBacklog(int diProductBacklog) {
 		this.diProductBacklog = diProductBacklog;
 	}
 
 	@Column(name = "di_qa")
-	public Integer getDiQa() {
+	public int getDiQa() {
 		return this.diQa;
 	}
 
-	public void setDiQa(Integer diQa) {
+	public void setDiQa(int diQa) {
 		this.diQa = diQa;
 	}
 
 	@Column(name = "di_uat")
-	public Integer getDiUat() {
+	public int getDiUat() {
 		return this.diUat;
 	}
 
-	public void setDiUat(Integer diUat) {
+	public void setDiUat(int diUat) {
 		this.diUat = diUat;
 	}
 
 	@Column(name = "di_prod")
-	public Integer getDiProd() {
+	public int getDiProd() {
 		return this.diProd;
 	}
 
-	public void setDiProd(Integer diProd) {
+	public void setDiProd(int diProd) {
 		this.diProd = diProd;
 	}
 
 	@Column(name = "ro_qa")
-	public Integer getRoQa() {
+	public int getRoQa() {
 		return this.roQa;
 	}
 
-	public void setRoQa(Integer roQa) {
+	public void setRoQa(int roQa) {
 		this.roQa = roQa;
 	}
 
 	@Column(name = "ro_uat")
-	public Integer getRoUat() {
+	public int getRoUat() {
 		return this.roUat;
 	}
 
-	public void setRoUat(Integer roUat) {
+	public void setRoUat(int roUat) {
 		this.roUat = roUat;
 	}
 
 	@Column(name = "ro_prod")
-	public Integer getRoProd() {
+	public int getRoProd() {
 		return this.roProd;
 	}
 
-	public void setRoProd(Integer roProd) {
+	public void setRoProd(int roProd) {
 		this.roProd = roProd;
 	}
 
@@ -767,470 +767,470 @@ public class RcaCount implements java.io.Serializable {
 	}
 
 	@Column(name = "plan_product_backlog")
-	public Integer getPlanProductBacklog() {
+	public int getPlanProductBacklog() {
 		return this.planProductBacklog;
 	}
 
-	public void setPlanProductBacklog(Integer planProductBacklog) {
+	public void setPlanProductBacklog(int planProductBacklog) {
 		this.planProductBacklog = planProductBacklog;
 	}
 
 	@Column(name = "plan_qa")
-	public Integer getPlanQa() {
+	public int getPlanQa() {
 		return this.planQa;
 	}
 
-	public void setPlanQa(Integer planQa) {
+	public void setPlanQa(int planQa) {
 		this.planQa = planQa;
 	}
 
 	@Column(name = "plan_uat")
-	public Integer getPlanUat() {
+	public int getPlanUat() {
 		return this.planUat;
 	}
 
-	public void setPlanUat(Integer planUat) {
+	public void setPlanUat(int planUat) {
 		this.planUat = planUat;
 	}
 
 	@Column(name = "plan_prod")
-	public Integer getPlanProd() {
+	public int getPlanProd() {
 		return this.planProd;
 	}
 
-	public void setPlanProd(Integer planProd) {
+	public void setPlanProd(int planProd) {
 		this.planProd = planProd;
 	}
 
 	@Column(name = "rate_product_backlog")
-	public Integer getRateProductBacklog() {
+	public int getRateProductBacklog() {
 		return this.rateProductBacklog;
 	}
 
-	public void setRateProductBacklog(Integer rateProductBacklog) {
+	public void setRateProductBacklog(int rateProductBacklog) {
 		this.rateProductBacklog = rateProductBacklog;
 	}
 
 	@Column(name = "rate_qa")
-	public Integer getRateQa() {
+	public int getRateQa() {
 		return this.rateQa;
 	}
 
-	public void setRateQa(Integer rateQa) {
+	public void setRateQa(int rateQa) {
 		this.rateQa = rateQa;
 	}
 
 	@Column(name = "rate_uat")
-	public Integer getRateUat() {
+	public int getRateUat() {
 		return this.rateUat;
 	}
 
-	public void setRateUat(Integer rateUat) {
+	public void setRateUat(int rateUat) {
 		this.rateUat = rateUat;
 	}
 
 	@Column(name = "rate_prod")
-	public Integer getRateProd() {
+	public int getRateProd() {
 		return this.rateProd;
 	}
 
-	public void setRateProd(Integer rateProd) {
+	public void setRateProd(int rateProd) {
 		this.rateProd = rateProd;
 	}
 
 	@Column(name = "rpa_product_backlog")
-	public Integer getRpaProductBacklog() {
+	public int getRpaProductBacklog() {
 		return this.rpaProductBacklog;
 	}
 
-	public void setRpaProductBacklog(Integer rpaProductBacklog) {
+	public void setRpaProductBacklog(int rpaProductBacklog) {
 		this.rpaProductBacklog = rpaProductBacklog;
 	}
 
 	@Column(name = "rpa_qa")
-	public Integer getRpaQa() {
+	public int getRpaQa() {
 		return this.rpaQa;
 	}
 
-	public void setRpaQa(Integer rpaQa) {
+	public void setRpaQa(int rpaQa) {
 		this.rpaQa = rpaQa;
 	}
 
 	@Column(name = "rpa_uat")
-	public Integer getRpaUat() {
+	public int getRpaUat() {
 		return this.rpaUat;
 	}
 
-	public void setRpaUat(Integer rpaUat) {
+	public void setRpaUat(int rpaUat) {
 		this.rpaUat = rpaUat;
 	}
 
 	@Column(name = "rpa_prod")
-	public Integer getRpaProd() {
+	public int getRpaProd() {
 		return this.rpaProd;
 	}
 
-	public void setRpaProd(Integer rpaProd) {
+	public void setRpaProd(int rpaProd) {
 		this.rpaProd = rpaProd;
 	}
 
 	@Column(name = "ac_product_backlog")
-	public Integer getAcProductBacklog() {
+	public int getAcProductBacklog() {
 		return this.acProductBacklog;
 	}
 
-	public void setAcProductBacklog(Integer acProductBacklog) {
+	public void setAcProductBacklog(int acProductBacklog) {
 		this.acProductBacklog = acProductBacklog;
 	}
 
 	@Column(name = "ac_qa")
-	public Integer getAcQa() {
+	public int getAcQa() {
 		return this.acQa;
 	}
 
-	public void setAcQa(Integer acQa) {
+	public void setAcQa(int acQa) {
 		this.acQa = acQa;
 	}
 
 	@Column(name = "ac_uat")
-	public Integer getAcUat() {
+	public int getAcUat() {
 		return this.acUat;
 	}
 
-	public void setAcUat(Integer acUat) {
+	public void setAcUat(int acUat) {
 		this.acUat = acUat;
 	}
 
 	@Column(name = "ac_prod")
-	public Integer getAcProd() {
+	public int getAcProd() {
 		return this.acProd;
 	}
 
-	public void setAcProd(Integer acProd) {
+	public void setAcProd(int acProd) {
 		this.acProd = acProd;
 	}
 
 	@Column(name = "ti_product_backlog")
-	public Integer getTiProductBacklog() {
+	public int getTiProductBacklog() {
 		return this.tiProductBacklog;
 	}
 
-	public void setTiProductBacklog(Integer tiProductBacklog) {
+	public void setTiProductBacklog(int tiProductBacklog) {
 		this.tiProductBacklog = tiProductBacklog;
 	}
 
 	@Column(name = "ti_qa")
-	public Integer getTiQa() {
+	public int getTiQa() {
 		return this.tiQa;
 	}
 
-	public void setTiQa(Integer tiQa) {
+	public void setTiQa(int tiQa) {
 		this.tiQa = tiQa;
 	}
 
 	@Column(name = "ti_uat")
-	public Integer getTiUat() {
+	public int getTiUat() {
 		return this.tiUat;
 	}
 
-	public void setTiUat(Integer tiUat) {
+	public void setTiUat(int tiUat) {
 		this.tiUat = tiUat;
 	}
 
 	@Column(name = "ti_prod")
-	public Integer getTiProd() {
+	public int getTiProd() {
 		return this.tiProd;
 	}
 
-	public void setTiProd(Integer tiProd) {
+	public void setTiProd(int tiProd) {
 		this.tiProd = tiProd;
 	}
 
 	@Column(name = "dp_product_backlog")
-	public Integer getDpProductBacklog() {
+	public int getDpProductBacklog() {
 		return this.dpProductBacklog;
 	}
 
-	public void setDpProductBacklog(Integer dpProductBacklog) {
+	public void setDpProductBacklog(int dpProductBacklog) {
 		this.dpProductBacklog = dpProductBacklog;
 	}
 
 	@Column(name = "dp_qa")
-	public Integer getDpQa() {
+	public int getDpQa() {
 		return this.dpQa;
 	}
 
-	public void setDpQa(Integer dpQa) {
+	public void setDpQa(int dpQa) {
 		this.dpQa = dpQa;
 	}
 
 	@Column(name = "dp_uat")
-	public Integer getDpUat() {
+	public int getDpUat() {
 		return this.dpUat;
 	}
 
-	public void setDpUat(Integer dpUat) {
+	public void setDpUat(int dpUat) {
 		this.dpUat = dpUat;
 	}
 
 	@Column(name = "dp_prod")
-	public Integer getDpProd() {
+	public int getDpProd() {
 		return this.dpProd;
 	}
 
-	public void setDpProd(Integer dpProd) {
+	public void setDpProd(int dpProd) {
 		this.dpProd = dpProd;
 	}
 
 	@Column(name = "env_product_backlog")
-	public Integer getEnvProductBacklog() {
+	public int getEnvProductBacklog() {
 		return this.envProductBacklog;
 	}
 
-	public void setEnvProductBacklog(Integer envProductBacklog) {
+	public void setEnvProductBacklog(int envProductBacklog) {
 		this.envProductBacklog = envProductBacklog;
 	}
 
 	@Column(name = "env_qa")
-	public Integer getEnvQa() {
+	public int getEnvQa() {
 		return this.envQa;
 	}
 
-	public void setEnvQa(Integer envQa) {
+	public void setEnvQa(int envQa) {
 		this.envQa = envQa;
 	}
 
 	@Column(name = "env_uat")
-	public Integer getEnvUat() {
+	public int getEnvUat() {
 		return this.envUat;
 	}
 
-	public void setEnvUat(Integer envUat) {
+	public void setEnvUat(int envUat) {
 		this.envUat = envUat;
 	}
 
 	@Column(name = "env_prod")
-	public Integer getEnvProd() {
+	public int getEnvProd() {
 		return this.envProd;
 	}
 
-	public void setEnvProd(Integer envProd) {
+	public void setEnvProd(int envProd) {
 		this.envProd = envProd;
 	}
 
 	@Column(name = "co_product_backlog")
-	public Integer getCoProductBacklog() {
+	public int getCoProductBacklog() {
 		return this.coProductBacklog;
 	}
 
-	public void setCoProductBacklog(Integer coProductBacklog) {
+	public void setCoProductBacklog(int coProductBacklog) {
 		this.coProductBacklog = coProductBacklog;
 	}
 
 	@Column(name = "co_qa")
-	public Integer getCoQa() {
+	public int getCoQa() {
 		return this.coQa;
 	}
 
-	public void setCoQa(Integer coQa) {
+	public void setCoQa(int coQa) {
 		this.coQa = coQa;
 	}
 
 	@Column(name = "co_uat")
-	public Integer getCoUat() {
+	public int getCoUat() {
 		return this.coUat;
 	}
 
-	public void setCoUat(Integer coUat) {
+	public void setCoUat(int coUat) {
 		this.coUat = coUat;
 	}
 
 	@Column(name = "co_prod")
-	public Integer getCoProd() {
+	public int getCoProd() {
 		return this.coProd;
 	}
 
-	public void setCoProd(Integer coProd) {
+	public void setCoProd(int coProd) {
 		this.coProd = coProd;
 	}
 
 	@Column(name = "ffm_product_backlog")
-	public Integer getFfmProductBacklog() {
+	public int getFfmProductBacklog() {
 		return this.ffmProductBacklog;
 	}
 
-	public void setFfmProductBacklog(Integer ffmProductBacklog) {
+	public void setFfmProductBacklog(int ffmProductBacklog) {
 		this.ffmProductBacklog = ffmProductBacklog;
 	}
 
 	@Column(name = "ffm_qa")
-	public Integer getFfmQa() {
+	public int getFfmQa() {
 		return this.ffmQa;
 	}
 
-	public void setFfmQa(Integer ffmQa) {
+	public void setFfmQa(int ffmQa) {
 		this.ffmQa = ffmQa;
 	}
 
 	@Column(name = "ffm_uat")
-	public Integer getFfmUat() {
+	public int getFfmUat() {
 		return this.ffmUat;
 	}
 
-	public void setFfmUat(Integer ffmUat) {
+	public void setFfmUat(int ffmUat) {
 		this.ffmUat = ffmUat;
 	}
 
 	@Column(name = "ffm_prod")
-	public Integer getFfmProd() {
+	public int getFfmProd() {
 		return this.ffmProd;
 	}
 
-	public void setFfmProd(Integer ffmProd) {
+	public void setFfmProd(int ffmProd) {
 		this.ffmProd = ffmProd;
 	}
 
 	@Column(name = "crmesb_product_backlog")
-	public Integer getCrmesbProductBacklog() {
+	public int getCrmesbProductBacklog() {
 		return this.crmesbProductBacklog;
 	}
 
-	public void setCrmesbProductBacklog(Integer crmesbProductBacklog) {
+	public void setCrmesbProductBacklog(int crmesbProductBacklog) {
 		this.crmesbProductBacklog = crmesbProductBacklog;
 	}
 
 	@Column(name = "crmesb_qa")
-	public Integer getCrmesbQa() {
+	public int getCrmesbQa() {
 		return this.crmesbQa;
 	}
 
-	public void setCrmesbQa(Integer crmesbQa) {
+	public void setCrmesbQa(int crmesbQa) {
 		this.crmesbQa = crmesbQa;
 	}
 
 	@Column(name = "crmesb_uat")
-	public Integer getCrmesbUat() {
+	public int getCrmesbUat() {
 		return this.crmesbUat;
 	}
 
-	public void setCrmesbUat(Integer crmesbUat) {
+	public void setCrmesbUat(int crmesbUat) {
 		this.crmesbUat = crmesbUat;
 	}
 
 	@Column(name = "crmesb_prod")
-	public Integer getCrmesbProd() {
+	public int getCrmesbProd() {
 		return this.crmesbProd;
 	}
 
-	public void setCrmesbProd(Integer crmesbProd) {
+	public void setCrmesbProd(int crmesbProd) {
 		this.crmesbProd = crmesbProd;
 	}
 
 	@Column(name = "otp_product_backlog")
-	public Integer getOtpProductBacklog() {
+	public int getOtpProductBacklog() {
 		return this.otpProductBacklog;
 	}
 
-	public void setOtpProductBacklog(Integer otpProductBacklog) {
+	public void setOtpProductBacklog(int otpProductBacklog) {
 		this.otpProductBacklog = otpProductBacklog;
 	}
 
 	@Column(name = "otp_qa")
-	public Integer getOtpQa() {
+	public int getOtpQa() {
 		return this.otpQa;
 	}
 
-	public void setOtpQa(Integer otpQa) {
+	public void setOtpQa(int otpQa) {
 		this.otpQa = otpQa;
 	}
 
 	@Column(name = "otp_uat")
-	public Integer getOtpUat() {
+	public int getOtpUat() {
 		return this.otpUat;
 	}
 
-	public void setOtpUat(Integer otpUat) {
+	public void setOtpUat(int otpUat) {
 		this.otpUat = otpUat;
 	}
 
 	@Column(name = "otp_prod")
-	public Integer getOtpProd() {
+	public int getOtpProd() {
 		return this.otpProd;
 	}
 
-	public void setOtpProd(Integer otpProd) {
+	public void setOtpProd(int otpProd) {
 		this.otpProd = otpProd;
 	}
 
 	@Column(name = "pmuu_product_backlog")
-	public Integer getPmuuProductBacklog() {
+	public int getPmuuProductBacklog() {
 		return this.pmuuProductBacklog;
 	}
 
-	public void setPmuuProductBacklog(Integer pmuuProductBacklog) {
+	public void setPmuuProductBacklog(int pmuuProductBacklog) {
 		this.pmuuProductBacklog = pmuuProductBacklog;
 	}
 
 	@Column(name = "pmuu_qa")
-	public Integer getPmuuQa() {
+	public int getPmuuQa() {
 		return this.pmuuQa;
 	}
 
-	public void setPmuuQa(Integer pmuuQa) {
+	public void setPmuuQa(int pmuuQa) {
 		this.pmuuQa = pmuuQa;
 	}
 
 	@Column(name = "pmuu_uat")
-	public Integer getPmuuUat() {
+	public int getPmuuUat() {
 		return this.pmuuUat;
 	}
 
-	public void setPmuuUat(Integer pmuuUat) {
+	public void setPmuuUat(int pmuuUat) {
 		this.pmuuUat = pmuuUat;
 	}
 
 	@Column(name = "pmuu_prod")
-	public Integer getPmuuProd() {
+	public int getPmuuProd() {
 		return this.pmuuProd;
 	}
 
-	public void setPmuuProd(Integer pmuuProd) {
+	public void setPmuuProd(int pmuuProd) {
 		this.pmuuProd = pmuuProd;
 	}
 
 	@Column(name = "io_product_backlog")
-	public Integer getIoProductBacklog() {
+	public int getIoProductBacklog() {
 		return this.ioProductBacklog;
 	}
 
-	public void setIoProductBacklog(Integer ioProductBacklog) {
+	public void setIoProductBacklog(int ioProductBacklog) {
 		this.ioProductBacklog = ioProductBacklog;
 	}
 
 	@Column(name = "io_qa")
-	public Integer getIoQa() {
+	public int getIoQa() {
 		return this.ioQa;
 	}
 
-	public void setIoQa(Integer ioQa) {
+	public void setIoQa(int ioQa) {
 		this.ioQa = ioQa;
 	}
 
 	@Column(name = "io_uat")
-	public Integer getIoUat() {
+	public int getIoUat() {
 		return this.ioUat;
 	}
 
-	public void setIoUat(Integer ioUat) {
+	public void setIoUat(int ioUat) {
 		this.ioUat = ioUat;
 	}
 
 	@Column(name = "io_prod")
-	public Integer getIoProd() {
+	public int getIoProd() {
 		return this.ioProd;
 	}
 
-	public void setIoProd(Integer ioProd) {
+	public void setIoProd(int ioProd) {
 		this.ioProd = ioProd;
 	}
 	
