@@ -1,5 +1,9 @@
 package com.rca.controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.struts2.dispatcher.SessionMap;
@@ -8,6 +12,8 @@ import org.hibernate.HibernateException;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.rca.common.RCAConstants;
+import com.rca.entity.ProjectDetails;
+import com.rca.entity.RcaCount;
 import com.rca.service.UserProjectsServiceImpl;
 
 public class UserProjectsAction extends ActionSupport implements SessionAware {
@@ -17,7 +23,9 @@ public class UserProjectsAction extends ActionSupport implements SessionAware {
 	private SessionMap session;	
 	private String userName;
 	private String projectName;
-	
+	private ArrayList<ProjectDetails> projectDetailsList;
+	private int projectId;
+	private String actionTeam;
 	public String projectView()
 	{	
 		return SUCCESS;
@@ -79,7 +87,45 @@ public class UserProjectsAction extends ActionSupport implements SessionAware {
 		return SUCCESS;
 	}
 	
+	// This method used to get all project with team name 
 	
+	public String getProjectWithTeam()
+	{
+		projectDetailsList = (ArrayList<ProjectDetails>) userProjectsServiceImpl.getProjectWithTeamService();
+		return SUCCESS;
+	}
+	
+	public String updateTeamName()
+	{
+		try
+		{
+			int result = userProjectsServiceImpl.updateTeamNameService(projectId, actionTeam);
+			if(result!=0)
+				addActionMessage(RCAConstants.UserProjectsMessage.TEAMNAME_UPDATE_SUCCESS);
+			
+			projectDetailsList = (ArrayList<ProjectDetails>) userProjectsServiceImpl.getProjectWithTeamService();
+		}
+		catch(HibernateException re)
+		{
+			addActionError("Exception in updating team name");
+		}
+		return SUCCESS;
+	}
+	
+	public static final Comparator<ProjectDetails> byProjectName = new Comparator<ProjectDetails>() {
+		@Override
+		public int compare(ProjectDetails p1, ProjectDetails p2) {
+			String firstProject = p1.getProjectName();
+			String secondProject = p2.getProjectName();
+			if(firstProject == null)
+				firstProject = "";
+			if(secondProject == null)
+				secondProject = "";
+			
+			return firstProject
+					.compareTo(secondProject);
+		}
+	};
 	public Map getProjectNameWithId() {
 		projectNameWithId=(Map) session.get("projectNameWithId");
 		return projectNameWithId;
@@ -115,5 +161,32 @@ public class UserProjectsAction extends ActionSupport implements SessionAware {
 	public void setUserProjectsServiceImpl(UserProjectsServiceImpl userProjectsServiceImpl) {
 		this.userProjectsServiceImpl = userProjectsServiceImpl;
 	}
+
+	public ArrayList<ProjectDetails> getProjectDetailsList() {
+		Collections.sort(projectDetailsList,UserProjectsAction.byProjectName);
+		return projectDetailsList;
+	}
+
+	public void setProjectDetailsList(ArrayList<ProjectDetails> projectDetailsList) {
+		this.projectDetailsList = projectDetailsList;
+	}
+
+	public int getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(int projectId) {
+		this.projectId = projectId;
+	}
+
+	public String getActionTeam() {
+		return actionTeam;
+	}
+
+	public void setActionTeam(String actionTeam) {
+		this.actionTeam = actionTeam;
+	}
+
+	
 	
 }

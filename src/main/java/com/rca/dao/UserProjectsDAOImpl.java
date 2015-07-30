@@ -1,8 +1,11 @@
 package com.rca.dao;
 
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
@@ -11,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.rca.common.RCAConstants;
 import com.rca.entity.LoginDetails;
+import com.rca.entity.ProjectDetails;
 import com.rca.entity.UserProjects;
 
 @Repository
@@ -80,6 +84,24 @@ public class UserProjectsDAOImpl implements UserProjectsDAO{
 		}
 	}
 	
+	@Transactional
+	public List<ProjectDetails> getProjectWithTeamDao()
+	{
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("from ProjectDetails");
+		List<ProjectDetails> projectDetailList = query.list();
+		return projectDetailList;
+	}
+	
+	@Transactional
+	public int updateTeamNameDao(int projectId, String actionTeam)
+	{
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("update ProjectDetails set actionTeam=? where projectId=?");
+		query.setString(0, actionTeam);
+		query.setInteger(1, projectId);
+		return query.executeUpdate();		 
+	}
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;

@@ -89,6 +89,12 @@
 		<action name="assignProjectView" class="com.rca.controller.UserProjectsAction" method="projectView">
 			<result name="success">assignProjectToUser.jsp</result>		
 		</action>
+		<action name="projectWithTeam" class="com.rca.controller.UserProjectsAction" method="getProjectWithTeam">
+			<result name="success">projectWithTeam.jsp</result>		
+		</action>
+		<action name="updateTeamName" class="com.rca.controller.UserProjectsAction" method="updateTeamName">
+			<result name="success">projectWithTeam.jsp</result>		
+		</action>
 		<action name="assignProject" class="com.rca.controller.UserProjectsAction" method="assignProject">
 			<result name="success">assignProjectToUser.jsp</result>		
 		</action>

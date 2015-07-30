@@ -1,10 +1,13 @@
 package com.rca.service;
 
+import java.util.List;
+
 import org.hibernate.HibernateException;
 
 import com.rca.common.RCAConstants;
 import com.rca.dao.UserProjectsDAO;
 import com.rca.dao.UserProjectsDAOImpl;
+import com.rca.entity.ProjectDetails;
 import com.rca.entity.UserProjects;
 
 public class UserProjectsServiceImpl implements UserProjectsService{
@@ -80,7 +83,17 @@ public class UserProjectsServiceImpl implements UserProjectsService{
 		}
 				
 	}
+	
+	public List<ProjectDetails> getProjectWithTeamService()
+	{
+		return userProjectsDAO.getProjectWithTeamDao();
+	}
 
+	public int updateTeamNameService(int projectId, String actionTeam)
+	{
+		return userProjectsDAO.updateTeamNameDao(projectId, actionTeam);
+	}
+	
 	@Override
 	public String deleteUserService(String login_id) throws HibernateException {
 		

@@ -105,7 +105,7 @@ function calculateWeek()
 <body onload="calculateWeek()">
      <div id="main">
 		<%@ include file="common.jsp"%>
-		<div id="content">
+		<div id="content" style="min-height: 400px;">
 		 <form method="post" name="RCA_Form" id="RCA_Form" onsubmit="return false" enctype="multipart/form-data" > 
 		  <table cellspacing="80" class="content-table">
 		  <%@ include file="leftMenu.jsp"%>

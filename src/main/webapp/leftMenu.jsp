@@ -64,6 +64,7 @@ function generateSummary()
 				   <li><a href="javascript:generateReport()">Generate Reports</a></li>	
 			       <li><a href="javascript:manageProject()">Manage Project</a> </li>
 			          <li><a href="manageUsers">Manage User</a> </li>
+			          <li><a href="projectWithTeam">Update Team Name</a></li>
 			  </s:if>
 			 <li><a href="javascript:generateSummary();" > Generate Summary Slide</a></li> 
 		  </ul>

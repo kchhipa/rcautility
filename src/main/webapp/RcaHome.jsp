@@ -84,6 +84,7 @@ function generateSummary()
 		 <!--  <tr>  <td style="padding-top: 20px;"><a href="javascript:addProject();" style="color:black; padding-left:30px;">Manage Project</a> </td></tr> -->
 		  <tr>  <td style="padding-top: 20px;"><a href="javascript:manageProject();" style="color:black; padding-left:30px;">Manage Project</a> </td></tr>
 		  <tr>  <td style="padding-top: 20px;"><a href="javascript:manageUsers();" style="color:black; padding-left:30px;">Manage Users</a> </td></tr> 
+		   <tr>  <td style="padding-top: 20px;"><a href="projectWithTeam" style="color:black; padding-left:30px;">Update Team Name</a> </td></tr>
 		  
 		  </s:if>
 		 <tr>  <td style="padding-top: 20px;"><a href="javascript:generateSummary();" style="color:black; padding-left:30px;">Generate Summary Slide</a> </td></tr>

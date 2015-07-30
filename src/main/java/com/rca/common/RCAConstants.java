@@ -80,6 +80,7 @@ public final class RCAConstants
     public static final String ALLREADY_ASSIGNED = "Selected project is already assigned to user";
     public static final String NOT_ASSIGNED = "Selected project is already not assigned to user";
     public static final String NO_USER = "No user exist corresponding to this user id";
+    public static final String TEAMNAME_UPDATE_SUCCESS = "Team name updated successfully";
    
   }
 }
