@@ -436,14 +436,14 @@ function calculateWeek()
 								</s:iterator>
 
 						</select></td>
-						<td colspan="2"><input type="submit" value="showTeam" onclick="getTeamNameForProject();"></td>
+						<td colspan="2"><input type="submit" value="Update Team Name" onclick="getTeamNameForProject();"></td>
 
 					</tr>
 					<tr >
 					<td colspan="4" id="teamDetail" style="display:none; font-size: 12px; position:absolute; "><label for="Action Team">Action Team</label>
 						<input type="text" id="teamName" size="40px;" name="teamName" value=""/> 
-						<input type="submit" value="update" onclick="updateTeam()">
-						<input type="submit" value="hide" onclick="hideTeam()"></td>
+						<input type="submit" value="Submit" onclick="updateTeam()">
+						<input type="submit" value="Hide" onclick="hideTeam()"></td>
 					</tr>
 					<tr><td>&nbsp;</td></tr>
 					<tr>
