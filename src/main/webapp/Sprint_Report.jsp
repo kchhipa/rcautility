@@ -255,8 +255,9 @@ function calculateWeek()
    function  getDevQAMember()
    {
 	   var projectId = document.getElementById("project_id").value;
+	   document.getElementById("teamDetail").style.display = "none";
 	   if(projectId=="0")
-		   return false;
+		   return false;	
 	   var weekObj = document.getElementById("week_id");
 	   if(weekObj.value=="Select Week")
 		   return false;
@@ -289,7 +290,87 @@ function calculateWeek()
            else
         	   document.getElementById("qaMembers").value = "";
        }
-   }  
+   } 
+   var xmlhttp2;
+   function  getTeamNameForProject()
+   {
+	 var projectId = document.getElementById("project_id").value;
+	 if(projectId=="0")
+		 {
+		 	alert("Please select project first");
+		 	return false;
+		 }
+	 var url = "getTeamNameByProjectId?projectId="+projectId;  
+	 if(window.XMLHttpRequest)
+		 {	// code for IE7+, Firefox, Chrome, Opera, Safari
+		 	xmlhttp2 = new XMLHttpRequest();
+		 }
+	 else
+		 {	// code for IE6, IE5
+		 	xmlhttp2 = new ActiveXObject("Microsoft.XMLHTTP");
+		 }
+	 xmlhttp2.onreadystatechange = setTeamName;     
+     xmlhttp2.open("GET", url, true);
+     xmlhttp2.send(null);	  	
+	 
+   }
+   function setTeamName()
+   {
+	   if(xmlhttp2.readyState==4)
+       {   		   
+		   var response = xmlhttp2.responseText;          
+           if(response != null)
+           		document.getElementById("teamName").value = response;
+           document.getElementById("teamDetail").style.display = "block";
+
+       }
+   }
+   function hideTeam()
+   {
+	   document.getElementById("teamDetail").style.display = "none";
+   }
+   var xmlhttp3;
+   function updateTeam()
+   {
+	  	 var projectId = document.getElementById("project_id").value;
+		 if(projectId=="0")
+			 {
+			 	alert("Please select project first");
+			 	return false;
+			 }
+		 var actionTeam = document.getElementById("teamName").value;
+		 if(actionTeam=="" || actionTeam==null)
+			 {
+			 	alert("Action team name can not be blank");
+			 	return false;
+			 }
+		 actionTeam = actionTeam.replace("+","_");
+		 var url = "updateTeamName?projectId="+projectId+"&actionTeam="+actionTeam;  
+		 if(window.XMLHttpRequest)
+			 {	// code for IE7+, Firefox, Chrome, Opera, Safari
+			 xmlhttp3 = new XMLHttpRequest();
+			 }
+		 else
+			 {	// code for IE6, IE5
+			 xmlhttp3 = new ActiveXObject("Microsoft.XMLHTTP");
+			 }
+		 xmlhttp3.onreadystatechange = setUpdateMessage;     
+		 xmlhttp3.open("POST", url, true);
+		 xmlhttp3.send(null);	
+		 
+   }
+   function setUpdateMessage()
+   {
+	   if(xmlhttp3.readyState==4)
+       {  
+		   var response = xmlhttp3.responseText;          
+           if(response == "success")
+		   	alert("Updated Successfully");
+           else
+        		alert("Problem in updation. Please try again");
+       }
+
+   }
    function disableTextFields(isDisabled)
    {
 	   var elementIdArray = getElementIdArray();
@@ -344,7 +425,7 @@ function calculateWeek()
 					<tr>
 						<td style="float: right;"><label for="project-name">Project
 								Name</label></td>
-						<td colspan="2"><select name="project_id" id="project_id"
+						<td><select name="project_id" id="project_id"
 							style="width: 120px;" onchange="getDevQAMember();">
 								<option value="0">Select Project</option>
 								<s:iterator value="projectNameWithId" var="data">
@@ -355,15 +436,19 @@ function calculateWeek()
 								</s:iterator>
 
 						</select></td>
-						<td colspan="2"></td>
+						<td colspan="2"><input type="submit" value="showTeam" onclick="getTeamNameForProject();"></td>
 
 					</tr>
-					<tr>
-						<td>&nbsp;</td>
+					<tr >
+					<td colspan="4" id="teamDetail" style="display:none; font-size: 12px; position:absolute; "><label for="Action Team">Action Team</label>
+						<input type="text" id="teamName" size="40px;" name="teamName" value=""/> 
+						<input type="submit" value="update" onclick="updateTeam()">
+						<input type="submit" value="hide" onclick="hideTeam()"></td>
 					</tr>
+					<tr><td>&nbsp;</td></tr>
 					<tr>
 						<td style="float: right;"><label for="week">Week</label></td>
-						<td colspan="2"><select name="week" id="week_id"
+						<td><select name="week" id="week_id"
 							style="width: 120px;" onchange="disableSubmit();">
 								<s:if
 									test="sprintReport.week != null && !sprintReport.week.equals('') && !sprintReport.week.equals('Select Week')">
@@ -373,7 +458,7 @@ function calculateWeek()
 								</s:if>
 
 						</select></td>
-						<td><input type="submit" value="Search" id="searchId"
+						<td  colspan="2"><input type="submit" value="Search" id="searchId"
 							onclick="serchRcaData()" /></td>
 					</tr>
 

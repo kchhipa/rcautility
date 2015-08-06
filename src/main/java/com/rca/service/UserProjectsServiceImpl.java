@@ -83,7 +83,10 @@ public class UserProjectsServiceImpl implements UserProjectsService{
 		}
 				
 	}
-	
+	public String getTeamNameForProjectService(int projectId)
+	{
+		return userProjectsDAO.getTeamNameByProjectIdDao(projectId);
+	}
 	public List<ProjectDetails> getProjectWithTeamService()
 	{
 		return userProjectsDAO.getProjectWithTeamDao();
@@ -91,6 +94,9 @@ public class UserProjectsServiceImpl implements UserProjectsService{
 
 	public int updateTeamNameService(int projectId, String actionTeam)
 	{
+		if(actionTeam.contains("_"))
+			actionTeam = actionTeam.replace("_", "+");
+		
 		return userProjectsDAO.updateTeamNameDao(projectId, actionTeam);
 	}
 	

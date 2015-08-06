@@ -85,6 +85,14 @@ public class UserProjectsDAOImpl implements UserProjectsDAO{
 	}
 	
 	@Transactional
+	public String getTeamNameByProjectIdDao(int projectId)
+	{
+		Session session = sessionFactory.getCurrentSession();
+		ProjectDetails projectDetails = (ProjectDetails) session.get(ProjectDetails.class,projectId);		
+		return projectDetails.getActionTeam();
+	}
+	
+	@Transactional
 	public List<ProjectDetails> getProjectWithTeamDao()
 	{
 		Session session = sessionFactory.getCurrentSession();

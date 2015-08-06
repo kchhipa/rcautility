@@ -1,5 +1,7 @@
 package com.rca.controller;
 
+import java.io.InputStream;
+import java.io.StringBufferInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -9,6 +11,7 @@ import java.util.Map;
 import org.apache.struts2.dispatcher.SessionMap;
 import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.HibernateException;
+import org.junit.runner.notification.Failure;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.rca.common.RCAConstants;
@@ -26,6 +29,7 @@ public class UserProjectsAction extends ActionSupport implements SessionAware {
 	private ArrayList<ProjectDetails> projectDetailsList;
 	private int projectId;
 	private String actionTeam;
+	private InputStream inputStream;
 	public String projectView()
 	{	
 		return SUCCESS;
@@ -104,11 +108,32 @@ public class UserProjectsAction extends ActionSupport implements SessionAware {
 				addActionMessage(RCAConstants.UserProjectsMessage.TEAMNAME_UPDATE_SUCCESS);
 			
 			projectDetailsList = (ArrayList<ProjectDetails>) userProjectsServiceImpl.getProjectWithTeamService();
+			inputStream = new StringBufferInputStream(SUCCESS);
 		}
 		catch(HibernateException re)
 		{
 			addActionError("Exception in updating team name");
+			inputStream = new StringBufferInputStream(ERROR);
 		}
+		return SUCCESS;
+	}
+	
+	@SuppressWarnings("deprecation")
+	public String getTeamNameForProject()
+	{
+		String actionTeam  = "";
+		try
+		{
+			actionTeam = userProjectsServiceImpl.getTeamNameForProjectService(projectId);
+			if(actionTeam==null)
+				actionTeam = "";
+			
+			inputStream = new StringBufferInputStream(actionTeam);
+		}
+		catch(HibernateException he)
+		{
+			addActionError("Exception in getting team name");
+		}	
 		return SUCCESS;
 	}
 	
@@ -185,6 +210,14 @@ public class UserProjectsAction extends ActionSupport implements SessionAware {
 
 	public void setActionTeam(String actionTeam) {
 		this.actionTeam = actionTeam;
+	}
+
+	public InputStream getInputStream() {
+		return inputStream;
+	}
+
+	public void setInputStream(InputStream inputStream) {
+		this.inputStream = inputStream;
 	}
 
 	

@@ -18,4 +18,6 @@ public interface UserProjectsDAO {
 	public List<ProjectDetails> getProjectWithTeamDao() throws HibernateException;
 	
 	public int updateTeamNameDao(int projectId, String actionTeam) throws HibernateException;
+	
+	public String getTeamNameByProjectIdDao(int projectId) throws HibernateException;
 }
