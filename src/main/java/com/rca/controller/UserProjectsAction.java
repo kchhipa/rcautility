@@ -5,18 +5,14 @@ import java.io.StringBufferInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.struts2.dispatcher.SessionMap;
 import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.HibernateException;
-import org.junit.runner.notification.Failure;
-
 import com.opensymphony.xwork2.ActionSupport;
 import com.rca.common.RCAConstants;
 import com.rca.entity.ProjectDetails;
-import com.rca.entity.RcaCount;
 import com.rca.service.UserProjectsServiceImpl;
 
 public class UserProjectsAction extends ActionSupport implements SessionAware {
