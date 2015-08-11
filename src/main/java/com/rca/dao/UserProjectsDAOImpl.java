@@ -85,11 +85,11 @@ public class UserProjectsDAOImpl implements UserProjectsDAO{
 	}
 	
 	@Transactional
-	public String getTeamNameByProjectIdDao(int projectId)
+	public ProjectDetails getTeamNameByProjectIdDao(int projectId)
 	{
 		Session session = sessionFactory.getCurrentSession();
 		ProjectDetails projectDetails = (ProjectDetails) session.get(ProjectDetails.class,projectId);		
-		return projectDetails.getActionTeam();
+		return projectDetails;
 	}
 	
 	@Transactional
@@ -102,12 +102,13 @@ public class UserProjectsDAOImpl implements UserProjectsDAO{
 	}
 	
 	@Transactional
-	public int updateTeamNameDao(int projectId, String actionTeam)
+	public int updateTeamNameDao(int projectId, String actionTeam, String automation)
 	{
 		Session session = sessionFactory.getCurrentSession();
-		Query query = session.createQuery("update ProjectDetails set actionTeam=? where projectId=?");
+		Query query = session.createQuery("update ProjectDetails set actionTeam=?, automation=? where projectId=?");
 		query.setString(0, actionTeam);
-		query.setInteger(1, projectId);
+		query.setString(1, automation);
+		query.setInteger(2, projectId);
 		return query.executeUpdate();		 
 	}
 

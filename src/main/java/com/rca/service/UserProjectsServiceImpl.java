@@ -85,19 +85,20 @@ public class UserProjectsServiceImpl implements UserProjectsService{
 	}
 	public String getTeamNameForProjectService(int projectId)
 	{
-		return userProjectsDAO.getTeamNameByProjectIdDao(projectId);
+		ProjectDetails projectDetails = userProjectsDAO.getTeamNameByProjectIdDao(projectId);
+		return projectDetails.getActionTeam()+"_"+projectDetails.getAutomation();
 	}
 	public List<ProjectDetails> getProjectWithTeamService()
 	{
 		return userProjectsDAO.getProjectWithTeamDao();
 	}
 
-	public int updateTeamNameService(int projectId, String actionTeam)
+	public int updateTeamNameService(int projectId, String actionTeam, String automation)
 	{
 		if(actionTeam.contains("_"))
 			actionTeam = actionTeam.replace("_", "+");
 		
-		return userProjectsDAO.updateTeamNameDao(projectId, actionTeam);
+		return userProjectsDAO.updateTeamNameDao(projectId, actionTeam, automation);
 	}
 	
 	@Override

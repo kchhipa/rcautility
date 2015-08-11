@@ -26,6 +26,8 @@ public class UserProjectsAction extends ActionSupport implements SessionAware {
 	private int projectId;
 	private String actionTeam;
 	private InputStream inputStream;
+	private String automation;
+	
 	public String projectView()
 	{	
 		return SUCCESS;
@@ -99,7 +101,7 @@ public class UserProjectsAction extends ActionSupport implements SessionAware {
 	{
 		try
 		{
-			int result = userProjectsServiceImpl.updateTeamNameService(projectId, actionTeam);
+			int result = userProjectsServiceImpl.updateTeamNameService(projectId, actionTeam,automation);
 			if(result!=0)
 				addActionMessage(RCAConstants.UserProjectsMessage.TEAMNAME_UPDATE_SUCCESS);
 			
@@ -117,14 +119,11 @@ public class UserProjectsAction extends ActionSupport implements SessionAware {
 	@SuppressWarnings("deprecation")
 	public String getTeamNameForProject()
 	{
-		String actionTeam  = "";
+		String actionTeamWithAutomation  = "";
 		try
 		{
-			actionTeam = userProjectsServiceImpl.getTeamNameForProjectService(projectId);
-			if(actionTeam==null)
-				actionTeam = "";
-			
-			inputStream = new StringBufferInputStream(actionTeam);
+			actionTeamWithAutomation = userProjectsServiceImpl.getTeamNameForProjectService(projectId);						
+			inputStream = new StringBufferInputStream(actionTeamWithAutomation);
 		}
 		catch(HibernateException he)
 		{
@@ -214,6 +213,14 @@ public class UserProjectsAction extends ActionSupport implements SessionAware {
 
 	public void setInputStream(InputStream inputStream) {
 		this.inputStream = inputStream;
+	}
+
+	public String getAutomation() {
+		return automation;
+	}
+
+	public void setAutomation(String automation) {
+		this.automation = automation;
 	}
 
 	

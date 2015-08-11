@@ -256,6 +256,7 @@ function calculateWeek()
    {
 	   var projectId = document.getElementById("project_id").value;
 	   document.getElementById("teamDetail").style.display = "none";
+	   document.getElementById("automationDetail").style.display = "none";
 	   if(projectId=="0")
 		   return false;	
 	   var weekObj = document.getElementById("week_id");
@@ -318,34 +319,42 @@ function calculateWeek()
    {
 	   if(xmlhttp2.readyState==4)
        {   		   
-		   var response = xmlhttp2.responseText;          
-           if(response != null)
-           		document.getElementById("teamName").value = response;
+		   var response = xmlhttp2.responseText;       
+           if(response != null && response.contains("_"))
+        	   {
+	        	   var teamNameWithAutomation = response.split("_");
+	        	   if(teamNameWithAutomation[0] == "null")
+	        		   teamNameWithAutomation[0] = "";	           			
+	        	   if(teamNameWithAutomation[1] == "null")
+	        		   teamNameWithAutomation[1] = "";
+	        	   
+	        	   document.getElementById("teamName").value = teamNameWithAutomation[0];
+	               document.getElementById("automation").value = teamNameWithAutomation[1];
+	        	    
+        	   }
            document.getElementById("teamDetail").style.display = "block";
+           document.getElementById("automationDetail").style.display = "block";
 
        }
    }
    function hideTeam()
    {
+	   document.getElementById("automationDetail").style.display = "none";
 	   document.getElementById("teamDetail").style.display = "none";
    }
    var xmlhttp3;
    function updateTeam()
    {
 	  	 var projectId = document.getElementById("project_id").value;
+	  	 var automation = document.getElementById("automation").value;
 		 if(projectId=="0")
 			 {
 			 	alert("Please select project first");
 			 	return false;
 			 }
-		 var actionTeam = document.getElementById("teamName").value;
-		 if(actionTeam=="" || actionTeam==null)
-			 {
-			 	alert("Action team name can not be blank");
-			 	return false;
-			 }
+		 var actionTeam = document.getElementById("teamName").value;		
 		 actionTeam = actionTeam.replace("+","_");
-		 var url = "updateTeamName?projectId="+projectId+"&actionTeam="+actionTeam;  
+		 var url = "updateTeamName?projectId="+projectId+"&actionTeam="+actionTeam+"&automation="+automation;  
 		 if(window.XMLHttpRequest)
 			 {	// code for IE7+, Firefox, Chrome, Opera, Safari
 			 xmlhttp3 = new XMLHttpRequest();
@@ -439,11 +448,17 @@ function calculateWeek()
 						<td colspan="2"><input type="submit" value="Update Team Name" onclick="getTeamNameForProject();"></td>
 
 					</tr>
-					<tr >
+					<tr>					
+					<td colspan="4" id="automationDetail" style="display:none; font-size: 12px; position:absolute; "><label for="Automation">Automation</label>
+						&nbsp;<input type="text" id="automation" size="25px;" name="automation" value=""/> 					
+					</tr>
+					<tr><td></td></tr>
+					<tr>
 					<td colspan="4" id="teamDetail" style="display:none; font-size: 12px; position:absolute; "><label for="Action Team">Action Team</label>
 						<input type="text" id="teamName" size="40px;" name="teamName" value=""/> 
 						<input type="submit" value="Submit" onclick="updateTeam()">
 						<input type="submit" value="Hide" onclick="hideTeam()"></td>
+					
 					</tr>
 					<tr><td>&nbsp;</td></tr>
 					<tr>
