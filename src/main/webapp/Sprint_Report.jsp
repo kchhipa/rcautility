@@ -320,7 +320,7 @@ function calculateWeek()
 	   if(xmlhttp2.readyState==4)
        {   		   
 		   var response = xmlhttp2.responseText;       
-           if(response != null && response.contains("_"))
+           if(response != null && response.indexOf("_")!=-1)
         	   {
 	        	   var teamNameWithAutomation = response.split("_");
 	        	   if(teamNameWithAutomation[0] == "null")
