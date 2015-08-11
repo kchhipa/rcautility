@@ -353,7 +353,7 @@ function calculateWeek()
 			 	return false;
 			 }
 		 var actionTeam = document.getElementById("teamName").value;		
-		 actionTeam = actionTeam.replace("+","_");
+		 actionTeam = actionTeam.replace(/[+]/g,"_");
 		 var url = "updateTeamName?projectId="+projectId+"&actionTeam="+actionTeam+"&automation="+automation;  
 		 if(window.XMLHttpRequest)
 			 {	// code for IE7+, Firefox, Chrome, Opera, Safari
