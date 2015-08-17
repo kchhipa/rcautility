@@ -103,6 +103,13 @@ public class RCA {
 	public int ro_qa;
 	public int ro_uat;
 	public int ro_prod;
+	
+	/* Changes for Non RCA field addition */
+	public int nr_product_backlog;
+	public int nr_qa;
+	public int nr_uat;
+	public int nr_prod;	
+	
 	public String overview_message;
 	public String risks_issues;
 	
@@ -824,6 +831,31 @@ public class RCA {
 	}
 	public void setRisks_issues(String risks_issues) {
 		this.risks_issues = risks_issues;
+	}
+	/* Changes for Non RCA field addition */
+	public int getNr_product_backlog() {
+		return nr_product_backlog;
+	}
+	public void setNr_product_backlog(int nr_product_backlog) {
+		this.nr_product_backlog = nr_product_backlog;
+	}
+	public int getNr_qa() {
+		return nr_qa;
+	}
+	public void setNr_qa(int nr_qa) {
+		this.nr_qa = nr_qa;
+	}
+	public int getNr_uat() {
+		return nr_uat;
+	}
+	public void setNr_uat(int nr_uat) {
+		this.nr_uat = nr_uat;
+	}
+	public int getNr_prod() {
+		return nr_prod;
+	}
+	public void setNr_prod(int nr_prod) {
+		this.nr_prod = nr_prod;
 	}
 
 }

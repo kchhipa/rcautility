@@ -60,11 +60,12 @@ public class ReportUtility {
           differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssuesInOpen(rcaCount));
           differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInOpen(rcaCount));
           differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInOpen(rcaCount));
+          differentRootCause.put("Non RCA Bug", weeklyNonRcaBugForAllIssuesInOpen(rcaCount));   /* Changes for Non RCA field addition */
           
           /* To ensure that Projects with RCA count as zero do not show up in Graph */
           if((mixCategoryWeeklyCountForAllProjectsInOpen(rcaCount) + weeklyDataIssueForAllIssuesInOpen(rcaCount) + weeklyDataIssueForAllIssuesInOpen(rcaCount) + 
         		  weeklyConfigurationIssueForAllIssuesInOpen(rcaCount) + weeklyMissedAndCRCountForAllIssuesInOpen(rcaCount) + weeklyClientCodeBugForAllIssuesInOpen(rcaCount) + 
-        		  weeklyProductDefectForAllIssuesInOpen(rcaCount)) > 0)
+        		  weeklyProductDefectForAllIssuesInOpen(rcaCount) + weeklyNonRcaBugForAllIssuesInOpen(rcaCount)) > 0)
         	  	diffCategory.put(projName, differentRootCause);
           
           //projCount.put(projName, diffCategory);
@@ -87,7 +88,8 @@ public class ReportUtility {
 			
 			int totalCount = mixCategoryWeeklyCountForAllProjectsInQA(rcaCount) + weeklyDataIssueForAllIssuesInQA(rcaCount) +
 					weeklyIntegrationIssueForAllIssuesInQA(rcaCount) + weeklyConfigurationIssueForAllIssuesInQA(rcaCount) +
-					weeklyMissedAndCRCountForAllIssuesInQA(rcaCount) + weeklyClientCodeBugForAllIssuesInQA(rcaCount) + weeklyProductDefectForAllIssuesInQA(rcaCount);
+					weeklyMissedAndCRCountForAllIssuesInQA(rcaCount) + weeklyClientCodeBugForAllIssuesInQA(rcaCount) + 
+					weeklyProductDefectForAllIssuesInQA(rcaCount) + weeklyNonRcaBugForAllIssuesInQA(rcaCount);
 			
 			
 			if(totalCount > 0){
@@ -100,6 +102,7 @@ public class ReportUtility {
 	            differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssuesInQA(rcaCount));
 	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInQA(rcaCount));
 	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInQA(rcaCount));
+	            differentRootCause.put("Non RCA Bug", weeklyNonRcaBugForAllIssuesInQA(rcaCount));   /* Changes for Non RCA field addition */
 	
 	            diffCategory.put(projName, differentRootCause);
 				
@@ -155,6 +158,7 @@ public class ReportUtility {
 	            differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssuesInQA(rcaCount));
 	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInQA(rcaCount));
 	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInQA(rcaCount));
+	            differentRootCause.put("Non RCA Bug", weeklyNonRcaBugForAllIssuesInQA(rcaCount));   /* Changes for Non RCA field addition */
 	            diffCategory.put(week, differentRootCause);
 			}
 			else
@@ -166,6 +170,7 @@ public class ReportUtility {
 	            differentRootCause.put("Missed/ Change Requirement", 0);
 	            differentRootCause.put("Client Code Bug", 0);
 	            differentRootCause.put("Product Defect", 0);
+	            differentRootCause.put("Non RCA Bug", 0);   /* Changes for Non RCA field addition */
 				diffCategory.put(week, differentRootCause);
 			}
 		}			
@@ -200,6 +205,7 @@ public class ReportUtility {
 	            differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssuesInUAT(rcaCount));
 	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInUAT(rcaCount));
 	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInUAT(rcaCount));
+	            differentRootCause.put("Non RCA Bug", weeklyNonRcaBugForAllIssuesInUAT(rcaCount));   /* Changes for Non RCA field addition */
 	            diffCategory.put(week, differentRootCause);
 			}
 			else
@@ -211,6 +217,7 @@ public class ReportUtility {
 	            differentRootCause.put("Missed/ Change Requirement", 0);
 	            differentRootCause.put("Client Code Bug", 0);
 	            differentRootCause.put("Product Defect", 0);
+	            differentRootCause.put("Non RCA Bug", 0);   /* Changes for Non RCA field addition */
 				diffCategory.put(week, differentRootCause);
 			}
 		}			
@@ -243,6 +250,7 @@ public class ReportUtility {
 	            differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssuesInProd(rcaCount));
 	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInProd(rcaCount));
 	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInProd(rcaCount));
+	            differentRootCause.put("Non RCA Bug", weeklyNonRcaBugForAllIssuesInProd(rcaCount));   /* Changes for Non RCA field addition */
 	            diffCategory.put(week, differentRootCause);
 			}
 			else
@@ -254,6 +262,7 @@ public class ReportUtility {
 	            differentRootCause.put("Missed/ Change Requirement", 0);
 	            differentRootCause.put("Client Code Bug", 0);
 	            differentRootCause.put("Product Defect", 0);
+	            differentRootCause.put("Non RCA Bug", 0);   /* Changes for Non RCA field addition */
 				diffCategory.put(week, differentRootCause);
 			}
 		}		
@@ -286,6 +295,7 @@ public class ReportUtility {
 	            differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssuesInOpen(rcaCount));
 	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInOpen(rcaCount));
 	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInOpen(rcaCount));
+	            differentRootCause.put("Non RCA Bug", weeklyNonRcaBugForAllIssuesInOpen(rcaCount));   /* Changes for Non RCA field addition */
 	            diffCategory.put(week, differentRootCause);
 			}
 			else
@@ -297,6 +307,7 @@ public class ReportUtility {
 	            differentRootCause.put("Missed/ Change Requirement", 0);
 	            differentRootCause.put("Client Code Bug", 0);
 	            differentRootCause.put("Product Defect", 0);
+	            differentRootCause.put("Non RCA Bug", 0);   /* Changes for Non RCA field addition */
 				diffCategory.put(week, differentRootCause);
 			}
 		}
@@ -355,7 +366,8 @@ public class ReportUtility {
 			
 			int totalCount = mixCategoryWeeklyCountForAllProjectsInUAT(rcaCount) + weeklyDataIssueForAllIssuesInUAT(rcaCount) +
 					weeklyIntegrationIssueForAllIssuesInUAT(rcaCount) + weeklyConfigurationIssueForAllIssuesInUAT(rcaCount) +
-					weeklyMissedAndCRCountForAllIssuesInUAT(rcaCount) + weeklyClientCodeBugForAllIssuesInUAT(rcaCount) + weeklyProductDefectForAllIssuesInUAT(rcaCount);
+					weeklyMissedAndCRCountForAllIssuesInUAT(rcaCount) + weeklyClientCodeBugForAllIssuesInUAT(rcaCount) + 
+					weeklyProductDefectForAllIssuesInUAT(rcaCount) + weeklyNonRcaBugForAllIssuesInUAT(rcaCount);
 			
 			
 			if(totalCount > 0){
@@ -368,6 +380,7 @@ public class ReportUtility {
 	            differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssuesInUAT(rcaCount));
 	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInUAT(rcaCount));
 	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInUAT(rcaCount));
+	            differentRootCause.put("Non RCA Bug", weeklyNonRcaBugForAllIssuesInUAT(rcaCount));   /* Changes for Non RCA field addition */
 	
 	            diffCategory.put(projName, differentRootCause);
 				
@@ -390,7 +403,8 @@ public class ReportUtility {
 			
 			int totalCount = mixCategoryWeeklyCountForAllProjectsInProd(rcaCount) + weeklyDataIssueForAllIssuesInProd(rcaCount) +
 					weeklyIntegrationIssueForAllIssuesInProd(rcaCount) + weeklyConfigurationIssueForAllIssuesInProd(rcaCount) +
-					weeklyMissedAndCRCountForAllIssuesInProd(rcaCount) + weeklyClientCodeBugForAllIssuesInProd(rcaCount) +  weeklyProductDefectForAllIssuesInProd(rcaCount);
+					weeklyMissedAndCRCountForAllIssuesInProd(rcaCount) + weeklyClientCodeBugForAllIssuesInProd(rcaCount) + 
+					weeklyProductDefectForAllIssuesInProd(rcaCount) + weeklyNonRcaBugForAllIssuesInProd(rcaCount);
 			
 			
 			if(totalCount > 0){
@@ -403,6 +417,7 @@ public class ReportUtility {
 	            differentRootCause.put("Missed/ Change Requirement", weeklyMissedAndCRCountForAllIssuesInProd(rcaCount));
 	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInProd(rcaCount));
 	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInProd(rcaCount));
+	            differentRootCause.put("Non RCA Bug", weeklyNonRcaBugForAllIssuesInProd(rcaCount));   /* Changes for Non RCA field addition */
 	
 	            diffCategory.put(projName, differentRootCause);
 				
@@ -829,6 +844,20 @@ return total;
 	}
 	
 	/**
+	 * Method to return QA Non RCA Bug count for a selected week.
+	 * @param rcaWeeks
+	 * @return
+	 */
+	public int weeklyNonRcaBugForAllIssuesInQA(RcaCount rcaCount){
+	       
+		int total =0;
+		
+			total = total + rcaCount.getNrQa();
+		
+		return total;
+	}
+	
+	/**
 	 * Method to return UAT Product Defect count for a selected week.
 	 * @param rcaWeeks
 	 * @return
@@ -838,6 +867,19 @@ return total;
 		int total =0;
 		
 			total = total + rcaWeeks.getPdUat();
+		
+		return total;
+	}
+	/**
+	 * Method to return UAT Non RCA Bug count for a selected week.
+	 * @param rcaWeeks
+	 * @return
+	 */
+	public int weeklyNonRcaBugForAllIssuesInUAT(RcaCount rcaCount){
+	       
+		int total =0;
+		
+			total = total + rcaCount.getNrUat();
 		
 		return total;
 	}
@@ -857,6 +899,19 @@ return total;
 	}
 	
 	/**
+	 * Method to return Production environment Non RCA Bug count for a selected week.
+	 * @param rcaWeeks
+	 * @return
+	 */
+	public int weeklyNonRcaBugForAllIssuesInProd(RcaCount rcaCount){
+	       
+		int total =0;
+		
+			total = total + rcaCount.getNrProd();
+		
+		return total;
+	}
+	/**
 	 * Method to return open Product Defect count for a selected week.
 	 * @param rcaWeeks
 	 * @return
@@ -866,6 +921,19 @@ return total;
 		int total =0;
 		
 			total = total + rcaWeeks.getPdProductBacklog();
+		
+		return total;
+	}
+	/**
+	 * Method to return open Non RCA Bug count for a selected week.
+	 * @param rcaWeeks
+	 * @return
+	 */
+	public int weeklyNonRcaBugForAllIssuesInOpen(RcaCount rcaWeeks){
+	       
+		int total =0;
+		
+			total = total + rcaWeeks.getNrProductBacklog();
 		
 		return total;
 	}
@@ -910,7 +978,7 @@ return total;
 				          rcaCount.getCrmesbProd() + rcaCount.getCrProd() + rcaCount.getDiProd() + rcaCount.getDpProd() + rcaCount.getDupProd() + 
 				          rcaCount.getEnvProd() + rcaCount.getFfmProd() + rcaCount.getIoProd() + rcaCount.getMrProd() + rcaCount.getNadProd() + 
 				          rcaCount.getOtpProd() + rcaCount.getPdProd() + rcaCount.getPlanProd() + rcaCount.getPmuuProd() + rcaCount.getRateProd() + 
-				          rcaCount.getRpaProd() + rcaCount.getTiProd() + rcaCount.getUtrProd());
+				          rcaCount.getRpaProd() + rcaCount.getTiProd() + rcaCount.getUtrProd() + rcaCount.getNrProd());
 		
 		return total;
 	}
@@ -922,7 +990,7 @@ return total;
 				          rcaCount.getCrmesbUat() + rcaCount.getCrUat() + rcaCount.getDiUat() + rcaCount.getDpUat() + rcaCount.getDupUat() + 
 				          rcaCount.getEnvUat() + rcaCount.getFfmUat() + rcaCount.getIoUat() + rcaCount.getMrUat() + rcaCount.getNadUat() + 
 				          rcaCount.getOtpUat() + rcaCount.getPdUat() + rcaCount.getPlanUat() + rcaCount.getPmuuUat() + rcaCount.getRateUat() + 
-				          rcaCount.getRpaUat() + rcaCount.getTiUat() + rcaCount.getUtrUat());
+				          rcaCount.getRpaUat() + rcaCount.getTiUat() + rcaCount.getUtrUat() + rcaCount.getNrUat());
 		
 		return total;
 	}
@@ -939,7 +1007,7 @@ return total;
 				          rcaCount.getCrmesbQa() + rcaCount.getCrQa() + rcaCount.getDiQa() + rcaCount.getDpQa() + rcaCount.getDupQa() + 
 				          rcaCount.getEnvQa() + rcaCount.getFfmQa() + rcaCount.getIoQa() + rcaCount.getMrQa() + rcaCount.getNadQa() + 
 				          rcaCount.getOtpQa() + rcaCount.getPdQa() + rcaCount.getPlanQa() + rcaCount.getPmuuQa() + rcaCount.getRateQa() + 
-				          rcaCount.getRpaQa() + rcaCount.getTiQa() + rcaCount.getUtrQa());
+				          rcaCount.getRpaQa() + rcaCount.getTiQa() + rcaCount.getUtrQa() + rcaCount.getNrQa());
 		
 		return total;
 	}
@@ -972,7 +1040,8 @@ return total;
 							rcaCountData.getMrQa() + //Missed Requirement
 							rcaCountData.getNadQa() +  //Not a defect
 							rcaCountData.getPdQa() + //Product defec
-							rcaCountData.getUtrQa()); //Unable to reproduce
+							rcaCountData.getUtrQa()+ //Unable to reproduce
+							rcaCountData.getNrQa()); //Non RCA Bug   /* Changes for Non RCA field addition */
 							//Integration Issues
 							if (rcaCountData.getIiQa() == 0){
 								total = total + rcaCountData.getCrmesbQa() + rcaCountData.getFfmQa() +
@@ -1064,7 +1133,7 @@ return total;
 					total = total + rcaCountData.getAdProd() + rcaCountData.getBsiProd() + rcaCountData.getCcbProd() + 
 					rcaCountData.getCrProd() + rcaCountData.getDiProd() + rcaCountData.getDupProd() +  
 					rcaCountData.getMrProd() + rcaCountData.getNadProd() +  rcaCountData.getPdProd() + 
-					rcaCountData.getUtrProd() ;
+					rcaCountData.getUtrProd() + rcaCountData.getNrProd() ;   /* Changes for Non RCA field addition */
 
 					//Integration Issues
 					if (rcaCountData.getIiProd() == 0){
@@ -1125,7 +1194,8 @@ return total;
 							rcaCountData.getMrUat() + //Missed Requirement
 							rcaCountData.getNadUat() +  //Not a defect
 							rcaCountData.getPdUat() + //Product defec
-							rcaCountData.getUtrUat()); //Unable to reproduce
+							rcaCountData.getUtrUat() + //Unable to reproduce
+							rcaCountData.getNrUat()); //Non RCA Bug   /* Changes for Non RCA field addition */
 							//Integration Issues
 							if (rcaCountData.getIiUat() == 0){
 								total = total + rcaCountData.getCrmesbUat() + rcaCountData.getFfmUat() +
@@ -1187,7 +1257,8 @@ return total;
 								rcaCountData.getMrProductBacklog() + //Missed Requirement
 								rcaCountData.getNadProductBacklog() +  //Not a defect
 								rcaCountData.getPdProductBacklog() + //Product defect
-								rcaCountData.getUtrProductBacklog()); //Unable to reproduce
+								rcaCountData.getUtrProductBacklog() + //Unable to reproduce
+								rcaCountData.getNrProductBacklog()); //Non RCA Bug   /* Changes for Non RCA field addition */
 								//Integration Issues
 								if (rcaCountData.getIiProductBacklog() == 0){
 									total = total + rcaCountData.getCrmesbProductBacklog() + rcaCountData.getFfmProductBacklog() +

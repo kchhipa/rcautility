@@ -80,6 +80,8 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	public static String CHANGE_REQUIREMENT = "CR";
 	public static String CLIENT_CODE_BUG = "cCB";
 	public static String PRODUCT_DEFECT = "productDefect";
+	 /* Changes for Non RCA field addition */
+	public static String NON_RCA_BUG = "nrb";
 	
 	public String execute() throws Exception {
 		
@@ -213,7 +215,9 @@ public String addUatComments(List<RcaCount> rcaCounts){
 					+ calculateBugTypeCountForUATPerProject(rcaCount,
 							MIX_CATEGORY)
 					+ calculateBugTypeCountForUATPerProject(rcaCount,
-							PRODUCT_DEFECT);
+							PRODUCT_DEFECT)
+					+ calculateBugTypeCountForUATPerProject(rcaCount,   /* Changes for Non RCA field addition */
+							NON_RCA_BUG);
 			if (total > 0) {
 				uatText+="\n"
 						+ rcaCount.getProjectDetails().getProjectName() + "("+total+") : ";
@@ -267,6 +271,12 @@ public String addUatComments(List<RcaCount> rcaCounts){
 							rcaCount, PRODUCT_DEFECT) + " Product Defect#";
 					count++;
 				}
+				 /* Changes for Non RCA field addition */
+				int nonRcaBugCount = calculateBugTypeCountForUATPerProject(rcaCount,NON_RCA_BUG);
+				if (nonRcaBugCount != 0) {
+					uatText+=" "+nonRcaBugCount + " Non RCA Bug#";
+					count++;
+				}
 			}
 			if(count==1){
 				uatText=uatText.replace("#", "");
@@ -308,7 +318,9 @@ public String addProdComments(List<RcaCount> rcaCounts){
 					+ calculateBugTypeCountForProdPerProject(rcaCount,
 							MIX_CATEGORY)
 					+ calculateBugTypeCountForProdPerProject(rcaCount,
-							PRODUCT_DEFECT);
+							PRODUCT_DEFECT)
+					+ calculateBugTypeCountForProdPerProject(rcaCount,   /* Changes for Non RCA field addition */
+							NON_RCA_BUG);
 			if (total > 0) {
 				prodText+="\n"
 						+ rcaCount.getProjectDetails().getProjectName() + "("+total+") : ";
@@ -362,6 +374,12 @@ public String addProdComments(List<RcaCount> rcaCounts){
 							rcaCount, PRODUCT_DEFECT) + " Product Defect#";
 					count++;
 				}
+				 /* Changes for Non RCA field addition */
+				int nonRcaBugProdCount = calculateBugTypeCountForProdPerProject(rcaCount,NON_RCA_BUG);
+				if (nonRcaBugProdCount !=0) {
+					prodText+=" "+nonRcaBugProdCount + " Non RCA Bug#";
+					count++;
+				}
 			}
 			
 			if(count==1){
@@ -404,7 +422,9 @@ public String addQAComments(List<RcaCount> rcaCounts){
 				+ calculateBugTypeCountForQAPerProject(rcaCount,
 						MIX_CATEGORY)
 				+ calculateBugTypeCountForQAPerProject(rcaCount,
-						PRODUCT_DEFECT);
+						PRODUCT_DEFECT)
+				+ calculateBugTypeCountForQAPerProject(rcaCount,   /* Changes for Non RCA field addition */
+						NON_RCA_BUG);
 		if (total > 0) {
 			qaText+="\n"
 					+ rcaCount.getProjectDetails().getProjectName() + "("+total+") : ";
@@ -458,6 +478,12 @@ public String addQAComments(List<RcaCount> rcaCounts){
 						rcaCount, PRODUCT_DEFECT) + " Product Defect#";
 				count++;
 			}
+			 /* Changes for Non RCA field addition */
+			int nonRcaBugQaCount = calculateBugTypeCountForQAPerProject(rcaCount,NON_RCA_BUG);
+			if (nonRcaBugQaCount != 0) {
+				qaText+=" "+nonRcaBugQaCount + " Non RCA Bug#";
+				count++;
+			}
 			
 		}
 		if(count==1){
@@ -500,7 +526,9 @@ public String addOpenComments(List<RcaCount> rcaCounts){
 				+ calculateBugTypeCountForOpenPerProject(rcaCount,
 						MIX_CATEGORY)
 				+ calculateBugTypeCountForOpenPerProject(rcaCount,
-						PRODUCT_DEFECT);
+						PRODUCT_DEFECT)
+				+ calculateBugTypeCountForOpenPerProject(rcaCount,   /* Changes for Non RCA field addition */
+						NON_RCA_BUG);
 		if (total > 0) {
 			openText+="\n"
 					+ rcaCount.getProjectDetails().getProjectName() + "("+total+") : ";
@@ -538,6 +566,12 @@ public String addOpenComments(List<RcaCount> rcaCounts){
 					PRODUCT_DEFECT) != 0) {
 				openText+=" "+calculateBugTypeCountForOpenPerProject(
 						rcaCount, PRODUCT_DEFECT) + " Product Defect#";
+				count++;
+			}
+			 /* Changes for Non RCA field addition */
+			int nonRcaBugOpenCount = calculateBugTypeCountForOpenPerProject(rcaCount,NON_RCA_BUG);
+			if (nonRcaBugOpenCount != 0) {
+				openText+=" "+nonRcaBugOpenCount+ " Non RCA Bug#";
 				count++;
 			}
 		}
@@ -578,7 +612,8 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 				totalBugTypeCount = rU.weeklyClientCodeBugForAllIssuesInUAT(rcaCount);
 			else if(bugType.equals(PRODUCT_DEFECT))
 				totalBugTypeCount = rU.weeklyProductDefectForAllIssuesInUAT(rcaCount);
-
+			else if(bugType.equals(NON_RCA_BUG))  /* Changes for Non RCA field addition */
+				totalBugTypeCount = rU.weeklyNonRcaBugForAllIssuesInUAT(rcaCount);
 	
 		
 		return totalBugTypeCount;
@@ -605,6 +640,8 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 				totalBugTypeCount = rU.weeklyClientCodeBugForAllIssuesInProd(rcaCount);
 			else if(bugType.equals(PRODUCT_DEFECT))
 				totalBugTypeCount = rU.weeklyProductDefectForAllIssuesInProd(rcaCount);
+			else if(bugType.equals(NON_RCA_BUG))   /* Changes for Non RCA field addition */
+				totalBugTypeCount = rU.weeklyNonRcaBugForAllIssuesInProd(rcaCount);
 
 	
 		
@@ -632,6 +669,8 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 				totalBugTypeCount = rU.weeklyClientCodeBugForAllIssuesInQA(rcaCount);
 			else if(bugType.equals(PRODUCT_DEFECT))
 				totalBugTypeCount = rU.weeklyProductDefectForAllIssuesInQA(rcaCount);
+			else if(bugType.equals(NON_RCA_BUG))   /* Changes for Non RCA field addition */
+				totalBugTypeCount = rU.weeklyNonRcaBugForAllIssuesInQA(rcaCount);
 
 	
 		
@@ -655,6 +694,8 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 				totalBugTypeCount = rU.weeklyClientCodeBugForAllIssuesInOpen(rcaCount);
 			else if(bugType.equals(PRODUCT_DEFECT))
 				totalBugTypeCount = rU.weeklyProductDefectForAllIssuesInOpen(rcaCount);
+			else if(bugType.equals(NON_RCA_BUG))   /* Changes for Non RCA field addition */
+				totalBugTypeCount = rU.weeklyNonRcaBugForAllIssuesInOpen(rcaCount);
 
 	
 		
@@ -741,6 +782,11 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 			if(calculateTotalBugTypeCountForQA(rcaCounts, DATA_ISSUE) != 0){
 				tr.appendText(calculateTotalBugTypeCountForQA(rcaCounts, DATA_ISSUE) + " Data Issue" + "\n");
 			}
+			 /* Changes for Non RCA field addition */
+			int nonRcaBugCountQa = calculateTotalBugTypeCountForQA(rcaCounts, NON_RCA_BUG);
+			if(nonRcaBugCountQa != 0){
+				tr.appendText(nonRcaBugCountQa + " Non RCA Bug" + "\n");
+			}
 			if(calculateTotalBugTypeCountForQA(rcaCounts, MIX_CATEGORY) != 0){
 				tr.appendText(calculateTotalBugTypeCountForQA(rcaCounts, MIX_CATEGORY) + " Others " + "\n");
 			}
@@ -802,6 +848,11 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 			if(calculateTotalBugTypeCountForProd(rcaCounts, DATA_ISSUE) != 0){
 				tr.appendText(calculateTotalBugTypeCountForProd(rcaCounts, DATA_ISSUE) + " Data Issue" + "\n");
 			}
+			 /* Changes for Non RCA field addition */
+			int nonRcaBugCount = calculateTotalBugTypeCountForProd(rcaCounts, NON_RCA_BUG);
+			if(nonRcaBugCount != 0){
+				tr.appendText(nonRcaBugCount + " Non RCA Bug" + "\n");
+			}
 			if(calculateTotalBugTypeCountForProd(rcaCounts, MIX_CATEGORY) != 0){
 				tr.appendText(calculateTotalBugTypeCountForProd(rcaCounts, MIX_CATEGORY) + " Others " + "\n");
 			}
@@ -861,6 +912,11 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 			}
 			if(calculateTotalBugTypeCountForUAT(rcaCounts, DATA_ISSUE) != 0){
 				tr.appendText(calculateTotalBugTypeCountForUAT(rcaCounts, DATA_ISSUE) + " Data Issue" + "\n");
+			}
+			 /* Changes for Non RCA field addition */
+			int nonRcaBugCountUat = calculateTotalBugTypeCountForUAT(rcaCounts, NON_RCA_BUG);
+			if(nonRcaBugCountUat != 0){
+				tr.appendText(nonRcaBugCountUat + " Non RCA Bug" + "\n");
 			}
 			if(calculateTotalBugTypeCountForUAT(rcaCounts, MIX_CATEGORY) != 0){
 				tr.appendText(calculateTotalBugTypeCountForUAT(rcaCounts, MIX_CATEGORY) + " Others " + "\n");
@@ -1079,6 +1135,8 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 			}
 			else if(bugType.equals(PRODUCT_DEFECT))
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyProductDefectForAllIssuesInProd(rcaCount);
+			else if(bugType.equals(NON_RCA_BUG))    /* Changes for Non RCA field addition */
+				totalBugTypeCount = totalBugTypeCount + rU.weeklyNonRcaBugForAllIssuesInProd(rcaCount);
 
 		}
 		
@@ -1122,6 +1180,8 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 			}			
 			else if(bugType.equals(PRODUCT_DEFECT))
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyProductDefectForAllIssuesInQA(rcaCount);
+			else if(bugType.equals(NON_RCA_BUG))   /* Changes for Non RCA field addition */
+				totalBugTypeCount = totalBugTypeCount + rU.weeklyNonRcaBugForAllIssuesInQA(rcaCount);
 
 		}
 		
@@ -1165,6 +1225,8 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 			}
 			else if(bugType.equals(PRODUCT_DEFECT))
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyProductDefectForAllIssuesInUAT(rcaCount);
+			else if(bugType.equals(NON_RCA_BUG))   /* Changes for Non RCA field addition */
+				totalBugTypeCount = totalBugTypeCount + rU.weeklyNonRcaBugForAllIssuesInUAT(rcaCount);
 
 		}
 		

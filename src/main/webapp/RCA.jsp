@@ -391,6 +391,11 @@ function calculateWeek()
 	   elementIdsArray[94] = document.getElementById("ro_prod");
 	   elementIdsArray[95] = document.getElementById("overview_message");
 	   elementIdsArray[96] = document.getElementById("risks_issues");
+	   /* Changes for Non RCA field addtion */
+	   elementIdsArray[97] = document.getElementById("nr_product_backlog");
+	   elementIdsArray[98] = document.getElementById("nr_qa");
+	   elementIdsArray[99] = document.getElementById("nr_uat");
+	   elementIdsArray[100] = document.getElementById("nr_prod");
 	   
 	  	return elementIdsArray;   
    }
@@ -513,6 +518,13 @@ function calculateWeek()
 				<td><input type="text" value="<s:property value="rca.di_uat" />" name="di_uat" id="di_uat" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 				<td><input type="text" value="<s:property value="rca.di_prod" />" name="di_prod" id="di_prod" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 				<td><input type="text" value="<s:property value="rca.di_product_backlog" />" name="di_product_backlog" id="di_product_backlog" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+			</tr>
+			  <tr>	<!-- Changes for Non RCA field addition -->
+				<td style="float:right;"><label for="non_rca">Non RCA Bug</label></td>				
+				<td><input type="text" value="<s:property value="rca.nr_qa" />" name="nr_qa" id="nr_qa" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.nr_uat" />" name="nr_uat" id="nr_uat" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.nr_prod" />" name="nr_prod" id="nr_prod" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.nr_product_backlog" />" name="nr_product_backlog" id="nr_product_backlog" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 			</tr>
 			<tr>
 				<td style="float:right;"><label for="configuration">Configuration Issue: </label></td>				

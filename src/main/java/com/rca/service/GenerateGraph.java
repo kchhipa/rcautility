@@ -455,6 +455,10 @@ public class GenerateGraph
     Paint seaGreen = new GradientPaint(0.0f, 0.0f, new Color(65, 152, 175), 0.0f, 0.0f, new Color(65, 152, 175));
     renderer.setSeriesPaint(6, seaGreen);
     
+    /* Changes for Non RCA field addition */
+    Paint lightGrey = new GradientPaint(0.0f, 0.0f, new Color(155, 155, 155), 0.0f, 0.0f, new Color(155, 155, 155));
+    renderer.setSeriesPaint(7, lightGrey);
+    
     renderer.setGradientPaintTransformer(
         new StandardGradientPaintTransformer(GradientPaintTransformType.HORIZONTAL)
     );

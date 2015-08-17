@@ -129,6 +129,12 @@ public class RcaCount implements java.io.Serializable {
 	private int ioProd;
 	private String overviewMessage;
 	private String risksIssues;
+	
+	/* Changes for Non RCA field addition */
+	private int nrProductBacklog;
+	private int nrQa;
+	private int nrUat;
+	private int nrProd;
 
 	public RcaCount() {
 	}
@@ -167,7 +173,8 @@ public class RcaCount implements java.io.Serializable {
 			int otpProductBacklog, int otpQa, int otpUat,
 			int otpProd, int pmuuProductBacklog, int pmuuQa,
 			int pmuuUat, int pmuuProd, int ioProductBacklog,
-			int ioQa, int ioUat, int ioProd, String overviewMessage, String risksIssues) {
+			int ioQa, int ioUat, int ioProd, String overviewMessage, String risksIssues,
+			int nrProductBacklog, int nrQa, int nrUat, int nrProd) {
 		this.projectDetails = projectDetails;
 		this.mrProductBacklog = mrProductBacklog;
 		this.mrQa = mrQa;
@@ -275,6 +282,11 @@ public class RcaCount implements java.io.Serializable {
 		this.ioProd = ioProd;
 		this.overviewMessage = overviewMessage;
 		this.risksIssues = risksIssues;
+		/* Changes for Non RCA field addition */
+		this.nrProductBacklog = nrProductBacklog;
+		this.nrQa = nrQa;
+		this.nrUat = nrUat;
+		this.nrProd = nrProd;
 	}
 
 	@Id
@@ -1250,6 +1262,43 @@ public class RcaCount implements java.io.Serializable {
 
 	public void setRisksIssues(String risksIssues) {
 		this.risksIssues = risksIssues;
+	}
+
+	/* Changes for Non RCA field addition */
+	@Column(name = "nr_product_backlog")
+	public int getNrProductBacklog() {
+		return nrProductBacklog;
+	}
+
+	public void setNrProductBacklog(int nrProductBacklog) {
+		this.nrProductBacklog = nrProductBacklog;
+	}
+
+	@Column(name = "nr_qa")
+	public int getNrQa() {
+		return nrQa;
+	}
+
+	public void setNrQa(int nrQa) {
+		this.nrQa = nrQa;
+	}
+
+	@Column(name = "nr_uat")
+	public int getNrUat() {
+		return nrUat;
+	}
+
+	public void setNrUat(int nrUat) {
+		this.nrUat = nrUat;
+	}
+
+	@Column(name = "nr_prod")
+	public int getNrProd() {
+		return nrProd;
+	}
+
+	public void setNrProd(int nrProd) {
+		this.nrProd = nrProd;
 	}
 
 }
