@@ -90,11 +90,11 @@ public class GenerateSummaryAction extends ActionSupport{
 		}
 	};
 
-	public static final Comparator<RankingFramework> byTeamNameWithRankingFramework = new Comparator<RankingFramework>() {
+	public static final Comparator<ProjectDetails> byTeamNameWithProjectDetails = new Comparator<ProjectDetails>() {
 		@Override
-		public int compare(RankingFramework o1, RankingFramework o2) {
-			String s1 = o1.getTeamName();
-			String s2 = o2.getTeamName();
+		public int compare(ProjectDetails o1, ProjectDetails o2) {
+			String s1 = o1.getActionTeam();
+			String s2 = o2.getActionTeam();
 			if(null == s1)
 				s1="";
 			if(null == s2)
@@ -333,6 +333,7 @@ public class GenerateSummaryAction extends ActionSupport{
 		int rowCount = 2;
 		
 		List<ProjectDetails> projectDetailsList=projectDetailsManager.getAllActiveProjects();
+		Collections.sort(projectDetailsList, byTeamNameWithProjectDetails);
         
 		for (ProjectDetails projectDetails : projectDetailsList) {
 			found = false;
@@ -488,7 +489,7 @@ public class GenerateSummaryAction extends ActionSupport{
 			rankingRows.add(rankingRow);
 			rowCount++;
 		}
-		Collections.sort(rankingRows, byTeamNameWithRankingFramework);
+		//Collections.sort(rankingRows, byTeamNameWithRankingFramework);
 		return rankingRows;
 	}
 
