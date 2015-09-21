@@ -463,7 +463,18 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
          cell = sheet.getCell(++col, row);        
 		 rca.setRo_uat(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));  
 		 cell = sheet.getCell(++col, row);        
-		 rca.setRo_prod(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0")); 		
+		 rca.setRo_prod(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0")); 	
+		 
+		 /* Changes for Non RCA field addition */
+		 col=0;
+		 cell = sheet.getCell(++col, ++row);        
+		 rca.setNr_qa(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));      
+         cell = sheet.getCell(++col, row);        
+		 rca.setNr_uat(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));  
+		 cell = sheet.getCell(++col, row);        
+		 rca.setNr_prod(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0")); 
+		 cell = sheet.getCell(++col, row);        
+		 rca.setNr_product_backlog(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));
 	}
 	
 	
@@ -492,9 +503,9 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 		else if(result.equals("updated"))
 			addActionMessage("Rca data updated successfully.");
 		else if(result.equals("udpateFailure"))
-			addActionMessage("Problem in updating Rca data.");
+			addActionError("Problem in updating Rca data.");
 		else
-			addActionMessage("Problem in submitting Rca data.");
+			addActionError("Problem in submitting Rca data.");
 		
 		getWeekDates(rca.week);
 		
@@ -568,7 +579,7 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 				if (rcaList != null && rcaList.size() > 0) {
 					writeRcaData(sheet, rcaList, rowNumber, projectList);
 				}
-				rowNumber = rowNumber+28;
+				rowNumber = rowNumber+28;  // Changes for Non RCA Bug field addition
 			}
 			workbook.write();
 			fileInputStream = new FileInputStream(new File("RCA.xlsx"));
@@ -583,10 +594,10 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 		int col=1;
 		boolean flag = true;
 		
-		int total_qa[] = new int[26];
-		int total_uat[] = new int[26];
-		int total_prod[] = new int[26];
-		int total_product_backlog[] = new int[26];
+		int total_qa[] = new int[27];
+		int total_uat[] = new int[27];
+		int total_prod[] = new int[27];
+		int total_product_backlog[] = new int[27];
 			int i = 0;
 			for (RCA rca : rcaList) {
 				total_qa[0] = total_qa[0] +rca.mr_qa;
@@ -615,6 +626,7 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 				total_qa[23] = total_qa[23] +rca.io_qa;
 				total_qa[24] = total_qa[24] +rca.di_qa;
 				total_qa[25] = total_qa[25] +rca.ro_qa;
+				total_qa[26] = total_qa[26] +rca.nr_qa;  /* Changes for Non RCA field addition */
 				
 				total_uat[0] = total_uat[0] +rca.mr_uat;
 				total_uat[1] = total_uat[1] +rca.cr_uat;
@@ -642,6 +654,7 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 				total_uat[23] = total_uat[23] +rca.io_uat;
 				total_uat[24] = total_uat[24] +rca.di_uat;
 				total_uat[25] = total_uat[25] +rca.ro_uat;
+				total_uat[26] = total_uat[26] +rca.nr_uat;   /* Changes for Non RCA field addition */
 				
 				total_prod[0] = total_prod[0] +rca.mr_prod;
 				total_prod[1] = total_prod[1] +rca.cr_prod;
@@ -669,6 +682,7 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 				total_prod[23] = total_prod[23] +rca.io_prod;
 				total_prod[24] = total_prod[24] +rca.di_prod;
 				total_prod[25] = total_prod[25] +rca.ro_prod;
+				total_prod[26] = total_prod[26] +rca.nr_prod;   /* Changes for Non RCA field addition */
 				
 				total_product_backlog[0] = total_product_backlog[0] +rca.mr_product_backlog;
 				total_product_backlog[1] = total_product_backlog[1] +rca.cr_product_backlog;
@@ -696,6 +710,7 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 				total_product_backlog[23] = total_product_backlog[23] +rca.io_product_backlog;
 				total_product_backlog[24] = total_product_backlog[24] +rca.di_product_backlog;
 				//total_product_backlog[25] = total_product_backlog[25] ;
+				total_product_backlog[26] = total_product_backlog[26] +rca.nr_product_backlog;   /* Changes for Non RCA field addition */
 			}
 		
 			RCA totalList = new RCA();
@@ -724,6 +739,7 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 			totalList.io_qa = total_qa[23];
 			totalList.di_qa = total_qa[24];
 			totalList.ro_qa = total_qa[25];
+			totalList.nr_qa = total_qa[26];   /* Changes for Non RCA field addition */
 			
 			totalList.mr_uat = total_uat[0]; 
 			totalList.cr_uat = total_uat[1];
@@ -750,6 +766,7 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 			totalList.io_uat = total_uat[23];
 			totalList.di_uat = total_uat[24];
 			totalList.ro_uat = total_uat[25];
+			totalList.nr_uat = total_uat[26];   /* Changes for Non RCA field addition */
 			
 			totalList.mr_prod = total_prod[0]; 
 			totalList.cr_prod = total_prod[1];
@@ -776,6 +793,7 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 			totalList.io_prod = total_prod[23];
 			totalList.di_prod = total_prod[24];
 			totalList.ro_prod = total_prod[25];
+			totalList.nr_prod = total_prod[26];   /* Changes for Non RCA field addition */
 			
 			totalList.mr_product_backlog = total_product_backlog[0]; 
 			totalList.cr_product_backlog = total_product_backlog[1];
@@ -802,6 +820,7 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 			totalList.io_product_backlog = total_product_backlog[23];
 			totalList.di_product_backlog = total_product_backlog[24];
 			//totalList.ro_product_backlog = total_product_backlog[25];
+			totalList.nr_product_backlog = total_product_backlog[26];   /* Changes for Non RCA field addition */
 			
 			List<RCA> newList = new ArrayList<RCA>();
 			newList.add(totalList);
@@ -865,6 +884,7 @@ private void writeExceldata(int col, int row,WritableSheet sheet,RCA rca) throws
 	writeIntegrationOthers(col,++row,sheet,rca);
 	writeDataIssue(col,++row,sheet,rca);
 	writeReOpen(col,++row,sheet,rca);
+	writeNonRcaBug(col,++row,sheet,rca);
 	
 }
 	
@@ -880,6 +900,31 @@ private void writeReOpen(int col, int row,WritableSheet sheet,RCA rca) throws Ro
     label = new Label(++col,row, String.valueOf(rca.ro_prod));
     sheet.addCell(label);    
 
+}
+
+/* Changes for Non RCA field addition */
+/**
+ * @param col
+ * @param row
+ * @param sheet
+ * @param rca
+ * @throws RowsExceededException
+ * @throws WriteException
+ */
+private void writeNonRcaBug(int col, int row,WritableSheet sheet,RCA rca) throws RowsExceededException, WriteException {
+	Label label;
+	    
+    label = new Label(++col,row, String.valueOf(rca.nr_qa));
+    sheet.addCell(label);
+    
+    label = new Label(++col,row, String.valueOf(rca.nr_uat));
+    sheet.addCell(label);
+    
+    label = new Label(++col,row, String.valueOf(rca.nr_prod));
+    sheet.addCell(label);
+    
+    label = new Label(++col,row, String.valueOf(rca.nr_product_backlog));
+    sheet.addCell(label);
 }
 
 private void writeDataIssue(int col, int row,WritableSheet sheet,RCA rca) throws RowsExceededException, WriteException {
@@ -1355,6 +1400,9 @@ private void getRcaTypeLabelsForExport(WritableSheet sheet, WritableCellFormat c
     sheet.addCell(label);
     label = new Label(col,++row,"Re Open",cellFormat);
     sheet.addCell(label);
+    /* Changes for Non RCA field addition */
+    label = new Label(col,++row,"Non RCA Bug",cellFormat);
+    sheet.addCell(label);
     
 	
 }
@@ -1410,6 +1458,9 @@ private void getRcaTypeLabelsForTemplateDownload(WritableSheet sheet, WritableCe
     sheet.addCell(label);
     label = new Label(col,++row,"Re Open",cellFormat);
     sheet.addCell(label);
+    /* Changes for Non RCA field addition */
+    label = new Label(col,++row,"Non RCA Bug",cellFormat);
+    sheet.addCell(label);
     
     
 }
@@ -1433,7 +1484,7 @@ private void getProjectLabels(WritableSheet sheet, WritableCellFormat cellFormat
 	 
 	 Iterator<ProjectDetails> projectIterator=projectList.iterator();
 	 
-	 	sheet.mergeCells(0, rowNumber, 0, rowNumber+25);
+	 	sheet.mergeCells(0, rowNumber, 0, rowNumber+26);   // Changes for Non RCA Bug field addition
 		label = new Label(0, rowNumber, week,cellFormatDate);
 	    sheet.addCell(label);
 		
