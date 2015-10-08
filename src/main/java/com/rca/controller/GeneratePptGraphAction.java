@@ -178,10 +178,10 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		for(int i=1; i<tr.getRichTextRuns().length;i++){
 			RichTextRun rt2 = tr.getRichTextRuns()[i];
 			if(rt2.getText().equalsIgnoreCase("PROD")||rt2.getText().equalsIgnoreCase("QA")||rt2.getText().equalsIgnoreCase("OPEN")){
-				rt2.setFontSize(12);
+				rt2.setFontSize(11);
 				rt2.setFontName("Franklin Gothic Medium");
 			}else{
-				rt2.setFontSize(11);
+				rt2.setFontSize(10);
 				rt2.setFontName("Franklin Gothic Body");
 				rt2.setAlignment(TextBox.AlignLeft);
 			}
@@ -533,6 +533,19 @@ public String addOpenComments(List<RcaCount> rcaCounts){
 			openText+="\n"
 					+ rcaCount.getProjectDetails().getProjectName() + "("+total+") : ";
 			if (calculateBugTypeCountForOpenPerProject(rcaCount,
+					MISSED_REQUIREMENT) != 0) {
+				openText+=" "+calculateBugTypeCountForOpenPerProject(
+						rcaCount, MISSED_REQUIREMENT) + " Missed Requirement#";
+				count++;
+			}
+			if (calculateBugTypeCountForOpenPerProject(rcaCount,
+					CHANGE_REQUIREMENT) != 0) {
+				openText+=" "+calculateBugTypeCountForOpenPerProject(
+						rcaCount, CHANGE_REQUIREMENT) + " Change Requirement#";
+				count++;
+			}
+		
+			if (calculateBugTypeCountForOpenPerProject(rcaCount,
 					CLIENT_CODE_BUG) != 0) {
 				openText+=" "+calculateBugTypeCountForOpenPerProject(
 						rcaCount, CLIENT_CODE_BUG) + " Client Code Defect#";
@@ -684,6 +697,10 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 			
 			if(bugType.equals(MIX_CATEGORY))
 				totalBugTypeCount = rU.mixCategoryWeeklyCountForAllProjectsInOpen(rcaCount);
+			else if(bugType.equals(MISSED_REQUIREMENT))
+				totalBugTypeCount = rU.weeklyMissedRequirementsForAllIssuesInOpen(rcaCount);
+			else if(bugType.equals(CHANGE_REQUIREMENT))
+				totalBugTypeCount = rU.weeklyChangeRequirementsForAllIssuesInOpen(rcaCount);
 			else if(bugType.equals(DATA_ISSUE))
 				totalBugTypeCount = rU.weeklyDataIssueForAllIssuesInOpen(rcaCount);
 			else if(bugType.equals(INTEGRATION_ISSUE))
@@ -697,8 +714,6 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 			else if(bugType.equals(NON_RCA_BUG))   /* Changes for Non RCA field addition */
 				totalBugTypeCount = rU.weeklyNonRcaBugForAllIssuesInOpen(rcaCount);
 
-	
-		
 		return totalBugTypeCount;
 	}
 	

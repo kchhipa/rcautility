@@ -565,6 +565,20 @@ public class ReportUtility {
 		return total;
 		
 	}
+	public int weeklyMissedRequirementsForAllIssuesInOpen(RcaCount rcaWeeks){
+		int total =0;
+		
+		total = total + (rcaWeeks.getMrProductBacklog());
+	   return total;	
+	
+	}
+	public int weeklyChangeRequirementsForAllIssuesInOpen(RcaCount rcaWeeks){
+		int total =0;
+		
+		total = total + (rcaWeeks.getCrProductBacklog());
+	   return total;	
+	
+	}
 	public int weeklyIntegrationIssueForAllIssues(RcaCount rcaWeeks){
 		int total =0;
 		
