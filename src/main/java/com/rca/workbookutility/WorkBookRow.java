@@ -33,6 +33,7 @@ public class WorkBookRow {
 		return isHeaderRow;
 	}
 	/**
+	 * Setter method of isHeaderRow
 	 * @param isHeaderRow the isHeaderRow to set
 	 */
 	public void setHeaderRow(boolean isHeaderRow) {
