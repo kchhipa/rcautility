@@ -1,77 +1,108 @@
 package com.rca.entity;
 
+import java.util.Date;
+
 public class SprintReportBean {
 
-	private int project_id;
-	private String week_id;
-	private String springNameFirst;
-	private String userStoryFirst;
-	private String bugCountFirst;
-	private String springNameSecond;
-	private String userStorySecond;
-	private String bugCountSecond;
-	private String devMember;
-	private String qaMember;
-	public int getProject_id() {
-		return project_id;
+	private Integer sprintReportId;
+	private ProjectDetails projectDetails;
+	private String sprintName;
+	private Integer spCommitted;
+	private Integer spDelivered;
+	private Integer spAddedInMid;
+	private Integer teamCapacity;
+	private Date startDate;
+	private Date endDate;
+	private Integer devMembers;
+	private Integer qaMembers;
+	
+	public SprintReportBean(){
+		
 	}
-	public void setProject_id(int project_id) {
-		this.project_id = project_id;
+	
+	public SprintReportBean(Integer sprintReportId, ProjectDetails projectDetails,
+			String sprintName, Integer spCommitted,
+			Integer spDelivered, Integer spAddedInMid,
+			Integer teamCapacity,Integer devMembers, Integer qaMembers,Date startDate,Date endDate) {
+		this.sprintReportId = sprintReportId;
+		this.projectDetails = projectDetails;
+		this.sprintName = sprintName;
+		this.spCommitted = spCommitted;
+		this.spDelivered = spDelivered;
+		this.spAddedInMid = spAddedInMid;
+		this.teamCapacity = teamCapacity;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.devMembers = qaMembers;
+		this.qaMembers = qaMembers;
 	}
-	public String getWeek_id() {
-		return week_id;
+	public Integer getSprintReportId() {
+		return sprintReportId;
 	}
-	public void setWeek_id(String week_id) {
-		this.week_id = week_id;
+	public void setSprintReportId(Integer sprintReportId) {
+		this.sprintReportId = sprintReportId;
 	}
-	public String getSpringNameFirst() {
-		return springNameFirst;
+	public ProjectDetails getProjectDetails() {
+		return projectDetails;
 	}
-	public void setSpringNameFirst(String springNameFirst) {
-		this.springNameFirst = springNameFirst;
+	public void setProjectDetails(ProjectDetails projectDetails) {
+		this.projectDetails = projectDetails;
 	}
-	public String getUserStoryFirst() {
-		return userStoryFirst;
+	public String getSprintName() {
+		return sprintName.trim();
 	}
-	public void setUserStoryFirst(String userStoryFirst) {
-		this.userStoryFirst = userStoryFirst;
+	public void setSprintName(String sprintName) {
+		this.sprintName = sprintName;
 	}
-	public String getBugCountFirst() {
-		return bugCountFirst;
+	public Integer getSpCommitted() {
+		return spCommitted;
 	}
-	public void setBugCountFirst(String bugCountFirst) {
-		this.bugCountFirst = bugCountFirst;
+	public void setSpCommitted(Integer spCommitted) {
+		this.spCommitted = spCommitted;
 	}
-	public String getSpringNameSecond() {
-		return springNameSecond;
+	public Integer getSpDelivered() {
+		return spDelivered;
 	}
-	public void setSpringNameSecond(String springNameSecond) {
-		this.springNameSecond = springNameSecond;
+	public void setSpDelivered(Integer spDelivered) {
+		this.spDelivered = spDelivered;
 	}
-	public String getUserStorySecond() {
-		return userStorySecond;
+	public Integer getSpAddedInMid() {
+		return spAddedInMid;
 	}
-	public void setUserStorySecond(String userStorySecond) {
-		this.userStorySecond = userStorySecond;
+	public void setSpAddedInMid(Integer spAddedInMid) {
+		this.spAddedInMid = spAddedInMid;
 	}
-	public String getBugCountSecond() {
-		return bugCountSecond;
+	public Integer getTeamCapacity() {
+		return teamCapacity;
 	}
-	public void setBugCountSecond(String bugCountSecond) {
-		this.bugCountSecond = bugCountSecond;
+	public void setTeamCapacity(Integer teamCapacity) {
+		this.teamCapacity = teamCapacity;
 	}
-	public String getDevMember() {
-		return devMember;
+	public Date getStartDate() {
+		return startDate;
 	}
-	public void setDevMember(String devMember) {
-		this.devMember = devMember;
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
 	}
-	public String getQaMember() {
-		return qaMember;
+	public Date getEndDate() {
+		return endDate;
 	}
-	public void setQaMember(String qaMember) {
-		this.qaMember = qaMember;
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
+	public Integer getDevMembers() {
+		return devMembers;
+	}
+	public void setDevMembers(Integer devMembers) {
+		this.devMembers = devMembers;
+	}
+	public Integer getQaMembers() {
+		return qaMembers;
+	}
+	public void setQaMembers(Integer qaMembers) {
+		this.qaMembers = qaMembers;
+	}
+	
 	
 	
 	
