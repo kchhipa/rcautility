@@ -1,8 +1,6 @@
 package com.rca.controller;
 
-import java.io.File;
 import java.io.InputStream;
-import java.io.StringBufferInputStream;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,22 +10,24 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.struts2.dispatcher.SessionMap;
 import org.apache.struts2.interceptor.SessionAware;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.hibernate.exception.ConstraintViolationException;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.opensymphony.xwork2.ModelDriven;
-import com.rca.dao.RcaUtilityDao;
+import com.rca.common.RCAConstants;
 import com.rca.entity.ProjectDetails;
-import com.rca.entity.RCA;
 import com.rca.entity.SprintReport;
+import com.rca.entity.SprintReportBean;
 import com.rca.service.ProjectDetailsManager;
 import com.rca.service.SprintReportManager;
 
-public class SprintReportAction extends ActionSupport implements ModelDriven<SprintReport>, SessionAware {
+public class SprintReportAction extends ActionSupport implements  SessionAware {
 	
-	private SprintReport sprintReport= new SprintReport();
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5225872790000166576L;
+	private SprintReportBean sprintReport;
 	private int project_id;
 	public static Map session;
 	boolean isdisabled = false;
@@ -38,44 +38,60 @@ public class SprintReportAction extends ActionSupport implements ModelDriven<Spr
 	private SprintReportManager sprintReportManager;
 	private ProjectDetailsManager projectDetailsManager;
 	
-	public String submitSprintReport() throws SQLException{
+	// persist spring report data into the sprint_report database table
+	public String submitSprintReport(){
+		String result = null;
+			try{
+				ProjectDetails projectDetails = projectDetailsManager.findProjectDetailsByIdWithoutRcaCount(project_id);
+				SprintReport sr=new SprintReport();
+				sr.setProjectDetails(projectDetails);
+				sr.setSprintName(sprintReport.getSprintName());
+				sr.setStartDate(sprintReport.getStartDate());
+				sr.setEndDate(sprintReport.getEndDate());
+				sr.setSpCommitted(sprintReport.getSpCommitted());
+				sr.setSpDelivered(sprintReport.getSpDelivered());
+				sr.setSpAddedInMid(sprintReport.getSpAddedInMid());
+				sr.setDevMembers(sprintReport.getDevMembers());
+				sr.setQaMembers(sprintReport.getQaMembers());
+				sr.setTeamCapacity(sprintReport.getTeamCapacity());
+				result=sprintReportManager.persistSprintReport(sr);
+				if(result.equals(RCAConstants.SUCCESS)){
+					addActionMessage("Sprint Report added successfuly");
+					
+				}else{
+					addActionMessage("Sprint data already submitted");
+				}
+				this.sprintReport=new SprintReportBean();
+				project_id=0;
+				result=SUCCESS;
+			}catch(ConstraintViolationException ex){
+		       ex.printStackTrace();
+		       addActionError("Sprint data already submitted");
+			   project_id=0;
+			   result=ERROR;
+		    }catch(Exception ex){
+				ex.printStackTrace();
+			} 
+			
 		
-			SprintReport sprintReport1;
-			ProjectDetails projectDetails = projectDetailsManager.findProjectDetailsByIdWithoutRcaCount(project_id);
-			sprintReport.setProjectDetails(projectDetails);
-			sprintReport1= sprintReportManager.findWeeklySprintReportByProjectId(sprintReport.getWeek(), project_id);
-			if(sprintReport1==null){
-				
-				sprintReportManager.persistSprintReport(sprintReport);
-				getWeekDates(sprintReport.getWeek());
-				addActionMessage("Sprint Report added successfuly");
-			}else{
-				
-				sprintReport.setSprintReportId(sprintReport1.getSprintReportId());
-				sprintReportManager.updateSprintReport(sprintReport);
-				getWeekDates(sprintReport.getWeek());
-				addActionMessage("Sprint Report Updated successfuly");
-			}
-			return SUCCESS;
-		
-		
+		return result;
 	}
 	
 	public String getSprintReportDetails() throws SQLException{
 		
-		weekStr=sprintReport.getWeek();
-		sprintReport= sprintReportManager.findWeeklySprintReportByProjectId(weekStr, project_id);
-		if(sprintReport==null){
+		//weekStr=sprintReport.getWeek();
+		//sprintReport= sprintReportManager.findWeeklySprintReportByProjectId(weekStr, project_id);
+		/*if(sprintReport==null){
 			sprintReport=new SprintReport();
 			sprintReport.setWeek(weekStr);
 		}
 		
-		getWeekDates(weekStr);
+		getWeekDates(weekStr);*/
 		return SUCCESS;
 		
 	}
 	
-	public String getSprintDevQAMembers() throws SQLException{
+	/*public String getSprintDevQAMembers() throws SQLException{
 			
 		sprintReport= sprintReportManager.findWeeklySprintReportByProjectId(weekStr, project_id);
 		if(sprintReport==null){
@@ -84,10 +100,9 @@ public class SprintReportAction extends ActionSupport implements ModelDriven<Spr
 	    inputStream = new StringBufferInputStream(sprintReport.getDevMembers()+"_"+ sprintReport.getQaMembers());
 		return SUCCESS;
 		
-	}
+	}*/
 	
 	public String reportSprintView() throws SQLException{
-		
 		return SUCCESS;
 	}
 	
@@ -148,14 +163,13 @@ public class SprintReportAction extends ActionSupport implements ModelDriven<Spr
 		SprintReportAction.session = session;
 	}
 
-	public SprintReport getSprintReport() {
+	public SprintReportBean getSprintReportBean() {
 		return sprintReport;
 	}
 
-	public void setSprintReport(SprintReport sprintReport) {
+	public void setSprintReportBean(SprintReportBean sprintReport) {
 		this.sprintReport = sprintReport;
 	}
-
 	public SprintReportManager getSprintReportManager() {
 		return sprintReportManager;
 	}
@@ -205,12 +219,6 @@ public class SprintReportAction extends ActionSupport implements ModelDriven<Spr
 
 	public void setProjectNameWithId(Map projectNameWithId) {
 		this.projectNameWithId = projectNameWithId;
-	}
-		
-	@Override
-	public SprintReport getModel() {
-		// TODO Auto-generated method stub
-		return sprintReport;
 	}
 	public InputStream getInputStream() {
 	    return inputStream;

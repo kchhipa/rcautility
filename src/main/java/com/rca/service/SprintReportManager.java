@@ -6,7 +6,7 @@ import com.rca.entity.SprintReport;
 
 public interface SprintReportManager {
 	
-	public abstract void persistSprintReport(SprintReport transientInstance);
+	public abstract String persistSprintReport(SprintReport transientInstance);
 
 	public abstract void updateSprintReport(SprintReport instance);
 		

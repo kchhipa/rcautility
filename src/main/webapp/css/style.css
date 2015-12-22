@@ -19,6 +19,13 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
+
+.render{
+	display:none; font-size: 12px; position:absolute;
+}
+
+
+
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
@@ -26,6 +33,10 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+}
+.mandatory{
+	color:red;
+	font-size:12px;
 }
 ol, ul {
 	list-style: none;
@@ -88,8 +99,11 @@ h1{
 }
 .content-table{
 	font-weight:bold; 
-	padding-left:10%;  
+	padding-left:5%;  
 	font-family:verdana;
+}
+.label{
+	font-size:15px;
 }
 .project-table{
 	font-weight:bold; 	

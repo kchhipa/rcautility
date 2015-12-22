@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.rca.common.RCAConstants;
 import com.rca.dao.SprintReportDAO;
 import com.rca.entity.SprintReport;
 
@@ -25,8 +26,14 @@ public class SprintReportManagerImpl implements SprintReportManager {
 
     @Override
 	@Transactional
-	public void persistSprintReport(SprintReport transientInstance) {
-		sprintReportDAO.persistSprintReport(transientInstance);
+	public String persistSprintReport(SprintReport transientInstance) {
+    	SprintReport sprintReport=sprintReportDAO.findSprintReportByName(transientInstance);
+    	if(sprintReport!=null){
+			return RCAConstants.ALLREADY_EXIST;
+    	}else{
+			sprintReportDAO.persistSprintReport(transientInstance);
+			return RCAConstants.SUCCESS;
+		}
 		
 	}
 
