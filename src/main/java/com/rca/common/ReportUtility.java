@@ -11,6 +11,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -131,6 +133,25 @@ public class ReportUtility {
 		return diffCategory;
 
 
+	}
+	
+	/**
+	 * This method return map of sprint report based on categories 
+	 * @param sprintReport
+	 * @return
+	 */
+	public Map<String, Map<String, Integer>> reportedSprintReportGraph(ArrayList<SprintReport> sprintReport) {
+		Map<String, Map<String, Integer>> uperCategory = new LinkedHashMap<String, Map<String, Integer>>();
+		Map<String, Integer> underUperCategory = null;
+		for (SprintReport spReport : sprintReport) {
+			underUperCategory = new LinkedHashMap<String, Integer>();
+			underUperCategory.put("Team Capacity", spReport.getTeamCapacity());
+			underUperCategory.put("Committed", spReport.getSpCommitted());
+			underUperCategory.put("SP Delivered", spReport.getSpDelivered());
+			underUperCategory.put("SP added in Mid sprint", spReport.getSpAddedInMid());
+			uperCategory.put(spReport.getSprintName(), underUperCategory);
+		}
+		return uperCategory;
 	}
 	
 	/**
