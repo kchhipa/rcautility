@@ -1,5 +1,6 @@
 package com.rca.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,10 @@ public class SprintReportManagerImpl implements SprintReportManager {
 			int projectId) {
 		
 		return sprintReportDAO.findWeeklySprintReportByProjectId(week, projectId);
+	}
+    
+    public ArrayList<SprintReport> findExistingSprintReportByProjectId(String date, int projectId) {
+		return sprintReportDAO.findExistingSprintReportByProjectId(date, projectId);
 	}
 
 

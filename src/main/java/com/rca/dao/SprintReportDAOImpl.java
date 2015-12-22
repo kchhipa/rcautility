@@ -1,5 +1,7 @@
 package com.rca.dao;
 
+import java.util.ArrayList;
+
 //default package
 //Generated Apr 02, 2015 4:28:21 PM by Hibernate Tools 3.4.0.CR1
 
@@ -89,7 +91,7 @@ public class SprintReportDAOImpl implements SprintReportDAO {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")	
 	@Override
 	public SprintReport findWeeklySprintReportByProjectId(String week, int projectId) {
 
@@ -98,6 +100,19 @@ public class SprintReportDAOImpl implements SprintReportDAO {
 		List<SprintReport> results = (List<SprintReport>) template.find(query, queryParam);
 		if(results.size()>0){
 			return results.get(0);
+		}
+		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<SprintReport> findExistingSprintReportByProjectId(String date, int projectId){
+		
+		String query = "from SprintReport where project_id =? AND endDate < sysdate() order by sprint_end_date desc";
+		Object[] queryParam = {projectId};
+		ArrayList<SprintReport> results = (ArrayList<SprintReport>) template.find(query, queryParam);
+		if(results.size()>0){
+			return results;
 		}
 		return null;
 	}

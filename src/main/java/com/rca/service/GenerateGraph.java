@@ -53,6 +53,11 @@ public class GenerateGraph
 	{
 		return createGraph(data, graphHeader, xAxis, yAxis, plotOrientation, rotatedLabel, graphWidth, graphHeight, graphType, true, false);
 	}
+	
+	public File createSprintGraph(Map<String, Map<String,Integer>> data, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, boolean rotatedLabel, int graphWidth, int graphHeight, String graphType)
+	{
+		return createSprintGraph(data, graphHeader, xAxis, yAxis, plotOrientation, rotatedLabel, graphWidth, graphHeight, graphType, true, false);
+	}
  
   public File createGraph(Map<String, Map<String,Integer>> data, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, boolean rotatedLabel, int graphWidth, int graphHeight, String graphType, boolean showLegend, boolean projectFontSize)
   {
@@ -120,6 +125,64 @@ public class GenerateGraph
     
     return createGraphImage(jFreeChart, graphWidth, graphHeight);
   }
+  
+  public File createSprintGraph(Map<String, Map<String,Integer>> data, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, boolean rotatedLabel, int graphWidth, int graphHeight, String graphType, boolean showLegend, boolean projectFontSize)
+  {
+		DefaultCategoryDataset chartDataSet = dataSetObjectCreation(data);
+		Set<String> keyset = data.keySet();
+		DifferentTypeGraphAbstractCreation graphCreationObject = DifferentTypeGraphCreationFactory
+				.createGraphCreationObject(graphType, graphHeader, xAxis, yAxis, plotOrientation, chartDataSet, true,
+						true);
+		JFreeChart jFreeChart = graphCreationObject.createGraph();
+
+		// set the background color for the chart...
+		jFreeChart.setBackgroundPaint(Color.white);
+		CategoryPlot plot = createPlot(jFreeChart);
+		CategoryAxis domainAxis = plot.getDomainAxis();
+		ValueAxis rangeAxis = plot.getRangeAxis();
+		Stroke s = new BasicStroke(1.0f);
+		Stroke s1 = new BasicStroke(1.0f);
+		plot.setRangeGridlinePaint(Color.BLACK);
+		plot.setRangeGridlineStroke(s);
+		plot.setRangeZeroBaselineVisible(true);
+		plot.setOutlineVisible(false);
+		domainAxis.setAxisLineVisible(true);
+		domainAxis.setAxisLineStroke(s1);
+		domainAxis.setAxisLinePaint(Color.BLACK);
+		domainAxis.setTickMarksVisible(false);
+		rangeAxis.setAxisLineStroke(s1);
+		rangeAxis.setAxisLinePaint(Color.BLACK);
+
+		Font font = new Font("Franklin Gothic Book Heavy", Font.BOLD, 17);
+		domainAxis.setTickLabelFont(font);
+		plot.getRangeAxis().setTickLabelFont(font);
+		domainAxis.setTickLabelPaint(Color.BLACK);
+		plot.getRangeAxis().setTickLabelPaint(Color.BLACK);
+		domainAxis.setCategoryLabelPositions(CategoryLabelPositions.STANDARD);
+
+		CategoryItemRenderer renderer = new CustomRenderer();
+
+		// Enabling the tool tip generator
+		renderer.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator());
+
+		// This Generator enables the labels to be placed on top of bars
+		CategoryItemLabelGenerator itemLabelGenerator = new StandardCategoryItemLabelGenerator();
+		renderer.setBaseItemLabelGenerator(itemLabelGenerator);
+		renderer.setBaseItemLabelFont(font);
+		renderer.setPositiveItemLabelPosition(
+				new ItemLabelPosition(ItemLabelAnchor.OUTSIDE12, TextAnchor.BASELINE_CENTER));
+		renderer.setBaseItemLabelsVisible(true);
+
+		((BarRenderer) renderer).setBarPainter(new StandardBarPainter());
+		((BarRenderer) renderer).setShadowVisible(false);
+		((BarRenderer) renderer).setItemMargin(0.50);
+		((BarRenderer) renderer).setMaximumBarWidth(0.03);
+
+		plot.setRenderer(renderer);
+
+		plot.setRenderer(createSprintRender());
+		return createGraphImage(jFreeChart, graphWidth, graphHeight);
+     }
   
  
   
@@ -481,6 +544,49 @@ public class GenerateGraph
     }
     
     return renderer;
+  }
+  
+  
+  public BarRenderer createSprintRender()
+  {
+		BarRenderer renderer = new BarRenderer();
+
+		Paint lightBlue = new GradientPaint(0.0f, 0.0f, new Color(30, 144, 255), 0.0f, 0.0f, new Color(70,130,180));
+		renderer.setSeriesPaint(0, lightBlue);
+
+		Paint orange = new GradientPaint(0.0f, 0.0f, new Color(255, 127, 80), 0.0f, 0.0f, new Color(255, 127, 80));
+		renderer.setSeriesPaint(1, orange);
+
+		Paint green = new GradientPaint(0.0f, 0.0f, new Color(60, 179, 113), 0.0f, 0.0f, new Color(34,139,34));
+		renderer.setSeriesPaint(2, green);
+
+		Paint red = new GradientPaint(0.0f, 0.0f, new Color(255, 0, 0), 0.0f, 0.0f, new Color(255, 0, 0));
+		renderer.setSeriesPaint(3, red);
+
+		renderer.setGradientPaintTransformer(new StandardGradientPaintTransformer(GradientPaintTransformType.VERTICAL));
+
+		renderer.setGradientPaintTransformer(
+				new StandardGradientPaintTransformer(GradientPaintTransformType.HORIZONTAL));
+
+		/* Enabling the tool tip generator */
+		renderer.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator());
+
+		CategoryItemLabelGenerator itemLabelGenerator = new StandardCategoryItemLabelGenerator();
+		renderer.setBaseItemLabelGenerator(itemLabelGenerator);
+		Font font1 = new Font("Franklin Gothic Book Heavy", Font.BOLD, 17);
+		renderer.setBaseItemLabelFont(font1);
+		renderer.setPositiveItemLabelPosition(
+				new ItemLabelPosition(ItemLabelAnchor.OUTSIDE12, TextAnchor.BASELINE_CENTER));
+		renderer.setBaseItemLabelsVisible(true);
+
+		/* Setting the Bar paint to be plain & not glossy. */
+		((BarRenderer) renderer).setBarPainter(new StandardBarPainter());
+
+		((BarRenderer) renderer).setShadowVisible(false);
+		// Set bars maximum width
+		((BarRenderer) renderer).setMaximumBarWidth(0.15);
+
+		return renderer;
   }
   
   public BarRenderer createBarRender()
