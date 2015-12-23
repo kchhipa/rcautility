@@ -1,22 +1,20 @@
 package com.rca.dao;
 
-import java.util.ArrayList;
-
-//default package
-//Generated Apr 02, 2015 4:28:21 PM by Hibernate Tools 3.4.0.CR1
-
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.rca.entity.LoginDetails;
 import com.rca.entity.SprintReport;
+
+//default package
+//Generated Apr 02, 2015 4:28:21 PM by Hibernate Tools 3.4.0.CR1
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Home object for domain model class SprintReport.
@@ -108,9 +106,11 @@ public class SprintReportDAOImpl implements SprintReportDAO {
 	@Override
 	public ArrayList<SprintReport> findExistingSprintReportByProjectId(String date, int projectId){
 		
-		String query = "from SprintReport where project_id =? AND endDate < sysdate() order by sprint_end_date desc";
-		Object[] queryParam = {projectId};
-		ArrayList<SprintReport> results = (ArrayList<SprintReport>) template.find(query, queryParam);
+		String queryString = "from SprintReport where project_id ="+projectId+"order by sprint_end_date desc";
+		Query query = sessionFactory.getCurrentSession().createQuery(queryString);
+		query.setMaxResults(4);
+		//Object[] queryParam = {projectId};
+		ArrayList<SprintReport> results =  (ArrayList<SprintReport>) query.list();//(ArrayList<SprintReport>) template.find(query, queryParam);
 		if(results.size()>0){
 			return results;
 		}
