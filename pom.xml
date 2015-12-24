@@ -44,6 +44,11 @@
 			<version>${org.springframework.version}</version>
 		</dependency>
 		<dependency>
+	       <groupId>org.sonarsource.sonar-plugins.github</groupId>
+	       <artifactId>sonar-github-plugin</artifactId>
+	       <version>1.0.1</version>
+        </dependency>
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework.version}</version>
