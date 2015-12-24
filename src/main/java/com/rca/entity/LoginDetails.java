@@ -70,5 +70,4 @@ public class LoginDetails implements java.io.Serializable {
 		this.userProjects = userProjects;
 	}
 	
-
 }

@@ -2087,7 +2087,7 @@ private static WritableCellFormat getCellFormatRcaType(Colour colour, Pattern pa
 	}
 
 	public void setSession(Map session) {
-		RcaUtility.session = session;
+		RcaUtility.session =  session;
 	}
 
 	public String getWeek2() {
