@@ -1,11 +1,13 @@
 package com.rca.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.rca.common.RCAConstants;
 import com.rca.dao.SprintReportDAO;
 import com.rca.entity.SprintReport;
 
@@ -25,8 +27,14 @@ public class SprintReportManagerImpl implements SprintReportManager {
 
     @Override
 	@Transactional
-	public void persistSprintReport(SprintReport transientInstance) {
-		sprintReportDAO.persistSprintReport(transientInstance);
+	public String persistSprintReport(SprintReport transientInstance) {
+    	SprintReport sprintReport=sprintReportDAO.findSprintReportByName(transientInstance);
+    	if(sprintReport!=null){
+			return RCAConstants.ALLREADY_EXIST;
+    	}else{
+			sprintReportDAO.persistSprintReport(transientInstance);
+			return RCAConstants.SUCCESS;
+		}
 		
 	}
 
@@ -44,6 +52,10 @@ public class SprintReportManagerImpl implements SprintReportManager {
 			int projectId) {
 		
 		return sprintReportDAO.findWeeklySprintReportByProjectId(week, projectId);
+	}
+    
+    public ArrayList<SprintReport> findExistingSprintReportByProjectId(String date, int projectId) {
+		return sprintReportDAO.findExistingSprintReportByProjectId(date, projectId);
 	}
 
 

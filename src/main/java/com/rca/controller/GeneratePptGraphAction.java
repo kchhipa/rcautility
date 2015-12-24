@@ -6,7 +6,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -116,10 +118,13 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		
 		
 		//Adding Project 
-		createProjectSpecificGraphs(week);
+		createProjectSpecificGraphs(week);//Note : Temporary comment
 		
 		//Adding Comments Slide 
 		addPptSlidesComments(rcaCounts);
+		
+		//Adding Sprint Graph Slide
+		//createProjectSpecificGraphs();
 		
 		FileOutputStream out = new FileOutputStream(
 				"D:\\Weekly review.ppt");
@@ -724,15 +729,22 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 	private void createProjectSpecificGraphs(String week) throws IOException{
 		
 		List<ProjectDetails> activeProjectList = projectDetailsManager.getAllActiveProjects();
+		Calendar calobj = Calendar.getInstance();
+		calobj.add(Calendar.DATE, 1);
+		SimpleDateFormat sdfmt1 = new SimpleDateFormat("yyyy/MM/dd");
+		System.out.println("date is : " + calobj.getTime());
 				
 		if(activeProjectList != null && activeProjectList.size()!=0)
 		{
 			for(int index =0; index < activeProjectList.size(); index++)
 			{
 				List<RcaCount> rcaCounts = rcaManager.findRCAReportForMultipleWeekForProject(activeProjectList.get(index).getProjectId() );
-				SprintReport sprintReport  = sprintReportManager.findWeeklySprintReportByProjectId(week,activeProjectList.get(index).getProjectId() );
+				//SprintReport sprintReport  = sprintReportManager.findWeeklySprintReportByProjectId(week,activeProjectList.get(index).getProjectId() );
+				ArrayList<SprintReport> sprintReport = sprintReportManager.findExistingSprintReportByProjectId(
+						sdfmt1.format(calobj.getTime()), activeProjectList.get(index).getProjectId());
 				if(sprintReport!=null)
-					sprintReport.setWeek(rU.removeYearFromWeek(sprintReport.getWeek()));
+					//comment by satish
+					//sprintReport.setWeek(rU.removeYearFromWeek(sprintReport.getWeek()));
 				if(rcaCounts !=null && rcaCounts.size() >0)
 				{
 					createGraphIndividualPpt(rcaCounts,sprintReport, ppt);
@@ -740,6 +752,26 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 			}
 		}
 		
+	}
+	
+	/**
+	 * This method get active project list and create PPT for all active projects.
+	 * @throws IOException
+	 */
+	private void createProjectSpecificGraphs() throws IOException {
+		List<ProjectDetails> activeProjectList = projectDetailsManager.getAllActiveProjects();
+		if (activeProjectList != null && activeProjectList.size() != 0) {
+			for (int index = 0; index < activeProjectList.size(); index++) {
+				Calendar calobj = Calendar.getInstance();
+				calobj.add(Calendar.DATE, 1);
+				SimpleDateFormat sdfmt1 = new SimpleDateFormat("yyyy/MM/dd");
+				System.out.println("date is : " + calobj.getTime());
+				ArrayList<SprintReport> sprintReport = sprintReportManager.findExistingSprintReportByProjectId(
+						sdfmt1.format(calobj.getTime()), activeProjectList.get(index).getProjectId());
+				if (sprintReport != null)
+					createSprintGraphIndividualPpt(sprintReport, ppt);
+			}
+		}
 	}
 	
 	/**
@@ -992,6 +1024,41 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 		ccbLineGraph.setAnchor(new java.awt.Rectangle(pageWidth + 20,
 				pageheight + 30, pageWidth - 40, pageheight - 50));
 		slide.addShape(ccbLineGraph);
+	}
+	
+	/**
+	 * 
+	 * @param sprintReport
+	 * @param ppt
+	 * @throws IOException
+	 */
+	public void createSprintGraphIndividualPpt(ArrayList<SprintReport> sprintReport , SlideShow ppt) throws IOException{
+		Slide slide = ppt.createSlide();
+		int pageWidth = ppt.getPageSize().width/2;
+		int pageheight = ppt.getPageSize().height/2;
+		
+		TextBox txt1 = new TextBox();
+		txt1.setText("Spartan(Dev:3, QA:2)");
+
+		txt1.setAnchor(new java.awt.Rectangle(0, 0, pageWidth+30, pageheight/10));
+		RichTextRun rt1 = txt1.getTextRun().getRichTextRuns()[0];
+		rt1.setFontSize(25);
+		rt1.setFontName("Franklin Gothic Medium");
+		rt1.setAlignment(TextBox.AlignLeft);
+		slide.addShape(txt1);
+		
+		int sidx=0;
+		if(sprintReport!= null){
+			sidx = ppt.addPicture(generateGraph.createSprintGraph( rU.reportedSprintReportGraph(sprintReport), "", "", "", 
+					PlotOrientation.VERTICAL, false, 850, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
+		}
+		
+		Picture pict1 = new Picture(sidx);
+		pict1.setAnchor(new java.awt.Rectangle(5, 30, pageWidth+30, pageheight-50));
+		slide.addShape(pict1);
+		
+		Log.debug("Exit createSprintGraphIndividualPpt");
+		
 	}
 	
 	/**
@@ -1344,7 +1411,7 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 	 * @param ppt
 	 * @throws IOException
 	 */
-	public void createGraphIndividualPpt(List<RcaCount> rcaCount, SprintReport sprintReport , SlideShow ppt) throws IOException{
+	public void createGraphIndividualPpt(List<RcaCount> rcaCount, ArrayList<SprintReport> sprintReport , SlideShow ppt) throws IOException{
 		Log.debug("Enter createGraphIndividualPpt");
 		Slide slide = ppt.createSlide();
 		int pageWidth = ppt.getPageSize().width/4;
@@ -1365,8 +1432,12 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 				PlotOrientation.VERTICAL, true, 650, 950,RCAConstants.BAR, false, true) , XSLFPictureData.PICTURE_TYPE_PNG);
 		int idx5 = 0;
 		if(sprintReport!= null){
-		    idx5 = ppt.addPicture(generateGraph.createWeeklyBarGraph( rU.reportedSprintGraph(sprintReport), rcaCount.get(0).getProjectDetails().getProjectName()+"( Dev: "+sprintReport.getDevMembers()+", QA: "+sprintReport.getQaMembers()+")", "", "",
-				PlotOrientation.VERTICAL, false, 700, 450,RCAConstants.NORMAL_BAR,true,false) , XSLFPictureData.PICTURE_TYPE_PNG);
+		    /*idx5 = ppt.addPicture(generateGraph.createWeeklyBarGraph( rU.reportedSprintGraph(sprintReport), rcaCount.get(0).getProjectDetails().getProjectName()+"( Dev: "+sprintReport.getDevMembers()+", QA: "+sprintReport.getQaMembers()+")", "", "",
+				PlotOrientation.VERTICAL, false, 700, 450,RCAConstants.NORMAL_BAR,true,false) , XSLFPictureData.PICTURE_TYPE_PNG);*/
+			/*idx5 = ppt.addPicture(generateGraph.createWeeklyBarGraph( rU.reportedSprintReportGraph(sprintReport), rcaCount.get(0).getProjectDetails().getProjectName()+"( Dev: "+sprintReport.getDevMembers()+", QA: "+sprintReport.getQaMembers()+")", "", "",
+					PlotOrientation.VERTICAL, false, 700, 450,RCAConstants.NORMAL_BAR,true,false) , XSLFPictureData.PICTURE_TYPE_PNG);*/
+			idx5= ppt.addPicture(generateGraph.createSprintGraph( rU.reportedSprintReportGraph(sprintReport),rcaCount.get(0).getProjectDetails().getProjectName()+"(Dev:"+sprintReport.get(0).getDevMembers()+" , QA:"+sprintReport.get(0).getQaMembers()+" )", "", "", 
+					PlotOrientation.VERTICAL, false, 700, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
 		}
 		
 		/* Correcting the Project Dashboard name location & Adding Overview/Risk Issues section in Individual Project PPTs - Begins */

@@ -43,7 +43,7 @@
 
 		<action name="saveSprintDetail" class="com.rca.controller.SprintReportAction" method="submitSprintReport">
 			<result name="success">Sprint_Report.jsp</result>
-
+			<result name="error">Sprint_Report.jsp</result>
 		</action>
 		
 		<action name="getSprintDetail" class="com.rca.controller.SprintReportAction" method="getSprintReportDetails">
