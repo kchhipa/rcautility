@@ -2095,7 +2095,7 @@ private static WritableCellFormat getCellFormatRcaType(Colour colour, Pattern pa
 	}
 
 	public void setWeek2(String week2) {
-		this.week2 = week2;
+		this.week2 =  week2;
 	}
 
 

@@ -71,7 +71,8 @@ public class ProjectDetailsDAOImpl  implements ProjectDetailsDAO{
 	public void attachClean(ProjectDetails instance) {
 		log.debug("attaching clean ProjectDetails instance");
 		try {
-			sessionFactory.getCurrentSession().lock(instance, LockMode.NONE);
+			//sessionFactory.getCurrentSession().lock(instance, LockMode.NONE);
+		     sessionFactory.getCurrentSession().lock(instance, LockMode.NONE);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
