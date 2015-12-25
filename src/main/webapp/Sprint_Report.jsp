@@ -63,33 +63,38 @@ $(function() {
 	
 	function validateForm()
 	{
-		   
+		    var errorMessage="";
+		    var flag=true;
 			var projectName = document.getElementById("project_id").value;
 			 //validation for projectName is not selected
 		   	if(projectName=="Select Project" || projectName=="0" || projectName=="")
 		   	{
-		    	alert("Please select project name");
-		    	return false;
+		   		errorMessage=errorMessage+"\u2022 Please select project name\n";
+		    	//alert("Please select project name");
+		    	flag=false;
 		    }	    
 		   	var sprintName = document.getElementById("sprintName").value;
 		  //validation for sprintName is empty
 			if(sprintName=="" || sprintName==null){
-			    	alert("Sprint Name can not be empty");
-			    	return false;
+				errorMessage=errorMessage+"\u2022 Sprint Name can not be empty\n";	
+				//alert("Sprint Name can not be empty");
+				flag=false;
 			}
 			var sprintStartDt = document.getElementById("sprintStartDt").value;
 			//validation for sprintStartDt is empty
 			if(sprintStartDt=="" || sprintStartDt==null)
 			{
-				alert("Sprint start Date can not be empty");
-				return false;
+				errorMessage=errorMessage+"\u2022 Sprint start Date can not be empty\n";
+				//alert("Sprint start Date can not be empty");
+				flag=false;
 			}
 			var sprintEndDt = document.getElementById("sprintEndDt").value;
 			//validation for sprintEndDt is empty
 			if(sprintEndDt=="" || sprintEndDt==null)
 			{
-			   	alert("Sprint End Date can not be empty");
-			    return false;
+				errorMessage=errorMessage+"\u2022 Sprint End Date can not be empty\n";
+				//alert("Sprint End Date can not be empty");
+				flag=false;
 			}
 			
 			var startDtTime=new Date(sprintStartDt).getTime();
@@ -97,51 +102,62 @@ $(function() {
 			// validate sprint start date is before end date 
 			if(startDtTime>endDtTime)
 			{
-			   	alert("Sprint start Date must be before End Date");
-			    return false;
+				errorMessage=errorMessage+"\u2022 Sprint start Date must be before End Date\n";
+				//alert("Sprint start Date must be before End Date");
+				flag=false;
 			}
 			
 			var spCommitted = document.getElementById("spCommitted").value;
 			//validation for spCommitted is empty
 			if(spCommitted=="" || spCommitted==null)
 			{
-				alert("SP Committed can not be empty");
-				return false;
+				errorMessage=errorMessage+"\u2022 SP Committed can not be empty\n";
+				//alert("SP Committed can not be empty");
+				flag=false;
 			}
 			
 			var teamCapacity = document.getElementById("teamCapacity").value;
 			//validation for teamCapacity is empty
 			if(teamCapacity=="" || teamCapacity==null)
 			{
-				alert("Team capacity can not be empty");
-				return false;
+				errorMessage=errorMessage+"\u2022 Team capacity can not be empty\n";
+				//alert("Team capacity can not be empty");
+				flag=false;
 			}
 			var devMembers = document.getElementById("devMembers").value;
 			if(devMembers=="" || devMembers==null)
 			{
-				alert("Dev Members can not be empty");
-				return false;
+				errorMessage=errorMessage+"\u2022 Dev Members can not be empty\n";
+				//alert("Dev Members can not be empty");
+				flag=false;
 			}
 			if(devMembers==0)
 			{
-				alert("Dev Members can not be zero");
-				return false;
+				errorMessage=errorMessage+"\u2022 Dev Members can not be zero\n";
+				//alert("Dev Members can not be zero");
+				flag=false;
 			}
 			var qaMembers = document.getElementById("qaMembers").value;
 			//validation for QAMembers is empty
 			if(qaMembers=="" || qaMembers==null)
 			{
-				alert("QA Members can not be empty");
-				return false;
+				errorMessage=errorMessage+"\u2022 QA Members can not be empty\n";
+				//alert("QA Members can not be empty");
+				flag=false;
 			}
 			//validation for QAMembers is zeor
 			if(qaMembers==0)
 			{
-				alert("QA Members can not be zero");
-				return false;
+				errorMessage=errorMessage+"\u2022 QA Members can not be zero\n";
+				//alert("QA Members can not be zero");
+				flag=false;
+			}
+			if(!flag){
+				alert(errorMessage);
+				return flag;
 			}
 			
-		    return true;
+		    return flag;
 	}
    
    function isNumberKey(evt)
