@@ -24,7 +24,7 @@ time, mark, audio, video {
 	display:none; font-size: 12px; position:absolute;
 }
 
-
+.input-disabled{background-color:#EBEBE4;border:1px solid #ABADB3;padding:2px 1px;opacity: 0.50;}
 
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 

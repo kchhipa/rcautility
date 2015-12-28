@@ -16,7 +16,7 @@
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/jquery-ui.css" />
 <script type="text/javascript">
-$(function() {
+$(function() {//************ start ready event ************
 	$(":text").attr("autocomplete", "off");
 	//initialize datepicker for spring start date
 	$( "#sprintStartDt").datepicker({
@@ -30,6 +30,7 @@ $(function() {
 	     changeYear: true,
 	     yearRange: '-5:'
 	   }).keypress(function(event) {event.preventDefault();});
+	
 	//initialize datepicker for spring end date
 	$( "#sprintEndDt").datepicker({
 	     showOn: "button",
@@ -42,13 +43,31 @@ $(function() {
 	     changeYear: true,
 	     yearRange: '-1:+10'
 	   }).keypress(function(event) {event.preventDefault();});
+	 
+	//To show sprint start date datepicker on text box focus
 	 $("#sprintStartDt").focus(function() {
 	        $(this).datepicker("show");
 	 });
+	 
+	 //To show sprint end date datepicker on text box focus
 	 $("#sprintEndDt").focus(function() {
 	        $(this).datepicker("show");
 	 });
+	 
+	 // if kanban methodology followed
+	 $("#isKanban").change(function(){
+		if(this.checked){
+		 $("#spCommitted").attr("readonly", true).addClass('input-disabled');; 
+		 $("#spAddedInMid").attr("readonly", true).addClass('input-disabled');; 
+		 $("#sprintName").attr("readonly", true).addClass('input-disabled');; 
+	 	}else{
+	 		$("#spCommitted").attr("disabled",false).removeClass('input-disabled'); 
+			$("#spAddedInMid").attr("disabled",false).removeClass('input-disabled'); 
+			$("#sprintName").attr("disabled",false).removeClass('input-disabled'); 
+	 	}
 	});
+	 
+	});//End ready event
 	
  
 	function submitForm()
@@ -72,13 +91,19 @@ $(function() {
 		   		errorMessage=errorMessage+"\u2022 Please select project name\n";
 		    	//alert("Please select project name");
 		    	flag=false;
-		    }	    
-		   	var sprintName = document.getElementById("sprintName").value;
-		  //validation for sprintName is empty
-			if(sprintName=="" || sprintName==null){
-				errorMessage=errorMessage+"\u2022 Sprint Name can not be empty\n";	
-				//alert("Sprint Name can not be empty");
-				flag=false;
+		    }
+			if($("#isKanban").prop('checked') == false){
+				alert("check :false");
+			   	var sprintName = document.getElementById("sprintName").value;
+			  	//validation for sprintName is empty
+				if(sprintName=="" || sprintName==null){
+					errorMessage=errorMessage+"\u2022 Sprint Name can not be empty\n";	
+					//alert("Sprint Name can not be empty");
+					flag=false;
+				}
+			}else{
+				var sn=document.getElementById("sprintStartDt").value+"-"+document.getElementById("sprintEndDt").value;
+				document.RCA_Form.sprintName.value = sn;
 			}
 			var sprintStartDt = document.getElementById("sprintStartDt").value;
 			//validation for sprintStartDt is empty
@@ -106,15 +131,18 @@ $(function() {
 				//alert("Sprint start Date must be before End Date");
 				flag=false;
 			}
-			
-			var spCommitted = document.getElementById("spCommitted").value;
-			//validation for spCommitted is empty
-			if(spCommitted=="" || spCommitted==null)
-			{
-				errorMessage=errorMessage+"\u2022 SP Committed can not be empty\n";
-				//alert("SP Committed can not be empty");
-				flag=false;
-			}
+			if($("#isKanban").prop('checked') == false){
+				var spCommitted = document.getElementById("spCommitted").value;
+				//validation for spCommitted is empty
+				if(spCommitted=="" || spCommitted==null)
+				{
+					errorMessage=errorMessage+"\u2022 SP Committed can not be empty\n";
+					//alert("SP Committed can not be empty");
+					flag=false;
+				}
+			}/* else{
+				document.RCA_Form.spCommitted.value =0;
+			} */
 			
 			var teamCapacity = document.getElementById("teamCapacity").value;
 			//validation for teamCapacity is empty
@@ -340,7 +368,7 @@ $(function() {
 						<td class="label">Sprint End Date<label class="mandatory">*</label></td>
 					</tr>
 					<tr>
-						<td class="label"></td>
+						<td class="label"><input type="checkbox" name="kanbanFollowed" id="isKanban">Kanban</td>
 						<td><input value="" name="sprintReportBean.sprintName"
 							id="sprintName" type="text" size="15" maxlength="50" /></td>
 						<td class="label"><input value=""
