@@ -16,7 +16,6 @@ public final class RCAConstants
     private static final String UAT = "UAT";
     private static final String QA = "qa";
     private static final String COM_OPEN = "commulative_open";
-    //Added
     private String defectSource;
 
     /**
