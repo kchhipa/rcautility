@@ -572,7 +572,6 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 			String[] weekIntervals = this.weekInterval!= null ? this.weekInterval.split(","): new String[]{rca.week};
 			int rowNumber = 2;
 			for (String week : weekIntervals) {
-				//rca.setWeek(string);
 				getProjectLabels(sheet, cellFormatProject, rowNumber, projectList, week);
 				getRcaTypeLabelsForExport(sheet, cellFormatRcaType, rowNumber-1, 1);
 				rcaList = RcaUtilityDao.getRcaDetailList(week,projectList);
