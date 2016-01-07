@@ -55,17 +55,19 @@ $(function() {//************ start ready event ************
 	 });
 	 
 	 // if kanban methodology followed
-	 $("#isKanban").change(function(){
-		if(this.checked){
-		 $("#spCommitted").attr("readonly", true).addClass('input-disabled');; 
-		 $("#spAddedInMid").attr("readonly", true).addClass('input-disabled');; 
-		 $("#sprintName").attr("readonly", true).addClass('input-disabled');; 
-	 	}else{
-	 		$("#spCommitted").attr("disabled",false).removeClass('input-disabled'); 
-			$("#spAddedInMid").attr("disabled",false).removeClass('input-disabled'); 
-			$("#sprintName").attr("disabled",false).removeClass('input-disabled'); 
-	 	}
-	});
+	 $('input[type="radio"]').click(function(){
+	        if($(this).attr("value")=="Yes"){
+	   		$("#spCommitted").attr("readonly", true).addClass('input-disabled');; 
+			 $("#spAddedInMid").attr("readonly", true).addClass('input-disabled');; 
+			 $("#sprintName").attr("readonly", true).addClass('input-disabled');; 
+	        }
+	        if($(this).attr("value")=="No"){
+	        	
+				$("#spCommitted").attr("readonly",false).removeClass('input-disabled'); 
+				$("#spAddedInMid").attr("readonly",false).removeClass('input-disabled'); 
+				$("#sprintName").attr("readonly",false).removeClass('input-disabled'); 
+	        }
+	       });
 	 
 	});//End ready event
 	
@@ -92,19 +94,31 @@ $(function() {//************ start ready event ************
 		    	//alert("Please select project name");
 		    	flag=false;
 		    }
-			if($("#isKanban").prop('checked') == false){
-				alert("check :false");
-			   	var sprintName = document.getElementById("sprintName").value;
+			 
+			if (document.getElementById('no').checked) {
+				
+			
+				var sprintName = document.getElementById("sprintName").value;
 			  	//validation for sprintName is empty
 				if(sprintName=="" || sprintName==null){
 					errorMessage=errorMessage+"\u2022 Sprint Name can not be empty\n";	
 					//alert("Sprint Name can not be empty");
 					flag=false;
+		     }
+				var spCommitted = document.getElementById("spCommitted").value;
+				if(spCommitted=="" || spCommitted==null)
+				{
+					errorMessage=errorMessage+"\u2022 SP Committed can not be empty\n";
+					//alert("SP Committed can not be empty");
+					flag=false;
 				}
-			}else{
-				var sn=document.getElementById("sprintStartDt").value+"-"+document.getElementById("sprintEndDt").value;
-				document.RCA_Form.sprintName.value = sn;
+			  	}
+			
+			if (!(document.getElementById('no').checked ||document.getElementById('yes').checked )) {
+				errorMessage=errorMessage+"\u2022 Please select if Kanban is followed or not\n";
+				flag=false;
 			}
+			
 			var sprintStartDt = document.getElementById("sprintStartDt").value;
 			//validation for sprintStartDt is empty
 			if(sprintStartDt=="" || sprintStartDt==null)
@@ -131,19 +145,7 @@ $(function() {//************ start ready event ************
 				//alert("Sprint start Date must be before End Date");
 				flag=false;
 			}
-			if($("#isKanban").prop('checked') == false){
-				var spCommitted = document.getElementById("spCommitted").value;
-				//validation for spCommitted is empty
-				if(spCommitted=="" || spCommitted==null)
-				{
-					errorMessage=errorMessage+"\u2022 SP Committed can not be empty\n";
-					//alert("SP Committed can not be empty");
-					flag=false;
-				}
-			}/* else{
-				document.RCA_Form.spCommitted.value =0;
-			} */
-			
+		
 			var teamCapacity = document.getElementById("teamCapacity").value;
 			//validation for teamCapacity is empty
 			if(teamCapacity=="" || teamCapacity==null)
@@ -223,11 +225,51 @@ $(function() {//************ start ready event ************
      xmlhttp2.send(null);	  	
 	 
    }
+   function  getTeamNameListForSelectedProject()
+   {
+	 var projectId = document.getElementById("project_id").value;
+	 var url = "getTeamNameByProjectId?projectId="+projectId;  
+	 if(window.XMLHttpRequest)
+		 {	// code for IE7+, Firefox, Chrome, Opera, Safari
+		 	xmlhttp2 = new XMLHttpRequest();
+		 }
+	 else
+		 {	// code for IE6, IE5
+		 	xmlhttp2 = new ActiveXObject("Microsoft.XMLHTTP");
+		 }
+	 xmlhttp2.onreadystatechange = setTeamNameList;     
+     xmlhttp2.open("GET", url, true);
+     xmlhttp2.send(null);	  	
+	 
+   }
+   function setTeamNameList()
+   {
+	   if(xmlhttp2.readyState==4)
+       {   		   
+		   var response = xmlhttp2.responseText; 
+           if(response != null && response.indexOf("_")!=-1)
+        	   {
+	        	   var teamNameWithAutomation = response.split("_");
+	        	   if(teamNameWithAutomation[0] == "null")
+	        		   teamNameWithAutomation[0] = "";	           			        	    
+        	   }
+           if(teamNameWithAutomation[0] != null && teamNameWithAutomation[0].indexOf("+")!=1)
+        	   {
+        	   var individualTeamName = teamNameWithAutomation[0].split("+");
+        		   $("#ProjectTeamNames").empty();
+        		   for (var i=0; i<individualTeamName.length; i++) {
+        		       document.getElementById("ProjectTeamNames").options[i] = new Option(individualTeamName[i], individualTeamName[i]);
+                     } 
+        	   
+        	   }
+       }
+	   
+   }
    function setTeamName()
    {
 	   if(xmlhttp2.readyState==4)
        {   		   
-		   var response = xmlhttp2.responseText;       
+		   var response = xmlhttp2.responseText;  
            if(response != null && response.indexOf("_")!=-1)
         	   {
 	        	   var teamNameWithAutomation = response.split("_");
@@ -251,43 +293,6 @@ $(function() {//************ start ready event ************
 	   document.getElementById("teamDetail").style.display = "none";
    }
    var xmlhttp3;
-   function updateTeam()
-   {
-	  	 var projectId = document.getElementById("project_id").value;
-	  	 var automation = document.getElementById("automation").value;
-		 if(projectId=="0")
-			 {
-			 	alert("Please select project first");
-			 	return false;
-			 }
-		 var actionTeam = document.getElementById("teamName").value;		
-		 actionTeam = actionTeam.replace(/[+]/g,"_");
-		 var url = "updateTeamName?projectId="+projectId+"&actionTeam="+actionTeam+"&automation="+automation;  
-		 if(window.XMLHttpRequest)
-			 {	// code for IE7+, Firefox, Chrome, Opera, Safari
-			 xmlhttp3 = new XMLHttpRequest();
-			 }
-		 else
-			 {	// code for IE6, IE5
-			 xmlhttp3 = new ActiveXObject("Microsoft.XMLHTTP");
-			 }
-		 xmlhttp3.onreadystatechange = setUpdateMessage;     
-		 xmlhttp3.open("POST", url, true);
-		 xmlhttp3.send(null);	
-		 
-   }
-   function setUpdateMessage()
-   {
-	   if(xmlhttp3.readyState==4)
-       {  
-		   var response = xmlhttp3.responseText;          
-           if(response == "success")
-		   	alert("Updated Successfully");
-           else
-        		alert("Problem in updation. Please try again");
-       }
-
-   }
    function submitReset()
    {
 	   var elementIdArray = getElementIdArray();
@@ -311,7 +316,7 @@ $(function() {//************ start ready event ************
 	   elementIdsArray[7] = document.getElementById("teamCapacity");
 	   elementIdsArray[8] = document.getElementById("devMembers");
 	   elementIdsArray[9] = document.getElementById("qaMembers");
-	  	return elementIdsArray;   
+	   return elementIdsArray;   
    }
 </script>
 
@@ -330,9 +335,9 @@ $(function() {//************ start ready event ************
 						<td>&nbsp;</td>
 					</tr>
 					<tr>
-						<td class="label"><label for="project-name">Project
+					   <td class="label"><label for="project-name">Project
 								Name</label></td>
-						<td><select name="project_id" id="project_id"
+						<td><select name="project_id" id="project_id" onchange="getTeamNameListForSelectedProject();"
 							style="width: 138px;">
 								<option value="0">Select Project</option>
 								<s:iterator value="projectNameWithId" var="data">
@@ -341,34 +346,31 @@ $(function() {//************ start ready event ************
 										<s:property value="key" />
 									</option>
 								</s:iterator>
-
-						</select></td>
-						<td colspan="2"><input type="submit" value="Update Team Name"
-							onclick="getTeamNameForProject();"></td>
-
+                            </select></td>
 					</tr>
-					<tr id="automationDetail" style="display: none;">
-						<td class="label"><label class="label" for="Automation">Automation</label></td>
-						<td colspan="3"><input type="text" id="automation" size="37"
-							name="automation" value="" /></td>
-					</tr>
-					<tr id="teamDetail" style="display: none;">
-						<td class="label"><label for="Action Team">Action
-								Team</label></td>
-						<td colspan="2"><input type="text" id="teamName" size="37"
-							name="teamName" value="" /></td>
-						<td><input type="submit" value="Submit"
-							onclick="updateTeam()"> <input type="submit" value="Hide"
-							onclick="hideTeam()"></td>
-					</tr>
+					
 					<tr>
-						<td class="label">Sprint Detail</td>
+						<td class="label"><label for="Team-name">Team
+								Name</label></td>
+								<td><select name="ProjectTeamNames" id="ProjectTeamNames"
+							style="width: 138px;">
+						</select></td>
+					</tr>
+					
+                    <tr>
+                    <td class="label">Is Kanban Followed<label class="mandatory">*</label></td>
+                    <td><label><input type="radio" name="sprintReportBean.isKanbanFollowed" value="Yes" id="yes"> Yes</label></td>
+
+                       <td><label><input type="radio" name="sprintReportBean.isKanbanFollowed" value="No" id="no"> No</label></td>
+                    </tr>
+					<tr>
+					    <td class="label">Sprint Detail</td>
 						<td class="label">Sprint Name<label class="mandatory">*</label></td>
 						<td class="label">Sprint Start Date<label class="mandatory">*</label></td>
 						<td class="label">Sprint End Date<label class="mandatory">*</label></td>
 					</tr>
 					<tr>
-						<td class="label"><input type="checkbox" name="kanbanFollowed" id="isKanban">Kanban</td>
+						<td class="label"></td>
 						<td><input value="" name="sprintReportBean.sprintName"
 							id="sprintName" type="text" size="15" maxlength="50" /></td>
 						<td class="label"><input value=""
@@ -376,8 +378,8 @@ $(function() {//************ start ready event ************
 							size="15" maxlength="50" /></td>
 						<td class="label"><input value=""
 							name="sprintReportBean.endDate" id="sprintEndDt" type="text"
-							size="15" maxlength="50" /></td>
-					</tr>
+							size="14" maxlength="50" /></td>
+					</tr>	
 					<tr>
 						<td></td>
 						<td class="label">SP Commited<label class="mandatory">*</label></td>
@@ -445,4 +447,5 @@ $(function() {//************ start ready event ************
 		</div>
 	</div>
 </body>
+
 </html>

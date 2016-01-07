@@ -67,6 +67,7 @@ function generateSummary()
 			         <!--  <li><a href="projectWithTeam">Update Team Name</a></li> -->
 			  </s:if>
 			 <li><a href="javascript:generateSummary();" > Generate Summary Slide</a></li> 
+			 <li><a href="updateTeamNames" >Update Team Name</a></li>
 		  </ul>
 	</div>
 

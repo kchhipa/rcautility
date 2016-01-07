@@ -43,8 +43,8 @@ public class SprintReport implements java.io.Serializable {
 	private Date endDate;
 	private Integer devMembers;
 	private Integer qaMembers;
-	
-	public SprintReport(){
+	private String isKanbanFollowed;
+  public SprintReport(){
 		
 	}
 	
@@ -63,6 +63,7 @@ public class SprintReport implements java.io.Serializable {
 		this.endDate = endDate;
 		this.devMembers = qaMembers;
 		this.qaMembers = qaMembers;
+		this.isKanbanFollowed=isKanbanFollowed;
 	}
 	
 	
@@ -163,12 +164,14 @@ public class SprintReport implements java.io.Serializable {
 	public void setQaMembers(Integer qaMembers) {
 		this.qaMembers = qaMembers;
 	}
+	@Column(name = "IsKanbanFollowed")
+	public String getIsKanbanFollowed() {
+	    return isKanbanFollowed;
+	 }
 
-	
-	
-	
-	
-	
+	public void setIsKanbanFollowed(String isKanbanFollowed) {
+	    this.isKanbanFollowed = isKanbanFollowed;
+	 }
 	
 
 }

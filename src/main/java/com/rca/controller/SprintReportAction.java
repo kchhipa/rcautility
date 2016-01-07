@@ -45,15 +45,37 @@ public class SprintReportAction extends ActionSupport implements  SessionAware {
 				ProjectDetails projectDetails = projectDetailsManager.findProjectDetailsByIdWithoutRcaCount(project_id);
 				SprintReport sr=new SprintReport();
 				sr.setProjectDetails(projectDetails);
-				sr.setSprintName(sprintReport.getSprintName());
+				SimpleDateFormat simpledata = new SimpleDateFormat("MM/dd");
+				String startDate= simpledata.format(sprintReport.getStartDate());
+				String endDate= simpledata.format(sprintReport.getEndDate());
+				if(sprintReport.getIsKanbanFollowed().equals("No"))
+				sr.setSprintName(sprintReport.getSprintName()+"("+startDate+"-"+endDate+")");
+				else if((sprintReport.getIsKanbanFollowed().equals("Yes")))
+				sr.setSprintName(startDate+"-"+endDate);
 				sr.setStartDate(sprintReport.getStartDate());
 				sr.setEndDate(sprintReport.getEndDate());
+				if(sprintReport.getSpCommitted()==null){
+				  sr.setSpCommitted(0);
+				}
+				else{
 				sr.setSpCommitted(sprintReport.getSpCommitted());
+				}
+				if(sprintReport.getSpDelivered()==null){
+				  sr.setSpDelivered(0);
+				}
+				else{
 				sr.setSpDelivered(sprintReport.getSpDelivered());
+				}
+				if(sprintReport.getSpAddedInMid()==null){
+				sr.setSpAddedInMid(0);
+				}
+				else{
 				sr.setSpAddedInMid(sprintReport.getSpAddedInMid());
+				}
 				sr.setDevMembers(sprintReport.getDevMembers());
 				sr.setQaMembers(sprintReport.getQaMembers());
 				sr.setTeamCapacity(sprintReport.getTeamCapacity());
+				sr.setIsKanbanFollowed(sprintReport.getIsKanbanFollowed());
 				result=sprintReportManager.persistSprintReport(sr);
 				if(result.equals(RCAConstants.SUCCESS)){
 					addActionMessage("Sprint Report added successfuly");
@@ -105,6 +127,10 @@ public class SprintReportAction extends ActionSupport implements  SessionAware {
 	public String reportSprintView() throws SQLException{
 		return SUCCESS;
 	}
+	
+	public String updateTeamNames() throws SQLException{
+      return SUCCESS;
+  }
 	
 	private void getWeekDates(String weekdates)
 	{

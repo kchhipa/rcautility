@@ -15,15 +15,17 @@ public class SprintReportBean {
 	private Date endDate;
 	private Integer devMembers;
 	private Integer qaMembers;
+	//adding new field
+	private String isKanbanFollowed;
 	
-	public SprintReportBean(){
+  public SprintReportBean(){
 		
 	}
 	
 	public SprintReportBean(Integer sprintReportId, ProjectDetails projectDetails,
 			String sprintName, Integer spCommitted,
 			Integer spDelivered, Integer spAddedInMid,
-			Integer teamCapacity,Integer devMembers, Integer qaMembers,Date startDate,Date endDate) {
+			Integer teamCapacity,Integer devMembers, Integer qaMembers,Date startDate,Date endDate,String isKanbanFollowed ) {
 		this.sprintReportId = sprintReportId;
 		this.projectDetails = projectDetails;
 		this.sprintName = sprintName;
@@ -35,6 +37,7 @@ public class SprintReportBean {
 		this.endDate = endDate;
 		this.devMembers = qaMembers;
 		this.qaMembers = qaMembers;
+		this.isKanbanFollowed=isKanbanFollowed;
 	}
 	public Integer getSprintReportId() {
 		return sprintReportId;
@@ -102,6 +105,14 @@ public class SprintReportBean {
 	public void setQaMembers(Integer qaMembers) {
 		this.qaMembers = qaMembers;
 	}
+
+    public String getIsKanbanFollowed() {
+    return isKanbanFollowed;
+    }
+
+    public void setIsKanbanFollowed(String isKanbanFollowed) {
+    this.isKanbanFollowed = isKanbanFollowed;
+    }
 	
 	
 	

@@ -56,7 +56,10 @@
                 <param name="inputName">inputStream</param>
 			</result>  
 		</action>
-		
+		<!-- for updating team names-->
+		<action name="updateTeamNames" class="com.rca.controller.SprintReportAction" method="updateTeamNames">
+			<result name="success">Update_TeamNames.jsp</result>
+		</action>
 		<action name="saveRcaDetail" class="com.rca.controller.RcaUtility"
 			method="saveRcaDetail">
 			<result name="success">RCA.jsp</result>

@@ -158,8 +158,8 @@ public class GenerateGraph
 		plot.getRangeAxis().setTickLabelFont(font);
 		domainAxis.setTickLabelPaint(Color.BLACK);
 		plot.getRangeAxis().setTickLabelPaint(Color.BLACK);
-		domainAxis.setCategoryLabelPositions(CategoryLabelPositions.STANDARD);
-
+		//domainAxis.setCategoryLabelPositions(CategoryLabelPositions.STANDARD);
+		domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45); //by satish
 		CategoryItemRenderer renderer = new CustomRenderer();
 
 		// Enabling the tool tip generator
