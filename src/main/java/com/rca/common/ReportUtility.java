@@ -145,7 +145,7 @@ public class ReportUtility {
 		Map<String, Map<String, Integer>> uperCategory = new LinkedHashMap<String, Map<String, Integer>>();
 		Map<String, Integer> underUperCategory = null;
 		for (SprintReport spReport : sprintReport) {
-		  if(spReport.getIsKanbanFollowed().equals("No")){
+		  if(spReport.getIsKanbanFollowed()!=null && spReport.getIsKanbanFollowed().equals("No")){
 			underUperCategory = new LinkedHashMap<String, Integer>();
 			underUperCategory.put("Team Capacity", spReport.getTeamCapacity());
 			underUperCategory.put("Committed", spReport.getSpCommitted());

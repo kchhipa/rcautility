@@ -742,11 +742,14 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 				//SprintReport sprintReport  = sprintReportManager.findWeeklySprintReportByProjectId(week,activeProjectList.get(index).getProjectId() );
 				ArrayList<SprintReport> sprintReport = sprintReportManager.findExistingSprintReportByProjectId(
 						sdfmt1.format(calobj.getTime()), activeProjectList.get(index).getProjectId());
-				if(sprintReport!=null)
+				
+				//if(sprintReport!=null)
 					//comment by satish
 					//sprintReport.setWeek(rU.removeYearFromWeek(sprintReport.getWeek()));
+				  
 				if(rcaCounts !=null && rcaCounts.size() >0)
-				{
+  
+				{  
 					createGraphIndividualPpt(rcaCounts,sprintReport, ppt);
 				}
 			}
