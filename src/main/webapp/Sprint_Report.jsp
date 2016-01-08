@@ -161,12 +161,12 @@ $(function() {//************ start ready event ************
 				//alert("Dev Members can not be empty");
 				flag=false;
 			}
-			if(devMembers==0)
+			/* if(devMembers==0)
 			{
 				errorMessage=errorMessage+"\u2022 Dev Members can not be zero\n";
 				//alert("Dev Members can not be zero");
 				flag=false;
-			}
+			} */
 			var qaMembers = document.getElementById("qaMembers").value;
 			//validation for QAMembers is empty
 			if(qaMembers=="" || qaMembers==null)
@@ -176,12 +176,12 @@ $(function() {//************ start ready event ************
 				flag=false;
 			}
 			//validation for QAMembers is zeor
-			if(qaMembers==0)
+			/* if(qaMembers==0)
 			{
 				errorMessage=errorMessage+"\u2022 QA Members can not be zero\n";
 				//alert("QA Members can not be zero");
 				flag=false;
-			}
+			} */
 			if(!flag){
 				alert(errorMessage);
 				return flag;
