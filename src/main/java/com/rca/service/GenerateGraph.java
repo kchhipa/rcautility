@@ -153,13 +153,14 @@ public class GenerateGraph
 		rangeAxis.setAxisLineStroke(s1);
 		rangeAxis.setAxisLinePaint(Color.BLACK);
 
-		Font font = new Font("Franklin Gothic Book Heavy", Font.BOLD, 17);
+		Font font = new Font("Franklin Gothic Book Heavy", Font.BOLD, 15);
 		domainAxis.setTickLabelFont(font);
 		plot.getRangeAxis().setTickLabelFont(font);
 		domainAxis.setTickLabelPaint(Color.BLACK);
 		plot.getRangeAxis().setTickLabelPaint(Color.BLACK);
-		//domainAxis.setCategoryLabelPositions(CategoryLabelPositions.STANDARD);
-		domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45); //by satish
+		domainAxis.setCategoryLabelPositions(CategoryLabelPositions.STANDARD);
+		domainAxis.setMaximumCategoryLabelLines(2);
+		//domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45); //by satish
 		CategoryItemRenderer renderer = new CustomRenderer();
 
 		// Enabling the tool tip generator

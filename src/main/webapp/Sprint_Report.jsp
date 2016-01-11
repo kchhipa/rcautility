@@ -58,7 +58,7 @@ $(function() {//************ start ready event ************
 	 $('input[type="radio"]').click(function(){
 	        if($(this).attr("value")=="Yes"){
 	   		$("#spCommitted").attr("readonly", true).addClass('input-disabled');; 
-			 $("#spAddedInMid").attr("readonly", true).addClass('input-disabled');; 
+			 $("#teamCapacity").attr("readonly", true).addClass('input-disabled');; 
 			 $("#sprintName").attr("readonly", true).addClass('input-disabled');; 
 	        }
 	        if($(this).attr("value")=="No"){
@@ -148,12 +148,12 @@ $(function() {//************ start ready event ************
 		
 			var teamCapacity = document.getElementById("teamCapacity").value;
 			//validation for teamCapacity is empty
-			if(teamCapacity=="" || teamCapacity==null)
+			/*if(teamCapacity=="" || teamCapacity==null)
 			{
 				errorMessage=errorMessage+"\u2022 Team capacity can not be empty\n";
 				//alert("Team capacity can not be empty");
 				flag=false;
-			}
+			}*/
 			var devMembers = document.getElementById("devMembers").value;
 			if(devMembers=="" || devMembers==null)
 			{
@@ -366,8 +366,8 @@ $(function() {//************ start ready event ************
 					<tr>
 					    <td class="label">Sprint Detail</td>
 						<td class="label">Sprint Name<label class="mandatory">*</label></td>
-						<td class="label">Sprint Start Date<label class="mandatory">*</label></td>
-						<td class="label">Sprint End Date<label class="mandatory">*</label></td>
+						<td class="label">Sprint /Week Start Date<label class="mandatory">*</label></td>
+						<td class="label">Sprint /Week End Date<label class="mandatory">*</label></td>
 					</tr>
 					<tr>
 						<td class="label"></td>
@@ -384,7 +384,7 @@ $(function() {//************ start ready event ************
 						<td></td>
 						<td class="label">SP Commited<label class="mandatory">*</label></td>
 						<td class="label">SP Delivered</td>
-						<td class="label">SP Added in Mid</td>
+						<td class="label">SP Added in Mid Sprint/Work</td>
 					</tr>
 					<tr>
 						<td class="label"></td>
@@ -402,7 +402,7 @@ $(function() {//************ start ready event ************
 					</tr>
 					<tr>
 						<td></td>
-						<td class="label">Team Capacity<label class="mandatory">*</label></td>
+						<td class="label">Team Capacity/Velocity<label class="mandatory">*</label></td>
 						<td class="label">Dev Members<label class="mandatory">*</label></td>
 						<td class="label">QA Members<label class="mandatory">*</label></td>
 					</tr>
