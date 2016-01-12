@@ -150,8 +150,8 @@ public class ReportUtility {
 		
 			underUperCategory.put("Team Capacity", spReport.getTeamCapacity());
 			underUperCategory.put("SP Delivered", spReport.getSpDelivered());
-			underUperCategory.put("SP added in Mid sprint", spReport.getSpAddedInMid());
 			underUperCategory.put("Committed", spReport.getSpCommitted());
+			underUperCategory.put("SP added in Mid sprint", spReport.getSpAddedInMid());
 			uperCategory.put(spReport.getSprintName(), underUperCategory);
 		  }
 		 else{
