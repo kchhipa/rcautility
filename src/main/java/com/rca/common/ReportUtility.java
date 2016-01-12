@@ -149,15 +149,16 @@ public class ReportUtility {
 		  if(spReport.getIsKanbanFollowed()!=null && spReport.getIsKanbanFollowed().equals("No")){
 		
 			underUperCategory.put("Team Capacity", spReport.getTeamCapacity());
-			underUperCategory.put("Committed", spReport.getSpCommitted());
 			underUperCategory.put("SP Delivered", spReport.getSpDelivered());
 			underUperCategory.put("SP added in Mid sprint", spReport.getSpAddedInMid());
+			underUperCategory.put("Committed", spReport.getSpCommitted());
 			uperCategory.put(spReport.getSprintName(), underUperCategory);
 		  }
 		 else{
 		 // underUperCategory = new LinkedHashMap<String, Integer>();
           underUperCategory.put("Team Capacity", spReport.getTeamCapacity());
           underUperCategory.put("SP Delivered", spReport.getSpDelivered());
+          underUperCategory.put("SP added in Mid sprint", spReport.getSpAddedInMid());
           uperCategory.put(spReport.getSprintName(), underUperCategory);
 		    
 		  }

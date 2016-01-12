@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -742,6 +743,8 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 				//SprintReport sprintReport  = sprintReportManager.findWeeklySprintReportByProjectId(week,activeProjectList.get(index).getProjectId() );
 				ArrayList<SprintReport> sprintReport = sprintReportManager.findExistingSprintReportByProjectId(
 						sdfmt1.format(calobj.getTime()), activeProjectList.get(index).getProjectId());
+				if(sprintReport != null && sprintReport.size() >0)
+				Collections.reverse(sprintReport);
 				
 				//if(sprintReport!=null)
 					//comment by satish
@@ -771,6 +774,7 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 				System.out.println("date is : " + calobj.getTime());
 				ArrayList<SprintReport> sprintReport = sprintReportManager.findExistingSprintReportByProjectId(
 						sdfmt1.format(calobj.getTime()), activeProjectList.get(index).getProjectId());
+				
 				if (sprintReport != null)
 					createSprintGraphIndividualPpt(sprintReport, ppt);
 			}
