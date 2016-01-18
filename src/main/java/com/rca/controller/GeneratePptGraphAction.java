@@ -1425,6 +1425,7 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 		int pageheight = ppt.getPageSize().height/3;
 		int totalPageHeight = ppt.getPageSize().height;
 		GenerateGraph generateGraph = new GenerateGraph();
+		
 		// add a new picture to this slideshow and insert it in a new slide
 		//List<RcaCount> allWeeksrcaCounts = rcaManager.findRCAReportForMultipleWeek();
 		ReportUtility rU = new ReportUtility();
@@ -1443,7 +1444,7 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 				PlotOrientation.VERTICAL, false, 700, 450,RCAConstants.NORMAL_BAR,true,false) , XSLFPictureData.PICTURE_TYPE_PNG);*/
 			/*idx5 = ppt.addPicture(generateGraph.createWeeklyBarGraph( rU.reportedSprintReportGraph(sprintReport), rcaCount.get(0).getProjectDetails().getProjectName()+"( Dev: "+sprintReport.getDevMembers()+", QA: "+sprintReport.getQaMembers()+")", "", "",
 					PlotOrientation.VERTICAL, false, 700, 450,RCAConstants.NORMAL_BAR,true,false) , XSLFPictureData.PICTURE_TYPE_PNG);*/
-			idx5= ppt.addPicture(generateGraph.createSprintGraph( rU.reportedSprintReportGraph(sprintReport),rcaCount.get(0).getProjectDetails().getProjectName()+"(Dev:"+sprintReport.get(3).getDevMembers()+" , QA:"+sprintReport.get(3).getQaMembers()+" )", "", "", 
+			idx5= ppt.addPicture(generateGraph.createSprintGraph( rU.reportedSprintReportGraph(sprintReport),rcaCount.get(0).getProjectDetails().getProjectName()+"(Dev:"+sprintReport.get(sprintReport.size() - 1).getDevMembers()+" , QA:"+sprintReport.get(sprintReport.size() - 1).getQaMembers()+" )", "", "", 
 					PlotOrientation.VERTICAL, false, 700, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
 		}
 		
