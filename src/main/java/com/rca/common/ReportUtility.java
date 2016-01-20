@@ -144,23 +144,23 @@ public class ReportUtility {
 	public Map<String, Map<String, Integer>> reportedSprintReportGraph(ArrayList<SprintReport> sprintReport) {
 		Map<String, Map<String, Integer>> uperCategory = new LinkedHashMap<String, Map<String, Integer>>();
 		Map<String, Integer> underUperCategory = null;
+		
 		for (SprintReport spReport : sprintReport) {
 			underUperCategory = new LinkedHashMap<String, Integer>();
+
 		  if(spReport.getIsKanbanFollowed()!=null && spReport.getIsKanbanFollowed().equals("No")){
 		
 			underUperCategory.put("Team Capacity", spReport.getTeamCapacity());
-			underUperCategory.put("SP Delivered", spReport.getSpDelivered());
 			underUperCategory.put("Committed", spReport.getSpCommitted());
+			underUperCategory.put("SP Delivered", spReport.getSpDelivered());
 			underUperCategory.put("SP added in Mid sprint", spReport.getSpAddedInMid());
 			uperCategory.put(spReport.getSprintName(), underUperCategory);
 		  }
 		 else{
-		 // underUperCategory = new LinkedHashMap<String, Integer>();
           underUperCategory.put("Team Capacity", spReport.getTeamCapacity());
           underUperCategory.put("SP Delivered", spReport.getSpDelivered());
           underUperCategory.put("SP added in Mid sprint", spReport.getSpAddedInMid());
           uperCategory.put(spReport.getSprintName(), underUperCategory);
-		    
 		  }
 		}
 		return uperCategory;

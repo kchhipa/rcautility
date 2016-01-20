@@ -8,10 +8,12 @@ import java.awt.Paint;
 import java.awt.Stroke;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
@@ -181,7 +183,7 @@ public class GenerateGraph
 
 		plot.setRenderer(renderer);
 
-		plot.setRenderer(createSprintRender());
+		plot.setRenderer(createSprintRender(data));
 		return createGraphImage(jFreeChart, graphWidth, graphHeight);
      }
   
@@ -548,10 +550,26 @@ public class GenerateGraph
   }
   
   
-  public BarRenderer createSprintRender()
+  public BarRenderer createSprintRender(Map<String, Map<String, Integer>> data)
   {
-		BarRenderer renderer = new BarRenderer();
+	  //Taking Key values of send Map
+		Set<String> getKey = new TreeSet<String>();
+		for (Entry<String, Map<String, Integer>> entry : data.entrySet()) {
+			for (Entry<String, Integer> entrys : entry.getValue().entrySet()) {
+				getKey.add(entrys.getKey());
+			}
+		}
 
+		Set<String> getInitialData = new TreeSet<String>();
+		Set<String> datas = new TreeSet<String>();
+		getInitialData.add("Team Capacity");
+		getInitialData.add("Committed");
+		getInitialData.add("SP Delivered");
+		getInitialData.add("SP added in Mid sprint");
+
+		BarRenderer renderer = new BarRenderer();
+		//Checking Data with Initial Data
+		if (getKey.containsAll(getInitialData)) {
 		Paint lightBlue = new GradientPaint(0.0f, 0.0f, new Color(30, 144, 255), 0.0f, 0.0f, new Color(70,130,180));
 		renderer.setSeriesPaint(0, lightBlue);
 
@@ -563,7 +581,19 @@ public class GenerateGraph
 
 		Paint red = new GradientPaint(0.0f, 0.0f, new Color(255, 0, 0), 0.0f, 0.0f, new Color(255, 0, 0));
 		renderer.setSeriesPaint(3, red);
+		} else {
+			Paint lightBlue = new GradientPaint(0.0f, 0.0f, new Color(30, 144,
+					255), 0.0f, 0.0f, new Color(70, 130, 180));
+			renderer.setSeriesPaint(0, lightBlue);
 
+			Paint green = new GradientPaint(0.0f, 0.0f,
+					new Color(60, 179, 113), 0.0f, 0.0f, new Color(34, 139, 34));
+			renderer.setSeriesPaint(1, green);
+
+			Paint red = new GradientPaint(0.0f, 0.0f, new Color(255, 0, 0),
+					0.0f, 0.0f, new Color(255, 0, 0));
+			renderer.setSeriesPaint(2, red);
+		}
 		renderer.setGradientPaintTransformer(new StandardGradientPaintTransformer(GradientPaintTransformType.VERTICAL));
 
 		renderer.setGradientPaintTransformer(
