@@ -58,7 +58,6 @@ $(function() {//************ start ready event ************
 	 $('input[type="radio"]').click(function(){
 	        if($(this).attr("value")=="Yes"){
 	   		$("#spCommitted").attr("readonly", true).addClass('input-disabled');; 
-			 $("#teamCapacity").attr("readonly", true).addClass('input-disabled');; 
 			 $("#sprintName").attr("readonly", true).addClass('input-disabled');; 
 	        }
 	        if($(this).attr("value")=="No"){
@@ -148,12 +147,12 @@ $(function() {//************ start ready event ************
 		
 			var teamCapacity = document.getElementById("teamCapacity").value;
 			//validation for teamCapacity is empty
-			/*if(teamCapacity=="" || teamCapacity==null)
+			if(teamCapacity=="" || teamCapacity==null)
 			{
 				errorMessage=errorMessage+"\u2022 Team capacity can not be empty\n";
 				//alert("Team capacity can not be empty");
 				flag=false;
-			}*/
+			}
 			var devMembers = document.getElementById("devMembers").value;
 			if(devMembers=="" || devMembers==null)
 			{
