@@ -1,9 +1,8 @@
 package com.rca.service;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,5 +57,9 @@ public class SprintReportManagerImpl implements SprintReportManager {
 		return sprintReportDAO.findExistingSprintReportByProjectId(date, projectId);
 	}
 
+ //added for sprint report excel - priyanka
+    public ArrayList<SprintReport> findLatestClosedSprintDataByProjectId(Date date, int projectId) {
+		return sprintReportDAO.findLatestClosedSprintDataByProjectId(date, projectId);
+	}
 
 }

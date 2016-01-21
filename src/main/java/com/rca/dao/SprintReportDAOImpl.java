@@ -1,5 +1,11 @@
 package com.rca.dao;
 
+//default package
+//Generated Apr 02, 2015 4:28:21 PM by Hibernate Tools 3.4.0.CR1
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
@@ -10,11 +16,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.rca.entity.SprintReport;
-
-//default package
-//Generated Apr 02, 2015 4:28:21 PM by Hibernate Tools 3.4.0.CR1
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Home object for domain model class SprintReport.
@@ -122,6 +123,20 @@ public class SprintReportDAOImpl implements SprintReportDAO {
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 		template = new HibernateTemplate(sessionFactory);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<SprintReport> findLatestClosedSprintDataByProjectId(Date date, int projectId){
+		
+		String queryString = "from SprintReport where project_id ="+projectId+" and sprint_end_date <'"+date+"' order by sprint_end_date desc";
+		Query query = sessionFactory.getCurrentSession().createQuery(queryString);
+		query.setMaxResults(1);
+			ArrayList<SprintReport> results =  (ArrayList<SprintReport>) query.list();//(ArrayList<SprintReport>) template.find(query, queryParam);
+		if(results.size()>0){
+			return results;
+		}
+		return null;
 	}
 
 }

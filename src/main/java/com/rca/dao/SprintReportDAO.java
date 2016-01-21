@@ -1,7 +1,7 @@
 package com.rca.dao;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 import com.rca.entity.SprintReport;
 
@@ -16,5 +16,7 @@ public interface SprintReportDAO {
 	public abstract SprintReport findWeeklySprintReportByProjectId(String week, int projectId);
 	
 	public abstract ArrayList<SprintReport> findExistingSprintReportByProjectId(String date, int projectId);
+	
+	public abstract ArrayList<SprintReport> findLatestClosedSprintDataByProjectId(Date date, int projectId);
 
 }

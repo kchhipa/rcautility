@@ -6,16 +6,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.TreeMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -30,6 +31,7 @@ import com.rca.dao.RcaCountDAOImpl;
 import com.rca.entity.RankingFramework;
 import com.rca.entity.RcaCount;
 import com.rca.entity.SprintReport;
+import com.rca.entity.SprintReportRanking;
 
 public class ReportUtility {
 	
@@ -41,7 +43,9 @@ public class ReportUtility {
 	private static final XSSFColor BLUE = new XSSFColor(new Color(197,217,241));
 	private static final XSSFColor YELLOW = new XSSFColor(new Color(255,255,0));
 	private static final XSSFColor GREY = new XSSFColor(new Color(191, 190, 154));
-
+	private static final XSSFColor GREEN = new XSSFColor(new Color(145, 208, 80));
+	private static final XSSFColor WHITE = new XSSFColor(new Color(255, 255, 255));
+	private static final XSSFColor BLACK = new XSSFColor(new Color(0, 0, 0));
 	public Map<String, Map<String, Integer>> rcaCountForLastWeekForAllProjects(List<RcaCount> rcaWeeks){
 	  Map<String, Map<String, Integer>> diffCategory = new HashMap<String, Map<String, Integer>>();;
     
@@ -1452,44 +1456,44 @@ return total;
 		
 		
 		//	A
-		Cell cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle);
+		Cell cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
 		cellCounter++;
 		cell.setCellValue(rankingRow.getTeamName());
 		cell.setCellStyle(styleGreen);
 
 		//	B
-		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
 		cellCounter++;
 		cell.setCellValue(rankingRow.getClient());
 
 		//		C
 		rankingFrameworkSheet.setColumnHidden(cellCounter, hideColumn);
-		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
 		cellCounter++;
 		cell.setCellStyle(percStyle);
 		cell.setCellType(Cell.CELL_TYPE_NUMERIC);
 		cell.setCellValue(rankingRow.getAgileCompliance()/100);
 
 		//		D
-		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
 		cellCounter++;
 		cell.setCellFormula(rankingRow.getAgileComplianceScore());
 		cell.setCellStyle(styleYellow);
 
 		//		E
-		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
 		cellCounter++;
 		cell.setCellValue(rankingRow.getCcb());
 
 		//		F
-		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
 		cellCounter++;
 		cell.setCellFormula(rankingRow.getCcbScore());
 		cell.setCellStyle(styleYellow);
 
 		//		G
 		rankingFrameworkSheet.setColumnHidden(cellCounter, hideColumn);
-		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
 		cellCounter++;
 		cell.setCellStyle(percStyle);
 		cell.setCellType(Cell.CELL_TYPE_NUMERIC);
@@ -1497,13 +1501,13 @@ return total;
 
 		//		H
 		rankingFrameworkSheet.setColumnHidden(cellCounter, hideColumn);
-		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
 		cellCounter++;
 		cell.setCellFormula(rankingRow.getToolComplianceScore());
 
 		//		I
 		rankingFrameworkSheet.setColumnHidden(cellCounter, hideColumn);
-		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
 		cellCounter++;
 		cell.setCellStyle(percStyle);
 		cell.setCellType(Cell.CELL_TYPE_NUMERIC);
@@ -1511,23 +1515,23 @@ return total;
 
 		//		J
 		rankingFrameworkSheet.setColumnHidden(cellCounter, hideColumn);
-		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
 		cellCounter++;
 		cell.setCellFormula(rankingRow.getjUnitCovScore());
 
 		//		K
-		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
 		cellCounter++;
 		cell.setCellValue(rankingRow.getPrevWeek());
 
 		//		L
-		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
 		cellCounter++;
 		cell.setCellValue(rankingRow.getCurrWeek());
 
 		//		M
 		rankingFrameworkSheet.setColumnHidden(cellCounter, hideColumn);
-		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
 		rankingFrameworkSheet.setColumnWidth(cellCounter, 6);
 		cellCounter++;
 		cell.setCellStyle(percStyle);
@@ -1536,93 +1540,209 @@ return total;
 
 		//		N
 		rankingFrameworkSheet.setColumnHidden(cellCounter, hideColumn);
-		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
 		cellCounter++;
 		cell.setCellFormula(rankingRow.getAbsoluteChange());
 
 		//		O
-		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
 		cellCounter++;
 		cell.setCellFormula(rankingRow.getQaDefectScore());
 		cell.setCellStyle(styleYellow);
 
 		//		P
-		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
 		cellCounter++;
 		cell.setCellValue(rankingRow.getReopen());
 
 		//		Q
-		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
 		cellCounter++;
 		cell.setCellFormula(rankingRow.getReopenScore());
 		cell.setCellStyle(styleYellow);
 
 		//		R
-		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
 		cellCounter++;
 		cell.setCellValue(rankingRow.getCollaboration());
 
 		//		S
-		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
 		cellCounter++;
 		cell.setCellFormula(rankingRow.getCollaborationScore());
 		cell.setCellStyle(styleYellow);
 
 		//		T
-		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
 		cellCounter++;
 		cell.setCellValue(rankingRow.getCumulativeBacklog());
 
 		//		U
-		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
 		cellCounter++;
 		cell.setCellFormula(rankingRow.getCumulativeBacklogScore());
 		cell.setCellStyle(styleYellow);
 
 		//		V
-		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
 		cellCounter++;
 		cell.setCellValue(rankingRow.getMissReq());
 
 		//		W
-		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
 		cellCounter++;
 		cell.setCellFormula(rankingRow.getMissReqScore());
 		cell.setCellStyle(styleYellow);
 
 		//		X
-		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
 		cellCounter++;
 		cell.setCellValue(rankingRow.getRisk());
 
 		//		Y
-		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
 		cellCounter++;
 		cell.setCellFormula(rankingRow.getRiskScore());
 		cell.setCellStyle(styleYellow);
 
 		//		Z
-		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
 		cellCounter++;
 		cell.setCellFormula(rankingRow.getTotalScore());
 
 		//		AA
-		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
 		cellCounter++;
 		cell.setCellFormula(rankingRow.getRanking());
 		cell.setCellStyle(styleGreen);
 
 		//		AB
-		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
 		cellCounter++;
 		cell.setCellValue(rankingRow.getActualUsed());
 		cell.setCellStyle(styleGreen);
 
 		//		AC
-		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle);
+		cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
 		cell.setCellValue(rankingRow.getRankingComment());
 		applyDefaultFontStyle(defaultFont, row, defaultStyle);
 	}
+
+	// Below methods are utility methods to generate Sprint Summary & Ranking Framework excel sheet
+	
+	
+		public void buildSprintSummaryColumns(SprintReportRanking rankingRow, XSSFRow row, XSSFSheet rankingFrameworkSheet, 
+				XSSFCellStyle percStyle, XSSFCellStyle mergedCellStyle, XSSFCellStyle styleGreen, XSSFCellStyle defaultStyle, XSSFFont defaultFont,
+				int rowCount,boolean isKanban)
+		{
+			//rankingFrameworkSheet.setFitToPage(true);
+			row.setHeightInPoints((1 * rankingFrameworkSheet
+					.getDefaultRowHeightInPoints()));
+			int cellCounter=0;
+			defaultStyle.setWrapText(true);
+			//	A
+			Cell cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,false);
+			cellCounter++;
+			cell.setCellValue(rankingRow.getsNo());
+			
+			//	A
+			cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
+			cellCounter++;
+			cell.setCellValue(rankingRow.getTeamName());
+			//cell.setCellStyle(styleGreen);
+
+			//B
+			cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,false);
+			cellCounter++;
+			cell.setCellValue(rankingRow.getTeamSize());
+			
+			//	C
+			if(!isKanban)
+			{
+			cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,false);
+			}
+			else
+				cell = createCell(row, cellCounter, rankingFrameworkSheet, mergedCellStyle,true);	
+			cellCounter++;
+			cell.setCellValue(rankingRow.getClient());
+			if(rankingRow.getClient().length()>30 || rankingRow.getTeamName().length()>30 || rankingRow.getSprintName().length()>30)
+			{
+				row.setHeightInPoints((2 * rankingFrameworkSheet
+						.getDefaultRowHeightInPoints()));
+			}
+			
+		
+			//	D
+			if(!isKanban)
+			{
+			cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
+			cellCounter++;
+			cell.setCellValue(rankingRow.getSprintName());
+			}
+			else
+			{
+				cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,false);
+				cellCounter++;
+				cell.setCellValue("");
+				rankingFrameworkSheet.addMergedRegion(new CellRangeAddress(rowCount-1, rowCount-1, 3, 4));
+			}
+		
+			
+			
+			// E
+			cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,false);
+			cellCounter++;
+			cell.setCellValue(rankingRow.getSprintStartDate());
+
+			// F
+			cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,false);
+			cellCounter++;
+			cell.setCellValue(rankingRow.getSprintEndDate());
+			
+			// G
+			cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
+			cellCounter++;
+			if(!isKanban)
+				cell.setCellValue(rankingRow.getCommittedSP());
+			else
+				cell.setCellValue(rankingRow.getTeamCapacity());
+
+			// H
+			cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
+			cellCounter++;
+			cell.setCellValue(rankingRow.getCompletedSP());
+			
+			// I
+			cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,true);
+			cellCounter++;
+			cell.setCellValue(rankingRow.getClientCodeDefect());
+			
+			// J
+			cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,false);
+			cellCounter++;
+			cell.setCellValue(rankingRow.getReopenCount());
+			
+			// K
+			
+			cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,false);
+			cellCounter++;
+			cell.setCellValue(rankingRow.getSpAddedMidSprint());
+			
+			
+			
+			
+			// L
+			
+			cell = createCell(row, cellCounter, rankingFrameworkSheet, percStyle,false);
+			cellCounter++;
+			cell.setCellFormula("(I" + rowCount+"-J" + rowCount+"-K"+rowCount+")/h"+rowCount);
+						
+			// m
+			cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,false);
+			cell.setCellFormula("IF(M" + rowCount + ">80%,\"A\",IF(P" + rowCount
+					+ ">=59%,\"B\",\"C\"))");
+			
+		}
 
 	private void applyDefaultFontStyle(XSSFFont defaultFont, XSSFRow row, XSSFCellStyle defaultStyle) {
 		Iterator<Cell> cells = row.cellIterator();
@@ -1674,7 +1794,7 @@ return total;
 		}
 	}
 
-	private void buildHeaderStyle(XSSFCellStyle headerStyle, short borderThickness, XSSFColor borderColor, XSSFColor foreGroundColor, short rotation, XSSFFont defaultFont){
+	public void buildHeaderStyle(XSSFCellStyle headerStyle, short borderThickness, XSSFColor borderColor, XSSFColor foreGroundColor, short rotation, XSSFFont defaultFont){
 		headerStyle.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
 		headerStyle.setFillForegroundColor(foreGroundColor);
 		headerStyle.setRotation(rotation);
@@ -1713,11 +1833,155 @@ return total;
 		}
 	}
 
-	private Cell createCell(XSSFRow row, int cellCounter, XSSFSheet rankingFrameworkSheet, XSSFCellStyle defaultStyle)
-	{
+	private Cell createCell(XSSFRow row, int cellCounter, XSSFSheet rankingFrameworkSheet, XSSFCellStyle defaultStyle, boolean autosize)
+	{	if(autosize)
 		rankingFrameworkSheet.autoSizeColumn(cellCounter);
 		Cell cell = row.createCell(cellCounter);
 		cell.setCellStyle(defaultStyle);
 		return cell;
+			
+	}
+	public void generateSubHeader(XSSFSheet summarySheet, XSSFWorkbook toolSetMatrix, XSSFFont defaultFont,String headerValue,int counter)
+	{
+		XSSFCellStyle subHeaderStyle = toolSetMatrix.createCellStyle();
+		XSSFRow headerRow = summarySheet.createRow((short)counter);
+		Cell cell = headerRow.createCell((short)0);
+		cell.setCellValue("SCRUM TEAMs (Last closed sprint)");
+		buildHeaderStyle(subHeaderStyle, CellStyle.BORDER_THIN, GREY, WHITE, (short) 0, defaultFont);
+		cell.setCellStyle(subHeaderStyle);
+		summarySheet.addMergedRegion(new CellRangeAddress(counter, counter, 0, 13));
+	}
+
+	public String editDateFormat(Date date) {
+		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
+		String dateString = DATE_FORMAT.format(date);
+		String[] rr = dateString.split("-");
+		int month = Integer.parseInt(rr[1]);
+		String monthString;
+		switch (month) {
+		case 1:
+			monthString = "Jan";
+			break;
+		case 2:
+			monthString = "Feb";
+			break;
+		case 3:
+			monthString = "Mar";
+			break;
+		case 4:
+			monthString = "Apr";
+			break;
+		case 5:
+			monthString = "May";
+			break;
+		case 6:
+			monthString = "Jun";
+			break;
+		case 7:
+			monthString = "Jul";
+			break;
+		case 8:
+			monthString = "Aug";
+			break;
+		case 9:
+			monthString = "Sep";
+			break;
+		case 10:
+			monthString = "Oct";
+			break;
+		case 11:
+			monthString = "Nov";
+			break;
+		case 12:
+			monthString = "Dec";
+			break;
+		default:
+			monthString = "Invalid month";
+			break;
+		}
+		 
+		return Integer.parseInt(rr[0])+"-"+monthString;
+	}
+
+	public void createSprintReportHeaderRows(XSSFSheet sprintReportWorkSheet,
+			XSSFWorkbook toolSetMatrix, XSSFFont defaultFont, int headerCount) {
+		XSSFCellStyle headerStyle = toolSetMatrix.createCellStyle();
+		headerStyle.setWrapText(true);
+		XSSFCellStyle subHeaderStyle = toolSetMatrix.createCellStyle();
+		subHeaderStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER);
+		buildHeaderStyle(headerStyle, CellStyle.BORDER_THIN, BLACK, GREEN,
+				(short) 0, defaultFont);
+		XSSFRow headerRow = sprintReportWorkSheet
+				.createRow((short) headerCount + 1);
+		headerRow.setHeightInPoints((4 * sprintReportWorkSheet
+				.getDefaultRowHeightInPoints()));
+		String header = "S No,AT Name,Team\nSize(Dev\n + QA),Client Project(s),Sprint Name,Sprint\nStart\nDate,Sprint\nEnd\nDate,"
+				+ "Committed\nStory\npoints,Completed\nStory\nPoints,# of\nClient\nCode\n Defects\nReported,"
+				+ "# of Valid\nReopens,SPs\nadded\nmid\nsprint,%\nRealized,Ranking";
+		String[] headerCells = header.split(",");
+		int columnIndex = 0;
+
+		for (String headerCell : headerCells) {
+			Cell cell = headerRow.createCell(columnIndex++);
+			cell.setCellValue(headerCell);
+			cell.setCellStyle(headerStyle);
+		}
+		XSSFRow headerRow1 = sprintReportWorkSheet.createRow((short) 0);
+		Cell cell = headerRow1.createCell((short) 0);
+		cell.setCellValue("SCRUM TEAMs (Last closed sprint)");
+		XSSFFont font = toolSetMatrix.createFont();
+		font.setColor(HSSFColor.RED.index);
+		font.setFontName(HSSFFont.FONT_ARIAL);
+		buildHeaderStyle(subHeaderStyle, CellStyle.BORDER_THIN, BLACK, WHITE,
+				(short) 0, font);
+		cell.setCellStyle(subHeaderStyle);
+		sprintReportWorkSheet.addMergedRegion(new CellRangeAddress(headerCount,
+				headerCount, 0, 13));
+	}
+
+	public void createSprintReportHeaderRowsKanban(
+			XSSFSheet sprintReportWorkSheet, XSSFWorkbook toolSetMatrix,
+			XSSFFont defaultFont, int headerCount) {
+		String header = "S No,AT Name,Team Size (Dev\n + QA),Client Project(s),Week\n Start\n Date,Week\n End\n Date,"
+				+ "Avg\n Velocity/\n Capcity,Completed \nStory\n Points,# of\nClient\nCode\nDefects\nReported,"
+				+ "# of Valid\nReopens,SPs\n added\n mid\n sprint,% \nRealized,Ranking";
+		XSSFCellStyle headerStyle = toolSetMatrix.createCellStyle();
+		XSSFCellStyle subHeaderStyle = toolSetMatrix.createCellStyle();
+		buildHeaderStyle(headerStyle, CellStyle.BORDER_THIN, BLACK, GREEN,
+				(short) 0, defaultFont);
+		headerStyle.setAlignment(XSSFCellStyle.ALIGN_LEFT);
+		subHeaderStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER);
+		XSSFRow headerRow = sprintReportWorkSheet
+				.createRow((short) headerCount + 1);
+		headerRow.setHeightInPoints((4 * sprintReportWorkSheet
+				.getDefaultRowHeightInPoints()));
+		XSSFRow subHeaderRow = sprintReportWorkSheet
+				.createRow((short) headerCount);
+		Cell subHeaderCell = subHeaderRow.createCell((short) 0);
+		subHeaderCell.setCellValue("KANBAN TEAMs/ Not having sprints");
+		XSSFFont font = toolSetMatrix.createFont();
+		font.setColor(HSSFColor.RED.index);
+		font.setFontName(HSSFFont.FONT_ARIAL);
+		buildHeaderStyle(subHeaderStyle, CellStyle.BORDER_THIN, BLACK, WHITE,
+				(short) 0, font);
+		subHeaderCell.setCellStyle(subHeaderStyle);
+		sprintReportWorkSheet.addMergedRegion(new CellRangeAddress(headerCount,
+				headerCount, 0, 11));
+		String[] headerCells = header.split(",");
+		int columnIndex = 0;
+		for (String headerCell : headerCells) {
+			Cell cell = headerRow.createCell(columnIndex);
+			cell.setCellValue(headerCell);
+			cell.setCellStyle(headerStyle);
+			if ("Client Project(s)".equalsIgnoreCase(headerCell)) {
+				Cell innercell = headerRow.createCell(columnIndex + 1);
+				innercell.setCellValue("");
+				innercell.setCellStyle(headerStyle);
+				columnIndex++;
+				sprintReportWorkSheet.addMergedRegion(new CellRangeAddress(
+						headerCount + 1, headerCount + 1, 3, 4));
+			}
+			columnIndex++;
+		}
 	}
 }

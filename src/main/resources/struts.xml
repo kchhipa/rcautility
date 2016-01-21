@@ -193,14 +193,22 @@
 			</result>
 		</action>
 		
-		<action name="generateSummarySlide" class="com.rca.controller.GenerateSummaryAction" >
+		<action name="generateSummarySlide" class="com.rca.controller.GenerateSprintReport" >
+			<result name="success" type="stream">
+				<param name="contentType">application/octet-stream</param>
+				<param name="inputName">fileInputStream</param>
+				<param name="contentDisposition">attachment;filename="Sprint Data.xlsx"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
+		<!-- <action name="generateSummarySlide" class="com.rca.controller.GenerateSummaryAction" >
 			<result name="success" type="stream">
 				<param name="contentType">application/octet-stream</param>
 				<param name="inputName">fileInputStream</param>
 				<param name="contentDisposition">attachment;filename="Ranking Framework.xlsx"</param>
 				<param name="bufferSize">1024</param>
 			</result>
-		</action>
+		</action>-->
 				
 	</package>
 
