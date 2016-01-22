@@ -321,6 +321,47 @@ $(function() {//************ start ready event ************
    function call(){
 	   alert('hello');
    }
+   
+   function  getSprintNamesForSelectedProject()
+   {
+	 var projectId = document.getElementById("project_id").value;
+	 var url = "getSprintNameByProjectId?projectId="+projectId;  
+	 if(window.XMLHttpRequest)
+		 {	// code for IE7+, Firefox, Chrome, Opera, Safari
+		 	xmlhttp2 = new XMLHttpRequest();
+		 }
+	 else
+		 {	// code for IE6, IE5
+		 	xmlhttp2 = new ActiveXObject("Microsoft.XMLHTTP");
+		 }
+	 xmlhttp2.onreadystatechange = setSprintNameList;     
+     xmlhttp2.open("GET", url, true);
+     xmlhttp2.send(null);	  	
+	 
+   }
+   function setSprintNameList()
+   {
+	   if(xmlhttp2.readyState==4)
+       {   		   
+		   var response = xmlhttp2.responseText; 
+           if(response != null && response.indexOf("_")!=-1)
+        	   {
+	        	   var teamNameWithAutomation = response.split("_");
+	        	   if(teamNameWithAutomation[0] == "null")
+	        		   teamNameWithAutomation[0] = "";	           			        	    
+        	   }
+           if(teamNameWithAutomation[0] != null && teamNameWithAutomation[0].indexOf("+")!=1)
+        	   {
+        	   var individualTeamName = teamNameWithAutomation[0].split("+");
+        		   $("#ProjectSprintNames").empty();
+        		   for (var i=0; i<individualTeamName.length; i++) {
+        		       document.getElementById("ProjectSprintNames").options[i] = new Option(individualTeamName[i], individualTeamName[i]);
+                     } 
+        	   
+        	   }
+       }
+	   
+   }
 </script>
 
 </head>
@@ -340,7 +381,8 @@ $(function() {//************ start ready event ************
 					<tr>
 					   <td class="label"><label for="project-name">Project
 								Name</label></td>
-						<td><select name="project_id" id="project_id" onchange="getTeamNameListForSelectedProject();"
+						<td><select name="project_id" id="project_id" onchange="getTeamNameListForSelectedProject();getSprintNamesForSelectedProject();"
+   
 							style="width: 138px;">
 								<option value="0">Select Project</option>
 								<s:iterator value="projectNameWithId" var="data">
@@ -366,6 +408,16 @@ $(function() {//************ start ready event ************
 
                        <td><label><input type="radio" name="sprintReportBean.isKanbanFollowed" value="No" id="no"> No</label></td>
                     </tr>
+                    <tr>
+					    <td class="label">Sprint Detail</td>
+					<!-- 	<td class="label">Sprint Name<label class="mandatory">*</label></td> -->
+						
+							<td class="label"><label for="Sprint-name">Sprint
+								Name</label></td>
+								<td><select name="ProjectSprintNames" id="ProjectSprintNames"
+							style="width: 138px;">
+						</select></td>
+						</tr>
 					<tr>
 					    <td class="label">Sprint Detail</td>
 						<td class="label">Sprint Name<label class="mandatory">*</label></td>

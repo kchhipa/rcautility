@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.rca.common.RCAConstants;
 import com.rca.entity.LoginDetails;
 import com.rca.entity.ProjectDetails;
+import com.rca.entity.SprintReportBean;
 import com.rca.entity.UserProjects;
 
 @Repository
@@ -116,5 +117,10 @@ public class UserProjectsDAOImpl implements UserProjectsDAO{
 		this.sessionFactory = sessionFactory;
 	}
 
-
+	public SprintReportBean getSprintNameByProjectIdDao(int projectId)
+	{
+		Session session = sessionFactory.getCurrentSession();
+		SprintReportBean sprintDetails = (SprintReportBean) session.get(SprintReportBean.class,projectId);		
+		return sprintDetails;
+	}
 }

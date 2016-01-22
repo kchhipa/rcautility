@@ -132,6 +132,24 @@ public class UserProjectsAction extends ActionSupport implements SessionAware {
 		return SUCCESS;
 	}
 	
+	public String getSprintNameForProject()
+	{
+		String actionTeamWithAutomation  = "";
+		try
+		{
+			actionTeamWithAutomation = userProjectsServiceImpl.getSprintNameForProjectService(projectId);						
+			inputStream = new StringBufferInputStream(actionTeamWithAutomation);
+		}
+		catch(HibernateException he)
+		{
+			addActionError("Exception in getting team name");
+		}	
+		return SUCCESS;
+	}
+	
+	
+	
+	
 	public static final Comparator<ProjectDetails> byProjectName = new Comparator<ProjectDetails>() {
 		@Override
 		public int compare(ProjectDetails p1, ProjectDetails p2) {
