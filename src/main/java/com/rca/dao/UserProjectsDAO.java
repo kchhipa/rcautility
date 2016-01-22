@@ -5,7 +5,6 @@ import java.util.List;
 import org.hibernate.HibernateException;
 
 import com.rca.entity.ProjectDetails;
-import com.rca.entity.SprintReport;
 import com.rca.entity.UserProjects;
 
 public interface UserProjectsDAO {
@@ -21,5 +20,4 @@ public interface UserProjectsDAO {
 	public int updateTeamNameDao(int projectId, String actionTeam, String automation) throws HibernateException;
 	
 	public ProjectDetails getTeamNameByProjectIdDao(int projectId) throws HibernateException;
-	public SprintReport getSprintNameByProjectIdDao(int projectId)throws HibernateException;
 }

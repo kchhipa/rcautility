@@ -317,10 +317,6 @@ $(function() {//************ start ready event ************
 	   elementIdsArray[9] = document.getElementById("qaMembers");
 	   return elementIdsArray;   
    }
-   
-   function call(){
-	   alert('hello');
-   }
 </script>
 
 </head>
@@ -396,7 +392,7 @@ $(function() {//************ start ready event ************
 							onkeypress="return isNumberKey(event);" /></td>
 						<td><input value="" name="sprintReportBean.spDelivered"
 							id="spDelivered" type="text" size="15" maxlength="4"
-							onkeypress="return isNumberKey(event);" onchange="call()" /></td>
+							onkeypress="return isNumberKey(event);" /></td>
 						<td><input
 							value="<s:property value="sprintReport.spAddedInMid" />"
 							name="sprintReportBean.spAddedInMid" id="spAddedInMid"

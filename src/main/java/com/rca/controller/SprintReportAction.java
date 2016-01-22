@@ -113,9 +113,6 @@ public class SprintReportAction extends ActionSupport implements  SessionAware {
 		
 	}
 	
-	public String EditSprintView() throws SQLException{
-		return SUCCESS;
-	}
 	/*public String getSprintDevQAMembers() throws SQLException{
 			
 		sprintReport= sprintReportManager.findWeeklySprintReportByProjectId(weekStr, project_id);

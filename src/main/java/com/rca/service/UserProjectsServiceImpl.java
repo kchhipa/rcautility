@@ -115,11 +115,4 @@ public class UserProjectsServiceImpl implements UserProjectsService{
 		this.userProjectsDAO = userProjectsDAO;
 	}
 
-	@Override
-	public String getSprintNameForProjectService(int projectId) throws main.java.com.rca.service.HibernateException {
-		
-		ProjectDetails projectDetails = userProjectsDAO.getSprintNameByProjectIdDao(projectId);
-		return projectDetails.getActionTeam()+"_"+projectDetails.getAutomation();
-	}
-
 }
