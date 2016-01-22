@@ -125,6 +125,7 @@ public class GenerateSprintReport extends ActionSupport {
 		for (SprintReportRanking rankingRow : rankingRows) {
 			if ("NO".equalsIgnoreCase(rankingRow.getIsKanbanFollowed())) {
 				XSSFRow row = summarySheet.createRow(counter);
+				rankingRow.setsNo(counter-1);
 				rU.buildSprintSummaryColumns(rankingRow, row, summarySheet,
 						percStyle, mergedCellStyle, styleGreen, defaultStyle,
 						defaultFont, counter + 1, false);
@@ -141,7 +142,7 @@ public class GenerateSprintReport extends ActionSupport {
 							toolSetMatrix, defaultFont, counter);
 				}
 				XSSFRow row = summarySheet.createRow(kanbanCount + 2);
-				rankingRow.setsNo(kanbanCount + 1);
+				rankingRow.setsNo(kanbanCount - 1);
 				rU.buildSprintSummaryColumns(rankingRow, row, summarySheet,
 						percStyle, mergedCellStyle, styleGreen, defaultStyle,
 						defaultFont, kanbanCount + 3, true);

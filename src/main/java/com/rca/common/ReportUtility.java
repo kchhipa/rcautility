@@ -1740,7 +1740,7 @@ return total;
 						
 			// m
 			cell = createCell(row, cellCounter, rankingFrameworkSheet, defaultStyle,false);
-			cell.setCellFormula("IF(M" + rowCount + ">80%,\"A\",IF(P" + rowCount
+			cell.setCellFormula("IF(M" + rowCount + ">80%,\"A\",IF(M" + rowCount
 					+ ">=59%,\"B\",\"C\"))");
 			
 		}
