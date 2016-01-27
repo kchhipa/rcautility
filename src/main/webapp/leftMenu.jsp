@@ -59,6 +59,7 @@ function generateSummary()
 	    	<li><a href="javascript:importData();">Import Last Week Data</a></li>
 			<li><a href="javascript:templateDownload();">Download Template</a></li>
 			<li><a href="sprintReportView" >Enter Sprint Data</a></li>
+			<li><a href="editSprintView" >Edit Sprint Data</a></li>
 			  <s:if test="#session.role != null && #session.role.equals('manager')">
 				   <li><a href="exportWeeklyData.jsp">Export Weekly Data</a></li>
 				   <li><a href="javascript:generateReport()">Generate Reports</a></li>	

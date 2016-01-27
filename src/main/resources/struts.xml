@@ -16,7 +16,7 @@
 	<constant name="struts.enable.SlashesInActionNames" value="true" />
 
 	<!-- Normal Action mappings are defined here -->
-	<package name="default" namespace="" extends="struts-default">
+	<package name="default" namespace="" extends="struts-default,json-default">
 
        <!-- Two things to Notice: 1) class is set to 'editEmployeeAction' which 
 			is bean defined by Spring context 2) We have given the method to be called 
@@ -45,7 +45,31 @@
 			<result name="success">Sprint_Report.jsp</result>
 			<result name="error">Sprint_Report.jsp</result>
 		</action>
+		<action name="editSprintView" class="com.rca.controller.SprintReportAction" method="EditSprintView">
+			<result name="success">EditSprint.jsp</result>
+		</action>
+		<action name="getSprintNameByProjectId" class="com.rca.controller.SprintReportAction" method="getSprintNameByProjectId">
+			<result type="stream">
+                <param name="contentType">text/html</param>
+                <param name="inputName">inputStream</param>
+			</result>  	
+		</action>
+		<action name="saveSprintDetail" class="com.rca.controller.SprintReportAction" method="submitSprintReport">
+			<result name="success">Sprint_Report.jsp</result>
+			<result name="error">Sprint_Report.jsp</result>
+		</action>
 		
+		<action name="getSprintDetails" class="com.rca.controller.SprintReportAction" method="getSprintDetails">
+			<result type="stream">
+                <param name="contentType">text/html</param>
+              	<param name="inputName">inputStream</param>
+              
+			</result>  
+			<result name="error">Sprint_Report.jsp</result>
+		</action>
+		<action name="updateSprintDetail" class="com.rca.controller.SprintReportAction" method="updateSprintReport">
+		    <result name="success">EditSprint.jsp</result>		
+		</action>
 		<action name="getSprintDetail" class="com.rca.controller.SprintReportAction" method="getSprintReportDetails">
 			<result name="success">Sprint_Report.jsp</result>
 		</action>

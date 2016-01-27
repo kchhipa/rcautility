@@ -59,6 +59,11 @@ function generateSummary()
 	document.RCA_Form.action="generateSummarySlide";
 	document.RCA_Form.submit(); 
 }
+function editReportForSprint()
+{
+	document.RCA_Form.action="editSprintView";
+	document.RCA_Form.submit(); 
+}
 
 </script>
 </head>
@@ -77,6 +82,7 @@ function generateSummary()
 		  <tr>  <td style="padding-top: 20px;"><a href="javascript:importData();" style="color:black; padding-left:30px;">Import Last Week Data</a> </td></tr>
 		  <tr>  <td style="padding-top: 20px;"><a href="javascript:templateDownload();" style="color:black; padding-left:30px;">Download Template</a> </td></tr>
 		  <tr>  <td style="padding-top: 20px;"><a href="javascript:generateReportForSprint();" style="color:black; padding-left:30px;">Enter Sprint Data</a> </td></tr>
+		   <tr>  <td style="padding-top: 20px;"><a href="javascript:editReportForSprint();" style="color:black; padding-left:30px;">Edit Sprint Data</a> </td></tr>
 		  <s:if test="#session.role != null && #session.role.equals('manager')">	
 		  <tr>  <td style="padding-top: 20px;"><a href="javascript:generateReport()" style="color:black; padding-left:30px;">Generate Reports</a> </td></tr>
 		  <tr>  <td style="padding-top: 20px;"><a href="exportWeeklyData.jsp" style="color:black; padding-left:30px;">Export Weekly Data</a> </td></tr>

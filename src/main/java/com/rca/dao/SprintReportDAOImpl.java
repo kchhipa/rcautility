@@ -139,4 +139,59 @@ public class SprintReportDAOImpl implements SprintReportDAO {
 		return null;
 	}
 
+	@Override
+	public SprintReport getSprintdetails(int projectId, String sprintName) {
+		SprintReport results = null;
+		try {
+
+			String queryString = "from SprintReport where project_id='" + projectId + "' and sprint_name='" + sprintName
+					+ "'";
+
+			Query query = sessionFactory.getCurrentSession().createQuery(queryString);
+
+			results = (SprintReport) query.uniqueResult();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return results;
+
+	}
+
+	@Override
+	@Transactional
+	public void saveUpdatedSprintReport(SprintReport sReport) {
+
+		try {
+			// String queryString="from SprintReport where
+			// project_id='"+sReport.getProjectDetails()+"' and
+			// sprint_name='"+sReport.getSprintName()+"'";
+			sessionFactory.getCurrentSession().update(sReport);
+			log.debug("attach successful");
+		} catch (RuntimeException re) {
+			log.error("attach failed", re);
+			throw re;
+		}
+
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<SprintReport> getSprintNameByProjectId(int projectID) {
+
+		System.out.println("project id in dao==" + projectID);
+		String queryString = "from SprintReport where project_id ='" + projectID + "'";
+		Query query = sessionFactory.getCurrentSession().createQuery(queryString);
+
+		ArrayList<SprintReport> results = (ArrayList<SprintReport>) query.list();
+		System.out.println("in dao getSprintNameByProjectId== " + results);
+		if (results.size() > 0) {
+
+			return results;
+		}
+		return null;
+
+	}
+
 }

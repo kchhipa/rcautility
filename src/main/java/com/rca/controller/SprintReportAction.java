@@ -1,6 +1,7 @@
 package com.rca.controller;
 
 import java.io.InputStream;
+import java.io.StringBufferInputStream;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,6 +14,8 @@ import java.util.Map;
 import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.exception.ConstraintViolationException;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opensymphony.xwork2.ActionSupport;
 import com.rca.common.RCAConstants;
 import com.rca.entity.ProjectDetails;
@@ -37,6 +40,14 @@ public class SprintReportAction extends ActionSupport implements  SessionAware {
 	
 	private SprintReportManager sprintReportManager;
 	private ProjectDetailsManager projectDetailsManager;
+	
+	private String sprintName;
+	private int teamCapacity, devMembers, qaMembers;
+	private Date sprintStartdt, sprintEnddt;
+	private Integer spCommitted;
+	private Integer spDelivered;
+	private Integer spAddedInMid;
+	private String isKanbanFollowed;
 	
 	// persist spring report data into the sprint_report database table
 	public String submitSprintReport(){
@@ -181,6 +192,93 @@ public class SprintReportAction extends ActionSupport implements  SessionAware {
 	    return weeks;
 	}
 
+	public String EditSprintView() throws SQLException {
+		return SUCCESS;
+	}
+	
+	@SuppressWarnings("deprecation")
+	public String getSprintNameByProjectId() throws JsonProcessingException {
+		List<SprintReport> sprintReportList;
+
+		sprintReportList = sprintReportManager.getSprintNameByProjectId(project_id);
+
+		List<String> sr1 = new ArrayList<String>();
+
+		if (sprintReportList != null) {
+
+			for (SprintReport st : sprintReportList) {
+				sr1.add(st.getSprintName());
+
+			}
+			ObjectMapper mapper = new ObjectMapper();
+			String jsonInString = mapper.writeValueAsString(sr1);
+
+			inputStream = new StringBufferInputStream(jsonInString);
+			return SUCCESS;
+		} else {
+			inputStream = new StringBufferInputStream("");
+			return SUCCESS;
+		}
+	}
+
+	public String getSprintDetails() {
+
+		try {
+
+			SprintReport spReport = sprintReportManager.getSprintDetails(project_id, sprintName);
+			SprintReport sr2 = new SprintReport();
+
+			if (spReport != null) {
+
+				sr2.setSpCommitted(spReport.getSpCommitted());
+				sr2.setDevMembers(spReport.getDevMembers());
+				sr2.setStartDate(spReport.getStartDate());
+				sr2.setEndDate(spReport.getEndDate());
+				sr2.setSpCommitted(spReport.getSpCommitted());
+				sr2.setSpDelivered(spReport.getSpDelivered());
+				sr2.setSpAddedInMid(spReport.getSpAddedInMid());
+				sr2.setTeamCapacity(spReport.getTeamCapacity());
+				sr2.setQaMembers(spReport.getQaMembers());
+				sr2.setIsKanbanFollowed(spReport.getIsKanbanFollowed());
+				ObjectMapper mapper = new ObjectMapper();
+				String jsonInString = mapper.writeValueAsString(sr2);
+				inputStream = new StringBufferInputStream(jsonInString);
+
+			}
+
+			else {
+
+				return "data not found";
+			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		return SUCCESS;
+
+	}
+
+	public String updateSprintReport() {
+
+		SprintReport sReport = sprintReportManager.getSprintDetails(project_id, sprintName);
+
+		sReport.setSprintName(sprintName);
+		sReport.setStartDate(sprintStartdt);
+		sReport.setEndDate(sprintEnddt);
+		sReport.setDevMembers(devMembers);
+		sReport.setQaMembers(qaMembers);
+		sReport.setTeamCapacity(teamCapacity);
+		sReport.setSpAddedInMid(spAddedInMid);
+		sReport.setSpAddedInMid(spAddedInMid);
+		sReport.setSpDelivered(spDelivered);
+		sReport.setSpCommitted(spCommitted);
+		sReport.setIsKanbanFollowed(isKanbanFollowed);
+
+		sprintReportManager.saveUpdatedSprintReport(sReport);
+
+		return SUCCESS;
+	}
 	public static Map getSession() {
 		return session;
 	}
@@ -248,7 +346,92 @@ public class SprintReportAction extends ActionSupport implements  SessionAware {
 	}
 	public InputStream getInputStream() {
 	    return inputStream;
+	}
+
+	public String getSprintName() {
+		return sprintName;
+	}
+
+	public void setSprintName(String sprintName) {
+		this.sprintName = sprintName;
+	}
+
+	public int getTeamCapacity() {
+		return teamCapacity;
+	}
+
+	public void setTeamCapacity(int teamCapacity) {
+		this.teamCapacity = teamCapacity;
+	}
+
+	public int getDevMembers() {
+		return devMembers;
+	}
+
+	public void setDevMembers(int devMembers) {
+		this.devMembers = devMembers;
+	}
+
+	public int getQaMembers() {
+		return qaMembers;
+	}
+
+	public void setQaMembers(int qaMembers) {
+		this.qaMembers = qaMembers;
+	}
+
+	public Date getSprintStartdt() {
+		return sprintStartdt;
+	}
+
+	public void setSprintStartdt(Date sprintStartdt) {
+		this.sprintStartdt = sprintStartdt;
+	}
+
+	public Date getSprintEnddt() {
+		return sprintEnddt;
+	}
+
+	public void setSprintEnddt(Date sprintEnddt) {
+		this.sprintEnddt = sprintEnddt;
+	}
+
+	public Integer getSpCommitted() {
+		return spCommitted;
+	}
+
+	public void setSpCommitted(Integer spCommitted) {
+		this.spCommitted = spCommitted;
+	}
+
+	public Integer getSpDelivered() {
+		return spDelivered;
+	}
+
+	public void setSpDelivered(Integer spDelivered) {
+		this.spDelivered = spDelivered;
+	}
+
+	public Integer getSpAddedInMid() {
+		return spAddedInMid;
+	}
+
+	public void setSpAddedInMid(Integer spAddedInMid) {
+		this.spAddedInMid = spAddedInMid;
+	}
+
+	public String getIsKanbanFollowed() {
+		return isKanbanFollowed;
+	}
+
+	public void setIsKanbanFollowed(String isKanbanFollowed) {
+		this.isKanbanFollowed = isKanbanFollowed;
+	}
+
+	public void setInputStream(InputStream inputStream) {
+		this.inputStream = inputStream;
 	} 
+	
 	
 
 }

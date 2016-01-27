@@ -133,6 +133,15 @@ public class SprintReport implements java.io.Serializable {
 		return startDate;
 	}
 
+	@Override
+	public String toString() {
+		return "SprintReport [sprintReportId=" + sprintReportId + ", projectDetails=" + projectDetails + ", sprintName="
+				+ sprintName + ", spCommitted=" + spCommitted + ", spDelivered=" + spDelivered + ", spAddedInMid="
+				+ spAddedInMid + ", teamCapacity=" + teamCapacity + ", startDate=" + startDate + ", endDate=" + endDate
+				+ ", devMembers=" + devMembers + ", qaMembers=" + qaMembers + ", isKanbanFollowed=" + isKanbanFollowed
+				+ "]";
+	}
+
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}

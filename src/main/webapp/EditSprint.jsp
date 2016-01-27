@@ -3,6 +3,7 @@
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -54,19 +55,7 @@ $(function() {//************ start ready event ************
 	        $(this).datepicker("show");
 	 });
 	 
-	 // if kanban methodology followed
-	 $('input[type="radio"]').click(function(){
-	        if($(this).attr("value")=="Yes"){
-	   		$("#spCommitted").attr("readonly", true).addClass('input-disabled');; 
-			 $("#sprintName").attr("readonly", true).addClass('input-disabled');; 
-	        }
-	        if($(this).attr("value")=="No"){
-	        	
-				$("#spCommitted").attr("readonly",false).removeClass('input-disabled'); 
-				$("#spAddedInMid").attr("readonly",false).removeClass('input-disabled'); 
-				$("#sprintName").attr("readonly",false).removeClass('input-disabled'); 
-	        }
-	       });
+
 	 
 	});//End ready event
 	
@@ -97,7 +86,9 @@ $(function() {//************ start ready event ************
 			if (document.getElementById('no').checked) {
 				
 			
-				var sprintName = document.getElementById("sprintName").value;
+				
+				 var e = document.getElementById("sprintName");
+				   var sprintName = e.options[e.selectedIndex].text;
 			  	//validation for sprintName is empty
 				if(sprintName=="" || sprintName==null){
 					errorMessage=errorMessage+"\u2022 Sprint Name can not be empty\n";	
@@ -202,6 +193,7 @@ $(function() {//************ start ready event ************
    }
  
    var xmlhttp2;
+   var xmlhttp2;
    function  getTeamNameForProject()
    {
 	 var projectId = document.getElementById("project_id").value;
@@ -227,25 +219,28 @@ $(function() {//************ start ready event ************
    function  getTeamNameListForSelectedProject()
    {
 	 var projectId = document.getElementById("project_id").value;
+
 	 var url = "getTeamNameByProjectId?projectId="+projectId;  
 	 if(window.XMLHttpRequest)
 		 {	// code for IE7+, Firefox, Chrome, Opera, Safari
-		 	xmlhttp2 = new XMLHttpRequest();
+		 	xmlhttp7 = new XMLHttpRequest();
 		 }
 	 else
 		 {	// code for IE6, IE5
-		 	xmlhttp2 = new ActiveXObject("Microsoft.XMLHTTP");
+		 	xmlhttp7 = new ActiveXObject("Microsoft.XMLHTTP");
 		 }
-	 xmlhttp2.onreadystatechange = setTeamNameList;     
-     xmlhttp2.open("GET", url, true);
-     xmlhttp2.send(null);	  	
+	 xmlhttp7.onreadystatechange = setTeamNameList;     
+     xmlhttp7.open("GET", url, true);
+     xmlhttp7.send(null);	  	
 	 
    }
    function setTeamNameList()
    {
-	   if(xmlhttp2.readyState==4)
-       {   		   
-		   var response = xmlhttp2.responseText; 
+	   if(xmlhttp7.readyState==4)
+       {   		
+			   
+		   var response = xmlhttp7.responseText; 
+		  
            if(response != null && response.indexOf("_")!=-1)
         	   {
 	        	   var teamNameWithAutomation = response.split("_");
@@ -262,13 +257,15 @@ $(function() {//************ start ready event ************
         	   
         	   }
        }
+	
 	   
    }
    function setTeamName()
    {
 	   if(xmlhttp2.readyState==4)
-       {   		   
+       {   	
 		   var response = xmlhttp2.responseText;  
+		
            if(response != null && response.indexOf("_")!=-1)
         	   {
 	        	   var teamNameWithAutomation = response.split("_");
@@ -296,12 +293,51 @@ $(function() {//************ start ready event ************
    {
 	   var elementIdArray = getElementIdArray();
 	   elementIdArray[0].value="0";
-	   for(var i=1;i<elementIdArray.length;i++)
-		   {
-		  	 elementIdArray[i].value="";
-		   }
+	   document.getElementById("sprintName").value="";
+	   document.getElementById("sprintStartDt").value="";
+	   document.getElementById("sprintEndDt").value="";
+	   document.getElementById("spCommitted").value="";
+	   document.getElementById("spDelivered").value="";
+	   document.getElementById("spAddedInMid").value="";
+	   document.getElementById("teamCapacity").value="";
+	   document.getElementById("devMembers").value="";
+	   document.getElementById("qaMembers").value="";
    }
    
+   function resetOnUpdate()
+   {
+	   var elementIdArray = getElementIdArray();
+	   elementIdArray[0].value="0";
+	   document.getElementById("sprintName").value="";
+	   clearData();
+	  /*  document.getElementById('no').checked=false;
+	   document.getElementById('yes').checked=false; */
+	  /*  document.getElementById("ProjectTeamNames").value="";
+	 
+	   document.getElementById("sprintStartDt").value="";
+	   document.getElementById("sprintEndDt").value="";
+	   document.getElementById("spCommitted").value="";
+	   document.getElementById("spDelivered").value="";
+	   document.getElementById("spAddedInMid").value="";
+	   document.getElementById("teamCapacity").value="";
+	   document.getElementById("devMembers").value="";
+	   document.getElementById("qaMembers").value=""; */
+   }
+   function clearData()
+   
+   {
+	   document.getElementById("ProjectTeamNames").value="";
+	   document.getElementById('no').checked=false;
+   document.getElementById('yes').checked=false;
+	   document.getElementById("sprintStartDt").value="";
+	   document.getElementById("sprintEndDt").value="";
+	   document.getElementById("spCommitted").value="";
+	   document.getElementById("spDelivered").value="";
+	   document.getElementById("spAddedInMid").value="";
+	   document.getElementById("teamCapacity").value="";
+	   document.getElementById("devMembers").value="";
+	   document.getElementById("qaMembers").value="";
+   }
    function getElementIdArray()
    {	
 	   var elementIdsArray = new Array();
@@ -317,6 +353,191 @@ $(function() {//************ start ready event ************
 	   elementIdsArray[9] = document.getElementById("qaMembers");
 	   return elementIdsArray;   
    }
+   
+   
+   function getSprintName()
+   {
+
+	   var project_id = document.getElementById("project_id").value; 
+	   
+	   var url = "getSprintNameByProjectId?project_id="+project_id;    
+	   if(window.XMLHttpRequest)
+		 {	// code for IE7+, Firefox, Chrome, Opera, Safari
+		 	xmlhttp2 = new XMLHttpRequest();
+		 }
+	 else
+		 {	// code for IE6, IE5
+		 	xmlhttp2 = new ActiveXObject("Microsoft.XMLHTTP");
+		 }
+	 xmlhttp2.onreadystatechange = setSprintName;     
+   xmlhttp2.open("GET", url, true);
+   xmlhttp2.send(null);	  	
+	 
+   }
+   function setSprintName()
+   {
+	   if(xmlhttp2.readyState==4)
+       {  var response = xmlhttp2.responseText;
+       if(response!='')
+    	   { 
+       //console.log(response.replace(/"/g,""));
+   		
+       console.log(response.substring(1,response.length-1)); 
+       var arrString = [];
+       arrString =  response.substring(1,response.length-1).split(',');
+       for (var i=0; i<arrString.length; i++) {
+    	   
+	       document.getElementById("sprintName").options[i] = new Option(arrString[i].replace(/"/g,""), arrString[i].replace(/"/g,""));
+         } }
+       else
+    	   {
+    	   alert("Sprint details not found for this project");
+    	   document.getElementById("sprintName").value="0";
+    	   }
+		  
+		   //$('#ProjectSprintNames').val(response);
+		   
+       }
+	   
+   }
+   
+   
+   var xmlhttp4;
+   function getSprintDetails()
+   {
+		
+	   var project_id = document.getElementById("project_id").value;
+	   if(project_id=="0") {
+		 	alert("Please select project first");
+		 	return false;
+	 	}
+	   var e = document.getElementById("sprintName");
+	   var sprintName = e.options[e.selectedIndex].text;
+	
+	  	
+	  	if(sprintName=='')		 {
+		 	alert("Please specify sprint name");
+		 	return false;
+		}
+	 var url = "getSprintDetails?project_id="+project_id+"&sprintName="+sprintName; 
+	 if(window.XMLHttpRequest){	// code for IE7+, Firefox, Chrome, Opera, Safari
+		 xmlhttp4 = new XMLHttpRequest();
+	 }else{	// code for IE6, IE5
+		 xmlhttp4 = new ActiveXObject("Microsoft.XMLHTTP");
+	 }
+	 xmlhttp4.onreadystatechange = setMessage;     
+ 	var response = xmlhttp4.responseText;  
+ 	xmlhttp4.open("POST", url, true);
+ 	xmlhttp4.send(null);	
+}
+   
+
+
+function setMessage()
+{
+if(xmlhttp4.readyState==4)
+{  
+  
+	
+	
+	var response = xmlhttp4.responseText; 
+
+	/* if(response == "success")
+	   {	alert("Details");
+	  
+	
+	   }
+	   else
+			alert("Record not found");  */
+   var sr2=JSON.parse(response);
+
+   <fmt:formatDate value="${sprintStartDt}" pattern="MM/dd/yyyy"/>
+	   <fmt:formatDate value="${sprintEndDt}" pattern="MM/dd/yyyy"/>
+   $('#spAddedInMid').val(sr2.spAddedInMid);
+   
+   var dateFormatStart = $.datepicker.formatDate('mm/dd/yy', new Date(sr2.startDate));
+   $('#sprintStartDt').val(dateFormatStart);
+   var dateFormatEnd = $.datepicker.formatDate('mm/dd/yy', new Date(sr2.endDate));
+   $('#sprintEndDt').val(dateFormatEnd);
+   
+   $('#spCommitted').val(sr2.spCommitted);
+   $('#spDelivered').val(sr2.spDelivered);
+   $('#teamCapacity').val(sr2.teamCapacity);
+   $('#devMembers').val(sr2.devMembers);
+   $('#qaMembers').val(sr2.qaMembers);
+  
+   
+   if(sr2.isKanbanFollowed=="No"||sr2.isKanbanFollowed=="no")
+	   { 
+	
+	 document.getElementById("no").checked = true;
+	   }
+   else if(sr2.isKanbanFollowed=="Yes"||sr2.isKanbanFollowed=="yes")
+   {
+
+ document.getElementById("yes").checked = true;
+   }
+ 
+		
+		
+   /* if(response == "success")
+   {	alert("Details");
+   alert(response);
+ // $('#subtotal').val(srb);
+   }
+   else
+		alert("Record not found"); */
+}
+
+}
+var xmlhttp5;
+function updateForm()
+{
+	if(validateForm())
+	   {
+		   	
+ var project_id = document.getElementById("project_id").value;
+ var e = document.getElementById("sprintName");
+ var sprintName = e.options[e.selectedIndex].text;
+  	var sprintStartdt = document.getElementById("sprintStartDt").value;
+  	var sprintEnddt = document.getElementById("sprintEndDt").value;
+  	var spCommitted = document.getElementById("spCommitted").value;
+  	var spDelivered = document.getElementById("spDelivered").value;
+  	var spAddedInMid = document.getElementById("spAddedInMid").value;
+  	 var teamCapacity = document.getElementById("teamCapacity").value;
+  	 var devMembers = document.getElementById("devMembers").value;
+  	 var qaMembers = document.getElementById("qaMembers").value; 
+  	 
+  	if (document.getElementById('no').checked)
+  	 var isKanbanFollowed = "no";
+  	else if(document.getElementById('yes').checked)
+  		 var isKanbanFollowed = "yes";
+  
+  	 //var url = "getSprintDetails?projectId="+projectId+"&sprintName="+sprintName+"&sprintStartdt="+sprintStartdt+"&sprintEnddt="+sprintEnddt+"&spCommitted="+spCommitted+"&spDelivered="+spDelivered+"&spAddedInMid="+spAddedInMid+"&teamCapacity="+teamCapacity+"&devMembers="+devMembers+"&qaMembers="+qaMembers; 
+ var url ="updateSprintDetail?project_id="+project_id+"&sprintName="+sprintName+"&sprintStartdt="+sprintStartdt+"&sprintEnddt="+sprintEnddt+"&spCommitted="+spCommitted+"&spDelivered="+spDelivered+"&spAddedInMid="+spAddedInMid+"&teamCapacity="+teamCapacity+"&devMembers="+devMembers+"&qaMembers="+qaMembers+"&isKanbanFollowed="+isKanbanFollowed; 
+
+ if(window.XMLHttpRequest)
+ {	// code for IE7+, Firefox, Chrome, Opera, Safari
+	 xmlhttp5 = new XMLHttpRequest();
+ }
+else
+ {	// code for IE6, IE5
+	xmlhttp5 = new ActiveXObject("Microsoft.XMLHTTP");
+ }
+ xmlhttp5.onreadystatechange = setUpdatingMessage;     
+var response = xmlhttp5.responseText;  
+xmlhttp5.open("POST", url, true);
+xmlhttp5.send(null);	
+	   }
+		
+}
+function setUpdatingMessage()
+{ if(xmlhttp5.readyState==4)
+	{
+	
+	alert("Updated");
+	resetOnUpdate();
+	}}
 </script>
 
 </head>
@@ -336,7 +557,7 @@ $(function() {//************ start ready event ************
 					<tr>
 					   <td class="label"><label for="project-name">Project
 								Name</label></td>
-						<td><select name="project_id" id="project_id" onchange="getTeamNameListForSelectedProject();"
+						<td><select name="project_id" id="project_id" onchange="clearData();getTeamNameListForSelectedProject();getSprintName();"
 							style="width: 138px;">
 								<option value="0">Select Project</option>
 								<s:iterator value="projectNameWithId" var="data">
@@ -348,7 +569,7 @@ $(function() {//************ start ready event ************
                             </select></td>
 					</tr>
 					
-					<tr>
+						<tr>
 						<td class="label"><label for="Team-name">Team
 								Name</label></td>
 								<td><select name="ProjectTeamNames" id="ProjectTeamNames"
@@ -362,16 +583,35 @@ $(function() {//************ start ready event ************
 
                        <td><label><input type="radio" name="sprintReportBean.isKanbanFollowed" value="No" id="no"> No</label></td>
                     </tr>
-					<tr>
+                    	<tr>
 					    <td class="label">Sprint Detail</td>
-						<td class="label">Sprint Name<label class="mandatory">*</label></td>
+					    	<td class="label"><label for="Sprint-name">Sprint
+								Name</label></td>
+								
+									<td><select name="sprintName" id="sprintName"
+							style="width: 138px;">
+							<option value="0">Select Sprint</option>
+						</select></td>
+							
+								<!-- <td><input value="" name="sprintReportBean.sprintName"
+							id="sprintName" type="text" size="15" maxlength="50" /></td>  -->
+						
+						<td><input type="button" value="Get Details"
+							onclick="getSprintDetails();" /></td>
+							
+						
+					    </tr>
+					    
+					<tr>
+					    <td></td>
+					<!-- 	<td class="label">Sprint Name<label class="mandatory">*</label></td> -->
 						<td class="label">Sprint /Week Start Date<label class="mandatory">*</label></td>
 						<td class="label">Sprint /Week End Date<label class="mandatory">*</label></td>
 					</tr>
 					<tr>
 						<td class="label"></td>
-						<td><input value="" name="sprintReportBean.sprintName"
-							id="sprintName" type="text" size="15" maxlength="50" /></td>
+						<!-- <td><input value="" name="sprintReportBean.sprintName"
+							id="sprintName" type="text" size="15" maxlength="50" /></td> -->
 						<td class="label"><input value=""
 							name="sprintReportBean.startDate" id="sprintStartDt" type="text"
 							size="12" maxlength="50" /></td>
@@ -420,10 +660,12 @@ $(function() {//************ start ready event ************
 
 					<tr>
 						<td colspan="1"></td>
-						<td><input type="submit" value="Submit" id="submitRcaId"
-							onclick="submitForm()" /></td>
+					
+							<td><input type="submit" value="Update" id="updateRcaId"
+							onclick="updateForm()" /></td>
+							
 						<td><input type=button value="Reset" id="resetId"
-							onclick="submitReset()" /></td>
+							onclick="resetOnUpdate()" /></td>
 					</tr>
 					<tr>
 						<td colspan="4">

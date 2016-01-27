@@ -2,6 +2,7 @@ package com.rca.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,5 +62,22 @@ public class SprintReportManagerImpl implements SprintReportManager {
     public ArrayList<SprintReport> findLatestClosedSprintDataByProjectId(Date date, int projectId) {
 		return sprintReportDAO.findLatestClosedSprintDataByProjectId(date, projectId);
 	}
+    @Override
+	public SprintReport getSprintDetails(int projectId, String sprintName) {
+		return sprintReportDAO.getSprintdetails(projectId, sprintName);
 
+	}
+
+	@Override
+	public void saveUpdatedSprintReport(SprintReport sReport) {
+		sprintReportDAO.saveUpdatedSprintReport(sReport);
+
+	}
+
+	@Override
+	public List<SprintReport> getSprintNameByProjectId(int projectID) {
+
+		return sprintReportDAO.getSprintNameByProjectId(projectID);
+
+	}
 }
