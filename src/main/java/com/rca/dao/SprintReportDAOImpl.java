@@ -194,4 +194,17 @@ public class SprintReportDAOImpl implements SprintReportDAO {
 
 	}
 
+	@Override
+	public List<SprintReport> getSpDeliveredByProjectID(int projectID) {
+		
+		String queryString = "from SprintReport where project_id ="+projectID+"order by sprint_end_date desc";
+		Query query = sessionFactory.getCurrentSession().createQuery(queryString);
+		query.setMaxResults(4);
+		ArrayList<SprintReport> results =  (ArrayList<SprintReport>) query.list();//(ArrayList<SprintReport>) template.find(query, queryParam);
+		if(results.size()>0){
+			return results;
+		}
+		return null;
+	}
+
 }

@@ -24,5 +24,6 @@ public interface SprintReportManager {
 
 	public abstract List<SprintReport> getSprintNameByProjectId(int projectID);
 	
+	public abstract int getTeamCapacityForProjectService(int projectID);
 	
 }

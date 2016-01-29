@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
+import org.hibernate.HibernateException;
 import org.hibernate.exception.ConstraintViolationException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -49,6 +50,7 @@ public class SprintReportAction extends ActionSupport implements  SessionAware {
 	private Integer spAddedInMid;
 	private String isKanbanFollowed;
 	
+	private int projectId;
 	// persist spring report data into the sprint_report database table
 	public String submitSprintReport(){
 		String result = null;
@@ -279,6 +281,25 @@ public class SprintReportAction extends ActionSupport implements  SessionAware {
 
 		return SUCCESS;
 	}
+	
+	public String getTeamCapacityForProject() throws JsonProcessingException
+	{
+		Integer teamCapacity  = 0;
+		try
+		{
+			teamCapacity = sprintReportManager.getTeamCapacityForProjectService(projectId);	
+			ObjectMapper mapper = new ObjectMapper();
+			String jsonInString = mapper.writeValueAsString(teamCapacity);
+			inputStream = new StringBufferInputStream(jsonInString);
+			
+		}
+		catch(HibernateException he)
+		{
+			addActionError("Exception in getting team capacity");
+		}	
+		return SUCCESS;
+	}
+	
 	public static Map getSession() {
 		return session;
 	}
@@ -430,6 +451,14 @@ public class SprintReportAction extends ActionSupport implements  SessionAware {
 
 	public void setInputStream(InputStream inputStream) {
 		this.inputStream = inputStream;
+	}
+
+	public int getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(int projectId) {
+		this.projectId = projectId;
 	} 
 	
 	

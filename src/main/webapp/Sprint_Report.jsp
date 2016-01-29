@@ -317,6 +317,40 @@ $(function() {//************ start ready event ************
 	   elementIdsArray[9] = document.getElementById("qaMembers");
 	   return elementIdsArray;   
    }
+   
+   function getTeamCapacity(){
+		 var projectId = document.getElementById("project_id").value;
+		 if(projectId=="0")
+		 {
+		 	alert("Please select project first");
+		 	return false;
+		 }
+		 var url = "getTeamCapacityByProject?projectId="+projectId;  
+		 if(window.XMLHttpRequest)
+			 {	// code for IE7+, Firefox, Chrome, Opera, Safari
+			 	xmlhttp3 = new XMLHttpRequest();
+			 }
+		 else
+			 {	// code for IE6, IE5
+			 	xmlhttp3 = new ActiveXObject("Microsoft.XMLHTTP");
+			 }
+		 xmlhttp3.onreadystatechange = setTeamCapacity;     
+	     xmlhttp3.open("GET", url, true);
+	     xmlhttp3.send(null);	  	
+   }
+   function setTeamCapacity()
+   {
+	   if(xmlhttp3.readyState==4)
+       {   		   
+		   var response = xmlhttp3.responseText;
+		   if(teamCapacity != null)
+			   {
+		   		document.getElementById("teamCapacity").value = response;
+			   }
+       }
+	   
+   }
+   
 </script>
 
 </head>
@@ -336,7 +370,7 @@ $(function() {//************ start ready event ************
 					<tr>
 					   <td class="label"><label for="project-name">Project
 								Name</label></td>
-						<td><select name="project_id" id="project_id" onchange="getTeamNameListForSelectedProject();"
+						<td><select name="project_id" id="project_id" onchange="getTeamNameListForSelectedProject();getTeamCapacity();" 
 							style="width: 138px;">
 								<option value="0">Select Project</option>
 								<s:iterator value="projectNameWithId" var="data">

@@ -25,5 +25,7 @@ public interface SprintReportDAO {
 	public abstract void saveUpdatedSprintReport(SprintReport sReport);
 
 	public abstract List<SprintReport> getSprintNameByProjectId(int projectID);
+	
+	public abstract List<SprintReport> getSpDeliveredByProjectID(int projectID);
 
 }

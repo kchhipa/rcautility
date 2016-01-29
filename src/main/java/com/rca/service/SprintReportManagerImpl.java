@@ -80,4 +80,20 @@ public class SprintReportManagerImpl implements SprintReportManager {
 		return sprintReportDAO.getSprintNameByProjectId(projectID);
 
 	}
+
+
+	@Override
+	public int getTeamCapacityForProjectService(int projectID) {
+		int TeamCapacity=0;
+		// TODO Auto-generated method stub
+		List<SprintReport> sprintReport=sprintReportDAO.getSpDeliveredByProjectID(projectID);
+		if(sprintReport != null){
+		for (int i = 0; i < sprintReport.size(); i++) {
+			
+			TeamCapacity += sprintReport.get(i).getSpDelivered();
+		}
+		TeamCapacity /= 4.0;
+		}
+		return TeamCapacity;
+	}
 }
