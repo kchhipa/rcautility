@@ -1945,7 +1945,7 @@ return total;
 			XSSFFont defaultFont, int headerCount) {
 		String header = "S No,AT Name,Team Size (Dev\n + QA),Client Project(s),Week\n Start\n Date,Week\n End\n Date,"
 				+ "Avg\n Velocity/\n Capcity,Completed \nStory\n Points,# of\nClient\nCode\nDefects\nReported,"
-				+ "# of Valid\nReopens,SPs\n added\n mid\n sprint,% \nRealized,Ranking";
+				+ "# of Valid\nReopens,SPs\n added\n mid\n work,% \nRealized,Ranking";
 		XSSFCellStyle headerStyle = toolSetMatrix.createCellStyle();
 		XSSFCellStyle subHeaderStyle = toolSetMatrix.createCellStyle();
 		buildHeaderStyle(headerStyle, CellStyle.BORDER_THIN, BLACK, GREEN,
