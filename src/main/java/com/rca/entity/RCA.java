@@ -110,6 +110,13 @@ public class RCA {
 	public int nr_uat;
 	public int nr_prod;	
 	
+	/* Changes for Close Ticket addition */
+	
+	public int close_product_backlog;
+	public int close_qa;
+	public int close_uat;
+	public int close_prod;	
+	
 	public String overview_message;
 	public String risks_issues;
 	
@@ -856,6 +863,30 @@ public class RCA {
 	}
 	public void setNr_prod(int nr_prod) {
 		this.nr_prod = nr_prod;
+	}
+	public int getclose_product_backlog() {
+		return close_product_backlog;
+	}
+	public void setClose_product_backlog(int close_product_backlog) {
+		this.close_product_backlog = close_product_backlog;
+	}
+	public int getClose_qa() {
+		return close_qa;
+	}
+	public void setClose_qa(int close_qa) {
+		this.close_qa = close_qa;
+	}
+	public int getClose_uat() {
+		return close_uat;
+	}
+	public void setClose_uat(int close_uat) {
+		this.close_uat = close_uat;
+	}
+	public int getClose_prod() {
+		return close_prod;
+	}
+	public void setClose_prod(int close_prod) {
+		this.close_prod = close_prod;
 	}
 
 }

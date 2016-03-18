@@ -397,6 +397,12 @@ function calculateWeek()
 	   elementIdsArray[99] = document.getElementById("nr_uat");
 	   elementIdsArray[100] = document.getElementById("nr_prod");
 	   
+	   /* Adding open ticket fields */
+	   elementIdsArray[101] = document.getElementById("close_product_backlog");
+	   elementIdsArray[102] = document.getElementById("close_qa");
+	   elementIdsArray[103] = document.getElementById("close_uat");
+	   elementIdsArray[104] = document.getElementById("close_prod");
+	   
 	  	return elementIdsArray;   
    }
  
@@ -526,6 +532,13 @@ function calculateWeek()
 				<td><input type="text" value="<s:property value="rca.nr_prod" />" name="nr_prod" id="nr_prod" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 				<td><input type="text" value="<s:property value="rca.nr_product_backlog" />" name="nr_product_backlog" id="nr_product_backlog" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 			</tr>
+			<tr>	<!-- Changes for Open Ticket field addition -->
+				<td style="float:right;"><label for="closeTicket">Closed Ticket</label></td>				
+				<td><input type="text" value="<s:property value="rca.close_qa" />" name="close_qa" id="close_qa" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.close_uat" />" name="close_uat" id="close_uat" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.close_prod" />" name="close_prod" id="close_prod" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" value="<s:property value="rca.close_product_backlog" />" name="close_product_backlog" id="close_product_backlog" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+			</tr>
 			<tr>
 				<td style="float:right;"><label for="configuration">Configuration Issue: </label></td>				
 				<td colspan="5">Configuration Sub Categories</td>
@@ -578,6 +591,8 @@ function calculateWeek()
 				<td><input type="text" value="<s:property value="rca.co_prod" />" name="co_prod" id="co_prod" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 				<td><input type="text" value="<s:property value="rca.co_product_backlog" />" name="co_product_backlog" id="co_product_backlog" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 			</tr> 
+			
+			
 			<tr>
 				<td style="float:right;"><label for="integration_issue  ">Integration Issue: </label></td>
 				<td colspan="5">Integration Sub Categories</td>

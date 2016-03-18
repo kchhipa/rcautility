@@ -1,6 +1,10 @@
 package com.rca.controller;
 
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,16 +14,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.Map;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Locale;
-
-import org.apache.struts2.ServletActionContext;
-import org.apache.struts2.interceptor.SessionAware;
+import java.util.Map;
 
 import jxl.Cell;
 import jxl.Sheet;
@@ -33,7 +30,6 @@ import jxl.format.VerticalAlignment;
 import jxl.read.biff.BiffException;
 import jxl.write.Border;
 import jxl.write.Label;
-import jxl.write.WritableCell;
 import jxl.write.WritableCellFormat;
 import jxl.write.WritableFont;
 import jxl.write.WritableSheet;
@@ -41,7 +37,8 @@ import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
 
-import com.opensymphony.xwork2.ActionContext;
+import org.apache.struts2.interceptor.SessionAware;
+
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.rca.dao.RcaUtilityDao;
@@ -475,6 +472,17 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 		 rca.setNr_prod(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0")); 
 		 cell = sheet.getCell(++col, row);        
 		 rca.setNr_product_backlog(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));
+		 
+		 /* Changes for Close Ticket field addition */
+		 col=0;
+		 cell = sheet.getCell(++col, ++row);        
+		 rca.setClose_qa(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));      
+         cell = sheet.getCell(++col, row);        
+		 rca.setClose_uat(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));  
+		 cell = sheet.getCell(++col, row);        
+		 rca.setClose_prod(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0")); 
+		 cell = sheet.getCell(++col, row);        
+		 rca.setClose_product_backlog(Integer.valueOf(cell.getContents()!=""?cell.getContents():"0"));
 	}
 	
 	
@@ -578,7 +586,7 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 				if (rcaList != null && rcaList.size() > 0) {
 					writeRcaData(sheet, rcaList, rowNumber, projectList);
 				}
-				rowNumber = rowNumber+28;  // Changes for Non RCA Bug field addition
+				rowNumber = rowNumber+29;  // Changes for Non RCA Bug field addition
 			}
 			workbook.write();
 			fileInputStream = new FileInputStream(new File("RCA.xlsx"));
@@ -626,6 +634,7 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 				total_qa[24] = total_qa[24] +rca.di_qa;
 				total_qa[25] = total_qa[25] +rca.ro_qa;
 				total_qa[26] = total_qa[26] +rca.nr_qa;  /* Changes for Non RCA field addition */
+				total_qa[27] = total_qa[27] +rca.close_qa;  /* Changes for Close Ticket field addition */
 				
 				total_uat[0] = total_uat[0] +rca.mr_uat;
 				total_uat[1] = total_uat[1] +rca.cr_uat;
@@ -654,6 +663,7 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 				total_uat[24] = total_uat[24] +rca.di_uat;
 				total_uat[25] = total_uat[25] +rca.ro_uat;
 				total_uat[26] = total_uat[26] +rca.nr_uat;   /* Changes for Non RCA field addition */
+				total_uat[27] = total_uat[27] +rca.close_uat;   /* Changes for Close Ticket field addition */
 				
 				total_prod[0] = total_prod[0] +rca.mr_prod;
 				total_prod[1] = total_prod[1] +rca.cr_prod;
@@ -682,6 +692,7 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 				total_prod[24] = total_prod[24] +rca.di_prod;
 				total_prod[25] = total_prod[25] +rca.ro_prod;
 				total_prod[26] = total_prod[26] +rca.nr_prod;   /* Changes for Non RCA field addition */
+				total_prod[27] = total_prod[27] +rca.close_prod;   /* Changes for Close Ticket field addition */
 				
 				total_product_backlog[0] = total_product_backlog[0] +rca.mr_product_backlog;
 				total_product_backlog[1] = total_product_backlog[1] +rca.cr_product_backlog;
@@ -710,6 +721,8 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 				total_product_backlog[24] = total_product_backlog[24] +rca.di_product_backlog;
 				//total_product_backlog[25] = total_product_backlog[25] ;
 				total_product_backlog[26] = total_product_backlog[26] +rca.nr_product_backlog;   /* Changes for Non RCA field addition */
+				
+				total_product_backlog[27] = total_product_backlog[27] +rca.close_product_backlog;   /* Changes for Close Ticket field addition */
 			}
 		
 			RCA totalList = new RCA();
@@ -739,6 +752,7 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 			totalList.di_qa = total_qa[24];
 			totalList.ro_qa = total_qa[25];
 			totalList.nr_qa = total_qa[26];   /* Changes for Non RCA field addition */
+			totalList.close_qa = total_qa[27];   /* Changes for Close Ticket field addition */
 			
 			totalList.mr_uat = total_uat[0]; 
 			totalList.cr_uat = total_uat[1];
@@ -766,6 +780,7 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 			totalList.di_uat = total_uat[24];
 			totalList.ro_uat = total_uat[25];
 			totalList.nr_uat = total_uat[26];   /* Changes for Non RCA field addition */
+			totalList.close_uat = total_uat[27];   /* Changes for Close Ticket field addition */
 			
 			totalList.mr_prod = total_prod[0]; 
 			totalList.cr_prod = total_prod[1];
@@ -793,6 +808,7 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 			totalList.di_prod = total_prod[24];
 			totalList.ro_prod = total_prod[25];
 			totalList.nr_prod = total_prod[26];   /* Changes for Non RCA field addition */
+			totalList.close_prod = total_prod[27];   /* Changes for Close Ticket field addition */
 			
 			totalList.mr_product_backlog = total_product_backlog[0]; 
 			totalList.cr_product_backlog = total_product_backlog[1];
@@ -820,6 +836,8 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 			totalList.di_product_backlog = total_product_backlog[24];
 			//totalList.ro_product_backlog = total_product_backlog[25];
 			totalList.nr_product_backlog = total_product_backlog[26];   /* Changes for Non RCA field addition */
+			
+			totalList.close_product_backlog = total_product_backlog[27];   /* Changes for Close Ticket field addition */
 			
 			List<RCA> newList = new ArrayList<RCA>();
 			newList.add(totalList);
@@ -884,6 +902,7 @@ private void writeExceldata(int col, int row,WritableSheet sheet,RCA rca) throws
 	writeDataIssue(col,++row,sheet,rca);
 	writeReOpen(col,++row,sheet,rca);
 	writeNonRcaBug(col,++row,sheet,rca);
+	writeCloseTicket(col, ++row, sheet, rca);
 	
 }
 	
@@ -923,6 +942,31 @@ private void writeNonRcaBug(int col, int row,WritableSheet sheet,RCA rca) throws
     sheet.addCell(label);
     
     label = new Label(++col,row, String.valueOf(rca.nr_product_backlog));
+    sheet.addCell(label);
+}
+
+/* Changes for Close Ticket field addition */
+/**
+ * @param col
+ * @param row
+ * @param sheet
+ * @param rca
+ * @throws RowsExceededException
+ * @throws WriteException
+ */
+private void writeCloseTicket(int col, int row,WritableSheet sheet,RCA rca) throws RowsExceededException, WriteException {
+	Label label;
+	    
+    label = new Label(++col,row, String.valueOf(rca.close_qa));
+    sheet.addCell(label);
+    
+    label = new Label(++col,row, String.valueOf(rca.close_uat));
+    sheet.addCell(label);
+    
+    label = new Label(++col,row, String.valueOf(rca.close_prod));
+    sheet.addCell(label);
+    
+    label = new Label(++col,row, String.valueOf(rca.close_product_backlog));
     sheet.addCell(label);
 }
 
@@ -1402,6 +1446,9 @@ private void getRcaTypeLabelsForExport(WritableSheet sheet, WritableCellFormat c
     /* Changes for Non RCA field addition */
     label = new Label(col,++row,"Non RCA Bug",cellFormat);
     sheet.addCell(label);
+    /* Changes for Open Ticket field addition */
+    label = new Label(col,++row,"Close Ticket",cellFormat);
+    sheet.addCell(label);
     
 	
 }
@@ -1460,6 +1507,9 @@ private void getRcaTypeLabelsForTemplateDownload(WritableSheet sheet, WritableCe
     /* Changes for Non RCA field addition */
     label = new Label(col,++row,"Non RCA Bug",cellFormat);
     sheet.addCell(label);
+    /* Changes for Close Ticket field addition */
+    label = new Label(col,++row,"Close Ticket",cellFormat);
+    sheet.addCell(label);
     
     
 }
@@ -1484,6 +1534,7 @@ private void getProjectLabels(WritableSheet sheet, WritableCellFormat cellFormat
 	 Iterator<ProjectDetails> projectIterator=projectList.iterator();
 	 
 	 	sheet.mergeCells(0, rowNumber, 0, rowNumber+26);   // Changes for Non RCA Bug field addition
+	 	sheet.mergeCells(0, rowNumber, 0, rowNumber+27);   // Changes for Close Ticket field addition
 		label = new Label(0, rowNumber, week,cellFormatDate);
 	    sheet.addCell(label);
 		

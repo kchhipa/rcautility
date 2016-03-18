@@ -135,6 +135,12 @@ public class RcaCount implements java.io.Serializable {
 	private int nrQa;
 	private int nrUat;
 	private int nrProd;
+	
+	/* Changes for Close Ticket field addition */
+	private int closeTicketProductBacklog;
+	private int closeTicketQa;
+	private int closeTicketUat;
+	private int closeTicketProd;
 
 	public RcaCount() {
 	}
@@ -174,7 +180,7 @@ public class RcaCount implements java.io.Serializable {
 			int otpProd, int pmuuProductBacklog, int pmuuQa,
 			int pmuuUat, int pmuuProd, int ioProductBacklog,
 			int ioQa, int ioUat, int ioProd, String overviewMessage, String risksIssues,
-			int nrProductBacklog, int nrQa, int nrUat, int nrProd) {
+			int nrProductBacklog, int nrQa, int nrUat, int nrProd, int closeTicketProductBacklog, int closeTicketQa, int closeTicketUat, int closeTicketProd) {
 		this.projectDetails = projectDetails;
 		this.mrProductBacklog = mrProductBacklog;
 		this.mrQa = mrQa;
@@ -287,6 +293,12 @@ public class RcaCount implements java.io.Serializable {
 		this.nrQa = nrQa;
 		this.nrUat = nrUat;
 		this.nrProd = nrProd;
+		
+		/* Changes for Close Ticket field addition */
+		this.closeTicketProductBacklog = closeTicketProductBacklog;
+		this.closeTicketQa = closeTicketQa;
+		this.closeTicketUat = closeTicketUat;
+		this.closeTicketProd = closeTicketProd;
 	}
 
 	@Id
@@ -1299,6 +1311,42 @@ public class RcaCount implements java.io.Serializable {
 
 	public void setNrProd(int nrProd) {
 		this.nrProd = nrProd;
+	}
+	
+	@Column(name = "close_product_backlog")
+	public int getCloseTicketProductBacklog() {
+		return closeTicketProductBacklog;
+	}
+
+	public void setCloseTicketProductBacklog(int closeTicketProductBacklog) {
+		this.closeTicketProductBacklog = closeTicketProductBacklog;
+	}
+
+	@Column(name = "close_qa")
+	public int getCloseTicketQa() {
+		return closeTicketQa;
+	}
+
+	public void setCloseTicketQa(int closeTicketQa) {
+		this.closeTicketQa = closeTicketQa;
+	}
+
+	@Column(name = "close_uat")
+	public int getCloseTicketUat() {
+		return closeTicketUat;
+	}
+
+	public void setCloseTicketUat(int closeTicketUat) {
+		this.closeTicketUat = closeTicketUat;
+	}
+
+	@Column(name = "close_prod")
+	public int getCloseTicketProd() {
+		return closeTicketProd;
+	}
+
+	public void setCloseTicketProd(int closeTicketProd) {
+		this.closeTicketProd = closeTicketProd;
 	}
 
 }
