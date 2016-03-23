@@ -1,6 +1,5 @@
 package com.rca.controller;
 
-import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -16,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.log4j.Logger;
 import org.apache.poi.hslf.model.Picture;
 import org.apache.poi.hslf.model.Slide;
 import org.apache.poi.hslf.model.TextBox;
@@ -40,6 +40,7 @@ import com.rca.service.GenerateGraph;
 import com.rca.service.ProjectDetailsManager;
 import com.rca.service.RcaManager;
 import com.rca.service.SprintReportManager;
+import com.rca.workbookutility.LoggedDefectsVsOpen;
 
 /**
  * Main action class to generate RCA graph charts and generating PPT Slides.
@@ -66,7 +67,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	Map<String, Integer> projectNameWithCcbCount;
 	
 	
-	int idx = 0;
+	int idx = 0 , idxCloseVsOpen=0;
 	int bWCx = 0;
 	int lCx = 0;
 	int totalWeeklyBugCount = 0;
@@ -86,11 +87,16 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	 /* Changes for Non RCA field addition */
 	public static String NON_RCA_BUG = "nrb";
 	
+	/* Changes for Non RCA field addition */
+	public static String CLOSEICKETS = "close";
+	
+	private final Logger LOG = Logger.getLogger(GeneratePptGraphAction.class);
+	
 	public String execute() throws Exception {
 		
 		List<RcaCount> rcaCounts = rcaManager.findRCAByWeekPeriod(rca.getWeek());
 		createGraphPpt(rcaCounts,rca.getWeek());
-	    fileInputStream = new FileInputStream(new File("D:\\Weekly review.ppt"));
+	    fileInputStream = new FileInputStream(new File(":\\Weekly review.ppt"));
 	    return SUCCESS;
 	}
 	
@@ -113,6 +119,11 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		
 		//Adding Reported Cumulative Open Slide
 		addPptSlides(rcaCounts, CUMULATIVE_OPEN);
+		
+		//Adding  Close Tickets
+//		addPptSlides(rcaCounts, CLOSEICKETS);
+		
+		closeVsOpenDefectSlide(rcaCounts);
 		
 		// Adding Reopen Slide to PPT
 		createReopenSlide(ppt, rcaCounts);
@@ -174,6 +185,8 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 		
 		tr.appendText("OPEN");
 		
+		tr.appendText("\n\n");
+		
 		tr.appendText(addOpenComments(rcaCounts));
 		
 		txt2.setAnchor(new java.awt.Rectangle(0, 0, pageWidth,
@@ -223,7 +236,9 @@ public String addUatComments(List<RcaCount> rcaCounts){
 					+ calculateBugTypeCountForUATPerProject(rcaCount,
 							PRODUCT_DEFECT)
 					+ calculateBugTypeCountForUATPerProject(rcaCount,   /* Changes for Non RCA field addition */
-							NON_RCA_BUG);
+							NON_RCA_BUG)
+					+ calculateBugTypeCountForUATPerProject(rcaCount,   /* Changes for Close Tickets field addition */
+					CLOSEICKETS);
 			if (total > 0) {
 				uatText+="\n"
 						+ rcaCount.getProjectDetails().getProjectName() + "("+total+") : ";
@@ -283,6 +298,13 @@ public String addUatComments(List<RcaCount> rcaCounts){
 					uatText+=" "+nonRcaBugCount + " Non RCA Bug#";
 					count++;
 				}
+				
+				 /* Changes for Close Ticket field addition */
+				int openTicketCount = calculateBugTypeCountForUATPerProject(rcaCount,CLOSEICKETS);
+				if (openTicketCount != 0) {
+					uatText+=" "+openTicketCount + " Close Tickets#";
+					count++;
+				}
 			}
 			if(count==1){
 				uatText=uatText.replace("#", "");
@@ -326,7 +348,9 @@ public String addProdComments(List<RcaCount> rcaCounts){
 					+ calculateBugTypeCountForProdPerProject(rcaCount,
 							PRODUCT_DEFECT)
 					+ calculateBugTypeCountForProdPerProject(rcaCount,   /* Changes for Non RCA field addition */
-							NON_RCA_BUG);
+							NON_RCA_BUG)
+					+ calculateBugTypeCountForProdPerProject(rcaCount,   /* Changes for Close Ticket field addition */
+							CLOSEICKETS);
 			if (total > 0) {
 				prodText+="\n"
 						+ rcaCount.getProjectDetails().getProjectName() + "("+total+") : ";
@@ -386,6 +410,13 @@ public String addProdComments(List<RcaCount> rcaCounts){
 					prodText+=" "+nonRcaBugProdCount + " Non RCA Bug#";
 					count++;
 				}
+				
+				 /* Changes for Close Ticket field addition */
+				int OpenTicketProdCount = calculateBugTypeCountForProdPerProject(rcaCount,CLOSEICKETS);
+				if (OpenTicketProdCount !=0) {
+					prodText+=" "+OpenTicketProdCount + " Close Ticket#";
+					count++;
+				}
 			}
 			
 			if(count==1){
@@ -430,7 +461,9 @@ public String addQAComments(List<RcaCount> rcaCounts){
 				+ calculateBugTypeCountForQAPerProject(rcaCount,
 						PRODUCT_DEFECT)
 				+ calculateBugTypeCountForQAPerProject(rcaCount,   /* Changes for Non RCA field addition */
-						NON_RCA_BUG);
+						NON_RCA_BUG)
+				+ calculateBugTypeCountForQAPerProject(rcaCount,   /* Changes for Close Ticket field addition */
+						CLOSEICKETS);
 		if (total > 0) {
 			qaText+="\n"
 					+ rcaCount.getProjectDetails().getProjectName() + "("+total+") : ";
@@ -491,6 +524,13 @@ public String addQAComments(List<RcaCount> rcaCounts){
 				count++;
 			}
 			
+			 /* Changes for Close Ticket field addition */
+			int openTicketQaCount = calculateBugTypeCountForQAPerProject(rcaCount,CLOSEICKETS);
+			if (openTicketQaCount != 0) {
+				qaText+=" "+openTicketQaCount + " Close Ticket#";
+				count++;
+			}
+			
 		}
 		if(count==1){
 			qaText=qaText.replace("#", "");
@@ -534,7 +574,9 @@ public String addOpenComments(List<RcaCount> rcaCounts){
 				+ calculateBugTypeCountForOpenPerProject(rcaCount,
 						PRODUCT_DEFECT)
 				+ calculateBugTypeCountForOpenPerProject(rcaCount,   /* Changes for Non RCA field addition */
-						NON_RCA_BUG);
+						NON_RCA_BUG)
+				+ calculateBugTypeCountForOpenPerProject(rcaCount,   /* Changes for Close Ticket field addition */
+						CLOSEICKETS);
 		if (total > 0) {
 			openText+="\n"
 					+ rcaCount.getProjectDetails().getProjectName() + "("+total+") : ";
@@ -593,6 +635,13 @@ public String addOpenComments(List<RcaCount> rcaCounts){
 				openText+=" "+nonRcaBugOpenCount+ " Non RCA Bug#";
 				count++;
 			}
+			
+			/* Changes for Close Ticket field addition */
+			int openTicketOpenCount = calculateBugTypeCountForOpenPerProject(rcaCount,CLOSEICKETS);
+			if (openTicketOpenCount != 0) {
+				openText+=" "+openTicketOpenCount+ " Close Ticket#";
+				count++;
+			}
 		}
 		if(count==1){
 			openText=openText.replace("#", "");
@@ -633,6 +682,8 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 				totalBugTypeCount = rU.weeklyProductDefectForAllIssuesInUAT(rcaCount);
 			else if(bugType.equals(NON_RCA_BUG))  /* Changes for Non RCA field addition */
 				totalBugTypeCount = rU.weeklyNonRcaBugForAllIssuesInUAT(rcaCount);
+			else if(bugType.equals(CLOSEICKETS))  /* Changes for Close Ticket field addition */
+				totalBugTypeCount = rU.weeklyCloseTicketForAllIssuesInUAT(rcaCount);
 	
 		
 		return totalBugTypeCount;
@@ -661,6 +712,8 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 				totalBugTypeCount = rU.weeklyProductDefectForAllIssuesInProd(rcaCount);
 			else if(bugType.equals(NON_RCA_BUG))   /* Changes for Non RCA field addition */
 				totalBugTypeCount = rU.weeklyNonRcaBugForAllIssuesInProd(rcaCount);
+			else if(bugType.equals(CLOSEICKETS))   /* Changes for Close Ticket field addition */
+				totalBugTypeCount = rU.weeklyCloseTicketForAllIssuesInProd(rcaCount);
 
 	
 		
@@ -690,6 +743,8 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 				totalBugTypeCount = rU.weeklyProductDefectForAllIssuesInQA(rcaCount);
 			else if(bugType.equals(NON_RCA_BUG))   /* Changes for Non RCA field addition */
 				totalBugTypeCount = rU.weeklyNonRcaBugForAllIssuesInQA(rcaCount);
+			else if(bugType.equals(CLOSEICKETS))   /* Changes for Close Ticket field addition */
+				totalBugTypeCount = rU.weeklyCloseTicketForAllIssuesInQA(rcaCount);
 
 	
 		
@@ -719,7 +774,6 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 				totalBugTypeCount = rU.weeklyProductDefectForAllIssuesInOpen(rcaCount);
 			else if(bugType.equals(NON_RCA_BUG))   /* Changes for Non RCA field addition */
 				totalBugTypeCount = rU.weeklyNonRcaBugForAllIssuesInOpen(rcaCount);
-
 		return totalBugTypeCount;
 	}
 	
@@ -845,7 +899,13 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 				tr.appendText(calculateTotalBugTypeCountForQA(rcaCounts, MIX_CATEGORY) + " Others " + "\n");
 			}
 			if(calculateTotalBugTypeCountForQA(rcaCounts, PRODUCT_DEFECT) != 0){
-				tr.appendText(calculateTotalBugTypeCountForQA(rcaCounts, PRODUCT_DEFECT) + " Product Defect ");
+				tr.appendText(calculateTotalBugTypeCountForQA(rcaCounts, PRODUCT_DEFECT) + " Product Defect "+ "\n");
+			}
+			
+			/* Changes for Close Ticket field addition */
+			int openTicketCountQa = calculateTotalBugTypeCountForQA(rcaCounts, CLOSEICKETS);
+			if(openTicketCountQa != 0){
+				tr.appendText(openTicketCountQa + " Close Ticket" + "\n");
 			}
 			
 			txt2.setAnchor(new java.awt.Rectangle(pageWidth+40, 20, pageWidth-50, pageheight-50));
@@ -911,7 +971,13 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 				tr.appendText(calculateTotalBugTypeCountForProd(rcaCounts, MIX_CATEGORY) + " Others " + "\n");
 			}
 			if(calculateTotalBugTypeCountForProd(rcaCounts, PRODUCT_DEFECT) != 0){
-				tr.appendText(calculateTotalBugTypeCountForProd(rcaCounts, PRODUCT_DEFECT) + " Product Defect ");
+				tr.appendText(calculateTotalBugTypeCountForProd(rcaCounts, PRODUCT_DEFECT) + " Product Defect "+ "\n");
+			}
+			
+			/* Changes for Close Ticket field addition */
+			int openTicketCount = calculateTotalBugTypeCountForProd(rcaCounts, CLOSEICKETS);
+			if(openTicketCount != 0){
+				tr.appendText(openTicketCount + " Close Ticket" + "\n");
 			}
 
 			txt2.setAnchor(new java.awt.Rectangle(pageWidth+40, 20, pageWidth-50, pageheight-50));
@@ -976,7 +1042,13 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 				tr.appendText(calculateTotalBugTypeCountForUAT(rcaCounts, MIX_CATEGORY) + " Others " + "\n");
 			}
 			if(calculateTotalBugTypeCountForUAT(rcaCounts, PRODUCT_DEFECT) != 0){
-				tr.appendText(calculateTotalBugTypeCountForUAT(rcaCounts, PRODUCT_DEFECT) + " Product Defect ");
+				tr.appendText(calculateTotalBugTypeCountForUAT(rcaCounts, PRODUCT_DEFECT) + " Product Defect "+ "\n");
+			}
+			
+			 /* Changes for Close Ticket field addition */
+			int openTicketCountUat = calculateTotalBugTypeCountForUAT(rcaCounts, CLOSEICKETS);
+			if(openTicketCountUat != 0){
+				tr.appendText(openTicketCountUat + " Close Ticket" + "\n");
 			}
 									
 			txt2.setAnchor(new java.awt.Rectangle(pageWidth+40, 20, pageWidth-50, pageheight-50));
@@ -1016,6 +1088,8 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 			slide.addShape(txt2);
 		}
 		
+		
+		  
 		Picture pict = new Picture(idx);
 		//set image position in the slide
 		pict.setAnchor(new java.awt.Rectangle(5, 30, pageWidth+30, pageheight-50));
@@ -1031,6 +1105,40 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 		ccbLineGraph.setAnchor(new java.awt.Rectangle(pageWidth + 20,
 				pageheight + 30, pageWidth - 40, pageheight - 50));
 		slide.addShape(ccbLineGraph);
+		
+	}
+	
+	public void closeVsOpenDefectSlide(List<RcaCount> rcaCounts) throws IOException
+	{
+		Slide slide = ppt.createSlide();
+		int pageWidth = ppt.getPageSize().width/2;
+		int pageheight = ppt.getPageSize().height/2;
+		// add a new picture to this slideshow and insert it in a  new slide
+		List<RcaCount> allWeeksrcaCounts = rcaManager.findRCAReportForMultipleWeek(rca.getWeek());
+		
+			
+			fillCloseOpenDataInSlide(allWeeksrcaCounts, rcaCounts);
+			TextBox txt3 = new TextBox();
+			
+			txt3.setText("Logged Vs Closed Defects");
+			txt3.setAnchor(new java.awt.Rectangle(0, 0, pageWidth+30, pageheight/10));
+			RichTextRun rt1 = txt3.getTextRun().getRichTextRuns()[0];
+			rt1.setFontSize(25);
+			rt1.setFontName("Franklin Gothic Medium");
+			rt1.setAlignment(TextBox.AlignLeft);
+			
+			
+			
+			Picture pic = new Picture(idx);
+			pic.setAnchor(new java.awt.Rectangle(5, 30, pageWidth+30, pageheight-50));
+			slide.addShape(txt3);
+			slide.addShape(pic);
+			
+			Picture pict1 = new Picture(bWCx);
+			//set image position in the slide
+			pict1.setAnchor(new java.awt.Rectangle(20, pageheight+30, pageWidth+30, pageheight-50));
+			slide.addShape(pict1);
+			
 	}
 	
 	/**
@@ -1188,6 +1296,25 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 	}
 	
 	/**
+	 * Method to fill relevant data for Cumulative Open slide in PPT.
+	 * @param allWeeksrcaCounts
+	 * @param rcaCounts
+	 * @throws IOException
+	 */
+	public void fillCloseOpenDataInSlide(List<RcaCount> allWeeksrcaCounts, List<RcaCount> rcaCounts) throws IOException{
+		
+		ReportUtility rU = new ReportUtility();
+		List<String> allWeeks = rU.findWeeks(rca.getWeek());
+		LoggedDefectsVsOpen logDefOpen = new LoggedDefectsVsOpen();
+		idx = ppt.addPicture(generateGraph.createGraphForOpenCloseDefects( rU.rcaCountForLastWeekForOpenVsCloseProjects(rcaCounts), "close", "", "", 
+				PlotOrientation.VERTICAL, true, 850, 550,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
+		
+		bWCx = ppt.addPicture(generateGraph.createWeeklyGraphCloseVsOpen( logDefOpen.reportedWeeklyTrendLoggedVsOpen(allWeeksrcaCounts, allWeeks), "Weekly Trend", "", "", 
+				PlotOrientation.VERTICAL, true, 850, 550,RCAConstants.BAR, true, false) , XSLFPictureData.PICTURE_TYPE_PNG);
+	}
+	
+	
+	/**
 	 * Calculate the total bug count in Production environment as per bug type.
 	 * @param rcaCounts
 	 * @param bugType
@@ -1226,6 +1353,8 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyProductDefectForAllIssuesInProd(rcaCount);
 			else if(bugType.equals(NON_RCA_BUG))    /* Changes for Non RCA field addition */
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyNonRcaBugForAllIssuesInProd(rcaCount);
+			else if(bugType.equals(CLOSEICKETS))    /* Changes for Close Ticket field addition */
+				totalBugTypeCount = totalBugTypeCount + rU.weeklyCloseTicketForAllIssuesInProd(rcaCount);
 
 		}
 		
@@ -1271,6 +1400,8 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyProductDefectForAllIssuesInQA(rcaCount);
 			else if(bugType.equals(NON_RCA_BUG))   /* Changes for Non RCA field addition */
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyNonRcaBugForAllIssuesInQA(rcaCount);
+			else if(bugType.equals(CLOSEICKETS))   /* Changes for Close Ticket field addition */
+				totalBugTypeCount = totalBugTypeCount + rU.weeklyCloseTicketForAllIssuesInQA(rcaCount);
 
 		}
 		
@@ -1316,6 +1447,8 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyProductDefectForAllIssuesInUAT(rcaCount);
 			else if(bugType.equals(NON_RCA_BUG))   /* Changes for Non RCA field addition */
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyNonRcaBugForAllIssuesInUAT(rcaCount);
+			else if(bugType.equals(CLOSEICKETS))   /* Changes for Close Ticket field addition */
+				totalBugTypeCount = totalBugTypeCount + rU.weeklyCloseTicketForAllIssuesInUAT(rcaCount);
 
 		}
 		
@@ -1423,9 +1556,8 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 		Slide slide = ppt.createSlide();
 		int pageWidth = ppt.getPageSize().width/4;
 		int pageheight = ppt.getPageSize().height/3;
-		int totalPageHeight = ppt.getPageSize().height;
-		GenerateGraph generateGraph = new GenerateGraph();
-		
+		GenerateGraph generateGraph = new GenerateGraph(); 
+		LoggedDefectsVsOpen logDefOpen = new LoggedDefectsVsOpen();
 		// add a new picture to this slideshow and insert it in a new slide
 		//List<RcaCount> allWeeksrcaCounts = rcaManager.findRCAReportForMultipleWeek();
 		ReportUtility rU = new ReportUtility();
@@ -1438,7 +1570,12 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 				PlotOrientation.VERTICAL, true, 650, 950,RCAConstants.BAR, false, true) , XSLFPictureData.PICTURE_TYPE_PNG);
 		int idx4 = ppt.addPicture(generateGraph.createGraph( rU.reportedQAAllWeeksGraphForIndividualProject(rcaCount, allWeeks), "Weekly QA", "", "",
 				PlotOrientation.VERTICAL, true, 650, 950,RCAConstants.BAR, false, true) , XSLFPictureData.PICTURE_TYPE_PNG);
-		int idx5 = 0;
+//		int idxOpenClose = ppt.addPicture(generateGraph.createOpenCloseVsDefectsGraph( rU.reportedQAAllWeeksGraphForIndividualProject(rcaCount, allWeeks), "Open Vs Close Defects", "", "",
+//				PlotOrientation.VERTICAL, true, 700, 950,RCAConstants.BAR, false, true) , XSLFPictureData.PICTURE_TYPE_PNG);
+		
+		
+		
+		int idx5 = 0,idxOpenClose=0;
 		if(sprintReport!= null){
 		    /*idx5 = ppt.addPicture(generateGraph.createWeeklyBarGraph( rU.reportedSprintGraph(sprintReport), rcaCount.get(0).getProjectDetails().getProjectName()+"( Dev: "+sprintReport.getDevMembers()+", QA: "+sprintReport.getQaMembers()+")", "", "",
 				PlotOrientation.VERTICAL, false, 700, 450,RCAConstants.NORMAL_BAR,true,false) , XSLFPictureData.PICTURE_TYPE_PNG);*/
@@ -1446,6 +1583,7 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 					PlotOrientation.VERTICAL, false, 700, 450,RCAConstants.NORMAL_BAR,true,false) , XSLFPictureData.PICTURE_TYPE_PNG);*/
 			idx5= ppt.addPicture(generateGraph.createSprintGraph( rU.reportedSprintReportGraph(sprintReport),rcaCount.get(0).getProjectDetails().getProjectName()+"(Dev:"+sprintReport.get(sprintReport.size() - 1).getDevMembers()+" , QA:"+sprintReport.get(sprintReport.size() - 1).getQaMembers()+" )", "", "", 
 					PlotOrientation.VERTICAL, false, 700, 450,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
+			
 		}
 		
 		/* Correcting the Project Dashboard name location & Adding Overview/Risk Issues section in Individual Project PPTs - Begins */
@@ -1508,7 +1646,7 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 			}
 			
 		}
-		txt2.setAnchor(new java.awt.Rectangle(ppt.getPageSize().width/2+50, 20, ppt.getPageSize().width/2-50, ppt.getPageSize().height/2-50));
+		txt2.setAnchor(new java.awt.Rectangle(ppt.getPageSize().width/2+50, 20, ppt.getPageSize().width/2-50, ppt.getPageSize().height/2-30));
 		RichTextRun rt2Heading = tr.getRichTextRuns()[0];
 		rt2Heading.setFontSize(18);
 		rt2Heading.setFontName("Franklin Gothic Medium");
@@ -1537,13 +1675,21 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 		pict4.setAnchor(new java.awt.Rectangle(360, pageheight+160, pageWidth-5, pageheight-10));
 		slide.addShape(pict4);
 		Picture pict5 = new Picture(idx4);
-		pict5.setAnchor(new java.awt.Rectangle(540, pageheight+160, pageWidth-5, pageheight-10));
+		pict5.setAnchor(new java.awt.Rectangle(540, pageheight+160, pageWidth-20, pageheight-20));
 		slide.addShape(pict5);
+		/*Adding for open/close defects*/
+		
 		if(idx5!=0){
 			Picture pict6 = new Picture(idx5);
 			pict6.setAnchor(new java.awt.Rectangle(2, 40, (pageheight*4)/2, pageheight));
 			slide.addShape(pict6);
 		}
+		idxOpenClose = ppt.addPicture(generateGraph.createWeeklyGraphCloseVsOpen( logDefOpen.reportedWeeklyTrendLoggedVsOpen(rcaCount, allWeeks), "Weekly Trend", "", "", 
+				PlotOrientation.VERTICAL, true, 750, 1000,RCAConstants.BAR, false, true) , XSLFPictureData.PICTURE_TYPE_PNG);
+		Picture pictOpenClose = new Picture(idxOpenClose);
+		pictOpenClose.setAnchor(new java.awt.Rectangle(2, pageheight+40, pageWidth+120, pageheight-60));
+		slide.addShape(pictOpenClose);
+		
 		// reading an image
 		InputStream stream = getClass().getResourceAsStream("ColorCategory.jpg");
 		// converting it into a byte array

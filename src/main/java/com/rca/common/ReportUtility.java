@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
@@ -39,6 +40,7 @@ public class ReportUtility {
 	public static final String UAT = "UAT";
 	public static final String QA = "QA";
 	private static String CUMULATIVE_OPEN = "Cumulative Open";
+	private static String OPEN_CLOSE = "close";
 	private static final Log log = LogFactory.getLog(RcaCountDAOImpl.class);
 	private static final XSSFColor BLUE = new XSSFColor(new Color(197,217,241));
 	private static final XSSFColor YELLOW = new XSSFColor(new Color(255,255,0));
@@ -46,6 +48,9 @@ public class ReportUtility {
 	private static final XSSFColor GREEN = new XSSFColor(new Color(145, 208, 80));
 	private static final XSSFColor WHITE = new XSSFColor(new Color(255, 255, 255));
 	private static final XSSFColor BLACK = new XSSFColor(new Color(0, 0, 0));
+	
+	Logger LOG = Logger.getLogger(ReportUtility.class);
+	 
 	public Map<String, Map<String, Integer>> rcaCountForLastWeekForAllProjects(List<RcaCount> rcaWeeks){
 	  Map<String, Map<String, Integer>> diffCategory = new HashMap<String, Map<String, Integer>>();;
     
@@ -67,11 +72,12 @@ public class ReportUtility {
           differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInOpen(rcaCount));
           differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInOpen(rcaCount));
           differentRootCause.put("Non RCA Bug", weeklyNonRcaBugForAllIssuesInOpen(rcaCount));   /* Changes for Non RCA field addition */
+          differentRootCause.put("Close Ticket", weeklyTotalCloseIssues(rcaCount));   /* Changes for Close Ticket field addition */
           
           /* To ensure that Projects with RCA count as zero do not show up in Graph */
           if((mixCategoryWeeklyCountForAllProjectsInOpen(rcaCount) + weeklyDataIssueForAllIssuesInOpen(rcaCount) + weeklyDataIssueForAllIssuesInOpen(rcaCount) + 
         		  weeklyConfigurationIssueForAllIssuesInOpen(rcaCount) + weeklyMissedAndCRCountForAllIssuesInOpen(rcaCount) + weeklyClientCodeBugForAllIssuesInOpen(rcaCount) + 
-        		  weeklyProductDefectForAllIssuesInOpen(rcaCount) + weeklyNonRcaBugForAllIssuesInOpen(rcaCount)) > 0)
+        		  weeklyProductDefectForAllIssuesInOpen(rcaCount) + weeklyNonRcaBugForAllIssuesInOpen(rcaCount) + weeklyTotalCloseIssues(rcaCount)) > 0)
         	  	diffCategory.put(projName, differentRootCause);
           
           //projCount.put(projName, diffCategory);
@@ -81,6 +87,73 @@ public class ReportUtility {
 
 		
 	}
+	
+	public Map<String, Map<String, Integer>> rcaCountForAllWeeklyCloseVsOpenTrendForAllProjects(List<RcaCount> rcaWeeks){
+		  Map<String, Map<String, Integer>> diffCategory = new HashMap<String, Map<String, Integer>>();;
+	    
+	    for(int x=0; x < rcaWeeks.size(); x++){
+	          
+//	          String projName = rcaWeeks.get(x).getProjectDetails().getProjectName();
+	          
+	          RcaCount rcaCount = rcaWeeks.get(x);
+	          
+	          //diffCategory = new HashMap<String, Map<String, Integer>>();
+	          
+	          Map<String, Integer> differentRootCause = new LinkedHashMap<String, Integer>();
+	          
+	          
+	          if(weeklyTotalCloseIssues(rcaCount) > 0){
+	        	  differentRootCause.put("QA", weeklyBugCountForAllProjectsInQA(rcaCount));   /* Changes for Close Ticket field addition */
+		          differentRootCause.put("UAT", weeklyBugCountForAllProjectsInUAT(rcaCount));  
+		          differentRootCause.put("PROD", weeklyBugCountForAllProjectsInProduction(rcaCount));  
+	        	  diffCategory.put("Close", differentRootCause);
+
+	          }
+	          
+	          else if(weeklyTotalBugCountForAllProjects(rcaCount) > 0) {
+	        	  differentRootCause.put("QA", weeklyBugCountForAllProjectsInQA(rcaCount));   /* Changes for Close Ticket field addition */
+		          differentRootCause.put("UAT", weeklyBugCountForAllProjectsInUAT(rcaCount));  
+		          differentRootCause.put("PROD", weeklyBugCountForAllProjectsInProduction(rcaCount));  
+	        	  diffCategory.put("Open", differentRootCause);
+	          }
+	        	  
+	          //projCount.put(projName, diffCategory);
+	    }
+	    
+	    return diffCategory;
+
+			
+		}
+	
+	public Map<String, Map<String, Integer>> rcaCountForLastWeekForOpenVsCloseProjects(List<RcaCount> rcaWeeks){
+		  Map<String, Map<String, Integer>> diffCategory = new HashMap<String, Map<String, Integer>>();;
+	    
+	    for(int x=0; x < rcaWeeks.size(); x++){
+	          
+	          String projName = rcaWeeks.get(x).getProjectDetails().getProjectName();
+	          
+	          RcaCount rcaCount = rcaWeeks.get(x);
+	          
+	          //diffCategory = new HashMap<String, Map<String, Integer>>();
+	          
+	          Map<String, Integer> differentRootCause = new LinkedHashMap<String, Integer>();
+	         
+	          differentRootCause.put("Open Ticket", weeklyTotalOpenIssues(rcaCount));   /* Changes for Close Ticket field in Open state addition */
+	          differentRootCause.put("Close Ticket", weeklyCloseTicketForAllIssuesInClose(rcaCount));   /* Changes for Close Ticket field in Close state addition */
+	          
+	          /* To ensure that Projects with RCA count as zero do not show up in Graph */
+	          if((mixCategoryWeeklyCountForAllProjectsInOpen(rcaCount) + weeklyDataIssueForAllIssuesInOpen(rcaCount) + weeklyDataIssueForAllIssuesInOpen(rcaCount) + 
+	        		  weeklyConfigurationIssueForAllIssuesInOpen(rcaCount) + weeklyMissedAndCRCountForAllIssuesInOpen(rcaCount) + weeklyClientCodeBugForAllIssuesInOpen(rcaCount) + 
+	        		  weeklyProductDefectForAllIssuesInOpen(rcaCount) + weeklyNonRcaBugForAllIssuesInOpen(rcaCount) + weeklyCloseTicketForAllIssuesInClose(rcaCount)) + weeklyCloseTicketForAllIssuesInClose(rcaCount) > 0)
+	        	  	diffCategory.put(projName, differentRootCause);
+	          
+	          //projCount.put(projName, diffCategory);
+	    }
+	    
+	    return diffCategory;
+
+			
+		}
 
 	
 	public Map<String, Map<String, Integer>> reportedQARCAForAllProjects(List<RcaCount> rcaCounts){
@@ -95,7 +168,7 @@ public class ReportUtility {
 			int totalCount = mixCategoryWeeklyCountForAllProjectsInQA(rcaCount) + weeklyDataIssueForAllIssuesInQA(rcaCount) +
 					weeklyIntegrationIssueForAllIssuesInQA(rcaCount) + weeklyConfigurationIssueForAllIssuesInQA(rcaCount) +
 					weeklyMissedAndCRCountForAllIssuesInQA(rcaCount) + weeklyClientCodeBugForAllIssuesInQA(rcaCount) + 
-					weeklyProductDefectForAllIssuesInQA(rcaCount) + weeklyNonRcaBugForAllIssuesInQA(rcaCount);
+					weeklyProductDefectForAllIssuesInQA(rcaCount) + weeklyNonRcaBugForAllIssuesInQA(rcaCount) + weeklyCloseTicketForAllIssuesInQA(rcaCount);
 			
 			
 			if(totalCount > 0){
@@ -109,6 +182,7 @@ public class ReportUtility {
 	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInQA(rcaCount));
 	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInQA(rcaCount));
 	            differentRootCause.put("Non RCA Bug", weeklyNonRcaBugForAllIssuesInQA(rcaCount));   /* Changes for Non RCA field addition */
+	            differentRootCause.put("Close Ticket", weeklyCloseTicketForAllIssuesInQA(rcaCount));   /* Changes for Non RCA field addition */
 	
 	            diffCategory.put(projName, differentRootCause);
 				
@@ -170,6 +244,7 @@ public class ReportUtility {
 		return uperCategory;
 	}
 	
+	
 	/**
 	 * This method return map of all QA defect category wise for A project
 	 * @param rcaCounts
@@ -196,6 +271,7 @@ public class ReportUtility {
 	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInQA(rcaCount));
 	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInQA(rcaCount));
 	            differentRootCause.put("Non RCA Bug", weeklyNonRcaBugForAllIssuesInQA(rcaCount));   /* Changes for Non RCA field addition */
+	            differentRootCause.put("Close Ticket", weeklyCloseTicketForAllIssuesInQA(rcaCount));   /* Changes for Close Ticket field addition */
 	            diffCategory.put(week, differentRootCause);
 			}
 			else
@@ -208,6 +284,7 @@ public class ReportUtility {
 	            differentRootCause.put("Client Code Bug", 0);
 	            differentRootCause.put("Product Defect", 0);
 	            differentRootCause.put("Non RCA Bug", 0);   /* Changes for Non RCA field addition */
+	            differentRootCause.put("Close Ticket", 0);   /* Changes for Close Ticket field addition */
 				diffCategory.put(week, differentRootCause);
 			}
 		}			
@@ -243,6 +320,7 @@ public class ReportUtility {
 	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInUAT(rcaCount));
 	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInUAT(rcaCount));
 	            differentRootCause.put("Non RCA Bug", weeklyNonRcaBugForAllIssuesInUAT(rcaCount));   /* Changes for Non RCA field addition */
+	            differentRootCause.put("Close Ticket", weeklyCloseTicketForAllIssuesInUAT(rcaCount));   /* Changes for Close Ticket field addition */
 	            diffCategory.put(week, differentRootCause);
 			}
 			else
@@ -255,6 +333,7 @@ public class ReportUtility {
 	            differentRootCause.put("Client Code Bug", 0);
 	            differentRootCause.put("Product Defect", 0);
 	            differentRootCause.put("Non RCA Bug", 0);   /* Changes for Non RCA field addition */
+	            differentRootCause.put("Close Ticket", 0);   /* Changes for Close Ticket field addition */
 				diffCategory.put(week, differentRootCause);
 			}
 		}			
@@ -288,6 +367,7 @@ public class ReportUtility {
 	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInProd(rcaCount));
 	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInProd(rcaCount));
 	            differentRootCause.put("Non RCA Bug", weeklyNonRcaBugForAllIssuesInProd(rcaCount));   /* Changes for Non RCA field addition */
+	            differentRootCause.put("Close Ticket", weeklyCloseTicketForAllIssuesInProd(rcaCount));   /* Changes for Close Ticket field addition */
 	            diffCategory.put(week, differentRootCause);
 			}
 			else
@@ -300,6 +380,7 @@ public class ReportUtility {
 	            differentRootCause.put("Client Code Bug", 0);
 	            differentRootCause.put("Product Defect", 0);
 	            differentRootCause.put("Non RCA Bug", 0);   /* Changes for Non RCA field addition */
+	            differentRootCause.put("Close Ticket", 0);   /* Changes for Close Ticket field addition */
 				diffCategory.put(week, differentRootCause);
 			}
 		}		
@@ -351,6 +432,7 @@ public class ReportUtility {
 		
 		return diffCategory;
 	}	
+	
 	
 	/**
 	 * This mehotd returning map of rca count
@@ -404,7 +486,7 @@ public class ReportUtility {
 			int totalCount = mixCategoryWeeklyCountForAllProjectsInUAT(rcaCount) + weeklyDataIssueForAllIssuesInUAT(rcaCount) +
 					weeklyIntegrationIssueForAllIssuesInUAT(rcaCount) + weeklyConfigurationIssueForAllIssuesInUAT(rcaCount) +
 					weeklyMissedAndCRCountForAllIssuesInUAT(rcaCount) + weeklyClientCodeBugForAllIssuesInUAT(rcaCount) + 
-					weeklyProductDefectForAllIssuesInUAT(rcaCount) + weeklyNonRcaBugForAllIssuesInUAT(rcaCount);
+					weeklyProductDefectForAllIssuesInUAT(rcaCount) + weeklyNonRcaBugForAllIssuesInUAT(rcaCount) + weeklyCloseTicketForAllIssuesInUAT(rcaCount);
 			
 			
 			if(totalCount > 0){
@@ -418,7 +500,7 @@ public class ReportUtility {
 	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInUAT(rcaCount));
 	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInUAT(rcaCount));
 	            differentRootCause.put("Non RCA Bug", weeklyNonRcaBugForAllIssuesInUAT(rcaCount));   /* Changes for Non RCA field addition */
-	
+	            differentRootCause.put("Close Ticket", weeklyCloseTicketForAllIssuesInUAT(rcaCount));   /* Changes for Close Ticket field addition */
 	            diffCategory.put(projName, differentRootCause);
 				
 			}
@@ -441,7 +523,8 @@ public class ReportUtility {
 			int totalCount = mixCategoryWeeklyCountForAllProjectsInProd(rcaCount) + weeklyDataIssueForAllIssuesInProd(rcaCount) +
 					weeklyIntegrationIssueForAllIssuesInProd(rcaCount) + weeklyConfigurationIssueForAllIssuesInProd(rcaCount) +
 					weeklyMissedAndCRCountForAllIssuesInProd(rcaCount) + weeklyClientCodeBugForAllIssuesInProd(rcaCount) + 
-					weeklyProductDefectForAllIssuesInProd(rcaCount) + weeklyNonRcaBugForAllIssuesInProd(rcaCount);
+					weeklyProductDefectForAllIssuesInProd(rcaCount) + weeklyNonRcaBugForAllIssuesInProd(rcaCount) 
+					+ weeklyCloseTicketForAllIssuesInProd(rcaCount);
 			
 			
 			if(totalCount > 0){
@@ -455,7 +538,7 @@ public class ReportUtility {
 	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInProd(rcaCount));
 	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInProd(rcaCount));
 	            differentRootCause.put("Non RCA Bug", weeklyNonRcaBugForAllIssuesInProd(rcaCount));   /* Changes for Non RCA field addition */
-	
+	            differentRootCause.put("Close Ticket", weeklyCloseTicketForAllIssuesInProd(rcaCount));   /* Changes for Close Ticket field addition */
 	            diffCategory.put(projName, differentRootCause);
 				
 			}
@@ -909,6 +992,20 @@ return total;
 	}
 	
 	/**
+	 * Method to return QA Close Ticket count for a selected week.
+	 * @param rcaWeeks
+	 * @return
+	 */
+	public int weeklyCloseTicketForAllIssuesInQA(RcaCount rcaCount){
+	       
+		int total =0;
+		
+			total = total + rcaCount.getCloseTicketQa();
+		
+		return total;
+	}
+	
+	/**
 	 * Method to return UAT Product Defect count for a selected week.
 	 * @param rcaWeeks
 	 * @return
@@ -931,6 +1028,20 @@ return total;
 		int total =0;
 		
 			total = total + rcaCount.getNrUat();
+		
+		return total;
+	}
+	
+	/**
+	 * Method to return UAT Close Tickets count for a selected week.
+	 * @param rcaWeeks
+	 * @return
+	 */
+	public int weeklyCloseTicketForAllIssuesInUAT(RcaCount rcaCount){
+	       
+		int total =0;
+		
+			total = total + rcaCount.getCloseTicketUat();
 		
 		return total;
 	}
@@ -962,6 +1073,22 @@ return total;
 		
 		return total;
 	}
+	
+	/**
+	 * Method to return Production environment Close Ticket count for a selected week.
+	 * @param rcaWeeks
+	 * @return
+	 */
+	public int weeklyCloseTicketForAllIssuesInProd(RcaCount rcaCount){
+	       
+		int total =0;
+		
+			total = total + rcaCount.getCloseTicketProd();
+		
+		return total;
+	}
+	
+	
 	/**
 	 * Method to return open Product Defect count for a selected week.
 	 * @param rcaWeeks
@@ -985,6 +1112,78 @@ return total;
 		int total =0;
 		
 			total = total + rcaWeeks.getNrProductBacklog();
+		
+		return total;
+	}
+	
+	/**
+	 * Method to return open Non RCA Bug count for a selected week.
+	 * @param rcaWeeks
+	 * @return
+	 */
+	public int weeklyTotalCloseIssues(RcaCount rcaWeeks){
+	       
+		int total =0;
+		
+	/*	total = total + rcaWeeks.getNrQa()+ rcaWeeks.getPdQa() + rcaWeeks.getMrQa() + rcaWeeks.getCrQa() + rcaWeeks.getConfigQa() + rcaWeeks.getCcbQa() +
+				rcaWeeks.getAdQa()+ rcaWeeks.getDupQa() + rcaWeeks.getNadQa() + rcaWeeks.getBsiQa() + rcaWeeks.getUtrQa() + rcaWeeks.getIiQa() + rcaWeeks.getDiQa() +rcaWeeks.getRoQa() + 
+				rcaWeeks.getPlanQa() + rcaWeeks.getRateQa() + rcaWeeks.getRpaQa() + rcaWeeks.getAcQa() + rcaWeeks.getTiQa() + rcaWeeks.getDpQa() + rcaWeeks.getCoQa() + rcaWeeks.getFfmQa()
+				+ rcaWeeks.getCrmesbQa() + rcaWeeks.getOtpQa() + rcaWeeks.getPmuuQa() + rcaWeeks.getIoQa() + rcaWeeks.getNrQa() + rcaWeeks.getCloseTicketQa() ;
+	*/
+		total = total + rcaWeeks.getCloseTicketQa() + rcaWeeks.getCloseTicketUat() + rcaWeeks.getCloseTicketProd();
+	    return total;
+	}
+	
+	public int weeklyTotalOpenIssues(RcaCount rcaWeeks){
+	       
+		int total =0;
+		
+		total = weeklyBugCountForAllProjectsInQA(rcaWeeks)+ weeklyBugCountForAllProjectsInUAT(rcaWeeks) + weeklyBugCountForAllProjectsInProduction(rcaWeeks) ;
+	    return total;
+	}
+	
+	public int weeklyTotalOpenCountIssues(RcaCount rcaWeeks){
+	       
+		int total =0;
+		
+		total = weeklyOpenIssuesCountForAllProjectsInQA(rcaWeeks)+ weeklyOpenIssuesCountForAllProjectsInUAT(rcaWeeks) + weeklyOpenIssuesForAllProjectsInProduction(rcaWeeks) ;
+	    return total;
+	}
+	
+	/**
+	 * Method to return open Non RCA Bug count for a selected week.
+	 * @param rcaWeeks
+	 * @return
+	 */
+	public int weeklyCloseTicketForAllIssuesInClose(RcaCount rcaWeeks){
+	       
+		int total =0;
+		
+			total = total + rcaWeeks.getCloseTicketQa() + rcaWeeks.getCloseTicketUat() + rcaWeeks.getCloseTicketProd();
+		
+		return total;
+	}
+	
+	public int weeklyCloseIssuesQa(RcaCount rca){
+		int total = 0;
+		
+		total = total + rca.getCloseTicketQa();
+		
+		return total;
+	}
+	
+	public int weeklyCloseIssuesUat(RcaCount rca){
+		int total = 0;
+		
+		total = total + rca.getCloseTicketUat();
+		
+		return total;
+	}
+	
+	public int weeklyCloseIssuesProd(RcaCount rca){
+		int total = 0;
+		
+		total = total + rca.getCloseTicketProd();
 		
 		return total;
 	}
@@ -1029,6 +1228,18 @@ return total;
 				          rcaCount.getCrmesbProd() + rcaCount.getCrProd() + rcaCount.getDiProd() + rcaCount.getDpProd() + rcaCount.getDupProd() + 
 				          rcaCount.getEnvProd() + rcaCount.getFfmProd() + rcaCount.getIoProd() + rcaCount.getMrProd() + rcaCount.getNadProd() + 
 				          rcaCount.getOtpProd() + rcaCount.getPdProd() + rcaCount.getPlanProd() + rcaCount.getPmuuProd() + rcaCount.getRateProd() + 
+				          rcaCount.getRpaProd() + rcaCount.getTiProd() + rcaCount.getUtrProd() + rcaCount.getNrProd() + rcaCount.getCloseTicketProd());
+		
+		return total;
+	}
+	
+	public int weeklyOpenIssuesForAllProjectsInProduction(RcaCount rcaCount){
+		int total =0;
+		
+		total = total + ( rcaCount.getAcProd() + rcaCount.getAdProd() + rcaCount.getBsiProd() + rcaCount.getCcbProd() + rcaCount.getCoProd() + 
+				          rcaCount.getCrmesbProd() + rcaCount.getCrProd() + rcaCount.getDiProd() + rcaCount.getDpProd() + rcaCount.getDupProd() + 
+				          rcaCount.getEnvProd() + rcaCount.getFfmProd() + rcaCount.getIoProd() + rcaCount.getMrProd() + rcaCount.getNadProd() + 
+				          rcaCount.getOtpProd() + rcaCount.getPdProd() + rcaCount.getPlanProd() + rcaCount.getPmuuProd() + rcaCount.getRateProd() + 
 				          rcaCount.getRpaProd() + rcaCount.getTiProd() + rcaCount.getUtrProd() + rcaCount.getNrProd());
 		
 		return total;
@@ -1041,7 +1252,19 @@ return total;
 				          rcaCount.getCrmesbUat() + rcaCount.getCrUat() + rcaCount.getDiUat() + rcaCount.getDpUat() + rcaCount.getDupUat() + 
 				          rcaCount.getEnvUat() + rcaCount.getFfmUat() + rcaCount.getIoUat() + rcaCount.getMrUat() + rcaCount.getNadUat() + 
 				          rcaCount.getOtpUat() + rcaCount.getPdUat() + rcaCount.getPlanUat() + rcaCount.getPmuuUat() + rcaCount.getRateUat() + 
-				          rcaCount.getRpaUat() + rcaCount.getTiUat() + rcaCount.getUtrUat() + rcaCount.getNrUat());
+				          rcaCount.getRpaUat() + rcaCount.getTiUat() + rcaCount.getUtrUat() + rcaCount.getNrUat() + rcaCount.getCloseTicketUat());
+		
+		return total;
+	}
+	
+	public int weeklyOpenIssuesCountForAllProjectsInUAT(RcaCount rcaCount){
+		int total =0;
+		
+		total = total + ( rcaCount.getAcUat() + rcaCount.getAdUat() + rcaCount.getBsiUat() + rcaCount.getCcbUat() + rcaCount.getCoUat() + 
+				          rcaCount.getCrmesbUat() + rcaCount.getCrUat() + rcaCount.getDiUat() + rcaCount.getDpUat() + rcaCount.getDupUat() + 
+				          rcaCount.getEnvUat() + rcaCount.getFfmUat() + rcaCount.getIoUat() + rcaCount.getMrUat() + rcaCount.getNadUat() + 
+				          rcaCount.getOtpUat() + rcaCount.getPdUat() + rcaCount.getPlanUat() + rcaCount.getPmuuUat() + rcaCount.getRateUat() + 
+				          rcaCount.getRpaUat() + rcaCount.getTiUat() + rcaCount.getUtrUat() + rcaCount.getNrUat() );
 		
 		return total;
 	}
@@ -1058,12 +1281,39 @@ return total;
 				          rcaCount.getCrmesbQa() + rcaCount.getCrQa() + rcaCount.getDiQa() + rcaCount.getDpQa() + rcaCount.getDupQa() + 
 				          rcaCount.getEnvQa() + rcaCount.getFfmQa() + rcaCount.getIoQa() + rcaCount.getMrQa() + rcaCount.getNadQa() + 
 				          rcaCount.getOtpQa() + rcaCount.getPdQa() + rcaCount.getPlanQa() + rcaCount.getPmuuQa() + rcaCount.getRateQa() + 
-				          rcaCount.getRpaQa() + rcaCount.getTiQa() + rcaCount.getUtrQa() + rcaCount.getNrQa());
+				          rcaCount.getRpaQa() + rcaCount.getTiQa() + rcaCount.getUtrQa() + rcaCount.getNrQa() + rcaCount.getCloseTicketQa());
 		
 		return total;
 	}
 	
+	public int weeklyOpenIssuesCountForAllProjectsInQA(RcaCount rcaCount){
+		int total =0;
+		
+		total = total + ( rcaCount.getAcQa() + rcaCount.getAdQa() + rcaCount.getBsiQa() + rcaCount.getCcbQa() + rcaCount.getCoQa() + 
+				          rcaCount.getCrmesbQa() + rcaCount.getCrQa() + rcaCount.getDiQa() + rcaCount.getDpQa() + rcaCount.getDupQa() + 
+				          rcaCount.getEnvQa() + rcaCount.getFfmQa() + rcaCount.getIoQa() + rcaCount.getMrQa() + rcaCount.getNadQa() + 
+				          rcaCount.getOtpQa() + rcaCount.getPdQa() + rcaCount.getPlanQa() + rcaCount.getPmuuQa() + rcaCount.getRateQa() + 
+				          rcaCount.getRpaQa() + rcaCount.getTiQa() + rcaCount.getUtrQa() + rcaCount.getNrQa() );
+		
+		return total;
+	}
 	
+	/**
+	 * Method which returns the total bug count for all projects in QA environment.
+	 * @param rcaCount
+	 * @return
+	 */
+	public int weeklyOpenIssueCountForAllProjectsInQA(RcaCount rcaCount){
+		int total =0;
+		
+		total = total + ( rcaCount.getAcQa() + rcaCount.getAdQa() + rcaCount.getBsiQa() + rcaCount.getCcbQa() + rcaCount.getCoQa() + 
+				          rcaCount.getCrmesbQa() + rcaCount.getCrQa() + rcaCount.getDiQa() + rcaCount.getDpQa() + rcaCount.getDupQa() + 
+				          rcaCount.getEnvQa() + rcaCount.getFfmQa() + rcaCount.getIoQa() + rcaCount.getMrQa() + rcaCount.getNadQa() + 
+				          rcaCount.getOtpQa() + rcaCount.getPdQa() + rcaCount.getPlanQa() + rcaCount.getPmuuQa() + rcaCount.getRateQa() + 
+				          rcaCount.getRpaQa() + rcaCount.getTiQa() + rcaCount.getUtrQa() + rcaCount.getNrQa() );
+		
+		return total;
+	}
 	
 	public List<Map<String, Integer>> reportedQAAllWeeksGraphForAllProject(List<RcaCount> rcaCount, List<String> allWeeks){
 		
@@ -1092,7 +1342,8 @@ return total;
 							rcaCountData.getNadQa() +  //Not a defect
 							rcaCountData.getPdQa() + //Product defec
 							rcaCountData.getUtrQa()+ //Unable to reproduce
-							rcaCountData.getNrQa()); //Non RCA Bug   /* Changes for Non RCA field addition */
+							rcaCountData.getNrQa()+ //Non RCA Bug   /* Changes for Non RCA field addition */
+							rcaCountData.getCloseTicketQa());//Close Tickets /* Changes for Close Ticket field addition */
 							//Integration Issues
 							if (rcaCountData.getIiQa() == 0){
 								total = total + rcaCountData.getCrmesbQa() + rcaCountData.getFfmQa() +
@@ -1149,6 +1400,8 @@ return total;
 						total = total + (rcaCount.get(x).getCcbUat());
 					else if(CUMULATIVE_OPEN.equals(env))
 						total = total + (rcaCount.get(x).getCcbProductBacklog());
+					else if(OPEN_CLOSE.equals(env))
+						total = total + (rcaCount.get(x).getCloseTicketQa() + rcaCount.get(x).getCloseTicketUat() + rcaCount.get(x).getCloseTicketProd());
 				}
 			}
 			week_count.put(week, total);
@@ -1184,7 +1437,8 @@ return total;
 					total = total + rcaCountData.getAdProd() + rcaCountData.getBsiProd() + rcaCountData.getCcbProd() + 
 					rcaCountData.getCrProd() + rcaCountData.getDiProd() + rcaCountData.getDupProd() +  
 					rcaCountData.getMrProd() + rcaCountData.getNadProd() +  rcaCountData.getPdProd() + 
-					rcaCountData.getUtrProd() + rcaCountData.getNrProd() ;   /* Changes for Non RCA field addition */
+					rcaCountData.getUtrProd() + rcaCountData.getNrProd() /* Changes for Non RCA field addition */
+					+ rcaCountData.getCloseTicketProd();  /* Changes for Close Ticket field addition */
 
 					//Integration Issues
 					if (rcaCountData.getIiProd() == 0){
@@ -1246,7 +1500,9 @@ return total;
 							rcaCountData.getNadUat() +  //Not a defect
 							rcaCountData.getPdUat() + //Product defec
 							rcaCountData.getUtrUat() + //Unable to reproduce
-							rcaCountData.getNrUat()); //Non RCA Bug   /* Changes for Non RCA field addition */
+							rcaCountData.getNrUat() +//Non RCA Bug   /* Changes for Non RCA field addition */
+					        rcaCountData.getCloseTicketUat()); //Close Ticket   /* Changes for Close Ticket field addition */
+					
 							//Integration Issues
 							if (rcaCountData.getIiUat() == 0){
 								total = total + rcaCountData.getCrmesbUat() + rcaCountData.getFfmUat() +
@@ -1274,6 +1530,9 @@ return total;
 		 return lst;
 	}
 	
+	
+			
+	
 	/**
 	 * Method to return total "Cumulative Open" bug counts for all Projects and for given set of Weeks.
 	 * @param rcaCount
@@ -1281,9 +1540,10 @@ return total;
 	 * @return
 	 */
 	public List<Map<String, Integer>> reportedCumulativeOpenAllWeeksGraphForAllProject(List<RcaCount> rcaCount, List<String> allWeeks){
-
+			
+		
 		List<Map<String, Integer>> lst = new ArrayList<Map<String, Integer>>();
-
+ 
 		for(int i=0; i < allWeeks.size(); i++)
 		{
 			int total =0;
@@ -1291,7 +1551,7 @@ return total;
 			Map<String, Integer> week_count = new LinkedHashMap<String, Integer>();
 			String week = allWeeks.get(i);
 			week = removeYearFromWeek(week);
-			for(int x=0; x < rcaCount.size(); x++)
+			for(int x=0; x < rcaCount.size(); x++) 
 			{
 				if(null != rcaCount.get(x))
 				{
@@ -1309,7 +1569,7 @@ return total;
 								rcaCountData.getNadProductBacklog() +  //Not a defect
 								rcaCountData.getPdProductBacklog() + //Product defect
 								rcaCountData.getUtrProductBacklog() + //Unable to reproduce
-								rcaCountData.getNrProductBacklog()); //Non RCA Bug   /* Changes for Non RCA field addition */
+								rcaCountData.getNrProductBacklog()) ; //Non RCA Bug   /* Changes for Non RCA field addition */ +
 								//Integration Issues
 								if (rcaCountData.getIiProductBacklog() == 0){
 									total = total + rcaCountData.getCrmesbProductBacklog() + rcaCountData.getFfmProductBacklog() +
@@ -1330,7 +1590,6 @@ return total;
 					}
 				}
 			}
-
 			week_count.put(week, total);
 			lst.add(week_count);
 		}

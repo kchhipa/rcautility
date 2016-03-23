@@ -15,6 +15,10 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.swing.JFrame;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
@@ -30,6 +34,7 @@ import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.category.BarRenderer3D;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.GroupedStackedBarRenderer;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
@@ -46,6 +51,7 @@ import org.jfree.ui.TextAnchor;
 
 import com.rca.service.graph.creation.DifferentTypeGraphAbstractCreation;
 import com.rca.service.graph.creation.DifferentTypeGraphCreationFactory;
+import com.rca.workbookutility.LoggedDefectsVsOpen;
 
 
 public class GenerateGraph
@@ -60,7 +66,7 @@ public class GenerateGraph
 	{
 		return createSprintGraph(data, graphHeader, xAxis, yAxis, plotOrientation, rotatedLabel, graphWidth, graphHeight, graphType, true, false);
 	}
- 
+	
   public File createGraph(Map<String, Map<String,Integer>> data, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, boolean rotatedLabel, int graphWidth, int graphHeight, String graphType, boolean showLegend, boolean projectFontSize)
   {
 	
@@ -69,7 +75,8 @@ public class GenerateGraph
     DifferentTypeGraphAbstractCreation graphCreationObject = DifferentTypeGraphCreationFactory.createGraphCreationObject(graphType, graphHeader, xAxis, yAxis, plotOrientation, chartDataSet, true, true);
     JFreeChart jFreeChart = graphCreationObject.createGraph();
     
-    if(graphHeader.equalsIgnoreCase("Cumulative Open")|| graphHeader.equalsIgnoreCase("Weekly PROD")||graphHeader.equalsIgnoreCase("Weekly UAT")|| graphHeader.equalsIgnoreCase("Weekly QA"))
+    if(graphHeader.equalsIgnoreCase("Cumulative Open")|| graphHeader.equalsIgnoreCase("Weekly PROD")||graphHeader.equalsIgnoreCase("Weekly UAT") 
+    		|| graphHeader.equalsIgnoreCase("Weekly QA") )
         jFreeChart.setTitle(new org.jfree.chart.title.TextTitle(graphHeader,new java.awt.Font("Calibri", java.awt.Font.BOLD, 48)));
     
     // set the background color for the chart...
@@ -127,6 +134,139 @@ public class GenerateGraph
     
     return createGraphImage(jFreeChart, graphWidth, graphHeight);
   }
+  
+  public File createGraphForOpenCloseDefects(Map<String, Map<String,Integer>> data, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, boolean rotatedLabel, int graphWidth, int graphHeight, String graphType){
+	  
+	  DefaultCategoryDataset chartDataSet = dataSetObjectCreationForOpenClose(data);
+	  JFreeChart barChartObject = ChartFactory.createBarChart("Logged Vs Closed Defects", "", "",
+			  chartDataSet, PlotOrientation.VERTICAL, true, true,
+				false);
+
+      // set the background color for the chart...
+      barChartObject.setBackgroundPaint(Color.white);
+
+      // get a reference to the plot for further customization...
+      CategoryPlot plot = createPlot(barChartObject);
+	  CategoryAxis domainAxis = plot.getDomainAxis();
+	  ValueAxis rangeAxis = plot.getRangeAxis();	
+	  Stroke s = new BasicStroke(1.0f);
+	  Stroke s1 = new BasicStroke(1.0f);
+	  plot.setRangeGridlinePaint(Color.BLACK);
+	  plot.setRangeGridlineStroke(s);
+	  plot.setRangeZeroBaselineVisible(true);
+	  plot.setOutlineVisible(false);
+	  domainAxis.setAxisLineVisible(true);
+	  domainAxis.setAxisLineStroke(s1);
+	  domainAxis.setAxisLinePaint(Color.BLACK);
+	  domainAxis.setTickMarksVisible(false);
+	  rangeAxis.setAxisLineStroke(s1);
+	  rangeAxis.setAxisLinePaint(Color.BLACK);
+
+	  Font font = new Font("Franklin Gothic Book Heavy", Font.BOLD, 16);
+
+	  domainAxis.setTickLabelFont(font);
+	  plot.getRangeAxis().setTickLabelFont(font);
+	  domainAxis.setTickLabelPaint(Color.BLACK);
+	  plot.getRangeAxis().setTickLabelPaint(Color.BLACK);
+      
+	  domainAxis.setCategoryLabelPositions(
+              CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 8.0)
+          );
+
+      final BarRenderer renderer = (BarRenderer) plot.getRenderer();
+      renderer.setDrawBarOutline(false);
+      /* Enabling the tool tip generator */
+	  renderer.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator());
+	  renderer.setShadowVisible(false);
+	  renderer.setItemMargin(0);
+	  ((BarRenderer) renderer).setBarPainter(new StandardBarPainter());
+	  
+   // add the chart to a panel...
+      final ChartPanel chartPanel = new ChartPanel(barChartObject);
+      chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
+      JFrame jf = new JFrame();
+      jf.setContentPane(chartPanel);
+      
+      plot.setBackgroundPaint(Color.WHITE);
+
+	  return createGraphImage(barChartObject, graphWidth, graphHeight);
+  }
+  
+  public File createWeeklyGraphCloseVsOpen(Map<String, Map<String,Integer>> data, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, boolean rotatedLabel, int graphWidth, int graphHeight, String graphType, boolean showLegend, boolean projectFontSize)
+  {
+		
+	    DefaultCategoryDataset chartDataSet = dataSetObjectCreation(data);
+	    Set<String> keyset=data.keySet();
+//	    int keySetSize = keyset.size();
+	    JFreeChart jFreeChart = ChartFactory.createBarChart("Logged Vs Closed Defects", "", "",
+				  chartDataSet, PlotOrientation.VERTICAL, true, true,
+					false);
+//	    JFreeChart jFreeChart = graphCreationObject.createGraph();
+	    
+	    
+	    jFreeChart.setTitle(new org.jfree.chart.title.TextTitle(graphHeader,new java.awt.Font("Calibri", java.awt.Font.BOLD, 48)));
+	    
+	    // set the background color for the chart...
+	    jFreeChart.setBackgroundPaint(Color.white);
+	    LegendTitle legend = (LegendTitle) jFreeChart.getSubtitle(0);
+	    legend.setItemLabelPadding(new RectangleInsets(2, 2, 2, 30));
+	    //legend.setPosition(RectangleEdge.RIGHT);
+	    legend.setLegendItemGraphicLocation(RectangleAnchor.CENTER);
+	    legend.setFrame(BlockBorder.NONE);
+	    legend.setVisible(showLegend);
+	    Font legendFont = new Font("Franklin Gothic Book Medium", Font.BOLD, 14);
+	    legend.setItemFont(legendFont);
+	    legend.setItemPaint(Color.BLACK);
+	      // get a reference to the plot for further customization...
+	      CategoryPlot plot = createPlot(jFreeChart);
+		  CategoryAxis domainAxis = plot.getDomainAxis();
+		  ValueAxis rangeAxis = plot.getRangeAxis();	
+		  Stroke s = new BasicStroke(1.0f);
+		  Stroke s1 = new BasicStroke(1.0f);
+		  plot.setRangeGridlinePaint(Color.BLACK);
+		  plot.setRangeGridlineStroke(s);
+		  plot.setRangeZeroBaselineVisible(true);
+		  plot.setOutlineVisible(false);
+		  domainAxis.setAxisLineVisible(true);
+		  domainAxis.setAxisLineStroke(s1);
+		  domainAxis.setAxisLinePaint(Color.BLACK);
+		  domainAxis.setTickMarksVisible(false);
+		  rangeAxis.setAxisLineStroke(s1);
+		  rangeAxis.setAxisLinePaint(Color.BLACK);
+
+		  Font font = new Font("Franklin Gothic Book Heavy", Font.BOLD, 16);
+
+		  domainAxis.setTickLabelFont(font);
+		  plot.getRangeAxis().setTickLabelFont(font);
+		  domainAxis.setTickLabelPaint(Color.BLACK);
+		  plot.getRangeAxis().setTickLabelPaint(Color.BLACK);
+	      
+		  domainAxis.setCategoryLabelPositions(
+	              CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 8.0)
+	          );
+
+//	      rangeAxis.setCategoryLabelPositions(
+//	              CategoryLabelPositions.STANDARD
+//	          );
+	      final BarRenderer renderer = (BarRenderer) plot.getRenderer();
+	      renderer.setDrawBarOutline(false);
+	      /* Enabling the tool tip generator */
+		  renderer.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator());
+		  renderer.setShadowVisible(false);
+		  renderer.setItemMargin(0);
+		  renderer.setMaximumBarWidth(0.03);
+		  ((BarRenderer) renderer).setBarPainter(new StandardBarPainter());
+	   // add the chart to a panel...
+	      final ChartPanel chartPanel = new ChartPanel(jFreeChart);
+	      chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
+	      JFrame jf = new JFrame();
+	      jf.setContentPane(chartPanel);
+	      
+	      plot.setBackgroundPaint(Color.WHITE);
+	    
+	    
+	    return createGraphImage(jFreeChart, graphWidth, graphHeight);
+	  }
   
   public File createSprintGraph(Map<String, Map<String,Integer>> data, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, boolean rotatedLabel, int graphWidth, int graphHeight, String graphType, boolean showLegend, boolean projectFontSize)
   {
@@ -470,6 +610,27 @@ public class GenerateGraph
     return chartDataSet;
   }
   
+  /**
+   * Data key will contain projects & open close (Y-axis entry)
+   * Data value <string, Integer> - String --BugType
+   * Integer -- bug count
+   * @param data
+   */
+  
+  public DefaultCategoryDataset dataSetObjectCreationForOpenClose(Map<String, Map<String,Integer>> data)
+  {
+    DefaultCategoryDataset chartDataSet = new DefaultCategoryDataset();
+    for (Map.Entry<String, Map<String,Integer>> dataSet : data.entrySet())
+    {
+      Map<String, Integer> dataDivision = dataSet.getValue();
+      for (Map.Entry<String,Integer> dataSetDivision : dataDivision.entrySet())
+      {
+        chartDataSet.addValue(dataSetDivision.getValue(), dataSetDivision.getKey(),dataSet.getKey());
+      }
+    }
+    return chartDataSet;
+  }
+  
   public DefaultCategoryDataset dataSetObjectCreation(List<Map<String, Integer>> data)
   {
 	  DefaultCategoryDataset chartDataSet = new DefaultCategoryDataset();
@@ -524,6 +685,10 @@ public class GenerateGraph
     /* Changes for Non RCA field addition */
     Paint lightGrey = new GradientPaint(0.0f, 0.0f, new Color(155, 155, 155), 0.0f, 0.0f, new Color(155, 155, 155));
     renderer.setSeriesPaint(7, lightGrey);
+    
+    /* Changes for Non RCA field addition */
+    Paint RedLighter  = new GradientPaint(0.0f, 0.0f, new Color(255, 80, 80), 0.0f, 0.0f, new Color(155, 155, 155));
+    renderer.setSeriesPaint(8, RedLighter);
     
     renderer.setGradientPaintTransformer(
         new StandardGradientPaintTransformer(GradientPaintTransformType.HORIZONTAL)
