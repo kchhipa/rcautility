@@ -81,7 +81,7 @@ public class LoggedDefectsVsOpen {
 				RcaCount rcaCount = allWeeksrcaCounts.get(j);
 				  LOG.info("week matched ===============" + week);
 				if( ru.weeklyCloseTicketForAllIssuesInClose(rcaCount) > 0 ){
-					status = "close";
+					status = "Closed";
 					LOG.info("Status is " + status);
 					loggedDefOpen.setCloseDefectType1(status);
 					loggedDefOpen.setCount(ru.weeklyCloseTicketForAllIssuesInClose(rcaCount));
@@ -91,7 +91,7 @@ public class LoggedDefectsVsOpen {
 				}
 				
 				if(ru.weeklyTotalOpenCountIssues(rcaCount) > 0){
-					status = "open";
+					status = "Logged";
 					loggedDefOpen.setOpenDefectType(status);
 					loggedDefOpen.setCount(ru.weeklyTotalOpenCountIssues(rcaCount));
 					LOG.info("Status is " + status);

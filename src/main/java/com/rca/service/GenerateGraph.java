@@ -138,10 +138,10 @@ public class GenerateGraph
   public File createGraphForOpenCloseDefects(Map<String, Map<String,Integer>> data, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, boolean rotatedLabel, int graphWidth, int graphHeight, String graphType){
 	  
 	  DefaultCategoryDataset chartDataSet = dataSetObjectCreationForOpenClose(data);
-	  JFreeChart barChartObject = ChartFactory.createBarChart("Logged Vs Closed Defects", "", "",
+	  JFreeChart barChartObject = ChartFactory.createBarChart("", "", "",
 			  chartDataSet, PlotOrientation.VERTICAL, true, true,
 				false);
-
+      barChartObject.setTitle(new org.jfree.chart.title.TextTitle(graphHeader,new java.awt.Font("Calibri", java.awt.Font.BOLD, 24)));
       // set the background color for the chart...
       barChartObject.setBackgroundPaint(Color.white);
 
@@ -233,7 +233,10 @@ public class GenerateGraph
 		  domainAxis.setTickMarksVisible(false);
 		  rangeAxis.setAxisLineStroke(s1);
 		  rangeAxis.setAxisLinePaint(Color.BLACK);
-
+          
+		  domainAxis.setMaximumCategoryLabelLines(2);
+		  domainAxis.setCategoryMargin(0.03);
+		  
 		  Font font = new Font("Franklin Gothic Book Heavy", Font.BOLD, 16);
 
 		  domainAxis.setTickLabelFont(font);
