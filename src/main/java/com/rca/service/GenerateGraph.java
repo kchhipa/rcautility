@@ -170,9 +170,11 @@ public class GenerateGraph
 	  plot.getRangeAxis().setTickLabelPaint(Color.BLACK);
       
 	  domainAxis.setCategoryLabelPositions(
-              CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 8.0)
+              CategoryLabelPositions.STANDARD
           );
-
+	  domainAxis.setMaximumCategoryLabelLines(2);
+	  domainAxis.setCategoryMargin(0.03);
+	  
       final BarRenderer renderer = (BarRenderer) plot.getRenderer();
       renderer.setDrawBarOutline(false);
       /* Enabling the tool tip generator */
@@ -234,8 +236,7 @@ public class GenerateGraph
 		  rangeAxis.setAxisLineStroke(s1);
 		  rangeAxis.setAxisLinePaint(Color.BLACK);
           
-		  domainAxis.setMaximumCategoryLabelLines(2);
-		  domainAxis.setCategoryMargin(0.03);
+		 
 		  
 		  Font font = new Font("Franklin Gothic Book Heavy", Font.BOLD, 16);
 
@@ -244,13 +245,12 @@ public class GenerateGraph
 		  domainAxis.setTickLabelPaint(Color.BLACK);
 		  plot.getRangeAxis().setTickLabelPaint(Color.BLACK);
 	      
-		  domainAxis.setCategoryLabelPositions(
-	              CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 8.0)
-	          );
+	     domainAxis.setCategoryLabelPositions(
+              CategoryLabelPositions.STANDARD
+          );
+          domainAxis.setMaximumCategoryLabelLines(2);
+		  domainAxis.setCategoryMargin(0.03);
 
-//	      rangeAxis.setCategoryLabelPositions(
-//	              CategoryLabelPositions.STANDARD
-//	          );
 	      final BarRenderer renderer = (BarRenderer) plot.getRenderer();
 	      renderer.setDrawBarOutline(false);
 	      /* Enabling the tool tip generator */
