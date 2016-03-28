@@ -172,8 +172,8 @@ public class GenerateGraph
 	  domainAxis.setCategoryLabelPositions(
               CategoryLabelPositions.STANDARD
           );
-	  domainAxis.setMaximumCategoryLabelLines(2);
-	  domainAxis.setCategoryMargin(0.03);
+	  domainAxis.setMaximumCategoryLabelLines(3);
+	  //domainAxis.setCategoryMargin(0.03);
 	  
       final BarRenderer renderer = (BarRenderer) plot.getRenderer();
       renderer.setDrawBarOutline(false);
@@ -248,8 +248,8 @@ public class GenerateGraph
 	     domainAxis.setCategoryLabelPositions(
               CategoryLabelPositions.STANDARD
           );
-          domainAxis.setMaximumCategoryLabelLines(2);
-		  domainAxis.setCategoryMargin(0.03);
+          domainAxis.setMaximumCategoryLabelLines(3);
+		  //domainAxis.setCategoryMargin(0.03);
 
 	      final BarRenderer renderer = (BarRenderer) plot.getRenderer();
 	      renderer.setDrawBarOutline(false);
