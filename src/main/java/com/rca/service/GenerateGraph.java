@@ -181,7 +181,7 @@ public class GenerateGraph
       		  renderer.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator());
       		  renderer.setShadowVisible(false);
       		 ((BarRenderer) renderer).setMaximumBarWidth(0.03);
-   		  ((BarRenderer) renderer).setItemMargin(-0.5);
+   		  ((BarRenderer) renderer).setItemMargin(-0.05);
       		  ((BarRenderer) renderer).setBarPainter(new StandardBarPainter());
 	  
    // add the chart to a panel...
