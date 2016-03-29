@@ -586,7 +586,7 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 				if (rcaList != null && rcaList.size() > 0) {
 					writeRcaData(sheet, rcaList, rowNumber, projectList);
 				}
-				rowNumber = rowNumber+29;  // Changes for Non RCA Bug field addition
+				rowNumber = rowNumber+28;  // Changes for Non RCA Bug field addition
 			}
 			workbook.write();
 			fileInputStream = new FileInputStream(new File("RCA.xlsx"));
@@ -1533,8 +1533,8 @@ private void getProjectLabels(WritableSheet sheet, WritableCellFormat cellFormat
 	 
 	 Iterator<ProjectDetails> projectIterator=projectList.iterator();
 	 
-	 	sheet.mergeCells(0, rowNumber, 0, rowNumber+26);   // Changes for Non RCA Bug field addition
-	 	sheet.mergeCells(0, rowNumber, 0, rowNumber+27);   // Changes for Close Ticket field addition
+	 	sheet.mergeCells(0, rowNumber, 0, rowNumber+27);   // Changes for Non RCA Bug field addition
+	 	sheet.mergeCells(0, rowNumber, 0, rowNumber+28);   // Changes for Close Ticket field addition
 		label = new Label(0, rowNumber, week,cellFormatDate);
 	    sheet.addCell(label);
 		

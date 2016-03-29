@@ -72,7 +72,7 @@ public class LoggedDefectsVsOpen {
 			
 			week1 =ru.removeYearFromWeek(allWeeksrcaCounts.get(j).getWeek());
 			
-		 if(null != allWeeksrcaCounts.get(j))
+		 if(null != allWeeksrcaCounts.get(j) && (!week.equals("") || week != null))
 			 
 			{
 			 LOG.info("Number of closed defects " + ru.weeklyCloseTicketForAllIssuesInClose(allWeeksrcaCounts.get(j)));
@@ -100,11 +100,13 @@ public class LoggedDefectsVsOpen {
 					 map.put(status, ru.weeklyTotalOpenCountIssues(rcaCount));
 					 
 				}
-				key = week1;
+				key = week;
 				}
 			
 			}
-		 defVsOpenList.put(key, map);
+		 if(!key.equals("") && key != null){
+			 defVsOpenList.put(key, map); 
+		 }
 		  }
 //		      defVsOpenList.put(key, lst);
 		}

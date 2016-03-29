@@ -1130,7 +1130,7 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 			
 			
 			Picture pic = new Picture(idx);
-			pic.setAnchor(new java.awt.Rectangle(5, 40, pageWidth+30, pageheight-50));
+			pic.setAnchor(new java.awt.Rectangle(5, 50, pageWidth+30, pageheight-50));
 			slide.addShape(txt3);
 			slide.addShape(pic);
 			
@@ -1353,8 +1353,6 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyProductDefectForAllIssuesInProd(rcaCount);
 			else if(bugType.equals(NON_RCA_BUG))    /* Changes for Non RCA field addition */
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyNonRcaBugForAllIssuesInProd(rcaCount);
-			else if(bugType.equals(CLOSEICKETS))    /* Changes for Close Ticket field addition */
-				totalBugTypeCount = totalBugTypeCount + rU.weeklyCloseTicketForAllIssuesInProd(rcaCount);
 
 		}
 		
@@ -1400,8 +1398,6 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyProductDefectForAllIssuesInQA(rcaCount);
 			else if(bugType.equals(NON_RCA_BUG))   /* Changes for Non RCA field addition */
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyNonRcaBugForAllIssuesInQA(rcaCount);
-			else if(bugType.equals(CLOSEICKETS))   /* Changes for Close Ticket field addition */
-				totalBugTypeCount = totalBugTypeCount + rU.weeklyCloseTicketForAllIssuesInQA(rcaCount);
 
 		}
 		
@@ -1447,8 +1443,6 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyProductDefectForAllIssuesInUAT(rcaCount);
 			else if(bugType.equals(NON_RCA_BUG))   /* Changes for Non RCA field addition */
 				totalBugTypeCount = totalBugTypeCount + rU.weeklyNonRcaBugForAllIssuesInUAT(rcaCount);
-			else if(bugType.equals(CLOSEICKETS))   /* Changes for Close Ticket field addition */
-				totalBugTypeCount = totalBugTypeCount + rU.weeklyCloseTicketForAllIssuesInUAT(rcaCount);
 
 		}
 		
@@ -1684,10 +1678,10 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 			pict6.setAnchor(new java.awt.Rectangle(2, 40, (pageheight*4)/2, pageheight));
 			slide.addShape(pict6);
 		}
-		idxOpenClose = ppt.addPicture(generateGraph.createWeeklyGraphCloseVsOpen( logDefOpen.reportedWeeklyTrendLoggedVsOpen(rcaCount, allWeeks), "Weekly Trend", "", "", 
+		idxOpenClose = ppt.addPicture(generateGraph.createWeeklyGraphCloseVsOpen( logDefOpen.reportedWeeklyTrendLoggedVsOpen(rcaCount, allWeeks), "Logged Vs Closed Defects", "", "", 
 				PlotOrientation.VERTICAL, true, 750, 1000,RCAConstants.BAR, true, true) , XSLFPictureData.PICTURE_TYPE_PNG);
 		Picture pictOpenClose = new Picture(idxOpenClose);
-		pictOpenClose.setAnchor(new java.awt.Rectangle(2, pageheight+30, pageWidth+180, pageheight-60));
+		pictOpenClose.setAnchor(new java.awt.Rectangle(2, pageheight+40, pageWidth+120, pageheight-60));
 		slide.addShape(pictOpenClose);
 		
 		// reading an image

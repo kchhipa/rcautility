@@ -138,7 +138,7 @@ public class GenerateGraph
   public File createGraphForOpenCloseDefects(Map<String, Map<String,Integer>> data, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, boolean rotatedLabel, int graphWidth, int graphHeight, String graphType){
 	  
 	  DefaultCategoryDataset chartDataSet = dataSetObjectCreationForOpenClose(data);
-	  JFreeChart barChartObject = ChartFactory.createBarChart("", "", "",
+	  JFreeChart barChartObject = ChartFactory.createBarChart("Logged Vs Closed Defects", "", "",
 			  chartDataSet, PlotOrientation.VERTICAL, true, true,
 				false);
       barChartObject.setTitle(new org.jfree.chart.title.TextTitle(graphHeader,new java.awt.Font("Calibri", java.awt.Font.BOLD, 24)));
@@ -177,11 +177,12 @@ public class GenerateGraph
 	  
       final BarRenderer renderer = (BarRenderer) plot.getRenderer();
       renderer.setDrawBarOutline(false);
-      /* Enabling the tool tip generator */
-	  renderer.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator());
-	  renderer.setShadowVisible(false);
-	  renderer.setItemMargin(0);
-	  ((BarRenderer) renderer).setBarPainter(new StandardBarPainter());
+       /* Enabling the tool tip generator */
+      		  renderer.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator());
+      		  renderer.setShadowVisible(false);
+      		 ((BarRenderer) renderer).setMaximumBarWidth(0.03);
+   		  ((BarRenderer) renderer).setItemMargin(-0.5);
+      		  ((BarRenderer) renderer).setBarPainter(new StandardBarPainter());
 	  
    // add the chart to a panel...
       final ChartPanel chartPanel = new ChartPanel(barChartObject);
@@ -198,7 +199,6 @@ public class GenerateGraph
   {
 		
 	    DefaultCategoryDataset chartDataSet = dataSetObjectCreation(data);
-	    Set<String> keyset=data.keySet();
 //	    int keySetSize = keyset.size();
 	    JFreeChart jFreeChart = ChartFactory.createBarChart("Logged Vs Closed Defects", "", "",
 				  chartDataSet, PlotOrientation.VERTICAL, true, true,
@@ -256,8 +256,8 @@ public class GenerateGraph
 	      /* Enabling the tool tip generator */
 		  renderer.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator());
 		  renderer.setShadowVisible(false);
-		  renderer.setItemMargin(0);
-		  renderer.setMaximumBarWidth(0.03);
+		  ((BarRenderer) renderer).setMaximumBarWidth(0.03);
+		  ((BarRenderer) renderer).setItemMargin(-0.05);
 		  ((BarRenderer) renderer).setBarPainter(new StandardBarPainter());
 	   // add the chart to a panel...
 	      final ChartPanel chartPanel = new ChartPanel(jFreeChart);

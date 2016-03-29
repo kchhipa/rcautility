@@ -72,7 +72,6 @@ public class ReportUtility {
           differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInOpen(rcaCount));
           differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInOpen(rcaCount));
           differentRootCause.put("Non RCA Bug", weeklyNonRcaBugForAllIssuesInOpen(rcaCount));   /* Changes for Non RCA field addition */
-          differentRootCause.put("Close Ticket", weeklyTotalCloseIssues(rcaCount));   /* Changes for Close Ticket field addition */
           
           /* To ensure that Projects with RCA count as zero do not show up in Graph */
           if((mixCategoryWeeklyCountForAllProjectsInOpen(rcaCount) + weeklyDataIssueForAllIssuesInOpen(rcaCount) + weeklyDataIssueForAllIssuesInOpen(rcaCount) + 
@@ -138,8 +137,8 @@ public class ReportUtility {
 	          
 	          Map<String, Integer> differentRootCause = new LinkedHashMap<String, Integer>();
 	         
-	          differentRootCause.put("Open Ticket", weeklyTotalOpenIssues(rcaCount));   /* Changes for Close Ticket field in Open state addition */
-	          differentRootCause.put("Close Ticket", weeklyCloseTicketForAllIssuesInClose(rcaCount));   /* Changes for Close Ticket field in Close state addition */
+	          differentRootCause.put("Logged", weeklyTotalOpenIssues(rcaCount));   /* Changes for Close Ticket field in Open state addition */
+	          differentRootCause.put("Closed", weeklyCloseTicketForAllIssuesInClose(rcaCount));   /* Changes for Close Ticket field in Close state addition */
 	          
 	          /* To ensure that Projects with RCA count as zero do not show up in Graph */
 	          if((mixCategoryWeeklyCountForAllProjectsInOpen(rcaCount) + weeklyDataIssueForAllIssuesInOpen(rcaCount) + weeklyDataIssueForAllIssuesInOpen(rcaCount) + 
