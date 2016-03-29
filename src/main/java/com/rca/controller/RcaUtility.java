@@ -601,10 +601,10 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 		int col=1;
 		boolean flag = true;
 		
-		int total_qa[] = new int[27];
-		int total_uat[] = new int[27];
-		int total_prod[] = new int[27];
-		int total_product_backlog[] = new int[27];
+		int total_qa[] = new int[28];
+		int total_uat[] = new int[28];
+		int total_prod[] = new int[28];
+		int total_product_backlog[] = new int[28];
 			int i = 0;
 			for (RCA rca : rcaList) {
 				total_qa[0] = total_qa[0] +rca.mr_qa;

@@ -182,7 +182,6 @@ public class ReportUtility {
 	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInQA(rcaCount));
 	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInQA(rcaCount));
 	            differentRootCause.put("Non RCA Bug", weeklyNonRcaBugForAllIssuesInQA(rcaCount));   /* Changes for Non RCA field addition */
-	            differentRootCause.put("Close Ticket", weeklyCloseTicketForAllIssuesInQA(rcaCount));   /* Changes for Non RCA field addition */
 	
 	            diffCategory.put(projName, differentRootCause);
 				
@@ -271,7 +270,6 @@ public class ReportUtility {
 	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInQA(rcaCount));
 	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInQA(rcaCount));
 	            differentRootCause.put("Non RCA Bug", weeklyNonRcaBugForAllIssuesInQA(rcaCount));   /* Changes for Non RCA field addition */
-	            differentRootCause.put("Close Ticket", weeklyCloseTicketForAllIssuesInQA(rcaCount));   /* Changes for Close Ticket field addition */
 	            diffCategory.put(week, differentRootCause);
 			}
 			else
@@ -284,7 +282,6 @@ public class ReportUtility {
 	            differentRootCause.put("Client Code Bug", 0);
 	            differentRootCause.put("Product Defect", 0);
 	            differentRootCause.put("Non RCA Bug", 0);   /* Changes for Non RCA field addition */
-	            differentRootCause.put("Close Ticket", 0);   /* Changes for Close Ticket field addition */
 				diffCategory.put(week, differentRootCause);
 			}
 		}			
@@ -320,7 +317,6 @@ public class ReportUtility {
 	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInUAT(rcaCount));
 	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInUAT(rcaCount));
 	            differentRootCause.put("Non RCA Bug", weeklyNonRcaBugForAllIssuesInUAT(rcaCount));   /* Changes for Non RCA field addition */
-	            differentRootCause.put("Close Ticket", weeklyCloseTicketForAllIssuesInUAT(rcaCount));   /* Changes for Close Ticket field addition */
 	            diffCategory.put(week, differentRootCause);
 			}
 			else
@@ -333,7 +329,6 @@ public class ReportUtility {
 	            differentRootCause.put("Client Code Bug", 0);
 	            differentRootCause.put("Product Defect", 0);
 	            differentRootCause.put("Non RCA Bug", 0);   /* Changes for Non RCA field addition */
-	            differentRootCause.put("Close Ticket", 0);   /* Changes for Close Ticket field addition */
 				diffCategory.put(week, differentRootCause);
 			}
 		}			
@@ -367,7 +362,6 @@ public class ReportUtility {
 	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInProd(rcaCount));
 	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInProd(rcaCount));
 	            differentRootCause.put("Non RCA Bug", weeklyNonRcaBugForAllIssuesInProd(rcaCount));   /* Changes for Non RCA field addition */
-	            differentRootCause.put("Close Ticket", weeklyCloseTicketForAllIssuesInProd(rcaCount));   /* Changes for Close Ticket field addition */
 	            diffCategory.put(week, differentRootCause);
 			}
 			else
@@ -380,7 +374,6 @@ public class ReportUtility {
 	            differentRootCause.put("Client Code Bug", 0);
 	            differentRootCause.put("Product Defect", 0);
 	            differentRootCause.put("Non RCA Bug", 0);   /* Changes for Non RCA field addition */
-	            differentRootCause.put("Close Ticket", 0);   /* Changes for Close Ticket field addition */
 				diffCategory.put(week, differentRootCause);
 			}
 		}		
@@ -500,7 +493,6 @@ public class ReportUtility {
 	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInUAT(rcaCount));
 	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInUAT(rcaCount));
 	            differentRootCause.put("Non RCA Bug", weeklyNonRcaBugForAllIssuesInUAT(rcaCount));   /* Changes for Non RCA field addition */
-	            differentRootCause.put("Close Ticket", weeklyCloseTicketForAllIssuesInUAT(rcaCount));   /* Changes for Close Ticket field addition */
 	            diffCategory.put(projName, differentRootCause);
 				
 			}
@@ -538,7 +530,6 @@ public class ReportUtility {
 	            differentRootCause.put("Client Code Bug", weeklyClientCodeBugForAllIssuesInProd(rcaCount));
 	            differentRootCause.put("Product Defect", weeklyProductDefectForAllIssuesInProd(rcaCount));
 	            differentRootCause.put("Non RCA Bug", weeklyNonRcaBugForAllIssuesInProd(rcaCount));   /* Changes for Non RCA field addition */
-	            differentRootCause.put("Close Ticket", weeklyCloseTicketForAllIssuesInProd(rcaCount));   /* Changes for Close Ticket field addition */
 	            diffCategory.put(projName, differentRootCause);
 				
 			}
@@ -1400,8 +1391,6 @@ return total;
 						total = total + (rcaCount.get(x).getCcbUat());
 					else if(CUMULATIVE_OPEN.equals(env))
 						total = total + (rcaCount.get(x).getCcbProductBacklog());
-					else if(OPEN_CLOSE.equals(env))
-						total = total + (rcaCount.get(x).getCloseTicketQa() + rcaCount.get(x).getCloseTicketUat() + rcaCount.get(x).getCloseTicketProd());
 				}
 			}
 			week_count.put(week, total);
@@ -1437,8 +1426,7 @@ return total;
 					total = total + rcaCountData.getAdProd() + rcaCountData.getBsiProd() + rcaCountData.getCcbProd() + 
 					rcaCountData.getCrProd() + rcaCountData.getDiProd() + rcaCountData.getDupProd() +  
 					rcaCountData.getMrProd() + rcaCountData.getNadProd() +  rcaCountData.getPdProd() + 
-					rcaCountData.getUtrProd() + rcaCountData.getNrProd() /* Changes for Non RCA field addition */
-					+ rcaCountData.getCloseTicketProd();  /* Changes for Close Ticket field addition */
+					rcaCountData.getUtrProd() + rcaCountData.getNrProd(); /* Changes for Non RCA field addition */
 
 					//Integration Issues
 					if (rcaCountData.getIiProd() == 0){
@@ -1500,8 +1488,7 @@ return total;
 							rcaCountData.getNadUat() +  //Not a defect
 							rcaCountData.getPdUat() + //Product defec
 							rcaCountData.getUtrUat() + //Unable to reproduce
-							rcaCountData.getNrUat() +//Non RCA Bug   /* Changes for Non RCA field addition */
-					        rcaCountData.getCloseTicketUat()); //Close Ticket   /* Changes for Close Ticket field addition */
+							rcaCountData.getNrUat());//Non RCA Bug   /* Changes for Non RCA field addition */
 					
 							//Integration Issues
 							if (rcaCountData.getIiUat() == 0){
