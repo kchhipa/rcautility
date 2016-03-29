@@ -1218,7 +1218,7 @@ return total;
 				          rcaCount.getCrmesbProd() + rcaCount.getCrProd() + rcaCount.getDiProd() + rcaCount.getDpProd() + rcaCount.getDupProd() + 
 				          rcaCount.getEnvProd() + rcaCount.getFfmProd() + rcaCount.getIoProd() + rcaCount.getMrProd() + rcaCount.getNadProd() + 
 				          rcaCount.getOtpProd() + rcaCount.getPdProd() + rcaCount.getPlanProd() + rcaCount.getPmuuProd() + rcaCount.getRateProd() + 
-				          rcaCount.getRpaProd() + rcaCount.getTiProd() + rcaCount.getUtrProd() + rcaCount.getNrProd() + rcaCount.getCloseTicketProd());
+				          rcaCount.getRpaProd() + rcaCount.getTiProd() + rcaCount.getUtrProd() + rcaCount.getNrProd() );
 		
 		return total;
 	}
@@ -1242,7 +1242,7 @@ return total;
 				          rcaCount.getCrmesbUat() + rcaCount.getCrUat() + rcaCount.getDiUat() + rcaCount.getDpUat() + rcaCount.getDupUat() + 
 				          rcaCount.getEnvUat() + rcaCount.getFfmUat() + rcaCount.getIoUat() + rcaCount.getMrUat() + rcaCount.getNadUat() + 
 				          rcaCount.getOtpUat() + rcaCount.getPdUat() + rcaCount.getPlanUat() + rcaCount.getPmuuUat() + rcaCount.getRateUat() + 
-				          rcaCount.getRpaUat() + rcaCount.getTiUat() + rcaCount.getUtrUat() + rcaCount.getNrUat() + rcaCount.getCloseTicketUat());
+				          rcaCount.getRpaUat() + rcaCount.getTiUat() + rcaCount.getUtrUat() + rcaCount.getNrUat());
 		
 		return total;
 	}
@@ -1271,7 +1271,7 @@ return total;
 				          rcaCount.getCrmesbQa() + rcaCount.getCrQa() + rcaCount.getDiQa() + rcaCount.getDpQa() + rcaCount.getDupQa() + 
 				          rcaCount.getEnvQa() + rcaCount.getFfmQa() + rcaCount.getIoQa() + rcaCount.getMrQa() + rcaCount.getNadQa() + 
 				          rcaCount.getOtpQa() + rcaCount.getPdQa() + rcaCount.getPlanQa() + rcaCount.getPmuuQa() + rcaCount.getRateQa() + 
-				          rcaCount.getRpaQa() + rcaCount.getTiQa() + rcaCount.getUtrQa() + rcaCount.getNrQa() + rcaCount.getCloseTicketQa());
+				          rcaCount.getRpaQa() + rcaCount.getTiQa() + rcaCount.getUtrQa() + rcaCount.getNrQa() );
 		
 		return total;
 	}
