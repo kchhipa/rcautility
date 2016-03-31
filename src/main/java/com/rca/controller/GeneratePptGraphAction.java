@@ -1120,7 +1120,7 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 			fillCloseOpenDataInSlide(allWeeksrcaCounts, rcaCounts);
 			TextBox txt3 = new TextBox();
 			
-			txt3.setText("Logged Vs Closed Defects");
+			txt3.setText("Logged Vs Resolved Defects");
 			txt3.setAnchor(new java.awt.Rectangle(0, 0, pageWidth+30, pageheight/10));
 			RichTextRun rt1 = txt3.getTextRun().getRichTextRuns()[0];
 			rt1.setFontSize(25);
@@ -1306,7 +1306,7 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 		ReportUtility rU = new ReportUtility();
 		List<String> allWeeks = rU.findWeeks(rca.getWeek());
 		LoggedDefectsVsOpen logDefOpen = new LoggedDefectsVsOpen();
-		idx = ppt.addPicture(generateGraph.createGraphForOpenCloseDefects( rU.rcaCountForLastWeekForOpenVsCloseProjects(rcaCounts), "Logged Vs Closed Defects", "", "", 
+		idx = ppt.addPicture(generateGraph.createGraphForOpenCloseDefects( rU.rcaCountForLastWeekForOpenVsCloseProjects(rcaCounts), "Logged Vs Resolved Defects", "", "", 
 				PlotOrientation.VERTICAL, true, 850, 550,RCAConstants.BAR) , XSLFPictureData.PICTURE_TYPE_PNG);
 		
 		bWCx = ppt.addPicture(generateGraph.createWeeklyGraphCloseVsOpen( logDefOpen.reportedWeeklyTrendLoggedVsOpen(allWeeksrcaCounts, allWeeks), "Weekly Trend", "", "", 
@@ -1675,13 +1675,15 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 		
 		if(idx5!=0){
 			Picture pict6 = new Picture(idx5);
-			pict6.setAnchor(new java.awt.Rectangle(2, 40, (pageheight*4)/2, pageheight));
+			//pict6.setAnchor(new java.awt.Rectangle(2, 40, (pageheight*4)/2, pageheight)); //Size change of graph
+			pict6.setAnchor(new java.awt.Rectangle(2, 40, pageWidth+150, pageheight-40));
 			slide.addShape(pict6);
 		}
-		idxOpenClose = ppt.addPicture(generateGraph.createWeeklyGraphCloseVsOpen( logDefOpen.reportedWeeklyTrendLoggedVsOpen(rcaCount, allWeeks), "Logged Vs Closed Defects", "", "", 
+		idxOpenClose = ppt.addPicture(generateGraph.createWeeklyGraphCloseVsOpen( logDefOpen.reportedWeeklyTrendLoggedVsOpen(rcaCount, allWeeks), "Logged Vs Resolved Defects", "", "", 
 				PlotOrientation.VERTICAL, true, 750, 1000,RCAConstants.BAR, true, true) , XSLFPictureData.PICTURE_TYPE_PNG);
 		Picture pictOpenClose = new Picture(idxOpenClose);
-		pictOpenClose.setAnchor(new java.awt.Rectangle(2, pageheight+40, pageWidth+120, pageheight-60));
+		//pictOpenClose.setAnchor(new java.awt.Rectangle(2, pageheight+40, pageWidth+120, pageheight-60));   // Size Change of graph
+		pictOpenClose.setAnchor(new java.awt.Rectangle(2, pageheight+15 , pageWidth+150, pageheight-40));
 		slide.addShape(pictOpenClose);
 		
 		// reading an image

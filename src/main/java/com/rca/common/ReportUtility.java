@@ -137,8 +137,8 @@ public class ReportUtility {
 	          
 	          Map<String, Integer> differentRootCause = new LinkedHashMap<String, Integer>();
 	         
-	          differentRootCause.put("Logged", weeklyTotalOpenIssues(rcaCount));   /* Changes for Close Ticket field in Open state addition */
-	          differentRootCause.put("Closed", weeklyCloseTicketForAllIssuesInClose(rcaCount));   /* Changes for Close Ticket field in Close state addition */
+	          differentRootCause.put("Logged", weeklyTotalOpenIssues(rcaCount));   /* Changes for Logged Ticket field in Open state addition */
+	          differentRootCause.put("Resolved", weeklyCloseTicketForAllIssuesInClose(rcaCount));   /* Changes for Resolved Ticket field in Close state addition */
 	          
 	          /* To ensure that Projects with RCA count as zero do not show up in Graph */
 	          if((mixCategoryWeeklyCountForAllProjectsInOpen(rcaCount) + weeklyDataIssueForAllIssuesInOpen(rcaCount) + weeklyDataIssueForAllIssuesInOpen(rcaCount) + 

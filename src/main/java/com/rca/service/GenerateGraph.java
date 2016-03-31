@@ -138,7 +138,7 @@ public class GenerateGraph
   public File createGraphForOpenCloseDefects(Map<String, Map<String,Integer>> data, String graphHeader, String xAxis, String yAxis, PlotOrientation plotOrientation, boolean rotatedLabel, int graphWidth, int graphHeight, String graphType){
 	  
 	  DefaultCategoryDataset chartDataSet = dataSetObjectCreationForOpenClose(data);
-	  JFreeChart barChartObject = ChartFactory.createBarChart("Logged Vs Closed Defects", "", "",
+	  JFreeChart barChartObject = ChartFactory.createBarChart("Logged Vs Resolved Defects", "", "",
 			  chartDataSet, PlotOrientation.VERTICAL, true, true,
 				false);
       barChartObject.setTitle(new org.jfree.chart.title.TextTitle(graphHeader,new java.awt.Font("Calibri", java.awt.Font.BOLD, 24)));
@@ -200,7 +200,7 @@ public class GenerateGraph
 		
 	    DefaultCategoryDataset chartDataSet = dataSetObjectCreation(data);
 //	    int keySetSize = keyset.size();
-	    JFreeChart jFreeChart = ChartFactory.createBarChart("Logged Vs Closed Defects", "", "",
+	    JFreeChart jFreeChart = ChartFactory.createBarChart("Logged Vs Resolved Defects", "", "",
 				  chartDataSet, PlotOrientation.VERTICAL, true, true,
 					false);
 //	    JFreeChart jFreeChart = graphCreationObject.createGraph();

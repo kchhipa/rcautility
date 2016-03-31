@@ -533,7 +533,7 @@ function calculateWeek()
 				<td><input type="text" value="<s:property value="rca.nr_product_backlog" />" name="nr_product_backlog" id="nr_product_backlog" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 			</tr>
 			<tr>	<!-- Changes for Open Ticket field addition -->
-				<td style="float:right;"><label for="closeTicket">Closed Ticket</label></td>				
+				<td style="float:right;"><label for="closeTicket">Resolved Ticket</label></td>				
 				<td><input type="text" value="<s:property value="rca.close_qa" />" name="close_qa" id="close_qa" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 				<td><input type="text" value="<s:property value="rca.close_uat" />" name="close_uat" id="close_uat" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 				<td><input type="text" value="<s:property value="rca.close_prod" />" name="close_prod" id="close_prod" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
