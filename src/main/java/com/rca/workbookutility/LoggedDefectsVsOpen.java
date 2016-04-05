@@ -64,51 +64,64 @@ public class LoggedDefectsVsOpen {
 		
 		ReportUtility ru = new ReportUtility();
 		
-    	for(int i=0 ; i < sizeWeek ; i++){
+    	for(int i=2 ; i < sizeWeek ; i++){
 			String key="",key1="";
 			String week = allWeeks.get(i),week1="";
 			week = ru.removeYearFromWeek(week);
 			LOG.info("week =============== " + week);
 			LoggedDefectsVsOpen loggedDefOpen = new LoggedDefectsVsOpen();
 			Map<String, Integer> map = new HashMap<String, Integer>();
-		for(int j=0 ; j < allWeeksrcaCounts.size() ; j++){
-			
-			
-			week1 =ru.removeYearFromWeek(allWeeksrcaCounts.get(j).getWeek());
-			
-		 if(null != allWeeksrcaCounts.get(j) && (!week.equals("") || week != null))
-			 
-			{
-			 LOG.info("Number of closed defects " + ru.weeklyCloseTicketForAllIssuesInClose(allWeeksrcaCounts.get(j)));
-			if(week1.equalsIgnoreCase(week))
+			int sumReslovedCount =0;
+			int sumLoggedCount = 0;
+
+			for (int j = 0; j < allWeeksrcaCounts.size(); j++) {
+
+				week1 = ru.removeYearFromWeek(allWeeksrcaCounts.get(j)
+						.getWeek());
+
+				if (null != allWeeksrcaCounts.get(j)
+						&& (!week.equals("") || week != null))
+
 				{
-				RcaCount rcaCount = allWeeksrcaCounts.get(j);
-				  LOG.info("week matched ===============" + week);
-				if( ru.weeklyCloseTicketForAllIssuesInClose(rcaCount) > 0 ){
-					status = "Resolved";
-					LOG.info("Status is " + status);
-					loggedDefOpen.setCloseDefectType1(status);
-					loggedDefOpen.setCount(ru.weeklyCloseTicketForAllIssuesInClose(rcaCount));
-					 map.put(status, ru.weeklyCloseTicketForAllIssuesInClose(rcaCount));
+					LOG.info("Number of closed defects "
+							+ ru.weeklyCloseTicketForAllIssuesInClose(allWeeksrcaCounts
+									.get(j)));
+					if (week1.equalsIgnoreCase(week)) {
+						RcaCount rcaCount = allWeeksrcaCounts.get(j);
+						LOG.info("week matched ===============" + week);
+						if (ru.weeklyCloseTicketForAllIssuesInClose(rcaCount) > 0) {
+							status = "Resolved";
+							LOG.info("Status is " + status);
+							loggedDefOpen.setCloseDefectType1(status);
+							loggedDefOpen
+									.setCount(ru
+											.weeklyCloseTicketForAllIssuesInClose(rcaCount));
+							sumReslovedCount = sumReslovedCount
+									+ ru.weeklyCloseTicketForAllIssuesInClose(rcaCount);
+							// map.put(status,
+							// ru.weeklyCloseTicketForAllIssuesInClose(rcaCount));
+						}
+
+						if (ru.weeklyTotalOpenCountIssues(rcaCount) > 0) {
+							status = "Logged";
+							loggedDefOpen.setOpenDefectType(status);
+							loggedDefOpen.setCount(ru
+									.weeklyTotalOpenCountIssues(rcaCount));
+							LOG.info("Status is " + status);
+							sumLoggedCount = sumLoggedCount
+									+ ru.weeklyTotalOpenCountIssues(rcaCount);
+							// map.put(status,
+							// ru.weeklyTotalOpenCountIssues(rcaCount));
+						}
+						key = week;
+					}
 				}
-				
-				if(ru.weeklyTotalOpenCountIssues(rcaCount) > 0){
-					status = "Logged";
-					loggedDefOpen.setOpenDefectType(status);
-					loggedDefOpen.setCount(ru.weeklyTotalOpenCountIssues(rcaCount));
-					LOG.info("Status is " + status);
-					map.put(status, ru.weeklyTotalOpenCountIssues(rcaCount));
-					 
+				if (!key.equals("") && key != null) {
+					defVsOpenList.put(key, map);
 				}
-				key = week;
-				}
-			
 			}
-		 if(!key.equals("") && key != null){
-			 defVsOpenList.put(key, map); 
-			 
-		 }
-		  }
+			map.put("Logged", sumLoggedCount);
+			map.put("Resolved", sumReslovedCount);
 //		      defVsOpenList.put(key, lst);
 		}
 		
