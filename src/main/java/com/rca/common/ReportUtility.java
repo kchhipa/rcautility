@@ -1332,8 +1332,7 @@ return total;
 							rcaCountData.getNadQa() +  //Not a defect
 							rcaCountData.getPdQa() + //Product defec
 							rcaCountData.getUtrQa()+ //Unable to reproduce
-							rcaCountData.getNrQa()+ //Non RCA Bug   /* Changes for Non RCA field addition */
-							rcaCountData.getCloseTicketQa());//Close Tickets /* Changes for Close Ticket field addition */
+							rcaCountData.getNrQa()); //Non RCA Bug   /* Changes for Non RCA field addition */
 							//Integration Issues
 							if (rcaCountData.getIiQa() == 0){
 								total = total + rcaCountData.getCrmesbQa() + rcaCountData.getFfmQa() +

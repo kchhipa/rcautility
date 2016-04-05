@@ -236,9 +236,7 @@ public String addUatComments(List<RcaCount> rcaCounts){
 					+ calculateBugTypeCountForUATPerProject(rcaCount,
 							PRODUCT_DEFECT)
 					+ calculateBugTypeCountForUATPerProject(rcaCount,   /* Changes for Non RCA field addition */
-							NON_RCA_BUG)
-					+ calculateBugTypeCountForUATPerProject(rcaCount,   /* Changes for Close Tickets field addition */
-					CLOSEICKETS);
+							NON_RCA_BUG);
 			if (total > 0) {
 				uatText+="\n"
 						+ rcaCount.getProjectDetails().getProjectName() + "("+total+") : ";
@@ -299,12 +297,6 @@ public String addUatComments(List<RcaCount> rcaCounts){
 					count++;
 				}
 				
-				 /* Changes for Close Ticket field addition */
-				int openTicketCount = calculateBugTypeCountForUATPerProject(rcaCount,CLOSEICKETS);
-				if (openTicketCount != 0) {
-					uatText+=" "+openTicketCount + " Close Tickets#";
-					count++;
-				}
 			}
 			if(count==1){
 				uatText=uatText.replace("#", "");
@@ -348,9 +340,7 @@ public String addProdComments(List<RcaCount> rcaCounts){
 					+ calculateBugTypeCountForProdPerProject(rcaCount,
 							PRODUCT_DEFECT)
 					+ calculateBugTypeCountForProdPerProject(rcaCount,   /* Changes for Non RCA field addition */
-							NON_RCA_BUG)
-					+ calculateBugTypeCountForProdPerProject(rcaCount,   /* Changes for Close Ticket field addition */
-							CLOSEICKETS);
+							NON_RCA_BUG);
 			if (total > 0) {
 				prodText+="\n"
 						+ rcaCount.getProjectDetails().getProjectName() + "("+total+") : ";
@@ -411,12 +401,6 @@ public String addProdComments(List<RcaCount> rcaCounts){
 					count++;
 				}
 				
-				 /* Changes for Close Ticket field addition */
-				int OpenTicketProdCount = calculateBugTypeCountForProdPerProject(rcaCount,CLOSEICKETS);
-				if (OpenTicketProdCount !=0) {
-					prodText+=" "+OpenTicketProdCount + " Close Ticket#";
-					count++;
-				}
 			}
 			
 			if(count==1){
@@ -461,9 +445,7 @@ public String addQAComments(List<RcaCount> rcaCounts){
 				+ calculateBugTypeCountForQAPerProject(rcaCount,
 						PRODUCT_DEFECT)
 				+ calculateBugTypeCountForQAPerProject(rcaCount,   /* Changes for Non RCA field addition */
-						NON_RCA_BUG)
-				+ calculateBugTypeCountForQAPerProject(rcaCount,   /* Changes for Close Ticket field addition */
-						CLOSEICKETS);
+						NON_RCA_BUG);
 		if (total > 0) {
 			qaText+="\n"
 					+ rcaCount.getProjectDetails().getProjectName() + "("+total+") : ";
@@ -523,14 +505,6 @@ public String addQAComments(List<RcaCount> rcaCounts){
 				qaText+=" "+nonRcaBugQaCount + " Non RCA Bug#";
 				count++;
 			}
-			
-			 /* Changes for Close Ticket field addition */
-			int openTicketQaCount = calculateBugTypeCountForQAPerProject(rcaCount,CLOSEICKETS);
-			if (openTicketQaCount != 0) {
-				qaText+=" "+openTicketQaCount + " Close Ticket#";
-				count++;
-			}
-			
 		}
 		if(count==1){
 			qaText=qaText.replace("#", "");
@@ -574,9 +548,7 @@ public String addOpenComments(List<RcaCount> rcaCounts){
 				+ calculateBugTypeCountForOpenPerProject(rcaCount,
 						PRODUCT_DEFECT)
 				+ calculateBugTypeCountForOpenPerProject(rcaCount,   /* Changes for Non RCA field addition */
-						NON_RCA_BUG)
-				+ calculateBugTypeCountForOpenPerProject(rcaCount,   /* Changes for Close Ticket field addition */
-						CLOSEICKETS);
+						NON_RCA_BUG);
 		if (total > 0) {
 			openText+="\n"
 					+ rcaCount.getProjectDetails().getProjectName() + "("+total+") : ";
@@ -636,12 +608,6 @@ public String addOpenComments(List<RcaCount> rcaCounts){
 				count++;
 			}
 			
-			/* Changes for Close Ticket field addition */
-			int openTicketOpenCount = calculateBugTypeCountForOpenPerProject(rcaCount,CLOSEICKETS);
-			if (openTicketOpenCount != 0) {
-				openText+=" "+openTicketOpenCount+ " Close Ticket#";
-				count++;
-			}
 		}
 		if(count==1){
 			openText=openText.replace("#", "");
@@ -682,8 +648,6 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 				totalBugTypeCount = rU.weeklyProductDefectForAllIssuesInUAT(rcaCount);
 			else if(bugType.equals(NON_RCA_BUG))  /* Changes for Non RCA field addition */
 				totalBugTypeCount = rU.weeklyNonRcaBugForAllIssuesInUAT(rcaCount);
-			else if(bugType.equals(CLOSEICKETS))  /* Changes for Close Ticket field addition */
-				totalBugTypeCount = rU.weeklyCloseTicketForAllIssuesInUAT(rcaCount);
 	
 		
 		return totalBugTypeCount;
@@ -712,9 +676,6 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 				totalBugTypeCount = rU.weeklyProductDefectForAllIssuesInProd(rcaCount);
 			else if(bugType.equals(NON_RCA_BUG))   /* Changes for Non RCA field addition */
 				totalBugTypeCount = rU.weeklyNonRcaBugForAllIssuesInProd(rcaCount);
-			else if(bugType.equals(CLOSEICKETS))   /* Changes for Close Ticket field addition */
-				totalBugTypeCount = rU.weeklyCloseTicketForAllIssuesInProd(rcaCount);
-
 	
 		
 		return totalBugTypeCount;
@@ -743,8 +704,6 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 				totalBugTypeCount = rU.weeklyProductDefectForAllIssuesInQA(rcaCount);
 			else if(bugType.equals(NON_RCA_BUG))   /* Changes for Non RCA field addition */
 				totalBugTypeCount = rU.weeklyNonRcaBugForAllIssuesInQA(rcaCount);
-			else if(bugType.equals(CLOSEICKETS))   /* Changes for Close Ticket field addition */
-				totalBugTypeCount = rU.weeklyCloseTicketForAllIssuesInQA(rcaCount);
 
 	
 		
