@@ -141,7 +141,7 @@ public class GenerateGraph
 	  JFreeChart barChartObject = ChartFactory.createBarChart("Logged Vs Resolved Defects", "", "",
 			  chartDataSet, PlotOrientation.VERTICAL, true, true,
 				false);
-      barChartObject.setTitle(new org.jfree.chart.title.TextTitle(graphHeader,new java.awt.Font("Calibri", java.awt.Font.BOLD, 24)));
+      barChartObject.setTitle(new org.jfree.chart.title.TextTitle(graphHeader,new java.awt.Font("Calibri", java.awt.Font.BOLD, 48)));
       // set the background color for the chart...
       barChartObject.setBackgroundPaint(Color.white);
 

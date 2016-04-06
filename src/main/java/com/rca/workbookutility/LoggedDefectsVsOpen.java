@@ -54,6 +54,13 @@ public class LoggedDefectsVsOpen {
 		
 	}
 	
+	/**
+	 * This method is use to calculate the Logged and Resolved defects count for last 12 weeks
+	 * 
+	 * @param allWeeksrcaCounts
+	 * @param allWeeks
+	 * @return 
+	 */
 	public Map<String, Map<String, Integer>> reportedWeeklyTrendLoggedVsOpen(List<RcaCount> allWeeksrcaCounts, List<String> allWeeks){
 
 		int sizeWeek = allWeeks.size();
@@ -64,6 +71,7 @@ public class LoggedDefectsVsOpen {
 		
 		ReportUtility ru = new ReportUtility();
 		
+		// number of weeks we want to see in PPT in below loop we are starting from 2 means we are ignoring first two weeks out of 12 weeks
     	for(int i=2 ; i < sizeWeek ; i++){
 			String key="",key1="";
 			String week = allWeeks.get(i),week1="";
@@ -71,9 +79,12 @@ public class LoggedDefectsVsOpen {
 			LOG.info("week =============== " + week);
 			LoggedDefectsVsOpen loggedDefOpen = new LoggedDefectsVsOpen();
 			Map<String, Integer> map = new HashMap<String, Integer>();
+			
+			//variables to add Logged and Resolved from each week
 			int sumReslovedCount =0;
 			int sumLoggedCount = 0;
 
+			//This loop will extract all the RCACount Objects from a week
 			for (int j = 0; j < allWeeksrcaCounts.size(); j++) {
 
 				week1 = ru.removeYearFromWeek(allWeeksrcaCounts.get(j)
