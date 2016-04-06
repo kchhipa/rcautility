@@ -1067,37 +1067,68 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 		
 	}
 	
-	public void closeVsOpenDefectSlide(List<RcaCount> rcaCounts) throws IOException
-	{
+	public void closeVsOpenDefectSlide(List<RcaCount> rcaCounts) throws IOException {
+		ReportUtility rU = new ReportUtility();
 		Slide slide = ppt.createSlide();
-		int pageWidth = ppt.getPageSize().width/2;
-		int pageheight = ppt.getPageSize().height/2;
-		// add a new picture to this slideshow and insert it in a  new slide
+		int pageWidth = ppt.getPageSize().width / 2;
+		int pageheight = ppt.getPageSize().height / 2;
+		// add a new picture to this slideshow and insert it in a new slide
 		List<RcaCount> allWeeksrcaCounts = rcaManager.findRCAReportForMultipleWeek(rca.getWeek());
+
+		fillCloseOpenDataInSlide(allWeeksrcaCounts, rcaCounts);
+		TextBox txt3 = new TextBox();
+
+		txt3.setText("Logged Vs Resolved Defects");
+		txt3.setAnchor(new java.awt.Rectangle(0, 0, pageWidth + 30, pageheight / 10));
+		RichTextRun rt1 = txt3.getTextRun().getRichTextRuns()[0];
+		rt1.setFontSize(25);
+		rt1.setFontName("Franklin Gothic Medium");
+		rt1.setAlignment(TextBox.AlignLeft);
+
+		Picture pic = new Picture(idx);
+		pic.setAnchor(new java.awt.Rectangle(5, 50, pageWidth + 30, pageheight - 50));
+		slide.addShape(txt3);
+		slide.addShape(pic);
+
+		Picture pict1 = new Picture(bWCx);
+		// set image position in the slide
+		pict1.setAnchor(new java.awt.Rectangle(20, pageheight + 30, pageWidth + 30, pageheight - 50));
+		slide.addShape(pict1);
+
+		/* code snippet for overview of "Logged vs Resolved" */
+
+		int loggedCount = 0;
+		int resolvedCount = 0;
+		for (int x = 0; x < rcaCounts.size(); x++) {
+			RcaCount rcaCount = rcaCounts.get(x);
+			loggedCount = loggedCount + rU.weeklyTotalOpenIssues(rcaCount);
+		}
+		for (int x = 0; x < rcaCounts.size(); x++) {
+			RcaCount rcaCount = rcaCounts.get(x);
+			resolvedCount = resolvedCount + rU.weeklyCloseTicketForAllIssuesInClose(rcaCount);
+		}
 		
-			
-			fillCloseOpenDataInSlide(allWeeksrcaCounts, rcaCounts);
-			TextBox txt3 = new TextBox();
-			
-			txt3.setText("Logged Vs Resolved Defects");
-			txt3.setAnchor(new java.awt.Rectangle(0, 0, pageWidth+30, pageheight/10));
-			RichTextRun rt1 = txt3.getTextRun().getRichTextRuns()[0];
-			rt1.setFontSize(25);
-			rt1.setFontName("Franklin Gothic Medium");
-			rt1.setAlignment(TextBox.AlignLeft);
-			
-			
-			
-			Picture pic = new Picture(idx);
-			pic.setAnchor(new java.awt.Rectangle(5, 50, pageWidth+30, pageheight-50));
-			slide.addShape(txt3);
-			slide.addShape(pic);
-			
-			Picture pict1 = new Picture(bWCx);
-			//set image position in the slide
-			pict1.setAnchor(new java.awt.Rectangle(20, pageheight+30, pageWidth+30, pageheight-50));
-			slide.addShape(pict1);
-			
+		TextBox txt2 = new TextBox();
+		txt2.setText("Total Count" + "\n" + "\n");
+		TextRun tr = txt2.createTextRun();
+		tr.appendText(" Logged: " + loggedCount + "\n");
+		tr.appendText(" Resolved: " + resolvedCount + "\n" + "\n");
+		tr.appendText("Observations: " + "\n");
+
+		txt2.setAnchor(new java.awt.Rectangle(pageWidth + 40, 20, pageWidth - 50, pageheight - 50));
+		RichTextRun rt2Heading = tr.getRichTextRuns()[0];
+		rt2Heading.setFontSize(18);
+		rt2Heading.setFontName("Franklin Gothic Medium");
+		for (int i = 1; i < tr.getRichTextRuns().length; i++) {
+			RichTextRun rt2 = tr.getRichTextRuns()[i];
+			rt2.setFontSize(14);
+			rt2.setFontName("Franklin Gothic Body");
+			rt2.setAlignment(TextBox.AlignLeft);
+		}
+		slide.addShape(txt2);
+
+		/* End of code snippet for overview of "Logged vs Resolved" */
+
 	}
 	
 	/**
