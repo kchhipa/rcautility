@@ -179,9 +179,22 @@ public class GenerateGraph
       renderer.setDrawBarOutline(false);
        /* Enabling the tool tip generator */
       		  renderer.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator());
+      		  
+      		  
+      		
+      		/* This Generator enables the labels to be placed on top of bars */
+      		  CategoryItemLabelGenerator itemLabelGenerator = new StandardCategoryItemLabelGenerator();
+      		  renderer.setBaseItemLabelGenerator(itemLabelGenerator);
+      		  renderer.setBaseItemLabelFont(font);
+      		  renderer.setPositiveItemLabelPosition(new ItemLabelPosition(ItemLabelAnchor.OUTSIDE12,TextAnchor.BASELINE_CENTER));
+      		  renderer.setBaseItemLabelsVisible(true);
+      		/* This Generator enables the labels to be placed on top of bars */
+      		  
+      		  
+      		  
       		  renderer.setShadowVisible(false);
       		 ((BarRenderer) renderer).setMaximumBarWidth(0.03);
-   		  ((BarRenderer) renderer).setItemMargin(-0.05);
+   		 // ((BarRenderer) renderer).setItemMargin(-0.05);
       		  ((BarRenderer) renderer).setBarPainter(new StandardBarPainter());
 	  
    // add the chart to a panel...
@@ -255,9 +268,29 @@ public class GenerateGraph
 	      renderer.setDrawBarOutline(false);
 	      /* Enabling the tool tip generator */
 		  renderer.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator());
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  /* This Generator enables the labels to be placed on top of bars */
+		  CategoryItemLabelGenerator itemLabelGenerator = new StandardCategoryItemLabelGenerator();
+		  renderer.setBaseItemLabelGenerator(itemLabelGenerator);
+		  renderer.setBaseItemLabelFont(font);
+		  renderer.setPositiveItemLabelPosition(new ItemLabelPosition(ItemLabelAnchor.OUTSIDE12,TextAnchor.BASELINE_CENTER));
+		  renderer.setBaseItemLabelsVisible(true);
+		  /* This Generator enables the labels to be placed on top of bars */
+		  
+		  
+		  
+		  
+		  
 		  renderer.setShadowVisible(false);
 		  ((BarRenderer) renderer).setMaximumBarWidth(0.03);
-		  ((BarRenderer) renderer).setItemMargin(-0.05);
+		 // ((BarRenderer) renderer).setItemMargin(-0.05);
 		  ((BarRenderer) renderer).setBarPainter(new StandardBarPainter());
 	   // add the chart to a panel...
 	      final ChartPanel chartPanel = new ChartPanel(jFreeChart);

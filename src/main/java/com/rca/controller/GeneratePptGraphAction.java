@@ -1670,7 +1670,7 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 			slide.addShape(pict6);
 		}
 		idxOpenClose = ppt.addPicture(generateGraph.createWeeklyGraphCloseVsOpen( logDefOpen.reportedWeeklyTrendLoggedVsOpen(rcaCount, allWeeks), "Logged Vs Resolved Defects", "", "", 
-				PlotOrientation.VERTICAL, true, 750, 1000,RCAConstants.BAR, true, true) , XSLFPictureData.PICTURE_TYPE_PNG);
+				PlotOrientation.VERTICAL, true, 750, 550,RCAConstants.BAR, true, true) , XSLFPictureData.PICTURE_TYPE_PNG);
 		Picture pictOpenClose = new Picture(idxOpenClose);
 		//pictOpenClose.setAnchor(new java.awt.Rectangle(2, pageheight+40, pageWidth+120, pageheight-60));   // Size Change of graph
 		pictOpenClose.setAnchor(new java.awt.Rectangle(2, pageheight+15 , pageWidth+150, pageheight-40));
