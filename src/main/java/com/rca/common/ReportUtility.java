@@ -76,7 +76,7 @@ public class ReportUtility {
           /* To ensure that Projects with RCA count as zero do not show up in Graph */
           if((mixCategoryWeeklyCountForAllProjectsInOpen(rcaCount) + weeklyDataIssueForAllIssuesInOpen(rcaCount) + weeklyDataIssueForAllIssuesInOpen(rcaCount) + 
         		  weeklyConfigurationIssueForAllIssuesInOpen(rcaCount) + weeklyMissedAndCRCountForAllIssuesInOpen(rcaCount) + weeklyClientCodeBugForAllIssuesInOpen(rcaCount) + 
-        		  weeklyProductDefectForAllIssuesInOpen(rcaCount) + weeklyNonRcaBugForAllIssuesInOpen(rcaCount) + weeklyTotalCloseIssues(rcaCount)) > 0)
+        		  weeklyProductDefectForAllIssuesInOpen(rcaCount) + weeklyNonRcaBugForAllIssuesInOpen(rcaCount) ) > 0)
         	  	diffCategory.put(projName, differentRootCause);
           
           //projCount.put(projName, diffCategory);
@@ -167,7 +167,7 @@ public class ReportUtility {
 			int totalCount = mixCategoryWeeklyCountForAllProjectsInQA(rcaCount) + weeklyDataIssueForAllIssuesInQA(rcaCount) +
 					weeklyIntegrationIssueForAllIssuesInQA(rcaCount) + weeklyConfigurationIssueForAllIssuesInQA(rcaCount) +
 					weeklyMissedAndCRCountForAllIssuesInQA(rcaCount) + weeklyClientCodeBugForAllIssuesInQA(rcaCount) + 
-					weeklyProductDefectForAllIssuesInQA(rcaCount) + weeklyNonRcaBugForAllIssuesInQA(rcaCount) + weeklyCloseTicketForAllIssuesInQA(rcaCount);
+					weeklyProductDefectForAllIssuesInQA(rcaCount) + weeklyNonRcaBugForAllIssuesInQA(rcaCount) ;
 			
 			
 			if(totalCount > 0){
@@ -478,7 +478,7 @@ public class ReportUtility {
 			int totalCount = mixCategoryWeeklyCountForAllProjectsInUAT(rcaCount) + weeklyDataIssueForAllIssuesInUAT(rcaCount) +
 					weeklyIntegrationIssueForAllIssuesInUAT(rcaCount) + weeklyConfigurationIssueForAllIssuesInUAT(rcaCount) +
 					weeklyMissedAndCRCountForAllIssuesInUAT(rcaCount) + weeklyClientCodeBugForAllIssuesInUAT(rcaCount) + 
-					weeklyProductDefectForAllIssuesInUAT(rcaCount) + weeklyNonRcaBugForAllIssuesInUAT(rcaCount) + weeklyCloseTicketForAllIssuesInUAT(rcaCount);
+					weeklyProductDefectForAllIssuesInUAT(rcaCount) + weeklyNonRcaBugForAllIssuesInUAT(rcaCount) ;
 			
 			
 			if(totalCount > 0){
@@ -514,8 +514,8 @@ public class ReportUtility {
 			int totalCount = mixCategoryWeeklyCountForAllProjectsInProd(rcaCount) + weeklyDataIssueForAllIssuesInProd(rcaCount) +
 					weeklyIntegrationIssueForAllIssuesInProd(rcaCount) + weeklyConfigurationIssueForAllIssuesInProd(rcaCount) +
 					weeklyMissedAndCRCountForAllIssuesInProd(rcaCount) + weeklyClientCodeBugForAllIssuesInProd(rcaCount) + 
-					weeklyProductDefectForAllIssuesInProd(rcaCount) + weeklyNonRcaBugForAllIssuesInProd(rcaCount) 
-					+ weeklyCloseTicketForAllIssuesInProd(rcaCount);
+					weeklyProductDefectForAllIssuesInProd(rcaCount) + weeklyNonRcaBugForAllIssuesInProd(rcaCount); 
+					
 			
 			
 			if(totalCount > 0){
