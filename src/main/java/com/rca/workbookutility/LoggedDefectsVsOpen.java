@@ -78,7 +78,7 @@ public class LoggedDefectsVsOpen {
 			week = ru.removeYearFromWeek(week);
 			LOG.info("week =============== " + week);
 			LoggedDefectsVsOpen loggedDefOpen = new LoggedDefectsVsOpen();
-			Map<String, Integer> map = new HashMap<String, Integer>();
+			Map<String, Integer> map = new LinkedHashMap<String, Integer>();
 			
 			//variables to add Logged and Resolved from each week
 			int sumReslovedCount =0;
@@ -131,8 +131,10 @@ public class LoggedDefectsVsOpen {
 					defVsOpenList.put(key, map);
 				}
 			}
+		
 			map.put("Logged", sumLoggedCount);
 			map.put("Resolved", sumReslovedCount);
+		
 //		      defVsOpenList.put(key, lst);
 		}
 		

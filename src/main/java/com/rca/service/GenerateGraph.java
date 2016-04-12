@@ -223,7 +223,12 @@ public class GenerateGraph
 	    
 	    // set the background color for the chart...
 	    jFreeChart.setBackgroundPaint(Color.white);
-	    LegendTitle legend = (LegendTitle) jFreeChart.getSubtitle(0);
+	    
+	    
+	    
+	    /*Commented this section for Border ,Start*/
+	    
+	   /* LegendTitle legend = (LegendTitle) jFreeChart.getSubtitle(0);
 	    legend.setItemLabelPadding(new RectangleInsets(2, 2, 2, 30));
 	    //legend.setPosition(RectangleEdge.RIGHT);
 	    legend.setLegendItemGraphicLocation(RectangleAnchor.CENTER);
@@ -231,7 +236,12 @@ public class GenerateGraph
 	    legend.setVisible(showLegend);
 	    Font legendFont = new Font("Franklin Gothic Book Medium", Font.BOLD, 14);
 	    legend.setItemFont(legendFont);
-	    legend.setItemPaint(Color.BLACK);
+	    legend.setItemPaint(Color.BLACK);*/
+	    
+	    /*Commented this section for Border ,End*/
+	    
+	    
+	    
 	      // get a reference to the plot for further customization...
 	      CategoryPlot plot = createPlot(jFreeChart);
 		  CategoryAxis domainAxis = plot.getDomainAxis();
