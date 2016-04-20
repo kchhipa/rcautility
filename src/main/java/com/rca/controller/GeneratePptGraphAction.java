@@ -206,6 +206,7 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 			}
 		}
 		slide.addShape(txt2);
+		setSlideNumber(slide, ppt);
 
 	}
 	
@@ -878,6 +879,7 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 				rt2.setAlignment(TextBox.AlignLeft);
 			}
 			slide.addShape(txt2);
+			setSlideNumber(slide,ppt);
 
 		}
 		
@@ -950,6 +952,7 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 				rt2.setAlignment(TextBox.AlignLeft);
 			}
 			slide.addShape(txt2);
+			setSlideNumber(slide,ppt);
 		}
 		
 		//Calling UAT Slide Data method.
@@ -1021,6 +1024,7 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 				rt2.setAlignment(TextBox.AlignLeft);
 			}
 			slide.addShape(txt2);
+			setSlideNumber(slide,ppt);
 		}
 		
 		//Calling Cumulative Open Slide Data method.
@@ -1045,6 +1049,7 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 			rt2.setFontName("Franklin Gothic Medium");
 			rt2.setAlignment(TextBox.AlignLeft);
 			slide.addShape(txt2);
+			setSlideNumber(slide,ppt);
 		}
 		
 		
@@ -1067,6 +1072,22 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 		
 	}
 	
+	/*Method for creating Slide Numbers in each ppt*/
+	private void setSlideNumber(Slide slide,SlideShow ppt) {
+		
+		int pageWidth = ppt.getPageSize().width/2;
+		int pageheight = ppt.getPageSize().height/2;
+		TextBox txt1 = new TextBox();
+		txt1.setText(String.valueOf(slide.getSlideNumber()));
+		txt1.setAnchor(new java.awt.Rectangle(0, 527, pageWidth+30, pageheight/10));
+		RichTextRun rt1 = txt1.getTextRun().getRichTextRuns()[0];
+		rt1.setFontSize(7);
+		rt1.setFontName("Franklin Gothic Medium");
+		rt1.setAlignment(TextBox.AlignLeft);
+		slide.addShape(txt1);
+	
+	}
+
 	public void closeVsOpenDefectSlide(List<RcaCount> rcaCounts) throws IOException {
 		ReportUtility rU = new ReportUtility();
 		Slide slide = ppt.createSlide();
@@ -1126,6 +1147,7 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 			rt2.setAlignment(TextBox.AlignLeft);
 		}
 		slide.addShape(txt2);
+		setSlideNumber(slide,ppt);
 
 		/* End of code snippet for overview of "Logged vs Resolved" */
 
@@ -1161,6 +1183,7 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 		Picture pict1 = new Picture(sidx);
 		pict1.setAnchor(new java.awt.Rectangle(5, 30, pageWidth+30, pageheight-50));
 		slide.addShape(pict1);
+		setSlideNumber(slide,ppt);
 		
 		Log.debug("Exit createSprintGraphIndividualPpt");
 		
@@ -1493,6 +1516,7 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 			rt2.setAlignment(TextBox.AlignLeft);
 		}
 		reopenSlide.addShape(txt2);
+		setSlideNumber(reopenSlide,ppt);
 	}
 
 	/**
@@ -1686,6 +1710,8 @@ private int calculateBugTypeCountForUATPerProject(RcaCount rcaCount, String bugT
 		pictImage.setAnchor(new java.awt.Rectangle(0, pageheight+335,
 				pageWidth * 4, pageheight / 7));
 		slide.addShape(pictImage);
+		setSlideNumber(slide,ppt);
+		
 		Log.debug("Exit createGraphIndividualPpt");
 	}
 	
