@@ -108,6 +108,11 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 
 		ppt = new SlideShow();
 		
+		
+		//Create 2 blank slides initially 
+		createBlankSlide();
+		
+		
 		//Adding Reported Prod Slide
 		addPptSlides(rcaCounts, PRODUCTION);
 		
@@ -146,7 +151,20 @@ public class GeneratePptGraphAction extends ActionSupport implements SessionAwar
 	
 	
 	
-	
+	/*Method for creating 2 blank slides initially*/
+	private void createBlankSlide() {
+		int pageWidth = ppt.getPageSize().width;
+		int pageheight = ppt.getPageSize().height;	
+		Slide slide1= ppt.createSlide();
+		Slide slide2= ppt.createSlide();
+		TextBox txt1 = new TextBox();
+		txt1.setAnchor(new java.awt.Rectangle(0, 0, pageWidth, pageheight));
+		slide1.addShape(txt1);
+		slide2.addShape(txt1);
+		setSlideNumber(slide1,ppt);
+		setSlideNumber(slide2,ppt);	
+	}
+
 	/**
 	 * Generic Method to add comments slide in PPT as per requirements.
 	 * @param rcaCounts
