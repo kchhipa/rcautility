@@ -63,13 +63,18 @@
  
   function calculateWeek(dateString, weekId) {
 		var d = new Date();
+		
 		d.setMonth(d.getMonth() - 3);
+		
 		var dateStartFrom = new Date(dateString);
+		
 		if (d < dateStartFrom)
 		  d = dateStartFrom;
 
+		
 		var weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 		var n = weekday[d.getDay()];
+	
 		if (n == "Tuesday")
 			d.setDate(d.getDate() - 1);
 		if (n == "Wednesday")
@@ -83,6 +88,9 @@
 		if (n == "Sunday")
 			d.setDate(d.getDate() - 6);
 
+		d.setDate(d.getDate() - 7);
+		
+	
 		var date2 = new Date();
 		date2.setMonth(d.getMonth());
 		date2.setFullYear(d.getFullYear());
