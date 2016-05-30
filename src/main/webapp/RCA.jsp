@@ -12,10 +12,14 @@
 function calculateWeek()
 {
 	var d = new Date();
+	
 	d.setMonth(d.getMonth()-3);
+	
 	var dateStartFrom = new Date("09/22/2014");
 	if(d<dateStartFrom)
 		d = dateStartFrom;
+
+	  
 	
 	var weekday = new Array(7);
 	weekday[0]=  "Sunday";
@@ -40,6 +44,11 @@ function calculateWeek()
 		d.setDate(d.getDate()-6);
 
 		var date2 = new Date();
+      
+		  if((date2.getDate()==30 || date2.getDate()==31) && (d.getMonth()==1))
+		    date2.setDate(29); 
+
+			
 		date2.setMonth(d.getMonth());
 		date2.setFullYear(d.getFullYear());
 		date2.setDate(d.getDate()+6);
@@ -59,12 +68,14 @@ function calculateWeek()
 			 months[i]= d.getMonth()+1;
 			 years[i]= d.getFullYear();
 			 d.setDate(d.getDate()+7);
+			
 			}
 		for(var i=0;date2<=d2;i++)
 			{
 			 sundays[i]= date2.getDate();	
 			 sundaysMonth[i]= date2.getMonth()+1;
 			 date2.setDate(date2.getDate()+7);
+			
 			}
 		
 		   var x = document.getElementById("week_id");
