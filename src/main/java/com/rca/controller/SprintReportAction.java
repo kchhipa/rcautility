@@ -265,16 +265,29 @@ public class SprintReportAction extends ActionSupport implements  SessionAware {
 
 		SprintReport sReport = sprintReportManager.getSprintDetails(project_id, sprintName);
 
+		
+		
+		if (spCommitted == null) {
+			sReport.setSpCommitted(0);
+		} else {
+			sReport.setSpCommitted(spCommitted);
+		}
+		if (spDelivered == null) {
+			sReport.setSpDelivered(0);
+		} else {
+			sReport.setSpDelivered(spDelivered);
+		}
+		if (spAddedInMid == null) {
+			sReport.setSpAddedInMid(0);
+		} else {
+			sReport.setSpAddedInMid(spAddedInMid);
+		}
 		sReport.setSprintName(sprintName);
 		sReport.setStartDate(sprintStartdt);
 		sReport.setEndDate(sprintEnddt);
 		sReport.setDevMembers(devMembers);
 		sReport.setQaMembers(qaMembers);
 		sReport.setTeamCapacity(teamCapacity);
-		sReport.setSpAddedInMid(spAddedInMid);
-		sReport.setSpAddedInMid(spAddedInMid);
-		sReport.setSpDelivered(spDelivered);
-		sReport.setSpCommitted(spCommitted);
 		sReport.setIsKanbanFollowed(isKanbanFollowed);
 
 		sprintReportManager.saveUpdatedSprintReport(sReport);
