@@ -548,7 +548,7 @@ function calculateWeek()
 				<td><input type="text" value="<s:property value="rca.close_qa" />" name="close_qa" id="close_qa" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 				<td><input type="text" value="<s:property value="rca.close_uat" />" name="close_uat" id="close_uat" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 				<td><input type="text" value="<s:property value="rca.close_prod" />" name="close_prod" id="close_prod" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
-				<td><input type="text" value="<s:property value="rca.close_product_backlog" />" name="close_product_backlog" id="close_product_backlog" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
+				<td><input type="text" readonly="readonly" value="<s:property value="rca.close_product_backlog" />" name="close_product_backlog" id="close_product_backlog" size="8" maxlength="4" onkeypress="return isNumberKey(event);" <s:if test="isdisabled==true"> disabled </s:if> /></td>
 			</tr>
 			<tr>
 				<td style="float:right;"><label for="configuration">Configuration Issue: </label></td>				
