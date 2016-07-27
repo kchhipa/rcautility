@@ -1534,7 +1534,7 @@ private void getProjectLabels(WritableSheet sheet, WritableCellFormat cellFormat
 	 Iterator<ProjectDetails> projectIterator=projectList.iterator();
 	 
 	 	sheet.mergeCells(0, rowNumber, 0, rowNumber+27);   // Changes for Non RCA Bug field addition
-	 	sheet.mergeCells(0, rowNumber, 0, rowNumber+28);   // Changes for Close Ticket field addition
+	 	//sheet.mergeCells(0, rowNumber, 0, rowNumber+28);   
 		label = new Label(0, rowNumber, week,cellFormatDate);
 	    sheet.addCell(label);
 		

@@ -88,7 +88,7 @@
 		if (n == "Sunday")
 			d.setDate(d.getDate() - 6);
 
-		d.setDate(d.getDate() - 7);
+		//d.setDate(d.getDate() - 7);
 		
 	
 		var date2 = new Date();
