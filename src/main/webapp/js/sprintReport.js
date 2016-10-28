@@ -1,6 +1,6 @@
 function calculateWeek()
 {
-	var d = new Date();
+	//var d = new Date();
 	var d = new Date("10/31/2016");
 	d.setMonth(d.getMonth()-3);
 	var dateStartFrom = new Date("09/22/2014");
@@ -29,7 +29,8 @@ function calculateWeek()
 		if(n=="Sunday")
 		d.setDate(d.getDate()-6);
 
-		var date2 = new Date();
+		//var date2 = new Date();
+		var date2 = new Date("10/31/2016");
 		date2.setMonth(d.getMonth());
 		date2.setFullYear(d.getFullYear());
 		date2.setDate(d.getDate()+6);
@@ -39,7 +40,7 @@ function calculateWeek()
 		var months = new Array();
 		var years = new Array();
 		
-		var d2 = new Date();
+		//var d2 = new Date();
 		var d2 = new Date("10/31/2016");
 		for(var i=0;d<=d2;i++)
 			{
