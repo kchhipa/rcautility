@@ -1,6 +1,7 @@
 function calculateWeek()
 {
-	var d = new Date();
+	//var d = new Date();
+	var d = new Date("10/31/2016");
 	d.setMonth(d.getMonth()-3);
 	var dateStartFrom = new Date("09/22/2014");
 	if(d<dateStartFrom)
@@ -72,6 +73,7 @@ function calculateWeek()
 		   }  
 }
    
+
    function submitForm()
    {
 	   if(valideateProjectAndWeek())

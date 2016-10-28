@@ -160,20 +160,7 @@ public class RcaUtility extends ActionSupport implements ModelDriven<RCA>,Sessio
 	    Calendar c1 = Calendar.getInstance();
 	    c1.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 	    c1.add(Calendar.WEEK_OF_MONTH, -1);
-	    
-	    /////
-
-        c1.add(Calendar.DAY_OF_WEEK, +13);
-        c1.add(Calendar.DAY_OF_WEEK, 1);
-        String startDate1 = formatter.format(c1.getTime());
-        c1.add(Calendar.DAY_OF_WEEK, +6);
-        String endDate1 = formatter.format(c1.getTime());
-	    weeks.add(startDate1 + "-" + endDate1);
-	    c1 = Calendar.getInstance();
-	    c1.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-	    c1.add(Calendar.WEEK_OF_MONTH, -1);	    
-	    //////
-	    for (int i = 0; i < 11; i++) {
+	    for (int i = 0; i < 12; i++) {
 	          String startDate = formatter.format(c1.getTime());
 	          c1.add(Calendar.DAY_OF_WEEK, +6);
 	          String endDate = formatter.format(c1.getTime());
